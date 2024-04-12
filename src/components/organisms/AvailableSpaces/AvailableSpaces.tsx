@@ -5,7 +5,6 @@ import {BookingType, SpaceType} from '@customTypes/booking';
 import {
   availableSpacesOptionfactory,
   calculateRemainingSpaces,
-  isBookingDateBeforeHawkingJoin,
 } from '@organisms/AvailableSpaces/helper';
 import {Booking, ReducedUserData} from '@customTypes';
 import Animated, {FadeInUp, FadeOutUp} from 'react-native-reanimated';
@@ -27,12 +26,16 @@ const AvailableSpaces = ({bookings, userData}: AvailableSpacesProps) => {
   const [filteredBookings, setFilteredBookings] = useState<Booking[]>([]);
   const [isVisitorEditEnabled, setIsVisitorEditEnabled] = useState(false);
   const toggleDisplayGuestBooking = () => setShowGuestSpaces(!showGuestSpaces);
-  let {
-    selectedDayOptions: {selectedSpaceType, selectedDay},
-    user: {user},
-    firebaseRemoteConfig: {deskCapacity, parkingCapacity},
-    utils: {londonServerTimestamp, storedDeviceTimestamp},
-  } = useAppSelector(state => state);
+  const {selectedSpaceType, selectedDay} = useAppSelector(
+    state => state.selectedDayOptions,
+  );
+  const {deskCapacity, parkingCapacity} = useAppSelector(
+    state => state.firebaseRemoteConfig,
+  );
+  const user = useAppSelector(state => state.user.user);
+  const {londonServerTimestamp, storedDeviceTimestamp} = useAppSelector(
+    state => state.utils,
+  );
 
   const remainingSpaces = calculateRemainingSpaces(filteredBookings, capacity);
   const remainingOptions = availableSpacesOptionfactory(remainingSpaces);
@@ -50,19 +53,14 @@ const AvailableSpaces = ({bookings, userData}: AvailableSpacesProps) => {
         currentDate,
         bookingDate,
       );
-      // TODO: revert after hawking join date
-      const isBeforeHawkingJoin = isBookingDateBeforeHawkingJoin(dateToBook);
-      const hawkingCapacity = isBeforeHawkingJoin ? 0 : parkingCapacity.hawking;
 
       let remainingCapacity = 0;
       remainingCapacity = parkingCapacity[businessUnit];
-
-      // override parking capacity for hawking before join date
-      if (businessUnit === BusinessUnit.hawking && isBeforeHawkingJoin) {
-        remainingCapacity = hawkingCapacity;
-      } else if (canBookAnySpace && businessUnit !== BusinessUnit.unknown) {
+      if (canBookAnySpace && businessUnit !== BusinessUnit.unknown) {
         remainingCapacity =
-          parkingCapacity.murray + parkingCapacity.tenzing + hawkingCapacity;
+          parkingCapacity.murray +
+          parkingCapacity.tenzing +
+          parkingCapacity.hawking;
       }
 
       return remainingCapacity;

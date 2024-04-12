@@ -11,10 +11,10 @@ import RNExitApp from 'react-native-exit-app';
 import AlertMessage from '../components/atoms/AlertMessage/AlertMessage';
 import BootSplash from 'react-native-bootsplash';
 
-function AppContainer(): React.JSX.Element {
-  const {
-    splashScreen: {hideSplashScreen},
-  } = useAppSelector(state => state);
+function AppContainer(): JSX.Element {
+  const hideSplashScreen = useAppSelector(
+    state => state.splashScreen.hideSplashScreen,
+  );
   const dispatch = useAppDispatch();
   const appState = useRef(AppState.currentState);
 
