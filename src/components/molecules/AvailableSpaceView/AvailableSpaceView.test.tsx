@@ -526,40 +526,78 @@ describe('When AvailableSpaceView is on the screen', () => {
     });
   });
 
-  it('does not post a car booking when user is unknown and book button is pressed and shows error message', () => {
-    useAppSelectorSpy.mockReturnValue({
-      selectedDayOptions: {
-        selectedDay: '2023-07-05T00:00:00Z',
-        selectedSpaceType: 'car',
-      },
-      user: {user: {businessUnit: 'unknown'}},
-    });
+  describe('It is before hawking join', () => {
+    it('does not post a car booking when user is unknown and book button is pressed and shows error message', () => {
+      useAppSelectorSpy.mockReturnValue({
+        selectedDayOptions: {
+          selectedDay: '2023-07-05T00:00:00Z',
+          selectedSpaceType: 'car',
+        },
+        user: {user: {businessUnit: 'unknown'}},
+      });
+      render(
+        <TestWrapper>
+          <AvailableSpaceView
+            {...{...personalDeskProps, spaceType: SpaceType.car}}
+          />
+        </TestWrapper>,
+      );
 
-    render(
-      <TestWrapper>
-        <AvailableSpaceView
-          {...{...personalDeskProps, spaceType: SpaceType.car}}
-        />
-      </TestWrapper>,
-    );
+      expect(postBookingsSpy).not.toBeCalled();
+      let update = dayTimeSelectorSpy.mock.calls[0][0].update;
+      act(() => {
+        update(personalDeskProps.remainingOptions[0].id);
+      });
+      let book = bookButtonSpy.mock.calls[3][0].onPress;
+      act(() => {
+        book();
+      });
+      expect(alertMessageSpy).toBeCalledWith(
+        expect.objectContaining({
+          message:
+            'Sorry, only Murray and Tenzing users can book a parking spot.',
+        }),
+        {},
+      );
+      expect(postBookingsSpy).not.toBeCalled();
+    });
+  });
 
-    expect(postBookingsSpy).not.toBeCalled();
-    let update = dayTimeSelectorSpy.mock.calls[0][0].update;
-    act(() => {
-      update(personalDeskProps.remainingOptions[0].id);
+  describe('It is after hawking join', () => {
+    it('does not post a car booking when user is unknown and book button is pressed and shows error message', () => {
+      useAppSelectorSpy.mockReturnValue({
+        selectedDayOptions: {
+          selectedDay: '2024-07-05T00:00:00Z',
+          selectedSpaceType: 'car',
+        },
+        user: {user: {businessUnit: 'unknown'}},
+      });
+      render(
+        <TestWrapper>
+          <AvailableSpaceView
+            {...{...personalDeskProps, spaceType: SpaceType.car}}
+          />
+        </TestWrapper>,
+      );
+
+      expect(postBookingsSpy).not.toBeCalled();
+      let update = dayTimeSelectorSpy.mock.calls[0][0].update;
+      act(() => {
+        update(personalDeskProps.remainingOptions[0].id);
+      });
+      let book = bookButtonSpy.mock.calls[3][0].onPress;
+      act(() => {
+        book();
+      });
+      expect(alertMessageSpy).toBeCalledWith(
+        expect.objectContaining({
+          message:
+            'Sorry, only Murray, Hawking, and Tenzing users can book a parking spot.',
+        }),
+        {},
+      );
+      expect(postBookingsSpy).not.toBeCalled();
     });
-    let book = bookButtonSpy.mock.calls[3][0].onPress;
-    act(() => {
-      book();
-    });
-    expect(alertMessageSpy).toBeCalledWith(
-      expect.objectContaining({
-        message:
-          'Sorry, only Murray, Hawking, and Tenzing users can book a parking spot.',
-      }),
-      {},
-    );
-    expect(postBookingsSpy).not.toBeCalled();
   });
 
   describe('has booked is true', () => {
