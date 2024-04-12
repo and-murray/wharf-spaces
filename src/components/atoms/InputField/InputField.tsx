@@ -1,4 +1,9 @@
-import {Input, Box, ScrollView} from 'native-base';
+import {
+  Box,
+  Input,
+  ScrollView,
+  InputField as InputFieldGS,
+} from '@gluestack-ui/themed';
 import React from 'react';
 
 type inputFieldProps = {
@@ -10,25 +15,23 @@ type inputFieldProps = {
 const InputField = ({text, setText, testID}: inputFieldProps) => {
   return (
     <Box
-      borderRadius="xl"
-      borderWidth={'1px'}
-      overflow={'hidden'}
-      height={text.length < 50 ? '50px' : text.length < 200 ? '100px' : '150px'}
-      borderColor={'other.grey'}
-      backgroundColor={'other.lightGrey'}
-      justifyContent={'center'}>
+      borderRadius="$xl"
+      borderWidth="$1"
+      overflow="hidden"
+      height={text.length < 50 ? 50 : text.length < 200 ? 100 : 150}
+      borderColor="$otherGrey"
+      backgroundColor="$otherLightGrey"
+      justifyContent="center">
       <ScrollView keyboardShouldPersistTaps="handled">
-        <Input
-          fontSize={15}
-          defaultValue={text}
-          numberOfLines={text.length < 50 ? 1 : text.length < 200 ? 4 : 8}
-          size={'sm'}
-          multiline={true}
-          onChangeText={newText => setText(newText)}
-          variant={'unstyled'}
-          selectionColor={'brand.red'}
-          testID={testID}
-        />
+        <Input size="sm" testID={testID}>
+          <InputFieldGS
+            defaultValue={text}
+            multiline={true}
+            numberOfLines={text.length < 50 ? 1 : text.length < 200 ? 4 : 8}
+            onChangeText={newText => setText(newText)}
+            selectionColor="$brandRed"
+          />
+        </Input>
       </ScrollView>
     </Box>
   );

@@ -15,7 +15,7 @@ describe('When DayTimeSelector is on the screen', () => {
     const {getByText} = render(
       <TestWrapper>
         <DayTimeSelector
-          heading={'This is a test'}
+          heading="This is a test"
           update={mockFn}
           capacity={36}
           id={0}
@@ -33,7 +33,7 @@ describe('When DayTimeSelector is on the screen', () => {
     const {getByTestId} = render(
       <TestWrapper>
         <DayTimeSelector
-          heading={'This is a test'}
+          heading="This is a test"
           update={mockFn}
           id={itemId}
           isSelected={true}
@@ -51,7 +51,7 @@ describe('When DayTimeSelector is on the screen', () => {
     const {getByTestId} = render(
       <TestWrapper>
         <DayTimeSelector
-          heading={'This is a test'}
+          heading="This is a test"
           update={mockFn}
           id={itemId}
           isSelected={true}
@@ -78,7 +78,7 @@ describe('When DayTimeSelector is on the screen', () => {
             update={mockFn}
             capacity={0}
             id={itemId}
-            heading={'This is a test'}
+            heading="This is a test"
             timeSlot={TimeSlot.am}
             isSelected={false}
             isBooked={false}
@@ -86,9 +86,9 @@ describe('When DayTimeSelector is on the screen', () => {
         </TestWrapper>,
       );
       fireEvent.press(getByText('This is a test'));
-      expect(mockFn).toBeCalled();
-      expect(mockFn).toBeCalledWith(itemId);
-      expect(mockFn).toBeCalledTimes(1);
+      expect(mockFn).toHaveBeenCalled();
+      expect(mockFn).toHaveBeenCalledWith(itemId);
+      expect(mockFn).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -97,7 +97,7 @@ describe('When DayTimeSelector is on the screen', () => {
       const {getByText} = render(
         <TestWrapper>
           <DayTimeSelector
-            heading={'This is a test'}
+            heading="This is a test"
             update={mockFn}
             capacity={36}
             id={itemId}
@@ -108,15 +108,15 @@ describe('When DayTimeSelector is on the screen', () => {
         </TestWrapper>,
       );
       fireEvent.press(getByText('This is a test'));
-      expect(mockFn).toBeCalled();
-      expect(mockFn).toBeCalledWith(itemId);
-      expect(mockFn).toBeCalledTimes(1);
+      expect(mockFn).toHaveBeenCalled();
+      expect(mockFn).toHaveBeenCalledWith(itemId);
+      expect(mockFn).toHaveBeenCalledTimes(1);
     });
     it('will show CheckDisplayAsFull element when not a booked day', () => {
       const {getByTestId} = render(
         <TestWrapper>
           <DayTimeSelector
-            heading={'This is a test'}
+            heading="This is a test"
             update={mockFn}
             id={itemId}
             isSelected={true}
@@ -134,7 +134,7 @@ describe('When DayTimeSelector is on the screen', () => {
       const {getByTestId} = render(
         <TestWrapper>
           <DayTimeSelector
-            heading={'This is a test'}
+            heading="This is a test"
             update={mockFn}
             id={itemId}
             isSelected={true}
@@ -161,7 +161,7 @@ describe('When DayTimeSelector is on the screen', () => {
             update={() => {}}
             capacity={0}
             id={1}
-            heading={''}
+            heading=""
             timeSlot={TimeSlot.am}
             isSelected={true}
             isBooked={false}

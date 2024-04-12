@@ -1,7 +1,7 @@
 import React, {ReactNode} from 'react';
 import {useAppSelector} from '@state/utils/hooks';
-import {Spinner, Center} from 'native-base';
 import {Dimensions} from 'react-native';
+import {Center, Spinner} from '@gluestack-ui/themed';
 
 type CustomComponentProps = {
   children: ReactNode;
@@ -16,15 +16,15 @@ const LoadingContainer = ({children}: CustomComponentProps) => {
       {children}
       {isLoading && (
         <Center
-          bg={'other.lightGrey'}
+          bg="$otherLightGrey"
           opacity={0.5}
           position="absolute"
-          h={height}
-          w={width}>
+          height={height}
+          width={width}>
           <Spinner
             accessibilityLabel="Loading screen"
-            size="lg"
-            color="brand.charcoal"
+            size="large"
+            color="$brandCharcoal"
             testID="loadingSpinner"
           />
         </Center>

@@ -1,12 +1,11 @@
-import React, {useMemo, useState} from 'react';
+import React, {ReactNode, useMemo, useState} from 'react';
 import {Platform} from 'react-native';
-import {VStack, HStack, Text, Box, Card} from 'native-base';
-import {Booking} from '@customTypes';
 import {WhosInRow} from '@molecules';
 import {TimeSlotUtils} from '@utils/TimeSlotUtils/TimeSlotUtils';
 import {useAppSelector} from '@state/utils/hooks';
-import {BookingType, SpaceType} from '@customTypes/booking';
+import Booking, {BookingType, SpaceType} from '@customTypes/booking';
 import {ReducedUserData} from '@customTypes/ReducedUserData';
+import {Box, Card, HStack, Text, VStack} from '@gluestack-ui/themed';
 type WhosInProps = {
   bookings: Booking[];
   userData: ReducedUserData;
@@ -18,15 +17,12 @@ const WhosIn = ({bookings, userData}: WhosInProps) => {
   ]);
   const [andiCount, visitorCount] = andiAndvisitorNumbers;
 
-  const [rows, setRows] = useState<Element[]>([]);
+  const [rows, setRows] = useState<ReactNode[]>([]);
   const {
     selectedDayOptions: {selectedSpaceType},
     user: {user},
   } = useAppSelector(state => state);
-  const isCarReserveList =
-    bookings.length > 0 &&
-    selectedSpaceType === SpaceType.car &&
-    bookings[0].isReserveSpace;
+
   useMemo(async () => {
     // default rows back when nothing booked otherwise data persists onto days without any bookings
     if (Object.keys(userData).length === 0 || user?.id === undefined) {
@@ -70,6 +66,7 @@ const WhosIn = ({bookings, userData}: WhosInProps) => {
       return ordered;
     };
     const orderedReserveList = reserveListBookingsInOrder();
+
     const generatedRows = bookings.map((booking, index) => {
       const isGuest = booking.bookingType === BookingType.guest;
       let bookingUserData = userData[booking.userId] ?? {
@@ -112,18 +109,11 @@ const WhosIn = ({bookings, userData}: WhosInProps) => {
         />
       );
     });
-
-    if (isCarReserveList) {
-      generatedRows.sort(
-        (a, b) => a.props.reserveListPosition - b.props.reserveListPosition,
-      );
-    } else {
-      generatedRows.sort((a, b) => a.props.name.localeCompare(b.props.name));
-    }
+    generatedRows.sort((a, b) => a.props.name.localeCompare(b.props.name));
 
     setRows(generatedRows);
     calculateVisitorsAndAndis(generatedRows, totalVisitorCount);
-  }, [bookings, user?.id, userData, isCarReserveList]);
+  }, [bookings, user?.id, userData]);
 
   const constructWhoIsInCountString = () => {
     let whoIsInString = andiCount + ' ANDi' + (andiCount === 1 ? '' : 's');
@@ -148,57 +138,61 @@ const WhosIn = ({bookings, userData}: WhosInProps) => {
   const constructWhoIsInString = () => {
     if (selectedSpaceType === SpaceType.desk) {
       return "Who's in?";
-    } else if (isCarReserveList) {
-      return "Who's waiting?";
     } else if (selectedSpaceType === SpaceType.car) {
       return "Who's parking?";
     }
     return '';
   };
   return (
-    <VStack alignItems="center" marginX={4} testID="WhosIn">
+    <VStack
+      marginBottom="$3"
+      alignItems="center"
+      marginHorizontal="$1"
+      testID="WhosIn">
       <HStack
-        justifyContent={'space-between'}
-        alignItems={'center'}
-        marginBottom={6}
-        width={'100%'}>
+        justifyContent="space-between"
+        alignItems="center"
+        marginBottom="$1.5"
+        width="$full">
         <Text
-          color="brand.charcoal"
-          fontFamily={'body'}
-          fontWeight={400}
-          fontSize={16}>
+          color="$brandCharcoal"
+          fontFamily="$body"
+          fontWeight="$normal"
+          size="md">
           {constructWhoIsInString()}
         </Text>
         <Box
-          backgroundColor={'other.lightGrey'}
-          borderRadius={24}
-          paddingX={4}
-          paddingY={1}
+          backgroundColor="$otherLightGrey"
+          borderRadius={25}
+          paddingHorizontal="$1"
+          paddingVertical="$0.5"
           flexShrink={1}>
           <Text
-            color="brand.charcoal"
-            fontFamily={'body'}
-            fontWeight={500}
-            fontSize={16}>
+            color="$brandCharcoal"
+            fontFamily="$body"
+            fontWeight="$medium"
+            padding="$1"
+            size="md">
             {constructWhoIsInCountString()}
           </Text>
         </Box>
       </HStack>
       {rows.length === 0 ? (
         <Text
-          color="other.greyMid"
-          fontFamily={'body'}
-          fontWeight={400}
-          fontSize={16}>
+          color="$otherGreyMid"
+          fontFamily="$body"
+          fontWeight="$normal"
+          size="md">
           {constructBeTheFirstString()}
         </Text>
       ) : (
         <Card
-          shadow={4}
+          hardShadow="3"
+          shadowRadius={'$0.5'}
           backgroundColor="white"
           borderRadius={20}
-          padding={2} // Padding required corners not to be intersected by background of the rows
-          width="100%"
+          padding="$1" // Padding required corners not to be intersected by background of the rows
+          width="$full"
           overflow={Platform.OS === 'android' ? 'hidden' : 'visible'}>
           {rows}
         </Card>

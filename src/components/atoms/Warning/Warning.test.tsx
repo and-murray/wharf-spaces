@@ -15,7 +15,8 @@ describe('When a Warning is on the screen', () => {
     const {getByTestId} = render(
       <TestWrapper>
         <Warning
-          warningMessage={'this is a warning'}
+          borderColor="$brandWhite"
+          warningMessage="this is a warning"
           symbolToUse={WarningSymbolIcon.infoCircle}
         />
       </TestWrapper>,
@@ -30,7 +31,8 @@ describe('When a Warning is on the screen', () => {
     const {getByTestId} = render(
       <TestWrapper>
         <Warning
-          warningMessage={'TEST MESSAGE'}
+          borderColor="$brandWhite"
+          warningMessage="TEST MESSAGE"
           symbolToUse={WarningSymbolIcon.warningTriangle}
           backgroundColor="#000000"
         />

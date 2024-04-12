@@ -1,4 +1,4 @@
-import {View, Text} from 'native-base';
+import {Text, View} from '@gluestack-ui/themed';
 import React from 'react';
 
 type EventListProps = {
@@ -12,21 +12,19 @@ const EventList = ({currentEvent, hasEvent}: EventListProps) => {
   return (
     <View flex={1}>
       <Text
-        fontFamily={'body'}
-        fontWeight={400}
-        fontStyle={'normal'}
-        fontSize={16}
-        color={'other.greyMid'}
+        fontFamily="$body"
+        fontWeight="$normal"
+        size="md"
+        color="$otherGreyMid"
         accessibilityLabel={headerText}>
         {headerText}
       </Text>
       {hasEvent && (
         <Text
-          fontFamily={'body'}
-          fontWeight={400}
-          fontStyle={'normal'}
-          fontSize={16}
-          color={'brand.charcoal'}
+          fontFamily="$body"
+          fontWeight="$normal"
+          size="md"
+          color="$brandCharcoal"
           accessibilityLabel={currentEvent}>
           {currentEvent}
         </Text>

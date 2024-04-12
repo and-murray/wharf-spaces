@@ -2,16 +2,17 @@ import React from 'react';
 import {TestWrapper} from '@components/TestWrapper';
 import {render} from '@testing-library/react-native';
 import ProfilePicture from './ProfilePicture';
+import {parseGluestackComponentStyleProps} from '@root/src/util/GluestackUtils/GluestackUtils';
 
 describe('When ProfilePicture is on screen ', () => {
   it('Renders Correctly', () => {
-    const {getByTestId} = render(
+    const {findByTestId} = render(
       <TestWrapper>
         <ProfilePicture uri="test" showBorder={false} />
       </TestWrapper>,
     );
 
-    expect(getByTestId('ProfilePicture')).toBeTruthy();
+    findByTestId('ProfilePictures');
   });
 
   it('Shows a green border when showBorder is true', () => {
@@ -21,7 +22,11 @@ describe('When ProfilePicture is on screen ', () => {
       </TestWrapper>,
     );
 
-    expect(getByTestId('ProfilePicture').props.style.borderWidth).toBe(2);
+    const styleProps = parseGluestackComponentStyleProps(
+      getByTestId('ProfilePicture').props.style,
+    );
+
+    expect(styleProps.borderWidth).toBe(2);
   });
 
   it('Does not show a green border when showBorder is false', () => {
@@ -31,6 +36,10 @@ describe('When ProfilePicture is on screen ', () => {
       </TestWrapper>,
     );
 
-    expect(getByTestId('ProfilePicture').props.style.borderWidth).toBe(0);
+    const styleProps = parseGluestackComponentStyleProps(
+      getByTestId('ProfilePicture').props.style,
+    );
+
+    expect(styleProps.borderWidth).toBe(0);
   });
 });

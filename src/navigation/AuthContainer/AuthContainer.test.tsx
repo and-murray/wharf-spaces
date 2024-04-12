@@ -2,8 +2,8 @@ import React from 'react';
 import {TestWrapper} from '@components/TestWrapper';
 import {render} from '@testing-library/react-native';
 import AuthContainer from './AuthContainer';
-import {Text} from 'native-base';
 import * as hooks from '@state/utils/hooks';
+import {Text} from '@gluestack-ui/themed';
 
 const useAppSelectorSpy = jest.spyOn(hooks, 'useAppSelector');
 

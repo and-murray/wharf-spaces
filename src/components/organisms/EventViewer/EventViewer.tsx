@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import {Box, Pressable, View} from 'native-base';
 import {EventList, EventModal} from '@molecules';
 import {useAppSelector} from '@state/utils/hooks';
 import {Pencil} from '@root/src/res/images/Pencil';
+import {Box, Pressable, View} from '@gluestack-ui/themed';
 
 const EventViewer = () => {
   const {selectedDay} = useAppSelector(state => state.selectedDayOptions);
@@ -36,21 +36,21 @@ const EventViewer = () => {
           }}>
           <Box
             flexGrow={1}
-            paddingX={4}
-            paddingY={2}
-            marginX={4}
+            paddingHorizontal={4}
+            paddingVertical={2}
+            marginHorizontal={4}
             rounded={8}
             borderWidth={1}
-            flexDirection={'row'}
-            justifyContent={'space-between'}
-            borderColor={'other.grey'}
+            flexDirection="row"
+            justifyContent="space-between"
+            borderColor="$otherGrey"
             testID="EventViewerTestID">
             <EventList currentEvent={currentEventText} hasEvent={hasEvent} />
             <View
-              flexDirection={'row'}
-              alignItems={'center'}
+              flexDirection="row"
+              alignItems="center"
               accessibilityLabel={buttonText}
-              accessibilityRole={'button'}>
+              accessibilityRole="button">
               <Pencil />
             </View>
             <EventModal

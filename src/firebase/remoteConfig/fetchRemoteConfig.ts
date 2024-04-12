@@ -1,6 +1,5 @@
 import remoteConfig from '@react-native-firebase/remote-config';
 import {ParkingCapacityConfig} from '@state/reducers/RemoteConfigSlice';
-import Config from 'react-native-config';
 
 export function getDeskCapacity(): number {
   return remoteConfig().getNumber('deskCapacity');
@@ -20,9 +19,6 @@ export function getParkingCapacity(): ParkingCapacityConfig {
 }
 
 export async function fetchInitialRemoteConfig(): Promise<boolean> {
-  if (Config.REMOTE_CONFIG_FETCH_DEBUG) {
-    await remoteConfig().setConfigSettings({minimumFetchIntervalMillis: 30000});
-  }
   await setDefaults();
   return remoteConfig().fetchAndActivate();
 }
@@ -38,6 +34,5 @@ async function setDefaults() {
 const parkingDefault = JSON.stringify({
   murray: 6,
   tenzing: 2,
-  hawking: 2,
   unknown: 0,
 });

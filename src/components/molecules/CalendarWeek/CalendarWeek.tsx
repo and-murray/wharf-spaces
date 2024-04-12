@@ -1,7 +1,6 @@
 import React, {useMemo, useState} from 'react';
 import {useAppDispatch, useAppSelector} from '@state/utils/hooks';
 import {storeSelectedDay} from '@state/reducers/selectedDayOptionsSlice';
-import {HStack} from 'native-base';
 import {
   getFilteredBankHolidaysFrom,
   isBankHoliday,
@@ -10,6 +9,7 @@ import {SelectableDate} from '@atoms';
 import dayjs from 'dayjs';
 import {BankHoliday} from '@customTypes';
 import {formatToBookingDateUTC} from '@utils/DateTimeUtils/DateTimeUtils';
+import {HStack} from '@gluestack-ui/themed';
 
 type CalendarWeekProps = {
   days: string[];
@@ -69,9 +69,9 @@ const CalendarWeek = ({days, weekOffset, currentDay}: CalendarWeekProps) => {
 
   return (
     <HStack
-      justifyContent={'space-between'}
-      width={'100%'}
-      space={2}
+      justifyContent="space-between"
+      width="$full"
+      space="sm"
       testID="CalendarWeek">
       {weekOffset === 0 ? firstWeek : secondWeek}
     </HStack>

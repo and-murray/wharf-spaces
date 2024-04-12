@@ -1,19 +1,19 @@
 import React, {useEffect, useLayoutEffect} from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
 import DeskScreen from '@screens/DeskScreen/DeskScreen';
+import messaging from '@react-native-firebase/messaging';
 import {Alert} from 'react-native';
-import {IconButton, Icon} from 'native-base';
-import {signOut} from '@firebase/authentication/FirebaseGoogleAuthentication';
+import {Button, ButtonIcon} from '@gluestack-ui/themed';
+import {createStackNavigator} from '@react-navigation/stack';
+import {hideSplashScreen} from '@root/src/state/reducers/SplashScreenReducer';
+import {LogLevel, logMessage} from '@root/src/util/Logging/Logging';
 import {LogoutIcon} from '@res/images/LogoutIcon';
+import {signOut} from '@firebase/authentication/FirebaseGoogleAuthentication';
+import {useAppDispatch} from '@state/utils/hooks';
 import {
   requestMessagingPermission,
   saveTokenToDatabase,
   checkMessagingPermission,
 } from '@firebase/messaging/messagingService';
-import messaging from '@react-native-firebase/messaging';
-import {LogLevel, logMessage} from '@root/src/util/Logging/Logging';
-import {hideSplashScreen} from '@root/src/state/reducers/SplashScreenReducer';
-import {useAppDispatch} from '@state/utils/hooks';
 
 const Stack = createStackNavigator();
 function HomeContainer(): React.JSX.Element {
@@ -31,11 +31,9 @@ function HomeContainer(): React.JSX.Element {
 
   function logoutButton() {
     return (
-      <IconButton
-        onPress={logoutAlert}
-        variant="unstyled"
-        icon={<Icon as={LogoutIcon} />}
-      />
+      <Button action="default" onPress={logoutAlert}>
+        <ButtonIcon as={LogoutIcon} />
+      </Button>
     );
   }
   const logoutAlert = () => {

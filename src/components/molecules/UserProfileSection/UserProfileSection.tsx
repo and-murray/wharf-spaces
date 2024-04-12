@@ -1,20 +1,20 @@
 import React from 'react';
-import {Text, HStack} from 'native-base';
 import {ProfilePicture} from '@atoms';
 import {useAppSelector} from '@state/utils/hooks';
+import {HStack, Text} from '@gluestack-ui/themed';
 
 const UserProfileSection = () => {
   const {user} = useAppSelector(state => state.user);
 
   return (
-    <HStack alignItems={'center'} flex={1} testID={'users-profile-section'}>
+    <HStack alignItems="center" flex={1} testID="users-profile-section">
       <ProfilePicture uri={user && user.profilePicUrl} showBorder={false} />
       <Text
-        color="brand.charcoal"
-        fontFamily={'body'}
-        fontWeight={500}
-        marginLeft={'7%'}
-        fontSize={15}
+        color="$brandCharcoal"
+        fontFamily="$body"
+        fontWeight="$medium"
+        marginLeft="7%"
+        size="sm"
         flex={1}
         numberOfLines={2}>
         {user ? `${user.firstName} ${user.lastName}` : 'Current User'}

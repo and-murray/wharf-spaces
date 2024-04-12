@@ -1,11 +1,11 @@
 import React from 'react';
-import {Text, Pressable, Badge, CheckIcon} from 'native-base';
 import dayjs from 'dayjs';
 import {
   defaultColors,
   isSelectedColors,
   currentDateColors,
 } from './SelectableDateColors';
+import {Badge, CheckIcon, Pressable, Text} from '@gluestack-ui/themed';
 
 const viewState = {
   normal: defaultColors,
@@ -50,8 +50,8 @@ const SelectableDate = ({
       accessibilityRole="button"
       flexBasis={0}
       flexGrow={1}
-      justifyContent={'center'}
-      alignItems={'center'}
+      justifyContent="center"
+      alignItems="center"
       padding={2}
       rounded={16}
       borderWidth={1}
@@ -61,10 +61,9 @@ const SelectableDate = ({
       testID="SelectableDate">
       <Text
         color={styling.dayTextColour}
-        fontFamily={'body'}
-        fontWeight={500}
-        fontStyle={'normal'}
-        fontSize={16}
+        fontFamily="$body"
+        fontWeight="$medium"
+        size="md"
         numberOfLines={1}
         adjustsFontSizeToFit={true}
         testID="SelectableDateDayName">
@@ -72,26 +71,25 @@ const SelectableDate = ({
       </Text>
       <Text
         color={styling.dateTextColour}
-        fontFamily={'body'}
-        fontWeight={500}
-        fontStyle={'normal'}
-        fontSize={16}
+        fontFamily="$body"
+        fontWeight="$medium"
+        size="md"
         testID="SelectableDateDayNumber">
         {dayjs(date).format('D')}
       </Text>
       {isBooked && (
         <Badge
-          colorScheme="success"
-          rounded="full"
-          right="-12px"
-          bottom="-12px"
+          bgColor="success"
+          rounded="$full"
+          right={-12}
+          bottom={-12}
           zIndex={1}
           variant="solid"
-          w="24px"
-          h="24px"
+          width={24}
+          height={24}
           position="absolute"
           testID="SelectableDateTick">
-          <CheckIcon size="4" color="white" alignSelf="center" />
+          <CheckIcon size="sm" color="white" alignSelf="center" />
         </Badge>
       )}
     </Pressable>

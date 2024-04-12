@@ -1,6 +1,6 @@
 import React, {useMemo} from 'react';
-import {View, Text} from 'native-base';
 import ReservedCount from '@atoms/ReservedCount/ReservedCount';
+import {Text, View} from '@gluestack-ui/themed';
 
 type CheckToDisplayAsFullProps = {
   spaceLeft: number | undefined;
@@ -32,11 +32,11 @@ const CheckToDisplayAsFull = ({
   return (
     <>
       {spaceAvailable ? (
-        <View justifyContent={'space-between'} flexDirection={'row'}>
+        <View justifyContent="space-between" flexDirection="row">
           <Text
-            fontFamily={'body'}
-            fontWeight="500"
-            fontSize={14}
+            fontFamily="$body"
+            fontWeight="$normal"
+            size="md"
             color={subheadingTextColorFull}>
             Full
           </Text>
@@ -44,9 +44,9 @@ const CheckToDisplayAsFull = ({
         </View>
       ) : (
         <Text
-          fontFamily={'body'}
-          fontWeight="400"
-          fontSize={14}
+          fontFamily="$body"
+          fontWeight="$normal"
+          size="md"
           color={
             spaceLeft === 0 ? subheadingTextColorFull : subheadingTextColor
           }

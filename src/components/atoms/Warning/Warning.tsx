@@ -1,13 +1,13 @@
 import React from 'react';
-import {Text, Box, HStack} from 'native-base';
 import WarningSymbol from './WarningSymbol/WarningSymbol';
-import {WarningSymbolIcon} from './WarningSymbol/WarningSymbol';
-import {getHexValue} from '@root/theme';
+import {WarningSymbolKey} from './WarningSymbol/WarningSymbol';
+import {getHexValue} from '@root/gluestack-ui.config';
+import {Box, HStack, Text} from '@gluestack-ui/themed';
 
-type WarningProps = {
+export type WarningProps = {
   warningMessage: string;
   backgroundColor?: string;
-  symbolToUse: WarningSymbolIcon;
+  symbolToUse: WarningSymbolKey;
   borderColor: string;
 };
 
@@ -20,24 +20,25 @@ const Warning = ({
   return (
     <Box
       borderColor={borderColor}
-      borderWidth={'1px'}
-      p={'4'}
-      borderRadius="xl"
+      borderWidth={1}
+      p="$4"
+      borderRadius="$xl"
       backgroundColor={backgroundColor}
-      testID={'Warning'}
+      testID="Warning"
       accessible={true}>
-      <HStack space="sm" alignItems={'center'}>
+      <HStack space="sm" alignItems="center">
         <WarningSymbol
+          iconSize={20}
           symbolToUse={symbolToUse}
           color={getHexValue(borderColor)}
         />
         <Text
-          fontFamily={'body'}
-          fontWeight="400"
-          fontSize={14}
-          flexGrow="1"
-          flexBasis="0"
-          testID={'WarningMessage'}>
+          fontFamily="$body"
+          fontWeight="$medium"
+          size="sm"
+          flexGrow={1}
+          flexBasis={0}
+          testID="WarningMessage">
           {warningMessage}
         </Text>
       </HStack>

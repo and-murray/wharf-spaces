@@ -2,14 +2,13 @@ import React from 'react';
 import {TestWrapper} from '@components/TestWrapper';
 import {render} from '@testing-library/react-native';
 import ReservedCount from './ReservedCount';
-import * as ClockIcon from '@res/images/ClockIcon';
+import {ClockIcon} from '@res/images';
 
-const clockIconSpy = jest.spyOn(ClockIcon, 'ClockIcon');
+jest.mock('@res/images', () => ({
+  ClockIcon: jest.fn(),
+}));
+
 describe('ReservedCount', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-    clockIconSpy.mockReturnValue(<></>);
-  });
   it.each`
     argument | expected
     ${'1'}   | ${'1'}
@@ -22,7 +21,7 @@ describe('ReservedCount', () => {
           <ReservedCount count={argument} />
         </TestWrapper>,
       );
-      expect(clockIconSpy).toBeCalled();
+      expect(ClockIcon).toHaveBeenCalled();
       expect(getByTestId('ReserveCountTextId')).toBeTruthy();
       expect(getByTestId('ReserveCountTextId').children).toContain(expected);
     },

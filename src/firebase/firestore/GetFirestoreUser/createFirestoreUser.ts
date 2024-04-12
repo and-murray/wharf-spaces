@@ -47,8 +47,6 @@ export async function createFirestoreUser(
       'unknown';
     if ((department as string).includes('tenzing')) {
       department = BusinessUnit.tenzing;
-    } else if ((department as string).includes('hawking')) {
-      department = BusinessUnit.hawking;
     }
     const businessUnit = Object.values(BusinessUnit).includes(department)
       ? department

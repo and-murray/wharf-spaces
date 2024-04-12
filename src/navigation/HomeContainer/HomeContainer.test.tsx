@@ -44,7 +44,7 @@ describe('When the Home container is displayed', () => {
         </TestWrapper>,
       );
 
-      expect(mockSaveTokenToDatabase).toBeCalledTimes(0);
+      expect(mockSaveTokenToDatabase).toHaveBeenCalledTimes(0);
     });
   });
 });
