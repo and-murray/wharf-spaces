@@ -12,11 +12,6 @@ jobs:
           node-version: 18
           cache: yarn
 
-      - name: unlock secrets
-        uses: sliteteam/github-action-git-crypt-unlock@1.2.0
-        env:
-          GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
-
       - name: install dependencies
         run: yarn install --frozen-lockfile
 
