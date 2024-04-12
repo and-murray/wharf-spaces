@@ -1,0 +1,184 @@
+fastlane_version '2.219.0'
+
+platform :ios do
+    iOSWorkspace = "./ios/MurrayDeskBooking.xcworkspace"
+    iOSProject = "./ios/MurrayDeskBooking.xcodeproj"
+
+    lane :qa_distribute do
+        increment_build_number(
+            build_number: "#{get_datetime_for_build_version}.#{number_of_commits}",
+            xcodeproj: iOSProject
+        )
+        match(type: "enterprise",
+            team_id: 'T364HJZ84F',
+            app_identifier: 'digital.and.enterprise.murray-apps',
+            readonly: true,
+            skip_google_cloud_account_confirmation: true,
+            skip_certificate_matching: true,
+             force_for_new_devices: true)      
+        gym(workspace: iOSWorkspace,
+            configuration: 'Release-Dev',
+            export_method: 'enterprise',
+            export_team_id: 'T364HJZ84F')
+        ENV["GOOGLE_APPLICATION_CREDENTIALS"]="murray-apps-dev-firebase-adminsdk-57gqb-148f1fe61f.json"
+        upload_symbols_to_crashlytics(dsym_path: ENV["DSYM_OUTPUT_PATH"], 
+            binary_path: './ios/Pods/FirebaseCrashlytics/upload-symbols',
+            gsp_path: './ios/Firebase/GoogleService-Info-Dev-Enterprise.plist')
+        firebase_app_distribution(
+            groups: "devs, product",
+            release_notes: "#{get_dev_release_notes}"
+        )
+    end
+
+    lane :testflight_distribute do
+        if UI.interactive?
+            version_number_string = UI.input "Please enter the version number (without any letters): "
+            version_number = version_number_string.to_f
+            if version_number == 0.0
+                UI.abort_with_message!("Invalid version number please try again.")
+            end
+            verify = UI.confirm "Confirm? #{version_number_string}"
+            if verify == false
+                UI.abort_with_message!("Incorrect version number, ending lane")
+            end
+            increment_version_number(
+                version_number: version_number_string,
+                xcodeproj: iOSProject
+            )
+            increment_build_number(
+                build_number: "#{get_datetime_for_build_version}.#{number_of_commits}",
+                xcodeproj: iOSProject
+            )
+            git_commit(path: ["./ios/MurrayDeskBooking.xcodeproj/project.pbxproj",
+                "./ios/MurrayDeskBooking/Info.plist",
+                "./ios/MurrayDeskBookingTests/Info.plist",
+                ], message: "[skip-ci] Version Bump")
+            push_to_git_remote
+            tag = "#{version_number_string}-ios"
+            add_git_tag(tag: tag, force: true)
+            push_git_tags(tag: tag, force: true)
+            match(type: "appstore",
+                skip_google_cloud_account_confirmation: true) 
+            gym(workspace: iOSWorkspace,
+                configuration: 'Release-Production',
+                export_method: 'app-store', 
+                include_bitcode: true)
+            ENV["GOOGLE_APPLICATION_CREDENTIALS"]="murray-apps-firebase-adminsdk-f378n-6ee50c3655.json"
+            upload_symbols_to_crashlytics(dsym_path: ENV["DSYM_OUTPUT_PATH"], 
+                binary_path: './ios/Pods/FirebaseCrashlytics/upload-symbols')
+            upload_to_testflight(
+                demo_account_required: true,
+                api_key_path: './appstore-connect-api-key.json',
+                distribute_external: true,
+                notify_external_testers: true,
+                expire_previous_builds: true,
+                groups: ["Murray App Beta Testers"],
+                beta_app_review_info: {
+                    contact_email: "christopher.batin@and.digital",
+                    contact_first_name: "Christopher",
+                    contact_last_name: "Batin",
+                    demo_account_name: "demo@example.com",
+                    demo_account_password: "N^LhU%h4NV&z",
+                    notes: "App for employees for the company only. We use Google Sign-in as a business solution and therefore are not required to have Sign In with Apple."
+                  },
+                changelog: changelog_from_git_commits)
+        else
+            UI.important "Warning: This action can only be completed on your local machine."
+        end
+    end
+
+    lane :setup_profiles_certs do
+        match(type: "adhoc",
+            readonly: true,
+            skip_google_cloud_account_confirmation: true,
+            force_for_new_devices: true) 
+        match(type: "development",
+            force_for_new_devices: true,
+            skip_google_cloud_account_confirmation: true,
+            readonly: true, 
+            include_all_certificates: true) 
+        match(type: "appstore",
+            readonly: true,
+            skip_google_cloud_account_confirmation: true,
+            force_for_new_devices: true) 
+    end
+
+    private_lane :get_datetime_for_build_version do
+        Time.now.utc.strftime("%Y%m%d%H%M%S")
+    end
+
+end
+
+platform :android do
+
+    before_all do |lane|
+        ENV["GOOGLE_APPLICATION_CREDENTIALS"]="murray-apps-dev-firebase-adminsdk-57gqb-148f1fe61f.json"
+        ENV["ENVFILE"]=".env.development"
+        if ENV["ANDROID_HOME"].nil?
+            UI.abort_with_message!('Please set ANDROID_HOME environment variable, this is likely "/Users/{YOUR_USERNAME}/Library/Android/sdk"')
+        end
+    end
+
+    lane :qa_distribute do |options|
+        gradle(
+            project_dir: "./android",
+            task: "clean")
+        gradle(
+            project_dir: "./android",
+            task: "assemble",
+            flavor: "development",
+            build_type: "Release",
+            properties: {
+                "versionNameSuffix" => "-#{git_branch}",
+                "prodKeyStorePassword" => ENV["ANDROID_PROD_KEYSTORE_PASSWORD"]
+            }
+          )
+        firebase_app_distribution(
+            app: "1:158825467211:android:85063aa7df7881b45f6cce",
+            android_artifact_type: "APK",
+            groups: "devs, product",
+            release_notes: "#{get_dev_release_notes}"
+        )
+    end
+
+    lane :google_play_distribute do |options|
+        ENV["GOOGLE_APPLICATION_CREDENTIALS"]="murray-apps-firebase-adminsdk-f378n-6ee50c3655.json"
+        ENV["ENVFILE"]=".env.production"
+        gradle(
+            project_dir: "./android",
+            task: "clean")
+        gradle(
+            project_dir: "./android",
+            task: "bundle",
+            flavor: "production",
+            build_type: "Release",
+            properties: {
+                # Version code set in build.gradle not here
+                "prodKeyStorePassword" => ENV["ANDROID_PROD_KEYSTORE_PASSWORD"]
+            }
+          )
+        upload_to_play_store(
+            release_status:"draft",
+            package_name:"digital.and.murrayapps.production",
+            track:"internal",
+            json_key:"./android/app/play_store_keys/pc-api-5670955761957146419-138-d5132b70bac6.json",
+            mapping_paths: ["./android/app/build/outputs/mapping/productionRelease/mapping.txt"]
+        )
+    end
+end
+
+private_lane :get_dev_release_notes do 
+    commit = last_git_commit
+    """
+    Branch: #{git_branch}, 
+    Author: #{commit[:author]},
+    Email: #{commit[:email]},
+    message: #{commit[:message]},
+    Hash: #{commit[:commit_hash]},
+    Short Hash: #{commit[:abbreviated_commit_hash]}
+    """
+end
+
+private_lane :get_commit_number do
+    number_of_commits
+end

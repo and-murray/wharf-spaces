@@ -1,0 +1,9 @@
+# These owners will be the default owners for everything in
+
+# the repo. Unless a later match takes precedence
+
+-       @and-murray/developers
+
+# Limits Codeowner edits
+
+/.github/CODEOWNERS @and-murray/tech-ops @cjbatin @lukestringer90

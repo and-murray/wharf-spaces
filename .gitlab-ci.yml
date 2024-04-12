@@ -1,0 +1,112 @@
+image: node:18
+
+variables:
+  GIT_STRATEGY: clone
+  ENV:
+    value: 'undefined'
+    description: 'Environment to deploy to. development or production. If undefined the branch will determine.'
+  DEPLOY_FUNCTIONS:
+    value: 'false'
+    description: 'Should we deploy the functions code? true or false'
+  DEPLOY_RULES:
+    value: 'false'
+    description: 'Should we deploy the firestore rules code? true or false'
+
+stages:
+  - test
+  - deploy
+
+before_script:
+  - apt-get update -qq && apt-get install
+  - apt-get install git-crypt
+  - echo "$CRYPT_KEY" | base64 -d > key-file
+  - git-crypt unlock key-file
+  - source ./setEnv.sh
+
+tests:
+  stage: test
+  script:
+    - yarn install
+    - yarn installFirebaseFunctions
+    - yarn lint
+    - yarn test
+    - yarn test-functions
+  rules:
+    - if: $CI_MERGE_REQUEST_ID
+      when: always
+    - if: $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH =~ /^release\/v[\d]+.[\d]+.[\d]+/
+      when: always
+    - if: $CI_PIPELINE_SOURCE == "web"
+      when: always
+
+qa-builds:
+  image: ruby:3.0.0
+  stage: deploy
+  before_script:
+    - apt-get update -qq && apt-get install
+    - apt-get install git-crypt
+    - curl -fsSL https://deb.nodesource.com/setup_18.x | bash - &&\
+    - apt-get install -y nodejs
+    - npm install --global yarn
+    - source ./installAndroid.sh
+    - export ANDROID_HOME=$PWD/android-sdk-linux
+    - echo "$CRYPT_KEY" | base64 -d > key-file
+    - git-crypt unlock key-file
+    - source ./setEnv.sh
+    - gem install bundler
+    - bundle install
+  script:
+    - yarn install
+    - yarn installFirebaseFunctions
+    - yarn android:qa:distribute
+  rules:
+    - if: $CI_MERGE_REQUEST_ID
+      when: manual
+      allow_failure: true
+    - if: $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "develop"
+      when: always
+    - if: $CI_PIPELINE_SOURCE == "web"
+      when: always
+
+deploy-firestore-rules:
+  stage: deploy
+  script:
+    - yarn install
+    - source ./setFirebaseProject.sh
+    - yarn deployFirestoreRules
+  rules:
+    - if: $CI_COMMIT_BRANCH == "develop"
+      changes:
+        - firestore.rules
+    - if: $DEPLOY_RULES == "true" && $CI_PIPELINE_SOURCE == "web"
+    - if: $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH =~ /^release\/v[\d]+.[\d]+.[\d]+/
+      when: manual
+
+deploy-storage-rules:
+  stage: deploy
+  script:
+    - yarn install
+    - source ./setFirebaseProject.sh
+    - yarn deployStorageRules
+  rules:
+    - if: $CI_COMMIT_BRANCH == "develop"
+      changes:
+        - storage.rules
+    - if: $DEPLOY_RULES == "true" && $CI_PIPELINE_SOURCE == "web"
+    - if: $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH =~ /^release\/v[\d]+.[\d]+.[\d]+/
+      when: manual
+
+deploy-functions:
+  stage: deploy
+  script:
+    - yarn install
+    - yarn installFirebaseFunctions
+    - source ./setFirebaseProject.sh
+    - yarn deployFirebaseFunctions
+  rules:
+    - if: $CI_COMMIT_BRANCH == "develop"
+      changes:
+        - functions/**/*
+    - if: $DEPLOY_FUNCTIONS == "true" && $CI_PIPELINE_SOURCE == "web"
+    - if: $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH =~ /^release\/v[\d]+.[\d]+.[\d]+/
+      when: manual

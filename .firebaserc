@@ -1,0 +1,7 @@
+{
+  "projects": {
+    "development": "murray-apps-dev",
+    "production": "murray-apps",
+    "default": "murray-apps-dev"
+  }
+}

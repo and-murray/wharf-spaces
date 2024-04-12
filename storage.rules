@@ -1,0 +1,12 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /privacy-policy.html {
+      allow read;
+    }
+    match /terms-and-conditions.html {
+    	 allow read;
+    }
+  }
+}

@@ -1,0 +1,95 @@
+# OSX
+.DS_Store
+
+# VSCode
+.vscode
+
+# Xcode
+build/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata
+*.xccheckout
+*.moved-aside
+DerivedData
+*.hmap
+*.ipa
+*.xcuserstate
+ios/.xcode.env.local
+
+# Android/IntelliJ
+build/
+.idea
+.gradle
+local.properties
+*.iml
+*.hprof
+.cxx/
+
+# node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# jest
+coverage/
+
+# fastlane
+#
+# It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
+# screenshots whenever they are needed.
+# For more information about the recommended setup visit:
+# https://docs.fastlane.tools/best-practices/source-control/
+
+**/fastlane/report.xml
+**/fastlane/Preview.html
+**/fastlane/screenshots
+**/fastlane/test_output
+
+# Bundle artifact
+*.jsbundle
+
+# Ruby / CocoaPods
+/ios/Pods/
+/vendor/bundle/
+
+# Temporary files created by Metro to check the health of the file watcher
+.metro-health-check*
+
+# Misc
+package-lock.json
+
+# Firebase
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+EmulatorData/
+functions/EmulatorData/
+
+# Keys, just in case someone accidentally includes them here
+*-firebase-adminsdk-*.json
+appstore-connect-api-key.json
+android/app/release.keystore
+android/app/play_store_keys/*
+*pc-api-5670955761957146419-138-d5132b70bac6.json*
+*release_keystore.properties*
+/android/app/play_store_keys/release_keystore.properties
+
+# Key for gitcrypt, just in case someone accidentally includes it here
+*git-crypt-key*
+
+MurrayDeskBooking.app*
+
+Murray Spaces.app.dSYM.zip
+
+# env
+.env.*
+
+# allowed
+!.env.template

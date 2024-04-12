@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "158825467211",
+    "project_id": "murray-apps-dev",
+    "storage_bucket": "murray-apps-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:158825467211:android:85063aa7df7881b45f6cce",
+        "android_client_info": {
+          "package_name": "digital.and.murrayapps.development"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "158825467211-c4qts32j7aev1bkffdro0hvqjc8tds2n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "digital.and.murrayapps.development",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "158825467211-1hclt9ktn7va63mnn3n88jk9lqpo9442.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3rx5POGeBKzHdCYl6MzxOca4JeqYRYFc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "158825467211-1hclt9ktn7va63mnn3n88jk9lqpo9442.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "158825467211-0mqq8jjj3iubbu8b8deuupb2502hijvq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "digital.and.murray-apps"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

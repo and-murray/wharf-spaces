@@ -1,0 +1,5 @@
+export default {
+  REACT_APP_FIREBASE_AUTH_WEB_CLIENT_ID: 'mock client id',
+  REACT_APP_FIREBASE_FUNCTIONS_BASE_URL: '120.0.0.1/',
+  REMOTE_CONFIG_FETCH_DEBUG: false,
+};

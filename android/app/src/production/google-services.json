@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "766732919970",
+    "project_id": "murray-apps",
+    "storage_bucket": "murray-apps.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:766732919970:android:7332d15ee09cf3bc4623fb",
+        "android_client_info": {
+          "package_name": "digital.and.murrayapps.production"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "766732919970-0aphr2t7r8sqvr2i8vsa82r9f6lmskc8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "digital.and.murrayapps.production",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "766732919970-hmhosdf5e274olal9jov20dsif5neqj5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "digital.and.murrayapps.production",
+            "certificate_hash": "95ff193b7e7016622d09a53c94dd640e089a983e"
+          }
+        },
+        {
+          "client_id": "766732919970-cvjncdg6benb7k6h37fmdc7k7mrjq5h5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSy8NBEud6fKVU_SY6rBY-ew10DdI95tg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "766732919970-cvjncdg6benb7k6h37fmdc7k7mrjq5h5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "766732919970-21ulhk54va7lve73uhfe2nu7iugso3me.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "digital.and.murray-apps"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
