@@ -1,8 +1,6 @@
 name: test
 
-on:
-  pull_request_review:
-    types: [submitted]
+on: push
 
 jobs:
   test:
