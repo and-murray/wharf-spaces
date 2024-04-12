@@ -7,7 +7,7 @@ import {TestWrapper} from '@components/TestWrapper';
 it('renders EventList organism in correct manner with no currentEvents passed', () => {
   const {getByText} = render(
     <TestWrapper>
-      <EventList currentEvent={''} hasEvent={false} />
+      <EventList currentEvent="" hasEvent={false} />
     </TestWrapper>,
   );
   expect(getByText('Events in the clubhouse')).toBeTruthy();

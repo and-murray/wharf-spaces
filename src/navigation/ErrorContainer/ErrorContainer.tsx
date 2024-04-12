@@ -1,7 +1,7 @@
 import React, {ReactNode} from 'react';
-import {Alert, Center, Pressable, Text} from 'native-base';
 import {useAppDispatch, useAppSelector} from '@state/utils/hooks';
 import {setShowError} from '@state/reducers/ErrorSlice';
+import {Alert, Center, Pressable, Text} from '@gluestack-ui/themed';
 
 type CustomComponentProps = {
   children: ReactNode;
@@ -17,22 +17,14 @@ const ErrorContainer = ({children}: CustomComponentProps) => {
       {showError && (
         <Center
           position="absolute"
-          h="100%"
-          w="100%"
-          backgroundColor={'other.blackTransparent'}>
-          <Alert width="70%" status="error" borderRadius={10}>
-            <Text
-              fontFamily={'body'}
-              fontWeight={500}
-              fontStyle={'normal'}
-              fontSize={16}>
+          height="$full"
+          width="$full"
+          backgroundColor="$otherBlackTransparent">
+          <Alert width="70%" action="error" borderRadius={10}>
+            <Text fontFamily="$body" fontWeight="$medium" size="md">
               Something went wrong
             </Text>
-            <Text
-              fontFamily={'body'}
-              fontWeight={500}
-              fontStyle={'normal'}
-              fontSize={16}>
+            <Text fontFamily="$body" fontWeight="$medium" size="md">
               Please try again
             </Text>
             <Pressable
@@ -42,13 +34,12 @@ const ErrorContainer = ({children}: CustomComponentProps) => {
               marginTop={4}
               padding={2}
               borderRadius={4}
-              backgroundColor="other.greyDark">
+              backgroundColor="$otherGreyDark">
               <Text
-                fontFamily={'body'}
-                fontWeight={500}
-                fontStyle={'normal'}
-                fontSize={16}
-                color="brand.white">
+                fontFamily="$body"
+                fontWeight="$medium"
+                size="md"
+                color="$brandWhite">
                 Okay
               </Text>
             </Pressable>

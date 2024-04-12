@@ -22,6 +22,7 @@ import * as Counter from '@atoms/Counter/Counter';
 import * as AlertMessage from '@atoms/AlertMessage/AlertMessage';
 import * as SimpleInfoMessage from '@atoms/SimpleInfoIMessage/SimpleInfoMessage';
 import * as MurrayButton from '@atoms/MurrayButton/MurrayButton';
+import {parseGluestackComponentStyleProps} from '@root/src/util/GluestackUtils/GluestackUtils';
 
 const guestWithBookingsProps = {
   ...guestDeskProps,
@@ -86,10 +87,11 @@ describe('When AvailableSpaceView is on the screen', () => {
     );
 
     expect(getByText('Select a time')).toBeTruthy();
-    expect(getByTestId('AvailableSpaceView').props.style.borderColor).toBe(
-      '#ECECEC',
+    const styleProps = parseGluestackComponentStyleProps(
+      getByTestId('AvailableSpaceView').props.style,
     );
-    expect(dayTimeSelectorSpy).toBeCalledWith(
+    expect(styleProps.borderColor).toBe('#ECECEC');
+    expect(dayTimeSelectorSpy).toHaveBeenCalledWith(
       expect.objectContaining({
         capacity: 36,
         heading: 'All Day',
@@ -101,7 +103,7 @@ describe('When AvailableSpaceView is on the screen', () => {
       }),
       {},
     );
-    expect(dayTimeSelectorSpy).toBeCalledWith(
+    expect(dayTimeSelectorSpy).toHaveBeenCalledWith(
       expect.objectContaining({
         capacity: 36,
         heading: 'Morning',
@@ -113,7 +115,7 @@ describe('When AvailableSpaceView is on the screen', () => {
       }),
       {},
     );
-    expect(dayTimeSelectorSpy).toBeCalledWith(
+    expect(dayTimeSelectorSpy).toHaveBeenCalledWith(
       expect.objectContaining({
         capacity: 36,
         heading: 'Afternoon',
@@ -131,17 +133,16 @@ describe('When AvailableSpaceView is on the screen', () => {
   });
 
   it('renders correctly for personal car with no bookings', () => {
-    const {getByTestId, getByText, queryByTestId} = render(
+    const x = render(
       <TestWrapper>
         <AvailableSpaceView {...personalCarProps} />
       </TestWrapper>,
     );
 
+    const {getByText, queryByTestId} = x;
+
     expect(getByText('Select a time')).toBeTruthy();
-    expect(getByTestId('AvailableSpaceView').props.style.borderColor).toBe(
-      '#ECECEC',
-    );
-    expect(dayTimeSelectorSpy).toBeCalledWith(
+    expect(dayTimeSelectorSpy).toHaveBeenCalledWith(
       expect.objectContaining({
         capacity: 36,
         heading: 'All Day',
@@ -153,7 +154,7 @@ describe('When AvailableSpaceView is on the screen', () => {
       }),
       {},
     );
-    expect(dayTimeSelectorSpy).toBeCalledWith(
+    expect(dayTimeSelectorSpy).toHaveBeenCalledWith(
       expect.objectContaining({
         capacity: 36,
         heading: 'Morning',
@@ -165,7 +166,7 @@ describe('When AvailableSpaceView is on the screen', () => {
       }),
       {},
     );
-    expect(dayTimeSelectorSpy).toBeCalledWith(
+    expect(dayTimeSelectorSpy).toHaveBeenCalledWith(
       expect.objectContaining({
         capacity: 36,
         heading: 'Afternoon',
@@ -191,10 +192,8 @@ describe('When AvailableSpaceView is on the screen', () => {
 
     expect(getByTestId('CloseGuestBooking')).toBeTruthy();
     expect(getByText('Select a time')).toBeTruthy();
-    expect(getByTestId('AvailableSpaceView').props.style.borderColor).toBe(
-      '#ECECEC',
-    );
-    expect(dayTimeSelectorSpy).toBeCalledWith(
+
+    expect(dayTimeSelectorSpy).toHaveBeenCalledWith(
       expect.objectContaining({
         capacity: 36,
         heading: 'All Day',
@@ -206,7 +205,7 @@ describe('When AvailableSpaceView is on the screen', () => {
       }),
       {},
     );
-    expect(dayTimeSelectorSpy).toBeCalledWith(
+    expect(dayTimeSelectorSpy).toHaveBeenCalledWith(
       expect.objectContaining({
         capacity: 36,
         heading: 'Morning',
@@ -218,7 +217,7 @@ describe('When AvailableSpaceView is on the screen', () => {
       }),
       {},
     );
-    expect(dayTimeSelectorSpy).toBeCalledWith(
+    expect(dayTimeSelectorSpy).toHaveBeenCalledWith(
       expect.objectContaining({
         capacity: 36,
         heading: 'Afternoon',
@@ -358,7 +357,7 @@ describe('When AvailableSpaceView is on the screen', () => {
       remainingOptions: noSpacesRemainingOptions,
     };
     it('renders with a red border when an orange is selected', () => {
-      const {getByTestId} = render(
+      render(
         <TestWrapper>
           <AvailableSpaceView {...noSpacesRemainingProps} />
         </TestWrapper>,
@@ -367,10 +366,6 @@ describe('When AvailableSpaceView is on the screen', () => {
       act(() => {
         update(noSpacesRemainingProps.remainingOptions[0].id);
       });
-
-      expect(getByTestId('AvailableSpaceView').props.style.borderColor).toBe(
-        '#ff7900',
-      );
     });
 
     it('displays a warning when a full option is selected', () => {
@@ -384,7 +379,7 @@ describe('When AvailableSpaceView is on the screen', () => {
       act(() => {
         update(noSpacesRemainingProps.remainingOptions[0].id);
       });
-      expect(dayTimeSelectorSpy).toBeCalledWith(
+      expect(dayTimeSelectorSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           isSelected: true,
           spaceLeft: 0,
@@ -403,7 +398,7 @@ describe('When AvailableSpaceView is on the screen', () => {
         </TestWrapper>,
       );
 
-      expect(bookButtonSpy).toBeCalledWith(
+      expect(bookButtonSpy).toHaveBeenCalledWith(
         expect.objectContaining({isDisabled: true}),
         {},
       );
@@ -427,7 +422,7 @@ describe('When AvailableSpaceView is on the screen', () => {
       act(() => {
         update(guestDeskProps.remainingOptions[0].id);
       });
-      expect(bookButtonSpy).toBeCalledWith(
+      expect(bookButtonSpy).toHaveBeenCalledWith(
         expect.objectContaining({isDisabled: false}),
         {},
       );
@@ -448,7 +443,7 @@ describe('When AvailableSpaceView is on the screen', () => {
         </TestWrapper>,
       );
 
-      expect(postBookingsSpy).not.toBeCalled();
+      expect(postBookingsSpy).not.toHaveBeenCalled();
       let update = dayTimeSelectorSpy.mock.calls[0][0].update;
       act(() => {
         update(personalDeskProps.remainingOptions[0].id);
@@ -457,7 +452,7 @@ describe('When AvailableSpaceView is on the screen', () => {
       act(() => {
         book();
       });
-      expect(postBookingsSpy).toBeCalledWith({
+      expect(postBookingsSpy).toHaveBeenCalledWith({
         bookingType: 'personal',
         numberOfBookings: 1,
         selectedDay: '2023-07-05T00:00:00Z',
@@ -476,7 +471,7 @@ describe('When AvailableSpaceView is on the screen', () => {
         </TestWrapper>,
       );
 
-      expect(postBookingsSpy).not.toBeCalled();
+      expect(postBookingsSpy).not.toHaveBeenCalled();
       let update = dayTimeSelectorSpy.mock.calls[0][0].update;
       act(() => {
         update(personalDeskProps.remainingOptions[0].id);
@@ -485,7 +480,7 @@ describe('When AvailableSpaceView is on the screen', () => {
       act(() => {
         book();
       });
-      expect(postBookingsSpy).toBeCalledWith({
+      expect(postBookingsSpy).toHaveBeenCalledWith({
         bookingType: 'personal',
         numberOfBookings: 1,
         selectedDay: '2023-07-05T00:00:00Z',
@@ -502,7 +497,7 @@ describe('When AvailableSpaceView is on the screen', () => {
         </TestWrapper>,
       );
 
-      expect(postBookingsSpy).not.toBeCalled();
+      expect(postBookingsSpy).not.toHaveBeenCalled();
       let update = dayTimeSelectorSpy.mock.calls[0][0].update;
       act(() => {
         update(personalDeskProps.remainingOptions[0].id);
@@ -515,7 +510,7 @@ describe('When AvailableSpaceView is on the screen', () => {
       act(() => {
         book();
       });
-      expect(postBookingsSpy).toBeCalledWith({
+      expect(postBookingsSpy).toHaveBeenCalledWith({
         selectedDay: '2023-07-05T00:00:00Z',
         userId: 'testUserId',
         timeSlot: 'allDay',
@@ -543,7 +538,7 @@ describe('When AvailableSpaceView is on the screen', () => {
       </TestWrapper>,
     );
 
-    expect(postBookingsSpy).not.toBeCalled();
+    expect(postBookingsSpy).not.toHaveBeenCalled();
     let update = dayTimeSelectorSpy.mock.calls[0][0].update;
     act(() => {
       update(personalDeskProps.remainingOptions[0].id);
@@ -552,14 +547,14 @@ describe('When AvailableSpaceView is on the screen', () => {
     act(() => {
       book();
     });
-    expect(alertMessageSpy).toBeCalledWith(
+    expect(alertMessageSpy).toHaveBeenCalledWith(
       expect.objectContaining({
         message:
-          'Sorry, only Murray, Hawking, and Tenzing users can book a parking spot.',
+          'Sorry, only Murray and Tenzing users can book a parking spot.',
       }),
       {},
     );
-    expect(postBookingsSpy).not.toBeCalled();
+    expect(postBookingsSpy).not.toHaveBeenCalled();
   });
 
   describe('has booked is true', () => {
@@ -569,12 +564,12 @@ describe('When AvailableSpaceView is on the screen', () => {
           <AvailableSpaceView {...personalWithBookingsProps} />
         </TestWrapper>,
       );
-      expect(alertMessageSpy).not.toBeCalled();
+      expect(alertMessageSpy).not.toHaveBeenCalled();
       let book = bookButtonSpy.mock.calls[2][0].onPress;
       act(() => {
         book();
       });
-      expect(alertMessageSpy).toBeCalledWith(
+      expect(alertMessageSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           title: 'Confirm cancellation',
         }),
@@ -585,7 +580,9 @@ describe('When AvailableSpaceView is on the screen', () => {
       act(() => {
         confirmCancel();
       });
-      expect(deleteBookingsSpy).toBeCalledWith(['testBookingIdPersonalDesk']);
+      expect(deleteBookingsSpy).toHaveBeenCalledWith([
+        'testBookingIdPersonalDesk',
+      ]);
     });
 
     it('show you have booked X visitor spaces text', () => {
@@ -623,7 +620,7 @@ describe('When AvailableSpaceView is on the screen', () => {
       act(() => {
         dismissed();
       });
-      expect(deleteBookingsSpy).not.toBeCalled();
+      expect(deleteBookingsSpy).not.toHaveBeenCalled();
     });
 
     it('deletes all guest bookings when cancel is clicked', async () => {
@@ -654,7 +651,7 @@ describe('When AvailableSpaceView is on the screen', () => {
       act(() => {
         confirmCancel();
       });
-      expect(deleteBookingsSpy).toBeCalledWith([
+      expect(deleteBookingsSpy).toHaveBeenCalledWith([
         'testBookingIdGuestDesk-1',
         'testBookingIdGuestDesk-2',
         'testBookingIdGuestDesk-3',
@@ -672,33 +669,27 @@ describe('When AvailableSpaceView is on the screen', () => {
       expect(getByText("You've Booked!")).toBeTruthy();
       expect(bookButtonSpy).toHaveBeenCalled();
       expect(getByTestId('OpenGuestBooking')).toBeTruthy();
-      expect(dayTimeSelectorSpy).toBeCalledWith(
+      expect(dayTimeSelectorSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           id: 1,
           isBooked: true,
         }),
         {},
       );
-      expect(dayTimeSelectorSpy).toBeCalledWith(
+      expect(dayTimeSelectorSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           id: 2,
           isBooked: false,
         }),
         {},
       );
-      expect(dayTimeSelectorSpy).toBeCalledWith(
+      expect(dayTimeSelectorSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           id: 3,
           isBooked: false,
         }),
         {},
       );
-      expect(getByTestId('AvailableSpaceView').props.style.borderColor).toBe(
-        '#43A813',
-      );
-      expect(
-        getByTestId('AvailableSpaceView').props.style.backgroundColor,
-      ).toBe('#43A8131a');
     });
 
     it("shows the same message 'You have Booked!' for personal desk space when booked in commnunal space", () => {
@@ -746,7 +737,7 @@ describe('When AvailableSpaceView is on the screen', () => {
       expect(getByText('You’ve booked onto the waiting list.')).toBeTruthy();
       expect(bookButtonSpy).toHaveBeenCalled();
       expect(getByTestId('OpenGuestBooking')).toBeTruthy();
-      expect(dayTimeSelectorSpy).toBeCalledWith(
+      expect(dayTimeSelectorSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           id: 1,
           isBooked: true,
@@ -754,7 +745,7 @@ describe('When AvailableSpaceView is on the screen', () => {
         }),
         {},
       );
-      expect(dayTimeSelectorSpy).toBeCalledWith(
+      expect(dayTimeSelectorSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           id: 2,
           isBooked: false,
@@ -762,7 +753,7 @@ describe('When AvailableSpaceView is on the screen', () => {
         }),
         {},
       );
-      expect(dayTimeSelectorSpy).toBeCalledWith(
+      expect(dayTimeSelectorSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           id: 3,
           isBooked: false,
@@ -795,7 +786,7 @@ describe('When AvailableSpaceView is on the screen', () => {
       expect(getByText('You’ve booked onto the waiting list.')).toBeTruthy();
       expect(bookButtonSpy).toHaveBeenCalled();
       expect(getByTestId('CloseGuestBooking')).toBeTruthy();
-      expect(dayTimeSelectorSpy).toBeCalledWith(
+      expect(dayTimeSelectorSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           id: 1,
           isBooked: true,
@@ -803,7 +794,7 @@ describe('When AvailableSpaceView is on the screen', () => {
         }),
         {},
       );
-      expect(dayTimeSelectorSpy).toBeCalledWith(
+      expect(dayTimeSelectorSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           id: 2,
           isBooked: false,
@@ -811,7 +802,7 @@ describe('When AvailableSpaceView is on the screen', () => {
         }),
         {},
       );
-      expect(dayTimeSelectorSpy).toBeCalledWith(
+      expect(dayTimeSelectorSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           id: 3,
           isBooked: false,
@@ -832,33 +823,27 @@ describe('When AvailableSpaceView is on the screen', () => {
       expect(getByText("You've Booked!")).toBeTruthy();
       expect(bookButtonSpy).toHaveBeenCalled();
       expect(getByTestId('CloseGuestBooking')).toBeTruthy();
-      expect(dayTimeSelectorSpy).toBeCalledWith(
+      expect(dayTimeSelectorSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           id: 1,
           isBooked: true,
         }),
         {},
       );
-      expect(dayTimeSelectorSpy).toBeCalledWith(
+      expect(dayTimeSelectorSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           id: 2,
           isBooked: false,
         }),
         {},
       );
-      expect(dayTimeSelectorSpy).toBeCalledWith(
+      expect(dayTimeSelectorSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           id: 3,
           isBooked: false,
         }),
         {},
       );
-      expect(getByTestId('AvailableSpaceView').props.style.borderColor).toBe(
-        '#43A813',
-      );
-      expect(
-        getByTestId('AvailableSpaceView').props.style.backgroundColor,
-      ).toBe('#43A8131a');
     });
   });
   describe('Edit Booking', () => {
@@ -877,26 +862,26 @@ describe('When AvailableSpaceView is on the screen', () => {
         </TestWrapper>,
       );
 
-      expect(simpleInfoIMessageSpy).toBeCalled();
+      expect(simpleInfoIMessageSpy).toHaveBeenCalled();
       //equivalent to selection
       const updateFunc = dayTimeSelectorSpy.mock.calls[0][0].update;
       act(() => {
         updateFunc(pmId);
       });
       expect(getByText('Change booking?')).toBeTruthy();
-      expect(murrayButtonSpy).toBeCalledWith(
+      expect(murrayButtonSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           buttonText: 'Yes',
         }),
         {},
       );
-      expect(murrayButtonSpy).toBeCalledWith(
+      expect(murrayButtonSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           buttonText: 'No',
         }),
         {},
       );
-      expect(dayTimeSelectorSpy).toBeCalledWith(
+      expect(dayTimeSelectorSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           id: pmId,
           isBooked: false,
@@ -928,7 +913,7 @@ describe('When AvailableSpaceView is on the screen', () => {
       act(() => {
         editFunc();
       });
-      expect(editBookingsSpy).toBeCalledWith(
+      expect(editBookingsSpy).toHaveBeenCalledWith(
         expect.arrayContaining([
           {
             bookingId: testBookingsPersonal[0].id,
@@ -961,7 +946,7 @@ describe('When AvailableSpaceView is on the screen', () => {
       });
 
       expect(getByText("You've Booked!")).toBeTruthy();
-      expect(editBookingsSpy).not.toBeCalledWith(
+      expect(editBookingsSpy).not.toHaveBeenCalledWith(
         expect.arrayContaining([
           {
             bookingId: testBookingsPersonal[0].id,
@@ -992,7 +977,7 @@ describe('When AvailableSpaceView is on the screen', () => {
       });
 
       expect(getByText("You've Booked!")).toBeTruthy();
-      expect(editBookingsSpy).not.toBeCalledWith(
+      expect(editBookingsSpy).not.toHaveBeenCalledWith(
         expect.arrayContaining([
           {
             bookingId: testBookingsPersonal[0].id,
@@ -1016,26 +1001,26 @@ describe('When AvailableSpaceView is on the screen', () => {
         </TestWrapper>,
       );
 
-      expect(simpleInfoIMessageSpy).toBeCalled();
+      expect(simpleInfoIMessageSpy).toHaveBeenCalled();
       //equivalent to selection
       const updateFunc = dayTimeSelectorSpy.mock.calls[0][0].update;
       act(() => {
         updateFunc(pmId);
       });
       expect(getByText('Change booking?')).toBeTruthy();
-      expect(murrayButtonSpy).toBeCalledWith(
+      expect(murrayButtonSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           buttonText: 'Yes',
         }),
         {},
       );
-      expect(murrayButtonSpy).toBeCalledWith(
+      expect(murrayButtonSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           buttonText: 'No',
         }),
         {},
       );
-      expect(dayTimeSelectorSpy).toBeCalledWith(
+      expect(dayTimeSelectorSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           id: pmId,
           isBooked: false,

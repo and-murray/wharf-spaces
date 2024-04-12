@@ -3,12 +3,13 @@ import {fireEvent, render} from '@testing-library/react-native';
 import BookButton from './BookButton';
 import {TestWrapper} from '@components/TestWrapper';
 
-import * as DeskIcon from '@res/images/DeskIcon';
-import * as CarIcon from '@res/images/CarIcon';
+import {DeskIcon, CarIcon} from '@res/images';
 import {SpaceType} from '@customTypes/booking';
 
-const deskIconSpy = jest.spyOn(DeskIcon, 'DeskIcon');
-const carIcon = jest.spyOn(CarIcon, 'CarIcon');
+jest.mock('@res/images', () => ({
+  DeskIcon: jest.fn(),
+  CarIcon: jest.fn(),
+}));
 
 describe('When the book button is rendered', () => {
   beforeEach(() => {
@@ -28,9 +29,9 @@ describe('When the book button is rendered', () => {
           />
         </TestWrapper>,
       );
-      expect(deskIconSpy).toBeCalledTimes(1);
+      expect(DeskIcon).toHaveBeenCalledTimes(1);
       fireEvent.press(getByTestId('BookButton'));
-      expect(onPress).toBeCalledTimes(1);
+      expect(onPress).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -47,9 +48,9 @@ describe('When the book button is rendered', () => {
           />
         </TestWrapper>,
       );
-      expect(carIcon).toBeCalledTimes(1);
+      expect(CarIcon).toHaveBeenCalledTimes(1);
       fireEvent.press(getByTestId('BookButton'));
-      expect(onPress).toBeCalledTimes(1);
+      expect(onPress).toHaveBeenCalledTimes(1);
     });
   });
 });

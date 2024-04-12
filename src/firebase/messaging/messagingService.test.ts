@@ -16,7 +16,7 @@ describe('when a user accepts the notification permission', () => {
   it('should save the FCM token to the database', () => {
     const token = 'This is a token';
     saveTokenToDatabase(token);
-    expect(addTokenSpy).toBeCalledWith('1', token);
+    expect(addTokenSpy).toHaveBeenCalledWith('1', token);
   });
 });
 
@@ -35,7 +35,7 @@ describe("when a user doesn't accept the notification permission", () => {
 
   it('should not save the FCM token to the database', async () => {
     await messagingSignOutHandler();
-    expect(removeTokenSpy).toBeCalledWith('1', 'MessageToken');
-    expect(messagingSpy).toBeCalledTimes(1);
+    expect(removeTokenSpy).toHaveBeenCalledWith('1', 'MessageToken');
+    expect(messagingSpy).toHaveBeenCalledTimes(1);
   });
 });

@@ -23,6 +23,6 @@ jest.mock('@firebase/messaging/tokenManagerUtils', () => ({
 describe('when the user signs out', () => {
   it('should reset the fcm token', async () => {
     await signOut();
-    expect(mockDeleteToken).toBeCalledTimes(1);
+    expect(mockDeleteToken).toHaveBeenCalledTimes(1);
   });
 });

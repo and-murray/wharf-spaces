@@ -1,6 +1,7 @@
 import {AvailableSpacesOption, TimeSlot} from '@root/src/types';
-import {WarningSymbolIcon} from '@atoms/Warning/WarningSymbol/WarningSymbol';
 import {SpaceType} from '@customTypes/booking';
+import {WarningSymbolKey} from '../../atoms/Warning/WarningSymbol/WarningSymbol';
+import {WarningProps} from '../../atoms/Warning/Warning';
 
 const deskFullNotBookedMessage =
   'Sorry, there are no more designated desk spaces available on this day, but you can book a communal space.';
@@ -20,7 +21,7 @@ export const determineWarningProps = (
   hasBooked: boolean,
   hasCommunalSpace: boolean,
   options: AvailableSpacesOption[],
-) => {
+): WarningProps => {
   if (spaceType === SpaceType.car) {
     return setParkingMessage(hasBooked, hasCommunalSpace);
   } else {
@@ -32,16 +33,16 @@ const setParkingMessage = (hasBooked: boolean, hasCommunalSpace: boolean) => {
   if (hasBooked && hasCommunalSpace) {
     return {
       warningMessage: parkingWaitingListBooking,
-      symbolToUse: WarningSymbolIcon.infoCircle,
-      backgroundColor: 'other.blueTransparent',
-      borderColor: 'brand.blue',
+      symbolToUse: 'infoCircle' as WarningSymbolKey,
+      backgroundColor: '$otherBlueTransparent',
+      borderColor: '$brandBlue',
     };
   }
   return {
     warningMessage: parkingFullNoBooking,
-    symbolToUse: WarningSymbolIcon.infoCircle,
-    backgroundColor: 'other.orangeTransparent',
-    borderColor: 'brand.orange',
+    symbolToUse: 'infoCircle' as WarningSymbolKey,
+    backgroundColor: '$otherOrangeTransparent',
+    borderColor: '$brandOrange',
   };
 };
 
@@ -51,16 +52,16 @@ const setDeskMessage = (
   options: AvailableSpacesOption[],
 ) => {
   let warningMessage = deskFullNotBookedMessage;
-  let warningSymbol = WarningSymbolIcon.warningTriangle;
-  let warningBackground = 'other.orangeTransparent';
-  let warningBorderColor = 'brand.orange';
+  let warningSymbol: WarningSymbolKey = 'warningTriangle';
+  let warningBackground = '$otherOrangeTransparent';
+  let warningBorderColor = '$brandOrange';
 
   if (hasBooked) {
     // Check if am / pm slots are free and not booking allDay
 
-    warningSymbol = WarningSymbolIcon.infoCircle;
-    warningBackground = 'other.blueTransparent';
-    warningBorderColor = 'brand.blue';
+    warningSymbol = 'infoCircle';
+    warningBackground = '$otherBlueTransparent';
+    warningBorderColor = '$brandBlue';
     if (hasCommunalSpace) {
       warningMessage = deskFullAndCommunalMessage;
     } else {

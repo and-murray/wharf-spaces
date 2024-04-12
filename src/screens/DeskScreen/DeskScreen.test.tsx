@@ -108,14 +108,14 @@ describe('When DeskScreen is rendered', () => {
       onSuccess(mockBookings);
     });
 
-    expect(availableSpacesSpy).toBeCalledWith(
+    expect(availableSpacesSpy).toHaveBeenCalledWith(
       expect.objectContaining({
         bookings: [mockBookings[0]],
         userData: mockUserData,
       }),
       {},
     );
-    expect(whosInSpy).toBeCalledWith(
+    expect(whosInSpy).toHaveBeenCalledWith(
       expect.objectContaining({
         bookings: [mockBookings[0]],
         userData: mockUserData,

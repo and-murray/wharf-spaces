@@ -1,9 +1,9 @@
 import React from 'react';
-import {TestWrapper} from '@components/TestWrapper';
-import {render} from '@testing-library/react-native';
-import LoadingContainer from './LoadingContainer';
-import {Text} from 'native-base';
 import * as hooks from '@state/utils/hooks';
+import LoadingContainer from './LoadingContainer';
+import {render} from '@testing-library/react-native';
+import {TestWrapper} from '@components/TestWrapper';
+import {Text} from '@gluestack-ui/themed';
 
 describe('When LoadingContainer is rendered on screen', () => {
   let SomeChild: () => React.JSX.Element;

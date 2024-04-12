@@ -2,6 +2,7 @@ import React from 'react';
 import {TestWrapper} from '@components/TestWrapper';
 import {render, fireEvent} from '@testing-library/react-native';
 import SelectableDate from './SelectableDate';
+import {parseGluestackComponentStyleProps} from '@root/src/util/GluestackUtils/GluestackUtils';
 
 describe('When a selectable date is on screen ', () => {
   beforeEach(() => {
@@ -95,17 +96,23 @@ describe('When a selectable date is on screen ', () => {
       </TestWrapper>,
     );
 
-    let selectableDate = getByTestId('SelectableDate');
+    const styleProps = parseGluestackComponentStyleProps(
+      getByTestId('SelectableDate').props.style,
+    );
 
-    expect(selectableDate.props.style.backgroundColor).toBe('#d82036');
-    expect(selectableDate.props.style.borderColor).toBe('#d82036');
-    expect(selectableDate.props.style.opacity).toBe(1);
-    expect(getByTestId('SelectableDateDayName').props.style.color).toBe(
-      '#ffffff',
-    );
-    expect(getByTestId('SelectableDateDayNumber').props.style.color).toBe(
-      '#ffffff',
-    );
+    expect(styleProps.backgroundColor).toBe('#d82036');
+    expect(styleProps.borderColor).toBe('#d82036');
+    expect(styleProps.opacity).toBe(1);
+    expect(
+      parseGluestackComponentStyleProps(
+        getByTestId('SelectableDateDayName').props.style,
+      ).color,
+    ).toBe('#ffffff');
+    expect(
+      parseGluestackComponentStyleProps(
+        getByTestId('SelectableDateDayNumber').props.style,
+      ).color,
+    ).toBe('#ffffff');
   });
 
   it('Has the current date styling when isCurrentDate=true', () => {
@@ -122,17 +129,23 @@ describe('When a selectable date is on screen ', () => {
       </TestWrapper>,
     );
 
-    let selectableDate = getByTestId('SelectableDate');
+    const styleProps = parseGluestackComponentStyleProps(
+      getByTestId('SelectableDate').props.style,
+    );
 
-    expect(selectableDate.props.style.backgroundColor).toBe('#ffffff');
-    expect(selectableDate.props.style.borderColor).toBe('#d82036');
-    expect(selectableDate.props.style.opacity).toBe(1);
-    expect(getByTestId('SelectableDateDayName').props.style.color).toBe(
-      '#323232',
-    );
-    expect(getByTestId('SelectableDateDayNumber').props.style.color).toBe(
-      '#323232',
-    );
+    expect(styleProps.backgroundColor).toBe('#ffffff');
+    expect(styleProps.borderColor).toBe('#d82036');
+    expect(styleProps.opacity).toBe(1);
+    expect(
+      parseGluestackComponentStyleProps(
+        getByTestId('SelectableDateDayName').props.style,
+      ).color,
+    ).toBe('#323232');
+    expect(
+      parseGluestackComponentStyleProps(
+        getByTestId('SelectableDateDayNumber').props.style,
+      ).color,
+    ).toBe('#323232');
   });
 
   it('Has the default styling when isCurrentDate=false and selected=false', () => {
@@ -149,17 +162,23 @@ describe('When a selectable date is on screen ', () => {
       </TestWrapper>,
     );
 
-    let selectableDate = getByTestId('SelectableDate');
+    let styleProps = parseGluestackComponentStyleProps(
+      getByTestId('SelectableDate').props.style,
+    );
 
-    expect(selectableDate.props.style.backgroundColor).toBe('#f6f6f6');
-    expect(selectableDate.props.style.borderColor).toBe('#f6f6f6');
-    expect(selectableDate.props.style.opacity).toBe(1);
-    expect(getByTestId('SelectableDateDayName').props.style.color).toBe(
-      '#757575',
-    );
-    expect(getByTestId('SelectableDateDayNumber').props.style.color).toBe(
-      '#434343',
-    );
+    expect(styleProps.backgroundColor).toBe('#f6f6f6');
+    expect(styleProps.borderColor).toBe('#f6f6f6');
+    expect(styleProps.opacity).toBe(1);
+    expect(
+      parseGluestackComponentStyleProps(
+        getByTestId('SelectableDateDayName').props.style,
+      ).color,
+    ).toBe('#757575');
+    expect(
+      parseGluestackComponentStyleProps(
+        getByTestId('SelectableDateDayNumber').props.style,
+      ).color,
+    ).toBe('#434343');
   });
 
   it('Has 0.5 opacity when disabled=true', () => {
@@ -176,7 +195,11 @@ describe('When a selectable date is on screen ', () => {
       </TestWrapper>,
     );
 
-    expect(getByTestId('SelectableDate').props.style.opacity).toBe(0.5);
+    expect(
+      parseGluestackComponentStyleProps(
+        getByTestId('SelectableDate').props.style,
+      ).opacity,
+    ).toBe(0.5);
   });
 
   it('Tick is present when isBooked=true', () => {

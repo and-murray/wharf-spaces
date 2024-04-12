@@ -112,7 +112,7 @@ describe('When the calendar week is on screen', () => {
     });
 
     fireEvent.press(getByText('Fri'));
-    expect(storeSelectedDaySpy).toBeCalledWith('2023-06-30T00:00:00Z');
+    expect(storeSelectedDaySpy).toHaveBeenCalledWith('2023-06-30T00:00:00Z');
   });
 
   it('Disables the SelectableDate component if it is in the past', async () => {
@@ -130,7 +130,7 @@ describe('When the calendar week is on screen', () => {
 
     let expectedDisabledValues = [true, true, false, false, false];
     expectedDisabledValues.forEach((value, index) => {
-      expect(selectableDateSpy).toBeCalledWith(
+      expect(selectableDateSpy).toHaveBeenCalledWith(
         expect.objectContaining({date: testDays[index], disabled: value}),
         {},
       );
@@ -157,7 +157,7 @@ describe('When the calendar week is on screen', () => {
     let expectedDisabledValues = [false, false, true, false, false];
     expectedDisabledValues.forEach(async (value, index) => {
       await waitFor(() => {
-        expect(selectableDateSpy).toBeCalledWith(
+        expect(selectableDateSpy).toHaveBeenCalledWith(
           expect.objectContaining({date: testDays[index], disabled: value}),
           {},
         );
@@ -177,7 +177,7 @@ describe('When the calendar week is on screen', () => {
     });
     let expectedDisabledValues = [false, false, false, false, false];
     expectedDisabledValues.forEach((value, index) => {
-      expect(selectableDateSpy).toBeCalledWith(
+      expect(selectableDateSpy).toHaveBeenCalledWith(
         expect.objectContaining({date: testDays[index], disabled: value}),
         {},
       );

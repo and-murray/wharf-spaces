@@ -1,8 +1,7 @@
-import {Button, Icon, Text} from 'native-base';
 import React from 'react';
-import {DeskIcon} from '@res/images/DeskIcon';
+import {DeskIcon, CarIcon} from '@res/images';
 import {SpaceType} from '@customTypes/booking';
-import {CarIcon} from '@res/images/CarIcon';
+import {Button, ButtonIcon, ButtonText} from '@gluestack-ui/themed';
 type BookButtonProps = {
   onPress: () => void;
   isDisabled: boolean;
@@ -10,17 +9,8 @@ type BookButtonProps = {
   spaceType: SpaceType;
 };
 
-const RightIcon = (spaceType: SpaceType) => {
-  if (spaceType === SpaceType.desk) {
-    return (
-      <Icon as={<DeskIcon color="white" iconWidth={33} strokeWidth={2.5} />} />
-    );
-  } else {
-    return (
-      <Icon as={<CarIcon color="white" iconWidth={33} strokeWidth={2.5} />} />
-    );
-  }
-};
+const RightIcon = (spaceType: SpaceType) =>
+  spaceType === SpaceType.desk ? DeskIcon : CarIcon;
 
 const BookButton = ({
   onPress,
@@ -32,21 +22,20 @@ const BookButton = ({
 
   return (
     <Button
-      rightIcon={RightIcon(spaceType)}
-      opacity={isDisabled ? '0.6' : '1.0'}
+      opacity={isDisabled ? '$60' : '$100'}
       borderRadius={10}
       isDisabled={isDisabled}
-      backgroundColor={hasBooked ? 'other.primaryRed' : 'other.greyMid'}
+      backgroundColor={hasBooked ? '$otherPrimaryRed' : '$otherGreenAccent'}
       onPress={onPress}
       testID="BookButton">
-      <Text
-        color={'brand.white'}
-        fontFamily={'body'}
-        fontWeight={500}
-        fontStyle={'normal'}
-        fontSize={16}>
+      <ButtonText
+        color="$brandWhite"
+        fontFamily="$body"
+        fontWeight="$medium"
+        size="md">
         {text}
-      </Text>
+      </ButtonText>
+      <ButtonIcon as={RightIcon(spaceType)} color="white" width={33} />
     </Button>
   );
 };

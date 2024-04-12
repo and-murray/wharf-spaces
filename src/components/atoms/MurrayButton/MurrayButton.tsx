@@ -1,5 +1,5 @@
+import {Button, ButtonText} from '@gluestack-ui/themed';
 import React from 'react';
-import {Text, Button} from 'native-base';
 
 type ButtonSize = 'normal' | 'full';
 type ButtonColor = 'grey' | 'red' | 'normal';
@@ -22,32 +22,31 @@ const MurrayButton = ({
   const buttonFlex = size === 'full' ? 1 : undefined;
   const buttonColor =
     color === 'grey'
-      ? 'other.greyMid'
+      ? '$otherGreyMid'
       : color === 'red'
-      ? 'other.primaryRed'
+      ? '$otherPrimaryRed'
       : undefined;
-  const textColor = color ? 'brand.white' : 'brand.charcoal';
+  const textColor = color ? '$brandWhite' : '$brandCharcoal';
 
   return (
     <Button
-      _pressed={{opacity: 0.8}}
+      sx={{':pressed': {opacity: 0.8}, ':disabled': {opacity: 0.6}}}
       accessibilityRole="button"
-      opacity={isDisabled ? '0.6' : '1.0'}
       disabled={isDisabled}
       onPress={() => onPress()}
       borderRadius={10}
       flex={buttonFlex}
       backgroundColor={buttonColor}>
-      <Text
+      <ButtonText
         accessibilityLabel={buttonText}
         px={3}
         py={1}
-        fontFamily={'body'}
-        fontWeight={'500'}
-        fontSize={16}
+        fontFamily="$body"
+        fontWeight="$normal"
+        size="md"
         color={textColor}>
         {buttonText}
-      </Text>
+      </ButtonText>
     </Button>
   );
 };

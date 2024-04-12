@@ -45,7 +45,7 @@ describe('Get User Tests', () => {
         mockFirebaseUser as FirebaseAuthTypes.User,
       );
 
-      expect(getFirestoreUserSpy).toBeCalledTimes(1);
+      expect(getFirestoreUserSpy).toHaveBeenCalledTimes(1);
       expect(firebaseUser).toEqual(expectedUser);
     });
   });
@@ -60,7 +60,7 @@ describe('Get User Tests', () => {
         .mockResolvedValue(expectedUser);
       const firebaseUser = await getUser(loggedInUser);
 
-      expect(createFireStoreUserSpy).toBeCalledWith(loggedInUser);
+      expect(createFireStoreUserSpy).toHaveBeenCalledWith(loggedInUser);
       expect(firebaseUser).toEqual(expectedUser);
     });
   });

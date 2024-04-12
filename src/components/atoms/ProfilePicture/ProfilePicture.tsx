@@ -1,6 +1,6 @@
 import React from 'react';
-import {ZStack, Avatar} from 'native-base';
 import {SilhouetteProfilePicture} from '@res/images/SilhouetteProfilePicture';
+import {Avatar, AvatarImage, Box} from '@gluestack-ui/themed';
 
 type ProfilePictureProps = {
   uri: string | undefined;
@@ -9,28 +9,31 @@ type ProfilePictureProps = {
 
 const ProfilePicture = ({uri, showBorder}: ProfilePictureProps) => {
   return (
-    <ZStack
-      width={12}
-      height={12}
-      justifyContent={'center'}
-      alignItems={'center'}
-      borderColor="brand.green"
+    <Box
+      width="$10"
+      height="$10"
+      justifyContent="center"
+      alignItems="center"
+      borderColor="$brandGreen"
       borderWidth={showBorder ? 2 : 0}
-      borderRadius={24}
+      borderRadius={25}
       accessibilityLabel="User avatar"
       accessibilityRole="image"
       accessible
       testID="ProfilePicture">
       <Avatar
-        source={{uri: uri !== '' ? uri : undefined}}
-        width={'100%'}
-        height={'100%'}
+        width="$full"
+        height="$full"
         backgroundColor="transparent"
         accessible={false}
         importantForAccessibility="no-hide-descendants">
-        <SilhouetteProfilePicture />
+        {uri ? (
+          <AvatarImage alt={uri} source={uri} />
+        ) : (
+          <SilhouetteProfilePicture size={undefined} />
+        )}
       </Avatar>
-    </ZStack>
+    </Box>
   );
 };
 

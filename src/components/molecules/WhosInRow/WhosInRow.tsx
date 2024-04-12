@@ -1,7 +1,7 @@
 import React from 'react';
-import {HStack, Text, VStack} from 'native-base';
 import {ProfilePicture} from '@atoms';
 import {SpaceType} from '@customTypes/booking';
+import {HStack, Text, VStack} from '@gluestack-ui/themed';
 
 type WhosInRowProps = {
   name: string;
@@ -30,48 +30,43 @@ const WhosInRow = ({
     }
     return '';
   };
-  const shouldHighlight = () => {
-    if (isReserveSpace && spaceType === SpaceType.car) {
-      return false;
-    }
-    return isReserveSpace;
-  };
   return (
     <HStack
-      alignItems={'center'}
-      justifyContent={'space-between'}
-      paddingX={4}
-      paddingY={3}
-      backgroundColor={shouldHighlight() ? 'other.lightGrey' : 'brand.white'}
+      borderRadius={25}
+      alignItems="center"
+      justifyContent="space-between"
+      paddingHorizontal="$4"
+      paddingVertical="$3"
+      backgroundColor={isReserveSpace ? '$otherLightGrey' : '$brandWhite'}
       testID="testWhosInContainer"
-      space={4}>
+      space="sm">
       <ProfilePicture uri={profilePictureURI} showBorder={isCurrentUser} />
       <VStack flex={1}>
         <Text
-          color="brand.charcoal"
-          fontFamily={'body'}
-          fontWeight={500}
-          fontSize={14}
+          color="$brandCharcoal"
+          fontFamily="$body"
+          fontWeight="$medium"
+          size="sm"
           ellipsizeMode="middle"
           numberOfLines={2}>
           {name}
         </Text>
         {isReserveSpace && (
           <Text
-            color="brand.charcoal"
-            fontFamily="body"
-            fontWeight={400}
-            fontSize={12}
+            color="$brandCharcoal"
+            fontFamily="$body"
+            fontWeight="$normal"
+            size="xs"
             testID="testCommunalSpace">
             {constructReserveListString()}
           </Text>
         )}
       </VStack>
       <Text
-        color="other.greyMid"
-        fontFamily={'body'}
-        fontWeight={400}
-        fontSize={14}>
+        color="$otherGreyMid"
+        fontFamily="$body"
+        fontWeight="$normal"
+        size="sm">
         {timeSlot}
       </Text>
     </HStack>

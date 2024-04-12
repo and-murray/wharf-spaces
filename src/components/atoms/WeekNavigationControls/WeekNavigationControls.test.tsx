@@ -2,18 +2,13 @@ import React from 'react';
 import {TestWrapper} from '@components/TestWrapper';
 import {render, fireEvent} from '@testing-library/react-native';
 import WeekNavigationControls from './WeekNavigationControls';
-import * as ChevronLeft from '@res/images/ChevronLeft';
-import * as ChevronRight from '@res/images/ChevronRight';
+import {Chevron} from '@res/images';
 
-const chevronLeftSpy = jest.spyOn(ChevronLeft, 'ChevronLeft');
-const chevronRightSpy = jest.spyOn(ChevronRight, 'ChevronRight');
+jest.mock('@res/images', () => ({
+  Chevron: jest.fn(),
+}));
+
 describe('When week navigation controls is shown on screen', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-    chevronLeftSpy.mockReturnValue(<></>);
-    chevronRightSpy.mockReturnValue(<></>);
-  });
-
   it('Renders Correctly', () => {
     const {getByTestId} = render(
       <TestWrapper>
@@ -52,7 +47,7 @@ describe('When week navigation controls is shown on screen', () => {
         <WeekNavigationControls weekOffset={weekOffset} onPress={jest.fn()} />
       </TestWrapper>,
     );
-    expect(chevronRightSpy).toHaveBeenCalled();
+    expect(Chevron).toHaveBeenCalled();
   });
 
   it('Shows the left chevron when weekOffset=1', () => {
@@ -62,7 +57,7 @@ describe('When week navigation controls is shown on screen', () => {
         <WeekNavigationControls weekOffset={weekOffset} onPress={jest.fn()} />
       </TestWrapper>,
     );
-    expect(chevronLeftSpy).toHaveBeenCalled();
+    expect(Chevron).toHaveBeenCalled();
   });
 
   it('Calls the onPress function when pressed', () => {

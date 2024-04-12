@@ -1,10 +1,10 @@
-import {VStack, HStack, Box, Text, Switch, Center} from 'native-base';
 import crashlytics from '@react-native-firebase/crashlytics';
 import {useAppSelector} from '@state/utils/hooks';
 import React, {useState, useEffect} from 'react';
 import {GoogleSignInComponent} from '@firebase/authentication/FirebaseGoogleAuthentication';
 import EmailPasswordLoginModal from './EmailPasswordLoginModal';
 import {GoogleSignInError} from '@firebase/authentication/FirebaseGoogleAuthentication';
+import {Box, Center, HStack, Switch, Text, VStack} from '@gluestack-ui/themed';
 
 export default function HomeScreen() {
   let {
@@ -26,20 +26,20 @@ export default function HomeScreen() {
       );
   }
   return (
-    <Box flex={1} safeAreaTop={false} backgroundColor="other.primaryRed">
+    <Box flex={1} backgroundColor="$otherPrimaryRed">
       <Box
         alignSelf="flex-end"
         marginTop={5}
         paddingRight={3}
-        position="static">
+        position="absolute">
         <HStack alignItems="center">
-          <Text fontFamily="Poppins-Regular" color="white" fontSize="xs">
+          <Text fontFamily="Poppins-Regular" color="white" size="xs">
             Analytics
           </Text>
           <Switch
             isChecked={crashlyticsEnabled}
             onToggle={toggleCrashlytics}
-            colorScheme="emerald"
+            bgColor="emerald"
             size="sm"
           />
         </HStack>
@@ -50,11 +50,11 @@ export default function HomeScreen() {
             bold
             alignContent="center"
             color="white"
-            fontSize="5xl"
+            size="5xl"
             fontFamily="Poppins-Medium">
-            Ey up!
+            Hello
           </Text>
-          <VStack marginTop="40%" space={5}>
+          <VStack marginTop="40%" space="sm">
             <Box>
               <GoogleSignInComponent errorCallback={setSignInError} />
             </Box>

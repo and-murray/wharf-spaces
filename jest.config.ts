@@ -40,7 +40,7 @@ const config: Config = {
   preset: 'react-native',
 
   transformIgnorePatterns: [
-    'node_modules/(?!(@react-native|react-native|@react-navigation))',
+    'node_modules/(?!(@react-native|react-native|@react-navigation|@gluestack-ui/themed|@gluestack-ui|@expo|@legendapp))',
   ],
   modulePathIgnorePatterns: ['functions'],
 

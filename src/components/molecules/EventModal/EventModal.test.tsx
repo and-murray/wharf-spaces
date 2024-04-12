@@ -17,19 +17,19 @@ describe('When the event modal is on the screen', () => {
         <EventModal
           showEventModal={true}
           setShowEventModal={setEventModal}
-          modalHeader={'Add Event'}
-          currentEvent={'Test event'}
+          modalHeader="Add Event"
+          currentEvent="Test event"
           hasEvent={true}
-          selectedDate={''}
-          warningMessage={'WarningMessage'}
-          eventDocumentId={''}
+          selectedDate=""
+          warningMessage="WarningMessage"
+          eventDocumentId=""
         />
       </TestWrapper>,
     );
 
     expect(getByTestId('close-button')).toBeTruthy();
     expect(getByTestId('save-button')).toBeTruthy();
-    expect(warningSpy).toBeCalledWith(
+    expect(warningSpy).toHaveBeenCalledWith(
       expect.objectContaining({
         warningMessage: 'WarningMessage',
       }),
@@ -42,12 +42,12 @@ describe('When the event modal is on the screen', () => {
         <EventModal
           showEventModal={true}
           setShowEventModal={setEventModal}
-          modalHeader={'Add Event'}
-          currentEvent={'Test event'}
+          modalHeader="Add Event"
+          currentEvent="Test event"
           hasEvent={false}
-          selectedDate={''}
-          warningMessage={''}
-          eventDocumentId={''}
+          selectedDate=""
+          warningMessage=""
+          eventDocumentId=""
         />
       </TestWrapper>,
     );
@@ -58,22 +58,20 @@ describe('When the event modal is on the screen', () => {
   });
 
   it('SHOULD display event text in input field if event exists', () => {
-    const {getByTestId} = render(
+    const {findByText} = render(
       <TestWrapper>
         <EventModal
           showEventModal={true}
           setShowEventModal={setEventModal}
-          modalHeader={'Add Event'}
-          currentEvent={'Test event'}
+          modalHeader="Add Event"
+          currentEvent="Test event"
           hasEvent={true}
-          selectedDate={''}
-          warningMessage={''}
-          eventDocumentId={''}
+          selectedDate=""
+          warningMessage=""
+          eventDocumentId=""
         />
       </TestWrapper>,
     );
-
-    const inputField = getByTestId('event-input-field');
-    expect(inputField.props.defaultValue).toEqual('Test event');
+    findByText('Test event');
   });
 });

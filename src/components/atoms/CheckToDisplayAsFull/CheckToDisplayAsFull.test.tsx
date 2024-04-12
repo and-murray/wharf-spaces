@@ -3,6 +3,7 @@ import CheckToDisplayAsFull from './CheckToDisplayAsFull';
 import {TestWrapper} from '@components/TestWrapper';
 import {render} from '@testing-library/react-native';
 import * as ReservedCount from '@atoms/ReservedCount/ReservedCount';
+import {parseGluestackComponentStyleProps} from '@root/src/util/GluestackUtils/GluestackUtils';
 
 const reserveCountSpy = jest.spyOn(ReservedCount, 'default');
 describe('Check To Display As Full tests', () => {
@@ -26,8 +27,8 @@ describe('Check To Display As Full tests', () => {
           id={itemId}
           capacity={36}
           spaceLeft={argument}
-          subheadingTextColor="brand.red"
-          subheadingTextColorFull="other.darkRed"
+          subheadingTextColor="$brandRed"
+          subheadingTextColorFull="$otherDarkRed"
         />
       </TestWrapper>,
     );
@@ -49,33 +50,35 @@ describe('Check To Display As Full tests', () => {
           id={itemId}
           capacity={36}
           spaceLeft={argument}
-          subheadingTextColor="brand.red"
-          subheadingTextColorFull="other.darkRed"
+          subheadingTextColor="$brandRed"
+          subheadingTextColorFull="$otherDarkRed"
         />
       </TestWrapper>,
     );
 
-    expect(reserveCountSpy).toBeCalledWith(
+    expect(reserveCountSpy).toHaveBeenCalledWith(
       expect.objectContaining({count: expected}),
       {},
     );
   });
 
   it('will be highlighted in red when the office is full', () => {
-    const itemId = 100;
     const {getByTestId} = render(
       <TestWrapper>
         <CheckToDisplayAsFull
-          id={itemId}
+          id={100}
           capacity={36}
           spaceLeft={0}
-          subheadingTextColor="brand.red"
-          subheadingTextColorFull="other.darkRed"
+          subheadingTextColor="$brandRed"
+          subheadingTextColorFull="$otherDarkRed"
         />
       </TestWrapper>,
     );
-    expect(getByTestId('DayTimeSelectorSubheading-100').props.style.color).toBe(
-      '#ef4444',
+
+    const styleProps = parseGluestackComponentStyleProps(
+      getByTestId('DayTimeSelectorSubheading-100').props.style,
     );
+
+    expect(styleProps.color).toBe('#ef4444');
   });
 });

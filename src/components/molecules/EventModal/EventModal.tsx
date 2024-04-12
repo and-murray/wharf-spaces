@@ -1,14 +1,29 @@
-import React, {useState, useEffect} from 'react';
-import {Dimensions} from 'react-native';
-import {Text, Modal, KeyboardAvoidingView, View, ScrollView} from 'native-base';
-import {InputField, Warning, LongButton} from '@atoms';
-import uuid from 'react-native-uuid';
-import {isEqual} from 'lodash';
-import {updateNote} from '@firebase/firestore/updateNote';
-import {deleteNote} from '@firebase/firestore/deleteNote';
-import {createNote} from '@firebase/firestore/createNote';
+import React, {useEffect, useState} from 'react';
 import AlertMessage from '@atoms/AlertMessage/AlertMessage';
-import {WarningSymbolIcon} from '../../atoms/Warning/WarningSymbol/WarningSymbol';
+import uuid from 'react-native-uuid';
+import {createNote} from '@firebase/firestore/createNote';
+import {Cross} from '@root/src/res/images/Cross';
+import {deleteNote} from '@firebase/firestore/deleteNote';
+import {isEqual} from 'lodash';
+import {LongButton, Warning} from '@atoms';
+import {Pencil} from '@root/src/res/images/Pencil';
+import {styles} from './EventModal.styles';
+import {updateNote} from '@firebase/firestore/updateNote';
+import {
+  Modal,
+  ModalBackdrop,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  Text,
+  View,
+  VStack,
+  Input,
+  InputField,
+  InputSlot,
+  InputIcon,
+} from '@gluestack-ui/themed';
 
 type EventModalProps = {
   hasEvent: boolean;
@@ -32,7 +47,6 @@ const EventModal = ({
   eventDocumentId,
 }: EventModalProps) => {
   const [inputFieldText, setInputFieldText] = useState<string>('');
-  const windowHeight: number = Dimensions.get('window').height;
 
   const [isAlertOpen, setIsAlertOpen] = React.useState(false);
   const onClose = () => setIsAlertOpen(false);
@@ -66,79 +80,78 @@ const EventModal = ({
 
   return (
     <Modal
-      isOpen={showEventModal}
-      onClose={() => setShowEventModal(false)}
-      animationPreset={'slide'}
-      justifyContent={'flex-end'}
-      size={'full'}
-      testID={'events-modal'}
       // TODO the accessibility attributes below might not do anything on iOS to stop screenreader focusing on elements behind this modal but test on real device
-      aria-modal={true}
       accessibilityLabel={`${modalHeader} popup`}
-      accessibilityViewIsModal={true}>
-      <Modal.Content
-        backgroundColor={'brand.white'}
-        maxHeight={`${windowHeight - 50}`}
-        flex={1}>
-        <Modal.CloseButton
-          testID="close-button"
-          accessibilityLabel={`Close ${modalHeader}`}
-        />
-        <Modal.Header alignItems={'center'}>{modalHeader}</Modal.Header>
-        <KeyboardAvoidingView
-          keyboardVerticalOffset={windowHeight * 0.05}
-          behavior={'padding'}
-          flex={1}>
-          <ScrollView keyboardShouldPersistTaps="handled">
-            <Modal.Body>
-              <Text fontSize={16} marginTop={'2%'}>
-                Events
-              </Text>
-              <View marginTop={'2%'} marginBottom={'6%'}>
-                <InputField
-                  testID={'event-input-field'}
-                  text={inputFieldText}
-                  setText={setInputFieldText}
-                />
-              </View>
-              <View marginBottom={'2%'}>
-                <Warning
-                  warningMessage={warningMessage}
-                  backgroundColor="red.50"
-                  symbolToUse={WarningSymbolIcon.infoCircle}
-                  borderColor="#D82036"
-                />
-              </View>
-            </Modal.Body>
-          </ScrollView>
+      accessibilityViewIsModal={true}
+      aria-modal={true}
+      isOpen={showEventModal}
+      justifyContent="flex-end"
+      onClose={() => setShowEventModal(false)}
+      testID="events-modal">
+      <ModalBackdrop height="$full" />
+      <ModalContent
+        backgroundColor="$brandWhite"
+        flex={1}
+        maxHeight="$5/6"
+        width="$full">
+        <ModalHeader alignItems="center" backgroundColor="$otherLightGrey">
+          <Text>{modalHeader}</Text>
+          <ModalCloseButton as={Cross} testID="close-button" />
+        </ModalHeader>
+        <ModalBody
+          contentContainerStyle={styles.modalContent}
+          scrollEnabled={false}>
           <View
-            testID={'save-button'}
-            paddingBottom={'10%'}
-            paddingX={'4%'}
-            borderWidth={5}
-            borderColor={'brand.white'}>
-            <LongButton
-              buttonText={'Save'}
-              onPress={() => onPress()}
-              isDisabled={false}
-            />
-            <AlertMessage
-              isOpen={isAlertOpen}
-              onClose={onClose}
-              title="Event updated"
-              message="Sorry, someone else has updated this event. Please review
+            height="$full"
+            justifyContent="space-between"
+            paddingBottom="$5"
+            paddingTop="$3">
+            <VStack space="md">
+              <Text size="md">Events</Text>
+              <Input>
+                <InputField
+                  onChangeText={text => setInputFieldText(text)}
+                  testID="event-input-field"
+                  value={inputFieldText}
+                />
+                <InputSlot paddingRight="$3">
+                  <InputIcon as={Pencil} color="$otherGreyMid" />
+                </InputSlot>
+              </Input>
+              <Warning
+                backgroundColor="$error50"
+                borderColor="$brandRed"
+                symbolToUse="infoCircle"
+                warningMessage={warningMessage}
+              />
+            </VStack>
+            <View
+              borderColor="$brandWhite"
+              borderWidth={5}
+              testID="save-button">
+              <LongButton
+                buttonText="Save"
+                isDisabled={false}
+                onPress={() => onPress()}
+              />
+              <AlertMessage
+                isOpen={isAlertOpen}
+                onClose={onClose}
+                title="Event updated"
+                message="Sorry, someone else has updated this event. Please review
               before making any further changes."
-              alertConfig={{
-                button1: {
-                  onPress: onClose,
-                  colorScheme: 'warmGray',
-                  text: 'Ok',
-                },
-              }}
-            />
+                alertConfig={{
+                  button1: {
+                    onPress: onClose,
+                    colorScheme: 'warmGray',
+                    text: 'Ok',
+                  },
+                }}
+              />
+            </View>
           </View>
-        </KeyboardAvoidingView>
-      </Modal.Content>
+        </ModalBody>
+      </ModalContent>
     </Modal>
   );
 };

@@ -13,7 +13,7 @@ describe('BoldText boldness', () => {
     );
     const boldTextNode = getByText('This is bold text');
     const mergedStyle = mergeStyles(boldTextNode.props.style);
-    expect(mergedStyle.fontWeight).toBe('bold');
+    expect(mergedStyle.fontWeight).toBe('700');
   });
 });
 

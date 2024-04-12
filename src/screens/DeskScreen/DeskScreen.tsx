@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Platform, StyleSheet} from 'react-native';
 import {useAppDispatch, useAppSelector} from '@state/utils/hooks';
-import {KeyboardAvoidingView, ScrollView, Text, VStack} from 'native-base';
 import {DeskCalendar, AvailableSpaces, EventViewer, WhosIn} from '@organisms';
 import {
   getBookingsOnTheDate,
@@ -21,19 +20,22 @@ import subscribeToNotesCollection from '@firebase/firestore/subscribeToNotesColl
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import {storeSelectedSpaceType} from '@state/reducers/selectedDayOptionsSlice';
 import {calculateNewUserIds} from '@utils/FirebaseUtils/FirebaseUtils';
-import Animated, {Layout} from 'react-native-reanimated';
+import Animated, {LinearTransition} from 'react-native-reanimated';
 import {fetchLondonTime} from '@state/reducers/UtilsSlice';
 import {LongButton} from '@root/src/components/atoms';
+import {
+  KeyboardAvoidingView,
+  ScrollView,
+  Text,
+  VStack,
+  View,
+} from '@gluestack-ui/themed';
 
 export default function DeskScreen() {
   const dispatch = useAppDispatch();
   const [deskBookings, setDeskBookings] = useState<Booking[]>([]);
   const [isValidBookingDate, setIsValidBookingDate] = useState<boolean>(false);
   const [carBookings, setCarBookings] = useState<Booking[]>([]);
-  const [confirmedCarBookings, setConfirmedCarBookings] = useState<Booking[]>(
-    [],
-  );
-  const [reserveCarBookings, setReserveCarBookings] = useState<Booking[]>([]);
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [userData, setUserData] = useState<ReducedUserData>({});
   let {
@@ -44,17 +46,10 @@ export default function DeskScreen() {
   const userId = user ? user.id : null;
   const styles = StyleSheet.create({
     segmentStyle: {
-      flex: 1,
-      height: 50,
-      marginHorizontal: 16,
+      height: '100%',
     },
   });
-  const shouldShowIsWaitingList = () => {
-    if (selectedIndex === 1 && reserveCarBookings.length > 0) {
-      return true;
-    }
-    return false;
-  };
+
   useEffect(() => {
     if (selectedDay === '') {
       return;
@@ -68,21 +63,11 @@ export default function DeskScreen() {
         const carBookingsOnDate = bookings.filter(
           booking => booking.spaceType === SpaceType.car,
         );
-        const confirmedCarBookingsOnDate = bookings.filter(
-          booking =>
-            booking.spaceType === SpaceType.car && !booking.isReserveSpace,
-        );
         const deskBookingsOnDate = bookings.filter(
           booking => booking.spaceType === SpaceType.desk,
         );
-        const reserveCarBookingsOnDate = bookings.filter(
-          booking =>
-            booking.spaceType === SpaceType.car && booking.isReserveSpace,
-        );
         setCarBookings(carBookingsOnDate);
         setDeskBookings(deskBookingsOnDate);
-        setConfirmedCarBookings(confirmedCarBookingsOnDate);
-        setReserveCarBookings(reserveCarBookingsOnDate);
         dispatch(setLoading(false));
       },
     );
@@ -172,25 +157,30 @@ export default function DeskScreen() {
       {userId && (
         <KeyboardAvoidingView
           flex={1}
-          backgroundColor="brand.white"
-          paddingTop={4}
+          backgroundColor="$brandWhite"
+          paddingTop="$1"
+          paddingHorizontal="$3"
           behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-          <ScrollView keyboardShouldPersistTaps="handled">
-            <VStack space="24px" marginBottom={10}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled">
+            <VStack space="lg" marginBottom="$2.5">
               <DeskCalendar />
               <EventViewer />
-              <SegmentedControl
-                style={styles.segmentStyle}
-                appearance="light"
-                values={['Desk', 'Parking']}
-                selectedIndex={selectedIndex}
-                onChange={event => {
-                  indexChanged(event.nativeEvent.selectedSegmentIndex);
-                }}
-              />
+              <View height="$12" marginHorizontal="$0.5">
+                <SegmentedControl
+                  style={styles.segmentStyle}
+                  appearance="light"
+                  values={['Desk', 'Parking']}
+                  selectedIndex={selectedIndex}
+                  onChange={event => {
+                    indexChanged(event.nativeEvent.selectedSegmentIndex);
+                  }}
+                />
+              </View>
               {isValidBookingDate ? (
                 <>
-                  <Animated.View layout={Layout}>
+                  <Animated.View layout={LinearTransition}>
                     <AvailableSpaces
                       bookings={
                         selectedIndex === 0 ? deskBookings : carBookings
@@ -198,24 +188,14 @@ export default function DeskScreen() {
                       userData={userData}
                     />
                   </Animated.View>
-                  <Animated.View layout={Layout}>
+                  <Animated.View layout={LinearTransition}>
                     <WhosIn
                       bookings={
-                        selectedIndex === 0
-                          ? deskBookings
-                          : confirmedCarBookings
+                        selectedIndex === 0 ? deskBookings : carBookings
                       }
                       userData={userData}
                     />
                   </Animated.View>
-                  {shouldShowIsWaitingList() && (
-                    <Animated.View layout={Layout}>
-                      <WhosIn
-                        bookings={reserveCarBookings}
-                        userData={userData}
-                      />
-                    </Animated.View>
-                  )}
                 </>
               ) : (
                 <VStack
@@ -224,15 +204,15 @@ export default function DeskScreen() {
                   justifyContent="center">
                   <Text
                     alignSelf="center"
-                    color="brand.charcoal"
-                    fontFamily={'body'}
-                    fontWeight={400}
-                    fontSize={16}>
+                    color="$brandCharcoal"
+                    fontFamily="$body"
+                    fontWeight="$normal"
+                    size="md">
                     {dateAvailableToBookFrom()}
                   </Text>
                   <VStack paddingTop={4} paddingLeft={6} paddingRight={6}>
                     <LongButton
-                      buttonText={'Refresh'}
+                      buttonText="Refresh"
                       onPress={() => refreshPressed()}
                       isDisabled={false}
                     />
@@ -244,7 +224,7 @@ export default function DeskScreen() {
         </KeyboardAvoidingView>
       )}
       {!userId && (
-        <VStack height="100%" justifyContent="center">
+        <VStack height="$full" justifyContent="center">
           <Text alignSelf="center">
             Something went wrong. Try signing in again.
           </Text>

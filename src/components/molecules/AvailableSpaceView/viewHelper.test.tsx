@@ -1,6 +1,5 @@
 import {AvailableSpacesOption, TimeSlot} from '@customTypes';
 import {determineWarningProps, checkAlternateAmOrPmFree} from './viewHelper';
-import {WarningSymbolIcon} from '@atoms/Warning/WarningSymbol/WarningSymbol';
 import {SpaceType} from '@customTypes/booking';
 
 describe('Determine Warning Props Tests', () => {
@@ -43,8 +42,8 @@ describe('Determine Warning Props Tests', () => {
         expect(testResult.warningMessage).toBe(
           'Sorry, there are no more designated desk spaces available on this day, but you can book a communal space.',
         );
-        expect(testResult.symbolToUse).toBe(WarningSymbolIcon.warningTriangle);
-        expect(testResult.backgroundColor).toBe('other.orangeTransparent');
+        expect(testResult.symbolToUse).toBe('warningTriangle');
+        expect(testResult.backgroundColor).toBe('$otherOrangeTransparent');
       });
 
       it('returns correct props when user has a standard booked space', () => {
@@ -58,8 +57,8 @@ describe('Determine Warning Props Tests', () => {
         expect(testResult.warningMessage).toBe(
           'You have already booked a desk space for this day. Feel free to cancel it, if not needed anymore.',
         );
-        expect(testResult.symbolToUse).toBe(WarningSymbolIcon.infoCircle);
-        expect(testResult.backgroundColor).toBe('other.blueTransparent');
+        expect(testResult.symbolToUse).toBe('infoCircle');
+        expect(testResult.backgroundColor).toBe('$otherBlueTransparent');
       });
 
       it('returns correct props when user has a reserve booked space', () => {
@@ -73,8 +72,8 @@ describe('Determine Warning Props Tests', () => {
         expect(testResult.warningMessage).toBe(
           'You have booked a communal space. Please try not to occupy any designated desk of the clubhouse as they are already booked by others.',
         );
-        expect(testResult.symbolToUse).toBe(WarningSymbolIcon.infoCircle);
-        expect(testResult.backgroundColor).toBe('other.blueTransparent');
+        expect(testResult.symbolToUse).toBe('infoCircle');
+        expect(testResult.backgroundColor).toBe('$otherBlueTransparent');
       });
     });
 
@@ -116,8 +115,8 @@ describe('Determine Warning Props Tests', () => {
         expect(testResult.warningMessage).toBe(
           'Sorry, there are no more designated desk spaces available for this slot, but you can book a communal space.',
         );
-        expect(testResult.symbolToUse).toBe(WarningSymbolIcon.warningTriangle);
-        expect(testResult.backgroundColor).toBe('other.orangeTransparent');
+        expect(testResult.symbolToUse).toBe('warningTriangle');
+        expect(testResult.backgroundColor).toBe('$otherOrangeTransparent');
       });
     });
   });
@@ -161,8 +160,8 @@ describe('Determine Warning Props Tests', () => {
         expect(testResult.warningMessage).toBe(
           'Sorry, there are no spaces available at this time. However, you can book onto the waiting list.',
         );
-        expect(testResult.symbolToUse).toBe(WarningSymbolIcon.infoCircle);
-        expect(testResult.backgroundColor).toBe('other.orangeTransparent');
+        expect(testResult.symbolToUse).toBe('infoCircle');
+        expect(testResult.backgroundColor).toBe('$otherOrangeTransparent');
       });
 
       it('returns correct props when user has a reserve booked space', () => {
@@ -176,8 +175,8 @@ describe('Determine Warning Props Tests', () => {
         expect(testResult.warningMessage).toBe(
           "You're booked onto the waiting list. Keep an eye on your booking as you may be automatically given a space if there are cancelations.",
         );
-        expect(testResult.symbolToUse).toBe(WarningSymbolIcon.infoCircle);
-        expect(testResult.backgroundColor).toBe('other.blueTransparent');
+        expect(testResult.symbolToUse).toBe('infoCircle');
+        expect(testResult.backgroundColor).toBe('$otherBlueTransparent');
       });
     });
 
@@ -219,8 +218,8 @@ describe('Determine Warning Props Tests', () => {
         expect(testResult.warningMessage).toBe(
           'Sorry, there are no spaces available at this time. However, you can book onto the waiting list.',
         );
-        expect(testResult.symbolToUse).toBe(WarningSymbolIcon.infoCircle);
-        expect(testResult.backgroundColor).toBe('other.orangeTransparent');
+        expect(testResult.symbolToUse).toBe('infoCircle');
+        expect(testResult.backgroundColor).toBe('$otherOrangeTransparent');
       });
     });
   });
@@ -301,10 +300,8 @@ describe('Check Alternate Am Or Pm Free method', () => {
           expect(testResult.warningMessage).toBe(
             'Sorry, there are no more designated desk spaces available on this day, but you can book a communal space.',
           );
-          expect(testResult.symbolToUse).toBe(
-            WarningSymbolIcon.warningTriangle,
-          );
-          expect(testResult.backgroundColor).toBe('other.orangeTransparent');
+          expect(testResult.symbolToUse).toBe('warningTriangle');
+          expect(testResult.backgroundColor).toBe('$otherOrangeTransparent');
         });
 
         it('returns correct props when user has a standard booked space', () => {
@@ -318,8 +315,8 @@ describe('Check Alternate Am Or Pm Free method', () => {
           expect(testResult.warningMessage).toBe(
             'You have already booked a desk space for this day. Feel free to cancel it, if not needed anymore.',
           );
-          expect(testResult.symbolToUse).toBe(WarningSymbolIcon.infoCircle);
-          expect(testResult.backgroundColor).toBe('other.blueTransparent');
+          expect(testResult.symbolToUse).toBe('infoCircle');
+          expect(testResult.backgroundColor).toBe('$otherBlueTransparent');
         });
 
         it('returns correct props when user has a reserve booked space', () => {
@@ -333,8 +330,8 @@ describe('Check Alternate Am Or Pm Free method', () => {
           expect(testResult.warningMessage).toBe(
             'You have booked a communal space. Please try not to occupy any designated desk of the clubhouse as they are already booked by others.',
           );
-          expect(testResult.symbolToUse).toBe(WarningSymbolIcon.infoCircle);
-          expect(testResult.backgroundColor).toBe('other.blueTransparent');
+          expect(testResult.symbolToUse).toBe('infoCircle');
+          expect(testResult.backgroundColor).toBe('$otherBlueTransparent');
         });
       });
 
@@ -350,8 +347,8 @@ describe('Check Alternate Am Or Pm Free method', () => {
           expect(testResult.warningMessage).toBe(
             'Sorry, there are no spaces available at this time. However, you can book onto the waiting list.',
           );
-          expect(testResult.symbolToUse).toBe(WarningSymbolIcon.infoCircle);
-          expect(testResult.backgroundColor).toBe('other.orangeTransparent');
+          expect(testResult.symbolToUse).toBe('infoCircle');
+          expect(testResult.backgroundColor).toBe('$otherOrangeTransparent');
         });
 
         it('returns correct props when user has a standard booked space', () => {
@@ -365,8 +362,8 @@ describe('Check Alternate Am Or Pm Free method', () => {
           expect(testResult.warningMessage).toBe(
             'Sorry, there are no spaces available at this time. However, you can book onto the waiting list.',
           );
-          expect(testResult.symbolToUse).toBe(WarningSymbolIcon.infoCircle);
-          expect(testResult.backgroundColor).toBe('other.orangeTransparent');
+          expect(testResult.symbolToUse).toBe('infoCircle');
+          expect(testResult.backgroundColor).toBe('$otherOrangeTransparent');
         });
 
         it('returns correct props when user has a reserve booked space', () => {
@@ -380,8 +377,8 @@ describe('Check Alternate Am Or Pm Free method', () => {
           expect(testResult.warningMessage).toBe(
             "You're booked onto the waiting list. Keep an eye on your booking as you may be automatically given a space if there are cancelations.",
           );
-          expect(testResult.symbolToUse).toBe(WarningSymbolIcon.infoCircle);
-          expect(testResult.backgroundColor).toBe('other.blueTransparent');
+          expect(testResult.symbolToUse).toBe('infoCircle');
+          expect(testResult.backgroundColor).toBe('$otherBlueTransparent');
         });
       });
     });
@@ -425,10 +422,8 @@ describe('Check Alternate Am Or Pm Free method', () => {
           expect(testResult.warningMessage).toBe(
             'Sorry, there are no more designated desk spaces available for this slot, but you can book a communal space.',
           );
-          expect(testResult.symbolToUse).toBe(
-            WarningSymbolIcon.warningTriangle,
-          );
-          expect(testResult.backgroundColor).toBe('other.orangeTransparent');
+          expect(testResult.symbolToUse).toBe('warningTriangle');
+          expect(testResult.backgroundColor).toBe('$otherOrangeTransparent');
         });
       });
 
@@ -444,8 +439,8 @@ describe('Check Alternate Am Or Pm Free method', () => {
           expect(testResult.warningMessage).toBe(
             'Sorry, there are no spaces available at this time. However, you can book onto the waiting list.',
           );
-          expect(testResult.symbolToUse).toBe(WarningSymbolIcon.infoCircle);
-          expect(testResult.backgroundColor).toBe('other.orangeTransparent');
+          expect(testResult.symbolToUse).toBe('infoCircle');
+          expect(testResult.backgroundColor).toBe('$otherOrangeTransparent');
         });
       });
     });

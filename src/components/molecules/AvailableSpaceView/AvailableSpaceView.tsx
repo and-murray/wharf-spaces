@@ -1,27 +1,26 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {Box, HStack, Pressable, Text, View, VStack} from 'native-base';
-import {Counter, DayTimeSelector, Warning} from '@atoms';
-import Booking, {BookingType, SpaceType, TimeSlot} from '@customTypes/booking';
-import UserProfileSection from '@molecules/UserProfileSection/UserProfileSection';
-import BookButton from '@atoms/BookButton/BookButton';
+import AlertMessage from '@atoms/AlertMessage/AlertMessage';
 import AvailableSpacesOption from '@customTypes/availability';
-import {useAppDispatch, useAppSelector} from '@state/utils/hooks';
+import BoldText from '@atoms/BoldText/BoldText';
+import BookButton from '@atoms/BookButton/BookButton';
+import Booking, {BookingType, SpaceType, TimeSlot} from '@customTypes/booking';
+import MurrayButton from '@atoms/MurrayButton/MurrayButton';
+import SimpleInfoMessage from '@atoms/SimpleInfoIMessage/SimpleInfoMessage';
+import UserProfileSection from '@molecules/UserProfileSection/UserProfileSection';
+import {Box, HStack, Pressable, Text, View, VStack} from '@gluestack-ui/themed';
+import {BusinessUnit} from '@customTypes/user';
+import {Counter, DayTimeSelector, Warning} from '@atoms';
+import {Cross} from '@res/images/Cross';
+import {determineWarningProps} from './viewHelper';
+import {GroupIcon} from '@res/images/GroupIcon';
+import {LogLevel, logMessage} from '@root/src/util/Logging/Logging';
 import {setLoading} from '@state/reducers/LoadingSlice';
+import {useAppDispatch, useAppSelector} from '@state/utils/hooks';
 import {
   deleteBookings,
   editBookings,
   postBookings,
 } from '@state/reducers/selectedDayOptionsSlice';
-import {Cross} from '@res/images/Cross';
-import {determineWarningProps} from './viewHelper';
-import {GroupIcon} from '@res/images/GroupIcon';
-import BoldText from '@atoms/BoldText/BoldText';
-import {BusinessUnit} from '@customTypes/user';
-import AlertMessage from '@atoms/AlertMessage/AlertMessage';
-import SimpleInfoMessage from '@atoms/SimpleInfoIMessage/SimpleInfoMessage';
-import MurrayButton from '@atoms/MurrayButton/MurrayButton';
-import {LogLevel, logMessage} from '@root/src/util/Logging/Logging';
-import {isBookingDateBeforeHawkingJoin} from '../../organisms/AvailableSpaces/helper';
 
 export type AvailableSpaceViewProps = {
   relevantBookings: Booking[];
@@ -66,11 +65,6 @@ const AvailableSpaceView = ({
     selectedDayOptions: {selectedDay, selectedSpaceType},
     user: {user},
   } = useAppSelector(state => state);
-
-  const isBeforeHawkingJoin = useMemo(
-    () => isBookingDateBeforeHawkingJoin(selectedDay),
-    [selectedDay],
-  );
 
   useEffect(() => {
     const relevantBookingTimeSlot: TimeSlot | undefined =
@@ -148,14 +142,14 @@ const AvailableSpaceView = ({
     : "You've Booked!";
 
   const borderColor = isFullSelected
-    ? 'brand.orange'
+    ? '$brandOrange'
     : hasBooked
-    ? 'other.greenAccent'
-    : 'other.grey';
+    ? '$otherGreenAccent'
+    : '$otherGrey';
 
   const backgroundColor = hasBooked
-    ? 'other.greenAccentTransparent'
-    : 'brand.white';
+    ? '$otherGreenAccentTransparent'
+    : '$brandWhite';
 
   const handleAlertClose = () => {
     setIsAlertOpen(false);
@@ -256,8 +250,7 @@ const AvailableSpaceView = ({
 
   const handleButtonPress = async <T,>(action: () => Promise<T>) => {
     if (
-      (user?.businessUnit === BusinessUnit.unknown ||
-        (user?.businessUnit === BusinessUnit.hawking && isBeforeHawkingJoin)) &&
+      user?.businessUnit === BusinessUnit.unknown &&
       spaceType === SpaceType.car
     ) {
       setisUnknownUserAlertOpen(true);
@@ -276,12 +269,12 @@ const AvailableSpaceView = ({
   return (
     <VStack
       importantForAccessibility="no"
-      borderRadius="xl"
-      padding="16px"
+      borderRadius="$xl"
+      padding={16}
       backgroundColor={backgroundColor}
       borderColor={borderColor}
       borderWidth={1}
-      space="24px"
+      space="2xl"
       accessible={false}
       testID="AvailableSpaceView"
       onLayout={event => {
@@ -301,12 +294,12 @@ const AvailableSpaceView = ({
       )}
 
       {bookingType === BookingType.guest && (
-        <View flexDirection={'row'} alignItems={'center'}>
+        <View flexDirection="row" alignItems="center">
           <Text
-            color="brand.blue"
-            fontFamily={'body'}
-            fontWeight={500}
-            fontSize={14}
+            color="$brandBlue"
+            fontFamily="$body"
+            fontWeight="$medium"
+            size="sm"
             marginRight={4}>
             {'Book visitor spaces'}
           </Text>
@@ -319,16 +312,16 @@ const AvailableSpaceView = ({
           </Pressable>
         </View>
       )}
-      <VStack space="16px">
+      <VStack space="md">
         {bookingType === BookingType.guest && hasBooked && (
-          <HStack alignItems={'flex-start'} testID="GuestBookedID">
+          <HStack alignItems="flex-start" testID="GuestBookedID">
             <GroupIcon />
             <Text
               importantForAccessibility="yes"
-              fontFamily={'body'}
-              fontSize={16}
-              paddingX={2}
-              paddingY={0.5}>
+              fontFamily="$body"
+              size="md"
+              paddingHorizontal={2}
+              paddingVertical={0.5}>
               You have booked <BoldText>{relevantBookings.length}</BoldText>{' '}
               visitor spaces
             </Text>
@@ -337,14 +330,14 @@ const AvailableSpaceView = ({
 
         <Text
           importantForAccessibility="yes"
-          color="brand.charcoal"
-          fontFamily={'body'}
-          fontWeight={400}
-          fontSize={16}>
+          color="$brandCharcoal"
+          fontFamily="$body"
+          fontWeight="$normal"
+          size="md">
           {heading}
         </Text>
       </VStack>
-      <HStack space="10px">
+      <HStack space="xs">
         {options.map(option => (
           <DayTimeSelector
             key={option.id}
@@ -356,44 +349,38 @@ const AvailableSpaceView = ({
           />
         ))}
       </HStack>
-      <HStack alignItems="center" justifyContent="space-between" space={4}>
+
+      <HStack alignItems="center" justifyContent="space-between" space="sm">
         {bookingType === BookingType.personal && !hasBooked && (
           <UserProfileSection />
         )}
-        {bookingType === BookingType.guest && !hasBooked && (
-          <View flex={1}>
-            <Counter
-              upperLimit={capacity}
-              lowerLimit={1}
-              initialValue={1}
-              onCountChanged={(count: number) => setGuestCount(count)}
-              setCountValid={(isValid: boolean) => setGuestCountValid(isValid)}
-              invalidInputWarningWidth={guestSpacesWidth}
-            />
-          </View>
-        )}
         {hasBooked && (
-          <Text
-            fontFamily={'body'}
-            fontWeight={500}
-            fontStyle={'normal'}
-            fontSize={16}
-            flex={1}>
+          <Text fontFamily="$body" fontWeight="$medium" size="md" flex={1}>
             {hasBookedText}
           </Text>
         )}
+        {bookingType === BookingType.guest && !hasBooked && (
+          <Counter
+            upperLimit={capacity}
+            lowerLimit={1}
+            initialValue={1}
+            onCountChanged={(count: number) => setGuestCount(count)}
+            setCountValid={(isValid: boolean) => setGuestCountValid(isValid)}
+            invalidInputWarningWidth={guestSpacesWidth}
+          />
+        )}
         {shouldShowEdit ? (
-          <HStack space={3}>
+          <HStack space="sm">
             <MurrayButton
               isDisabled={false}
               onPress={() => handleButtonPress(editBookingsFunc)}
-              buttonText={'Yes'}
+              buttonText="Yes"
               color="grey"
             />
             <MurrayButton
               isDisabled={false}
               onPress={editDismissFn}
-              buttonText={'No'}
+              buttonText="No"
               color="red"
             />
           </HStack>
@@ -429,9 +416,7 @@ const AvailableSpaceView = ({
               <AlertMessage
                 isOpen={isUnknownUserAlertOpen}
                 onClose={handleUnkownUserAlertClose}
-                message={`Sorry, only Murray${
-                  !isBeforeHawkingJoin ? ', Hawking,' : ''
-                } and Tenzing users can book a parking spot.`}
+                message="Sorry, only Murray and Tenzing users can book a parking spot."
                 alertConfig={{
                   button1: {
                     onPress: handleUnkownUserAlertClose,
@@ -461,11 +446,11 @@ const AvailableSpaceView = ({
             onPress={toggleDisplayGuestBooking}>
             <Text
               accessibilityLabel="Booking for someone else?"
-              color="brand.blue"
-              fontFamily={'body'}
-              fontWeight={500}
-              fontSize={14}
-              mx={'auto'}>
+              color="$brandBlue"
+              fontFamily="$body"
+              fontWeight="$medium"
+              size="sm"
+              mx="auto">
               {subHeading}
             </Text>
           </Pressable>

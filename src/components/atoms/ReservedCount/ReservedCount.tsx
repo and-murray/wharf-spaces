@@ -1,26 +1,23 @@
 import React from 'react';
-import {Text, View} from 'native-base';
-import {ClockIcon} from '@res/images/ClockIcon';
+import {ClockIcon} from '@res/images';
+import {Text, View} from '@gluestack-ui/themed';
 
 type ReservedCountProps = {
   count: string;
 };
 
 const ReservedCount = ({count}: ReservedCountProps) => (
-  <View
-    flexDirection={'row'}
-    alignItems={'center'}
-    justifyContent={'flex-start'}>
+  <View flexDirection="row" alignItems="center" justifyContent="flex-start">
     <Text
-      fontFamily={'body'}
-      fontWeight="500"
-      fontSize={14}
-      color="brand.orange"
+      fontFamily="$body"
+      fontWeight="$medium"
+      size="sm"
+      color="$brandOrange"
       marginRight={0.5}
-      testID={'ReserveCountTextId'}>
+      testID="ReserveCountTextId">
       {count}
     </Text>
-    <ClockIcon iconSize={'16'} />
+    <ClockIcon />
   </View>
 );
 export default ReservedCount;

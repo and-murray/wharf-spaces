@@ -1,25 +1,25 @@
 import React from 'react';
 import {WarningTriangle} from '@res/images/WarningTriangle';
 import {InfoCircle} from '@res/images/InfoCircle';
+import {DimensionValue} from 'react-native';
 
-export enum WarningSymbolIcon {
-  warningTriangle = 'WarningTriangle',
-  infoCircle = 'InfoCircle',
-}
+export const WarningSymbolIcon = {
+  warningTriangle: WarningTriangle,
+  infoCircle: InfoCircle,
+};
+
+export type WarningSymbolKey = keyof typeof WarningSymbolIcon;
 
 type WarningSymbolProps = {
-  symbolToUse: WarningSymbolIcon;
+  symbolToUse: WarningSymbolKey;
   color: string;
-  iconSize?: string;
+  iconSize?: DimensionValue;
 };
 
 const WarningSymbol = ({symbolToUse, color, iconSize}: WarningSymbolProps) => {
-  switch (symbolToUse) {
-    case 'WarningTriangle':
-      return <WarningTriangle color={color} iconSize={iconSize} />;
-    case 'InfoCircle':
-    default: //#2897ff
-      return <InfoCircle color={color} iconSize={iconSize} />;
-  }
+  const SymbolComponent = WarningSymbolIcon[symbolToUse] || InfoCircle; // Default to InfoCircle if icon invalid or missing
+
+  return <SymbolComponent color={color} height={iconSize} width={iconSize} />;
 };
+
 export default WarningSymbol;

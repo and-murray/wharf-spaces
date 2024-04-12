@@ -3,8 +3,8 @@ import {TestWrapper} from '@components/TestWrapper';
 import {render} from '@testing-library/react-native';
 import WhosInRow from './WhosInRow';
 import * as ProfilePicture from '@atoms/ProfilePicture/ProfilePicture';
-import theme from '@root/theme';
 import {SpaceType} from '@customTypes/booking';
+import {parseGluestackComponentStyleProps} from '@root/src/util/GluestackUtils/GluestackUtils';
 
 describe('When WhosInRow is on screen', () => {
   describe('Desk Bookings', () => {
@@ -28,7 +28,7 @@ describe('When WhosInRow is on screen', () => {
 
       expect(getByText('testName')).toBeTruthy();
       expect(getByText('testTimeSlot')).toBeTruthy();
-      expect(profilePictureSpy).toBeCalledWith(
+      expect(profilePictureSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           uri: 'testProfilePictureURI',
           showBorder: false,
@@ -36,9 +36,12 @@ describe('When WhosInRow is on screen', () => {
         {},
       );
       expect(queryByTestId('testCommunalSpace')).toBeFalsy();
-      const containerColor = getByTestId('testWhosInContainer').props.style
-        .backgroundColor;
-      expect(containerColor).toBe(theme.colors.brand.white);
+
+      const styleProps = parseGluestackComponentStyleProps(
+        getByTestId('testWhosInContainer').props.style,
+      );
+
+      expect(styleProps.backgroundColor).toBe('#ffffff');
     });
 
     it('Renders correctly when booking is communal space', () => {
@@ -58,7 +61,7 @@ describe('When WhosInRow is on screen', () => {
 
       expect(getByText('testName')).toBeTruthy();
       expect(getByText('testTimeSlot')).toBeTruthy();
-      expect(profilePictureSpy).toBeCalledWith(
+      expect(profilePictureSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           uri: 'testProfilePictureURI',
           showBorder: false,
@@ -66,9 +69,12 @@ describe('When WhosInRow is on screen', () => {
         {},
       );
       expect(getByTestId('testCommunalSpace')).toBeTruthy();
-      const containerColor = getByTestId('testWhosInContainer').props.style
-        .backgroundColor;
-      expect(containerColor).toBe(theme.colors.other.lightGrey);
+
+      const styleProps = parseGluestackComponentStyleProps(
+        getByTestId('testWhosInContainer').props.style,
+      );
+
+      expect(styleProps.backgroundColor).toBe('#f6f6f6');
     });
   });
 
@@ -93,7 +99,7 @@ describe('When WhosInRow is on screen', () => {
 
       expect(getByText('testName')).toBeTruthy();
       expect(getByText('testTimeSlot')).toBeTruthy();
-      expect(profilePictureSpy).toBeCalledWith(
+      expect(profilePictureSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           uri: 'testProfilePictureURI',
           showBorder: false,
@@ -101,9 +107,12 @@ describe('When WhosInRow is on screen', () => {
         {},
       );
       expect(queryByTestId('testCommunalSpace')).toBeFalsy();
-      const containerColor = getByTestId('testWhosInContainer').props.style
-        .backgroundColor;
-      expect(containerColor).toBe(theme.colors.brand.white);
+
+      const styleProps = parseGluestackComponentStyleProps(
+        getByTestId('testWhosInContainer').props.style,
+      );
+
+      expect(styleProps.backgroundColor).toBe('#ffffff');
     });
 
     it('Renders correctly when booking is reserve space', () => {
@@ -123,7 +132,7 @@ describe('When WhosInRow is on screen', () => {
 
       expect(getByText('testName')).toBeTruthy();
       expect(getByText('testTimeSlot')).toBeTruthy();
-      expect(profilePictureSpy).toBeCalledWith(
+      expect(profilePictureSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           uri: 'testProfilePictureURI',
           showBorder: false,
@@ -131,9 +140,12 @@ describe('When WhosInRow is on screen', () => {
         {},
       );
       expect(getByText('Waiting list position: 1')).toBeTruthy();
-      const containerColor = getByTestId('testWhosInContainer').props.style
-        .backgroundColor;
-      expect(containerColor).toBe(theme.colors.brand.white);
+
+      const styleProps = parseGluestackComponentStyleProps(
+        getByTestId('testWhosInContainer').props.style,
+      );
+
+      expect(styleProps.backgroundColor).toBe('#f6f6f6');
     });
   });
 });

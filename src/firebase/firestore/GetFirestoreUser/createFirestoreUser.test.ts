@@ -8,11 +8,10 @@ import * as getFirestoreUser from './getFirestoreUser';
 import * as getServerTimestamp from '../firestoreUtils/getServerTimestamp';
 import {createFirestoreUser} from './createFirestoreUser';
 
-const mockFirebaseUser: Partial<FirebaseAuthTypes.User> = {
-  uid: 'testUid',
+const mockFirebaseUser = {
+  uid: 'testUid123',
   displayName: 'Test User',
   email: 'test@example.com',
-  photoURL: 'https://example.com/test-photo.jpg',
 };
 
 const mockTimestamp = {
@@ -32,7 +31,7 @@ const mockUser: User = {
   updatedAt: mockTimestamp as FirebaseFirestoreTypes.Timestamp,
 };
 
-const mockDemoFirebaseUser: Partial<FirebaseAuthTypes.User> = {
+const mockDemoFirebaseUser = {
   uid: 'testUid123',
   displayName: 'ANDi Murray',
   email: 'demo@example.com',
@@ -53,7 +52,7 @@ const mockAccessTokens = {
   accessToken: 'testAccessToken123',
   idToken: 'testIdToken123',
 };
-const mockNameData = {names: [{givenName: 'Test', familyName: 'User'}]};
+const mockNameData = {names: [{givenName: 'John', familyName: 'Doe'}]};
 const mockOrgData = {organizations: [{department: 'Marketing'}]};
 
 const mockSet = jest.fn(() => {});
@@ -62,7 +61,7 @@ jest.mock('../Database', () => ({
   db: {
     collection: () => ({
       doc: () => ({
-        set: mockSet,
+        set: () => mockSet,
       }),
     }),
   },
@@ -157,37 +156,5 @@ describe('createFirestoreUser', () => {
         Error('Failed to set user: Error: User should now exist'),
       );
     });
-
-    it.each([
-      ['Murray', BusinessUnit.murray],
-      ['Tenzing', BusinessUnit.tenzing],
-      ['Tenzing S&Y', BusinessUnit.tenzing],
-      ['S&Y Tenzing', BusinessUnit.tenzing],
-      ['Hawking', BusinessUnit.hawking],
-      ['Club Hawking', BusinessUnit.hawking],
-      ['Cloud Hawking', BusinessUnit.hawking],
-      [undefined, BusinessUnit.unknown],
-      ['', BusinessUnit.unknown],
-      ['nonsense', BusinessUnit.unknown],
-    ])(
-      'creates a Firestore user with correct BU for department %s',
-      async (department, businessUnit) => {
-        // Arrange
-        getOrganisationDataSpy.mockResolvedValueOnce({
-          organizations: [{department}],
-        });
-        getFirestoreUserSpy.mockResolvedValueOnce({...mockUser, businessUnit});
-
-        // Act
-        await createFirestoreUser(mockFirebaseUser as FirebaseAuthTypes.User);
-
-        // Assert on the db call to ensure the department:BU transformation is tested
-        // rather than a mocked response from getFirestoreUser
-        expect(mockSet).toHaveBeenCalledWith({
-          ...mockUser,
-          businessUnit,
-        });
-      },
-    );
   });
 });

@@ -1,11 +1,9 @@
 import React, {useState, useEffect, useMemo} from 'react';
 import {AvailableSpaceView} from '@molecules';
-import {VStack} from 'native-base';
 import {BookingType, SpaceType} from '@customTypes/booking';
 import {
   availableSpacesOptionfactory,
   calculateRemainingSpaces,
-  isBookingDateBeforeHawkingJoin,
 } from '@organisms/AvailableSpaces/helper';
 import {Booking, ReducedUserData} from '@customTypes';
 import Animated, {FadeInUp, FadeOutUp} from 'react-native-reanimated';
@@ -13,6 +11,7 @@ import {BusinessUnit, Role} from '@customTypes/user';
 import {isCloseToBookingDate} from '@utils/DateTimeUtils/DateTimeUtils';
 import dayjs from 'dayjs';
 import {useAppSelector} from '@state/utils/hooks';
+import {VStack} from '@gluestack-ui/themed';
 
 type AvailableSpacesProps = {
   bookings: Booking[];
@@ -50,19 +49,16 @@ const AvailableSpaces = ({bookings, userData}: AvailableSpacesProps) => {
         currentDate,
         bookingDate,
       );
-      // TODO: revert after hawking join date
-      const isBeforeHawkingJoin = isBookingDateBeforeHawkingJoin(dateToBook);
-      const hawkingCapacity = isBeforeHawkingJoin ? 0 : parkingCapacity.hawking;
 
       let remainingCapacity = 0;
-      remainingCapacity = parkingCapacity[businessUnit];
-
-      // override parking capacity for hawking before join date
-      if (businessUnit === BusinessUnit.hawking && isBeforeHawkingJoin) {
-        remainingCapacity = hawkingCapacity;
-      } else if (canBookAnySpace && businessUnit !== BusinessUnit.unknown) {
-        remainingCapacity =
-          parkingCapacity.murray + parkingCapacity.tenzing + hawkingCapacity;
+      if (businessUnit === 'unknown') {
+        remainingCapacity = parkingCapacity.unknown;
+      } else if (canBookAnySpace) {
+        remainingCapacity = parkingCapacity.murray + parkingCapacity.tenzing;
+      } else if (businessUnit === 'murray') {
+        remainingCapacity = parkingCapacity.murray;
+      } else if (businessUnit === 'tenzing') {
+        remainingCapacity = parkingCapacity.tenzing;
       }
 
       return remainingCapacity;
@@ -125,7 +121,7 @@ const AvailableSpaces = ({bookings, userData}: AvailableSpacesProps) => {
   }, [user, selectedSpaceType]);
 
   return (
-    <VStack marginX={4} space={'24px'} testID="AvailableSpaces">
+    <VStack marginHorizontal={4} space="3xl" testID="AvailableSpaces">
       <Animated.View entering={FadeInUp} exiting={FadeOutUp}>
         <AvailableSpaceView
           bookingType={BookingType.personal}

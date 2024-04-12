@@ -1,13 +1,14 @@
 import React, {useMemo, useState} from 'react';
-import AppContainer from '@navigation/AppContainer';
-import {store} from '@state/store';
-import {Provider} from 'react-redux';
-import {NativeBaseProvider} from 'native-base';
-import theme from './theme';
-import 'react-native-gesture-handler';
 import AlertMessage from '@components/atoms/AlertMessage/AlertMessage';
+import AppContainer from '@navigation/AppContainer';
 import RNExitApp from 'react-native-exit-app';
 import {checkAppIntegrity} from './src/util/FirebaseUtils/FirebaseUtils';
+import {config as ourConfig} from './gluestack-ui.config';
+import {GluestackUIProvider} from '@gluestack-ui/themed';
+import {Provider} from 'react-redux';
+import {store} from '@state/store';
+import 'react-native-gesture-handler';
+
 function App(): React.JSX.Element {
   const [invalidApp, setInvalidApp] = useState(false);
 
@@ -25,7 +26,7 @@ function App(): React.JSX.Element {
   }
 
   return (
-    <NativeBaseProvider theme={theme}>
+    <GluestackUIProvider config={ourConfig}>
       <Provider store={store}>
         {invalidApp && (
           <AlertMessage
@@ -49,7 +50,7 @@ function App(): React.JSX.Element {
         )}
         <AppContainer />
       </Provider>
-    </NativeBaseProvider>
+    </GluestackUIProvider>
   );
 }
 export default App;

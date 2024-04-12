@@ -1,6 +1,19 @@
 import React, {useState, ReactElement} from 'react';
 import auth from '@react-native-firebase/auth';
-import {AlertDialog, Box, Button, Input, Text} from 'native-base';
+import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogCloseButton,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  Box,
+  Button,
+  ButtonGroup,
+  ButtonText,
+  Input,
+  InputField,
+} from '@gluestack-ui/themed';
 
 const EmailPasswordLoginModal = (): React.JSX.Element => {
   const [isLoginAlertOpen, setIsLoginAlertOpen] = useState(false);
@@ -25,12 +38,11 @@ const EmailPasswordLoginModal = (): React.JSX.Element => {
   return (
     <Box mx="auto">
       <Button
-        variant="unstyled"
         onPress={() => {
           setIsLoginAlertOpen(true);
         }}
         testID="DemoLoginButton">
-        <Text color="white">Demo login</Text>
+        <ButtonText color="white">Demo login</ButtonText>
       </Button>
       {demoLoginAlert()}
     </Box>
@@ -42,44 +54,43 @@ const EmailPasswordLoginModal = (): React.JSX.Element => {
         leastDestructiveRef={loginAlertCancelRef}
         isOpen={isLoginAlertOpen}
         onClose={handleAlertClose}>
-        <AlertDialog.Content>
-          <AlertDialog.CloseButton />
-          <AlertDialog.Header>Login with password</AlertDialog.Header>
-          <AlertDialog.Body>
-            <Input
-              type="text"
-              w="100%"
-              py="0"
-              placeholder="Email address"
-              onChangeText={textInput => setUsername(textInput)}
-              value={usernameState}
-            />
-            <Input
-              type="password"
-              w="100%"
-              py="0"
-              placeholder="Password"
-              onChangeText={textInput => setPassword(textInput)}
-              value={passwordState}
-            />
-          </AlertDialog.Body>
-          <AlertDialog.Footer>
-            <Button.Group space={2}>
+        <AlertDialogContent>
+          <AlertDialogCloseButton />
+          <AlertDialogHeader>Login with password</AlertDialogHeader>
+          <AlertDialogBody>
+            <Input width="$full" paddingVertical={0}>
+              <InputField
+                type="text"
+                placeholder="Email address"
+                onChangeText={textInput => setUsername(textInput)}
+                value={usernameState}
+              />
+            </Input>
+            <Input width="$full" paddingVertical={0}>
+              <InputField
+                type="password"
+                placeholder="Password"
+                onChangeText={textInput => setPassword(textInput)}
+                value={passwordState}
+              />
+            </Input>
+          </AlertDialogBody>
+          <AlertDialogFooter>
+            <ButtonGroup space="sm">
               <Button
-                variant="unstyled"
-                colorScheme="coolGray"
+                bgColor="coolGray"
                 ref={loginAlertCancelRef}
                 onPress={handleAlertClose}>
-                Cancel
+                <ButtonText>Cancel</ButtonText>
               </Button>
               <Button
-                colorScheme={'blue'}
+                bgColor="blue"
                 onPress={() => authWithPassword(usernameState, passwordState)}>
-                Login
+                <ButtonText>Login</ButtonText>
               </Button>
-            </Button.Group>
-          </AlertDialog.Footer>
-        </AlertDialog.Content>
+            </ButtonGroup>
+          </AlertDialogFooter>
+        </AlertDialogContent>
       </AlertDialog>
     );
   }

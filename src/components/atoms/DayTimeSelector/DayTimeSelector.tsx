@@ -1,43 +1,41 @@
 import React, {useMemo} from 'react';
-import {Pressable, Text, Badge, CheckIcon} from 'native-base';
 import {AvailableSpacesOption} from '@customTypes/index';
 import CheckToDisplayAsFull from '@atoms/CheckToDisplayAsFull/CheckToDisplayAsFull';
+import {Badge, CheckIcon, Pressable, Text} from '@gluestack-ui/themed';
 
 const container = {
-  borderRadius: '8px',
-  bgColor: 'other.lightGrey',
-  py: '11px',
-  px: '8px',
-  flexGrow: '1',
-  flexBasis: '0',
-  borderWidth: '0',
-  borderColor: 'brand.charcoal',
-  m: '0',
-  headingTextColor: 'brand.charcoal',
-  subheadingTextColor: 'other.greyMid',
-  subheadingTextColorFull: 'brand.orange',
+  bgColor: '$otherLightGrey',
+  borderColor: '$brandCharcoal',
+  borderRadius: 8,
+  borderWidth: 0,
+  flexBasis: 0,
+  flexGrow: 1,
+  headingTextColor: '$brandCharcoal',
+  px: 8,
+  py: 11,
+  subheadingTextColor: '$otherGreyMid',
+  subheadingTextColorFull: '$brandOrange',
 };
 const selectedContainer = {
   ...container,
-  borderWidth: '2px',
-  m: '-2px',
+  borderWidth: 2,
 };
 const selectedFullContainer = {
   ...selectedContainer,
-  borderColor: 'brand.orange',
-  headingTextColor: 'brand.orange',
-  subheadingTextColor: 'brand.orange',
+  borderColor: '$brandOrange',
+  headingTextColor: '$brandOrange',
+  subheadingTextColor: '$brandOrange',
 };
 const bookedContainer = {
   ...selectedContainer,
-  borderColor: 'other.greenAccent',
-  headingTextColor: 'other.greenAccent',
+  borderColor: '$otherGreenAccent',
+  headingTextColor: '$otherGreenAccent',
 };
 
 const editableContainer = {
   ...container,
-  bgColor: 'brand.blue',
-  headingTextColor: 'brand.white',
+  bgColor: '$brandBlue',
+  headingTextColor: '$brandWhite',
 };
 
 type DayTimeSelectorProps = {
@@ -48,15 +46,15 @@ type DayTimeSelectorProps = {
 } & AvailableSpacesOption;
 
 const DayTimeSelector = ({
-  update,
-  heading,
-  spaceLeft,
-  id,
-  isSelected,
   capacity,
-  isBooked,
   hasBookedCommunal,
+  heading,
+  id,
+  isBooked,
   isBookingEditable,
+  isSelected,
+  spaceLeft,
+  update,
 }: DayTimeSelectorProps) => {
   const {
     borderRadius,
@@ -65,9 +63,8 @@ const DayTimeSelector = ({
     px,
     flexGrow,
     flexBasis,
-    borderWidth,
     borderColor,
-    m,
+    borderWidth,
     headingTextColor,
     subheadingTextColor,
     subheadingTextColorFull,
@@ -88,35 +85,37 @@ const DayTimeSelector = ({
     <Pressable
       onPress={() => update(id)}
       borderRadius={borderRadius}
-      bgColor={bgColor}
+      backgroundColor={bgColor}
       py={py}
       px={px}
       flexGrow={flexGrow}
       flexBasis={flexBasis}
-      borderWidth={borderWidth}
       borderColor={borderColor}
-      shadow={2}
-      m={m}
+      borderWidth={borderWidth}
+      hardShadow="3"
+      shadowRadius={'$0.5'}
       testID={`DayTimeSelectorPressable-${id}`}
       accessibilityRole="button">
       <Text
-        fontFamily={'body'}
-        fontWeight="500"
-        fontSize={16}
+        fontFamily="$body"
+        fontWeight="$medium"
+        size="md"
         color={headingTextColor}
         testID={`DayTimeSelectorHeading-${id}`}>
         {heading}
       </Text>
       {isBooked || (isBookingEditable && isSelected) ? (
         <Badge
-          colorScheme={hasBookedCommunal ? 'warning' : 'success'}
-          rounded="full"
+          bgColor={hasBookedCommunal ? '$warning500' : '$success500'}
+          rounded="$full"
           variant="solid"
-          w="5"
-          h="5"
-          borderColor={'white'}
-          testID="SelectableDateTick">
-          <CheckIcon size="3" color="white" alignSelf="center" />
+          width="$5"
+          height="$5"
+          borderColor="white"
+          borderWidth={1}
+          testID="SelectableDateTick"
+          justifyContent="center">
+          <CheckIcon size="sm" color="white" alignSelf="center" />
         </Badge>
       ) : (
         <CheckToDisplayAsFull

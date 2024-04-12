@@ -1,7 +1,6 @@
 import React from 'react';
-import {Text, Pressable, HStack} from 'native-base';
-import {ChevronLeft} from '@res/images/ChevronLeft';
-import {ChevronRight} from '@res/images/ChevronRight';
+import {Chevron} from '@res/images';
+import {HStack, Pressable, Text} from '@gluestack-ui/themed';
 
 type WeekNavigationControlsProps = {
   weekOffset: number;
@@ -22,17 +21,18 @@ const WeekNavigationControls = ({
       onPress={onPress}
       accessibilityRole="button"
       testID="WeekNavigationControls">
-      <HStack alignItems={'center'}>
-        {weekOffset === 1 && <ChevronLeft />}
+      <HStack alignItems="center">
+        {weekOffset === 1 && (
+          <Chevron style={{transform: [{rotateY: '180deg'}]}} />
+        )}
         <Text
-          fontFamily={'body'}
-          fontWeight={'500'}
-          fontStyle={'normal'}
-          fontSize={16}
-          paddingX={2}>
+          fontFamily="$body"
+          fontWeight="$medium"
+          size="md"
+          paddingHorizontal={2}>
           {weekText}
         </Text>
-        {weekOffset === 0 && <ChevronRight />}
+        {weekOffset === 0 && <Chevron />}
       </HStack>
     </Pressable>
   );
