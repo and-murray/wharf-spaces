@@ -44,6 +44,9 @@ jobs:
           REMOTE_CONFIG_FETCH_DEBUG: true
         run: |
           echo $ADMIN_SDK_BASE64 | base64 --decode > admin-sdk.json
+      - name: Bundle install
+        run: bundle install
+
       - name: install dependencies
         run: yarn install --frozen-lockfile
 
