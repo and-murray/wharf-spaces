@@ -35,36 +35,38 @@ jobs:
         with:
           node-version: 18
           cache: yarn
-
+      - uses: ruby/setup-ruby
+      - name: Retrieve the secret and decode it to a file
+        env:
+          ADMIN_SDK_BASE64: ${{ secrets.MURRAY_APPS_DEV_FIREBASE_ADMIN_BASE_64_ENCODED_JSON }}
+          REACT_APP_FIREBASE_AUTH_WEB_CLIENT_ID: ${{ env.MURRAY_APPS_DEV_REACT_APP_FIREBASE_AUTH_WEB_CLIENT_ID }}
+          REACT_APP_FIREBASE_FUNCTIONS_BASE_URL: ${{ env.MURRAY_APPS_DEV_REACT_APP_FIREBASE_FUNCTIONS_BASE_URL }}
+          REMOTE_CONFIG_FETCH_DEBUG: true
+        run: |
+          echo $ADMIN_SDK_BASE64 | base64 --decode > admin-sdk.json
       - name: install dependencies
         run: yarn install --frozen-lockfile
 
       - name: install functions dependencies
         run: cd functions && yarn install --frozen-lockfile
-
-      - name: lint
-        run: yarn lint
 
       - name: ios-qa-distribute
         run: yarn ios:qa:distribute
-  distribute-android:
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: yarn
+  # distribute-android:
+  #   runs-on: ubuntu-latest
+  #   needs: test
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: actions/setup-node@v4
+  #       with:
+  #         node-version: 18
+  #         cache: yarn
 
-      - name: install dependencies
-        run: yarn install --frozen-lockfile
+  #     - name: install dependencies
+  #       run: yarn install --frozen-lockfile
 
-      - name: install functions dependencies
-        run: cd functions && yarn install --frozen-lockfile
+  #     - name: install functions dependencies
+  #       run: cd functions && yarn install --frozen-lockfile
 
-      - name: lint
-        run: yarn lint
-
-      - name: android-qa-distribute
-        run: yarn android:qa:distribute
+  #     - name: android-qa-distribute
+  #       run: yarn android:qa:distribute

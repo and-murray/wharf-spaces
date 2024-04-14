@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# TODO: DO WE NEED THIS STILL
 if [ "$ENV" == "undefined" ]
 then
     echo 'Setting environment based off branch'
