@@ -5,6 +5,7 @@ platform :ios do
     iOSProject = "./ios/MurrayDeskBooking.xcodeproj"
 
     lane :qa_distribute do
+        ENV["GOOGLE_APPLICATION_CREDENTIALS"]="admin-sdk.json"
         increment_build_number(
             build_number: "#{get_datetime_for_build_version}.#{number_of_commits}",
             xcodeproj: iOSProject
@@ -20,7 +21,6 @@ platform :ios do
             configuration: 'Release-Dev',
             export_method: 'enterprise',
             export_team_id: 'T364HJZ84F')
-        ENV["GOOGLE_APPLICATION_CREDENTIALS"]="admin-sdk.json"
         upload_symbols_to_crashlytics(dsym_path: ENV["DSYM_OUTPUT_PATH"], 
             binary_path: './ios/Pods/FirebaseCrashlytics/upload-symbols',
             gsp_path: './ios/Firebase/GoogleService-Info-Dev-Enterprise.plist')
