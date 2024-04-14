@@ -7,7 +7,7 @@ platform :ios do
     lane :qa_distribute do
         ENV["GOOGLE_APPLICATION_CREDENTIALS"]="admin-sdk.json"
         increment_build_number(
-            build_number: "#{get_datetime_for_build_version}.#{number_of_commits}",
+            build_number: "#{get_datetime_for_build_version}",
             xcodeproj: iOSProject
         )
         match(type: "enterprise",
@@ -16,7 +16,8 @@ platform :ios do
             readonly: true,
             skip_google_cloud_account_confirmation: true,
             skip_certificate_matching: true,
-             force_for_new_devices: true)      
+             force_for_new_devices: true)
+        cocoapods
         gym(workspace: iOSWorkspace,
             configuration: 'Release-Dev',
             export_method: 'enterprise',
@@ -177,8 +178,4 @@ private_lane :get_dev_release_notes do
     Hash: #{commit[:commit_hash]},
     Short Hash: #{commit[:abbreviated_commit_hash]}
     """
-end
-
-private_lane :get_commit_number do
-    number_of_commits
 end
