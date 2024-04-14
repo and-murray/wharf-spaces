@@ -35,7 +35,7 @@ jobs:
         with:
           node-version: 18
           cache: yarn
-      - uses: ruby/setup-ruby
+      - uses: ruby/setup-ruby@ec02537da5712d66d4d50a0f33b7eb52773b5ed1
       - name: Retrieve the secret and decode it to a file
         env:
           ADMIN_SDK_BASE64: ${{ secrets.MURRAY_APPS_DEV_FIREBASE_ADMIN_BASE_64_ENCODED_JSON }}
