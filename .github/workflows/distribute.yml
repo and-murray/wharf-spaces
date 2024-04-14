@@ -1,0 +1,70 @@
+name: distribute
+
+on: [workflow_dispatch]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: yarn
+
+      - name: install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: install functions dependencies
+        run: cd functions && yarn install --frozen-lockfile
+
+      - name: lint
+        run: yarn lint
+
+      - name: test
+        run: yarn test
+
+      - name: test firebase functions
+        run: yarn test-functions
+  distribute-ios:
+    runs-on: macos-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: yarn
+
+      - name: install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: install functions dependencies
+        run: cd functions && yarn install --frozen-lockfile
+
+      - name: lint
+        run: yarn lint
+
+      - name: ios-qa-distribute
+        run: yarn ios:qa:distribute
+  distribute-android:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: yarn
+
+      - name: install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: install functions dependencies
+        run: cd functions && yarn install --frozen-lockfile
+
+      - name: lint
+        run: yarn lint
+
+      - name: android-qa-distribute
+        run: yarn android:qa:distribute
