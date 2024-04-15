@@ -6,6 +6,7 @@ platform :ios do
 
     lane :qa_distribute do
         ENV["GOOGLE_APPLICATION_CREDENTIALS"]="admin-sdk.json"
+        ENV["ENV"]="development"
         setup_ci(force: true)
         increment_build_number(
             build_number: "#{get_datetime_for_build_version}",
@@ -28,7 +29,7 @@ platform :ios do
             binary_path: './ios/Pods/FirebaseCrashlytics/upload-symbols',
             gsp_path: './ios/Firebase/GoogleService-Info-Dev-Enterprise.plist')
         firebase_app_distribution(
-            groups: "devs, product",
+            # groups: "devs, product",
             release_notes: "#{get_dev_release_notes}"
         )
     end
