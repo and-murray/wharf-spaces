@@ -74,7 +74,7 @@ jobs:
         uses: android-actions/setup-android@v3
       - uses: ruby/setup-ruby@v1
 
-            - name: Retrieve the secret and decode it to a file
+      - name: Retrieve the secret and decode it to a file
         env:
           ADMIN_SDK_BASE64: ${{ secrets.MURRAY_APPS_DEV_FIREBASE_ADMIN_BASE_64_ENCODED_JSON }}
           APP_STORE_CONNECT_KEY_BASE_64_ENCODED_JSON: ${{ secrets.APP_STORE_CONNECT_KEY_BASE_64_ENCODED_JSON }}
