@@ -28,7 +28,7 @@ jobs:
   #       run: yarn test-functions
   distribute-ios:
     runs-on: macos-latest
-    needs: test
+    # needs: test
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
