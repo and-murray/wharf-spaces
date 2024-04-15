@@ -6,6 +6,7 @@ platform :ios do
 
     lane :qa_distribute do
         ENV["GOOGLE_APPLICATION_CREDENTIALS"]="admin-sdk.json"
+        setup_ci(force: true)
         increment_build_number(
             build_number: "#{get_datetime_for_build_version}",
             xcodeproj: iOSProject
