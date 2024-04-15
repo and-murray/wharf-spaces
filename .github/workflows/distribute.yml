@@ -66,6 +66,12 @@ jobs:
         with:
           node-version-file: '.node-version'
           cache: yarn
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
       - uses: ruby/setup-ruby@v1
 
       - name: Retrieve the secret and decode it to a file
