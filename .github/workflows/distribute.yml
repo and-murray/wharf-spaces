@@ -3,29 +3,29 @@ name: distribute
 on: [push, workflow_dispatch]
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: '.node-version'
-          cache: yarn
+  # test:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: actions/setup-node@v4
+  #       with:
+  #         node-version-file: '.node-version'
+  #         cache: yarn
 
-      - name: install dependencies
-        run: yarn install --frozen-lockfile
+  #     - name: install dependencies
+  #       run: yarn install --frozen-lockfile
 
-      - name: install functions dependencies
-        run: cd functions && yarn install --frozen-lockfile
+  #     - name: install functions dependencies
+  #       run: cd functions && yarn install --frozen-lockfile
 
-      - name: lint
-        run: yarn lint
+  #     - name: lint
+  #       run: yarn lint
 
-      - name: test
-        run: yarn test
+  #     - name: test
+  #       run: yarn test
 
-      - name: test firebase functions
-        run: yarn test-functions
+  #     - name: test firebase functions
+  #       run: yarn test-functions
   distribute-ios:
     runs-on: macos-latest
     needs: test

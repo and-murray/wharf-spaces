@@ -6,6 +6,7 @@ platform :ios do
 
     lane :qa_distribute do
         ENV["GOOGLE_APPLICATION_CREDENTIALS"]="admin-sdk.json"
+        ensure_xcode_version(version: "15.2")
         increment_build_number(
             build_number: "#{get_datetime_for_build_version}",
             xcodeproj: iOSProject
@@ -16,7 +17,7 @@ platform :ios do
             readonly: true,
             skip_google_cloud_account_confirmation: true,
             skip_certificate_matching: true,
-             force_for_new_devices: true)
+            force_for_new_devices: true)
         cocoapods(podfile: "ios/Podfile")
         gym(workspace: iOSWorkspace,
             configuration: 'Release-Dev',
