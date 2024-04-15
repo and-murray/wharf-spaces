@@ -19,6 +19,7 @@ platform :ios do
             force_for_new_devices: true)
         cocoapods(podfile: "ios/Podfile")
         gym(workspace: iOSWorkspace,
+            silent: true,
             configuration: 'Release-Dev',
             export_method: 'enterprise',
             export_team_id: 'T364HJZ84F')
