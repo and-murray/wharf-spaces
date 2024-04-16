@@ -1,6 +1,6 @@
 name: test
 
-on: [push, workflow_dispatch, workflow_called]
+on: [workflow_dispatch]
 
 jobs:
   lint:
