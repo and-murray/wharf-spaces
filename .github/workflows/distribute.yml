@@ -1,11 +1,18 @@
 name: distribute
 
-on: [push, workflow_dispatch]
+on:
+  pull_request:
+    branches:
+      - develop
+    types:
+      - closed
 
 jobs:
   tests:
+    if: github.event.pull_request.merged == true
     uses: ./.github/workflows/test.yml
   distribute-ios:
+    if: github.event.pull_request.merged == true
     runs-on: macos-14
     needs: tests
     steps:
@@ -40,6 +47,7 @@ jobs:
       - name: ios-qa-distribute
         run: yarn ios:qa:distribute
   distribute-android:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     needs: tests
     steps:
