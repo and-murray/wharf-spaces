@@ -116,7 +116,7 @@ end
 platform :android do
 
     before_all do |lane|
-        ENV["GOOGLE_APPLICATION_CREDENTIALS"]="murray-apps-dev-firebase-adminsdk-57gqb-148f1fe61f.json"
+        ENV["GOOGLE_APPLICATION_CREDENTIALS"]="admin-sdk.json"
         ENV["ENVFILE"]=".env.development"
         if ENV["ANDROID_HOME"].nil?
             UI.abort_with_message!('Please set ANDROID_HOME environment variable, this is likely "/Users/{YOUR_USERNAME}/Library/Android/sdk"')
