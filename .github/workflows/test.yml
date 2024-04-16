@@ -12,6 +12,9 @@ jobs:
           node-version-file: '.node-version'
           cache: yarn
 
+      - name: install dependencies
+        run: yarn install --frozen-lockfile
+
       - name: lint
         run: yarn lint
   test-app:
@@ -26,14 +29,8 @@ jobs:
       - name: install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: lint
-        run: yarn lint
-
       - name: test
         run: yarn test
-
-      - name: test firebase functions
-        run: yarn test-functions
   test-functions:
     runs-on: ubuntu-latest
     steps:
