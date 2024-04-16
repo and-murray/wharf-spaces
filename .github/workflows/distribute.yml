@@ -3,66 +3,43 @@ name: distribute
 on: [push, workflow_dispatch]
 
 jobs:
-  # test:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: actions/setup-node@v4
-  #       with:
-  #         node-version-file: '.node-version'
-  #         cache: yarn
+  distribute-ios:
+    runs-on: macos-14
+    needs: ./.github/workflows/test.yml
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: yarn
+      - uses: ruby/setup-ruby@v1
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '15.2'
+      - name: Retrieve the secret and decode it to a file
+        env:
+          ADMIN_SDK_BASE64: ${{ secrets.MURRAY_APPS_DEV_FIREBASE_ADMIN_BASE_64_ENCODED_JSON }}
+          APP_STORE_CONNECT_KEY_BASE_64_ENCODED_JSON: ${{ secrets.APP_STORE_CONNECT_KEY_BASE_64_ENCODED_JSON }}
+        run: |
+          echo $ADMIN_SDK_BASE64 | base64 --decode > admin-sdk.json
+          echo $APP_STORE_CONNECT_KEY_BASE_64_ENCODED_JSON | base64 --decode > appstore-connect-api-key.json
+          touch .env.development
+          echo REACT_APP_FIREBASE_AUTH_WEB_CLIENT_ID = "${{ vars.MURRAY_APPS_DEV_REACT_APP_FIREBASE_AUTH_WEB_CLIENT_ID }}" >> .env.development
+          echo REACT_APP_FIREBASE_FUNCTIONS_BASE_URL = "${{ vars.MURRAY_APPS_DEV_REACT_APP_FIREBASE_FUNCTIONS_BASE_URL }}" >> .env.development
+          echo REMOTE_CONFIG_FETCH_DEBUG = "false" >> .env.development
+          cat .env.development
 
-  #     - name: install dependencies
-  #       run: yarn install --frozen-lockfile
+      - name: Bundle install
+        run: bundle install
 
-  #     - name: install functions dependencies
-  #       run: cd functions && yarn install --frozen-lockfile
+      - name: install dependencies
+        run: yarn install --frozen-lockfile
 
-  #     - name: lint
-  #       run: yarn lint
-
-  #     - name: test
-  #       run: yarn test
-
-  #     - name: test firebase functions
-  #       run: yarn test-functions
-  # distribute-ios:
-  #   runs-on: macos-14
-  #   needs: test
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: actions/setup-node@v4
-  #       with:
-  #         node-version-file: '.node-version'
-  #         cache: yarn
-  #     - uses: ruby/setup-ruby@v1
-  #     - uses: maxim-lobanov/setup-xcode@v1
-  #       with:
-  #         xcode-version: '15.2'
-  #     - name: Retrieve the secret and decode it to a file
-  #       env:
-  #         ADMIN_SDK_BASE64: ${{ secrets.MURRAY_APPS_DEV_FIREBASE_ADMIN_BASE_64_ENCODED_JSON }}
-  #         APP_STORE_CONNECT_KEY_BASE_64_ENCODED_JSON: ${{ secrets.APP_STORE_CONNECT_KEY_BASE_64_ENCODED_JSON }}
-  #       run: |
-  #         echo $ADMIN_SDK_BASE64 | base64 --decode > admin-sdk.json
-  #         echo $APP_STORE_CONNECT_KEY_BASE_64_ENCODED_JSON | base64 --decode > appstore-connect-api-key.json
-  #         touch .env.development
-  #         echo REACT_APP_FIREBASE_AUTH_WEB_CLIENT_ID = "${{ vars.MURRAY_APPS_DEV_REACT_APP_FIREBASE_AUTH_WEB_CLIENT_ID }}" >> .env.development
-  #         echo REACT_APP_FIREBASE_FUNCTIONS_BASE_URL = "${{ vars.MURRAY_APPS_DEV_REACT_APP_FIREBASE_FUNCTIONS_BASE_URL }}" >> .env.development
-  #         echo REMOTE_CONFIG_FETCH_DEBUG = "false" >> .env.development
-  #         cat .env.development
-
-  #     - name: Bundle install
-  #       run: bundle install
-
-  #     - name: install dependencies
-  #       run: yarn install --frozen-lockfile
-
-  #     - name: ios-qa-distribute
-  #       run: yarn ios:qa:distribute
+      - name: ios-qa-distribute
+        run: yarn ios:qa:distribute
   distribute-android:
     runs-on: ubuntu-latest
-    # needs: test
+    needs: ./.github/workflows/test.yml
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

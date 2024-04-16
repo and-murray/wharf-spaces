@@ -3,7 +3,18 @@ name: test
 on: [push, workflow_dispatch]
 
 jobs:
-  test:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: yarn
+          
+      - name: lint
+        run: yarn lint
+  test-app:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -15,9 +26,6 @@ jobs:
       - name: install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: install functions dependencies
-        run: cd functions && yarn install --frozen-lockfile
-
       - name: lint
         run: yarn lint
 
@@ -26,3 +34,17 @@ jobs:
 
       - name: test firebase functions
         run: yarn test-functions
+  test-functions:
+    runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4
+        - uses: actions/setup-node@v4
+          with:
+            node-version-file: '.node-version'
+            cache: yarn
+
+        - name: install functions dependencies
+          run: cd functions && yarn install --frozen-lockfile
+
+        - name: test firebase functions
+          run: yarn test-functions
