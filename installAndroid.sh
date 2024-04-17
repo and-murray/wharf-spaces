@@ -1,6 +1,6 @@
 #!/bin/bash -i
 #using shebang with -i to enable interactive mode (auto load .bashrc)
-
+# TO DO: Do we still need this?
 set -e #stop immediately if any error happens
 
 # Import Azul’s public key
