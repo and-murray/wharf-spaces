@@ -2,6 +2,10 @@ name: deploy
 
 on:
   workflow_dispatch:
+    inputs:
+      ENV:
+        required: true
+        type: string
   workflow_call:
     inputs:
       ENV:
