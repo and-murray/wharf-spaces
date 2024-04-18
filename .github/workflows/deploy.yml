@@ -50,6 +50,8 @@ jobs:
         run: yarn firebase use ${{ inputs.ENV }}
 
       - name: Deploy Functions
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: '../admin-sdk.json'
         run: yarn deployFirebaseFunctions
 
   deploy-firestore-rules:
