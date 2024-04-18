@@ -1,0 +1,19 @@
+name: develop
+
+on:
+  push:
+    branches:
+      - develop
+      - feature/9-functions-deploy
+
+jobs:
+  tests:
+    uses: ./.github/workflows/test.yml
+  deploy:
+    needs: tests
+    uses: ./.github/worflows/deploy.yml
+      with:
+        ENV: "development"
+  # distribute-apps:
+  #   needs: tests
+  #   uses: ./.github/workflows/distribute-apps.yml

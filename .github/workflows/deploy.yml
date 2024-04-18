@@ -1,0 +1,43 @@
+name: deploy
+
+on:
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      ENV:
+        required: true
+        type: string
+
+jobs:
+  deploy-functions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: yarn
+      - uses: ruby/setup-ruby@v1
+
+      - name: Retrieve the secret and decode it to a file
+        env:
+          DEV_ADMIN_SDK_BASE64: ${{ secrets.MURRAY_APPS_DEV_FIREBASE_ADMIN_BASE_64_ENCODED_JSON }}
+          PROD_ADMIN_SDK_BASE64: ${{ secrets.MURRAY_APPS_PROD_FIREBASE_ADMIN_BASE_64_ENCODED_JSON }}
+        run: |
+          echo $ADMIN_SDK_BASE64 | base64 --decode > dev-admin-sdk.json
+          echo $ADMIN_SDK_BASE64 | base64 --decode > prod-admin-sdk.json
+
+      - name: Bundle install
+        run: bundle install
+
+      - name: install dependencies
+        run: yarn install
+
+      - name: install functions dependencies
+        run: yarn installFirebaseFunctions
+
+      - name: Set Firebase Project
+        run: source ./setFirebaseProject.sh
+
+      - name: Deploy Functions
+        run: yarn deployFirebaseFunctions
