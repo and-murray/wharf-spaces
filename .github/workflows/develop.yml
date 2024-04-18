@@ -12,8 +12,8 @@ jobs:
   deploy:
     needs: tests
     uses: ./.github/worflows/deploy.yml
-      with:
-        ENV: "development"
+    with:
+      ENV: 'development'
   # distribute-apps:
   #   needs: tests
   #   uses: ./.github/workflows/distribute-apps.yml

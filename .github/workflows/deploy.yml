@@ -1,16 +1,12 @@
 name: deploy
 
 on:
-  workflow_dispatch:
-    inputs:
-      ENV:
-        required: true
-        type: string
   workflow_call:
     inputs:
       ENV:
         required: true
         type: string
+        description: 'Either development or production'
 
 jobs:
   deploy-functions:
