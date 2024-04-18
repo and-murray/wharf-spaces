@@ -45,6 +45,8 @@ jobs:
         run: yarn installFirebaseFunctions
 
       - name: Set Firebase Project
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: 'admin-sdk.json'
         run: yarn firebase use ${{ inputs.ENV }}
 
       - name: Deploy Functions
