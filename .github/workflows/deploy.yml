@@ -28,7 +28,7 @@ jobs:
           then
             echo 'Setting Dev Env'
             echo $DEV_ADMIN_SDK_BASE64 | base64 --decode > admin-sdk.json
-          elif [ "$ENV" == "production" ]
+          elif [ ${{ inputs.ENV }} == "production" ]
           then
             echo 'Setting Prod Env'
             echo $PROD_ADMIN_SDK_BASE64 | base64 --decode > admin-sdk.json
