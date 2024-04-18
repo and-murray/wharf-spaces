@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# TO DO: DO WE NEED THIS ANYMORE? 
 if [ "$ENV" == "development" ]
 then
   echo 'Setting Dev Env'
