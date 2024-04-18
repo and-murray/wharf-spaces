@@ -33,7 +33,7 @@ jobs:
             echo 'Setting Prod Env'
             echo $PROD_ADMIN_SDK_BASE64 | base64 --decode > admin-sdk.json
           fi
-          export GOOGLE_APPLICATION_CREDENTIALS="./admin-sdk.json"
+          export GOOGLE_APPLICATION_CREDENTIALS="admin-sdk.json"
 
       - name: Bundle install
         run: bundle install
