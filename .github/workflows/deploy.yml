@@ -24,8 +24,16 @@ jobs:
           DEV_ADMIN_SDK_BASE64: ${{ secrets.MURRAY_APPS_DEV_FIREBASE_ADMIN_BASE_64_ENCODED_JSON }}
           PROD_ADMIN_SDK_BASE64: ${{ secrets.MURRAY_APPS_PROD_FIREBASE_ADMIN_BASE_64_ENCODED_JSON }}
         run: |
-          echo $ADMIN_SDK_BASE64 | base64 --decode > dev-admin-sdk.json
-          echo $ADMIN_SDK_BASE64 | base64 --decode > prod-admin-sdk.json
+          if [ ${{ inputs.ENV }} == "development" ]
+          then
+            echo 'Setting Dev Env'
+            echo $DEV_ADMIN_SDK_BASE64 | base64 --decode > admin-sdk.json
+          elif [ "$ENV" == "production" ]
+          then
+            echo 'Setting Prod Env'
+            echo $PROD_ADMIN_SDK_BASE64 | base64 --decode > admin-sdk.json
+          fi
+          export GOOGLE_APPLICATION_CREDENTIALS="./admin-sdk.json"
 
       - name: Bundle install
         run: bundle install
@@ -37,7 +45,7 @@ jobs:
         run: yarn installFirebaseFunctions
 
       - name: Set Firebase Project
-        run: source ./setFirebaseProject.sh
+        run: yarn firebase use ${{ inputs.ENV }}
 
       - name: Deploy Functions
         run: yarn deployFirebaseFunctions

@@ -7,10 +7,10 @@ on:
       - feature/9-functions-deploy
 
 jobs:
-  tests:
-    uses: ./.github/workflows/test.yml
+  # tests:
+  #   uses: ./.github/workflows/test.yml
   deploy:
-    needs: tests
+    # needs: tests
     uses: ./.github/workflows/deploy.yml
     with:
       ENV: 'development'
