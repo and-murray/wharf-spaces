@@ -36,7 +36,6 @@ jobs:
             echo 'Setting Prod Env'
             echo $PROD_ADMIN_SDK_BASE64 | base64 --decode > admin-sdk.json
           fi
-          export GOOGLE_APPLICATION_CREDENTIALS="admin-sdk.json"
 
       - name: Bundle install
         run: bundle install
@@ -52,3 +51,83 @@ jobs:
 
       - name: Deploy Functions
         run: yarn deployFirebaseFunctions
+
+  deploy-firestore-rules:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: yarn
+      - uses: ruby/setup-ruby@v1
+
+      - name: Retrieve the secret and decode it to a file
+        env:
+          DEV_ADMIN_SDK_BASE64: ${{ secrets.MURRAY_APPS_DEV_FIREBASE_ADMIN_BASE_64_ENCODED_JSON }}
+          PROD_ADMIN_SDK_BASE64: ${{ secrets.MURRAY_APPS_PROD_FIREBASE_ADMIN_BASE_64_ENCODED_JSON }}
+        run: |
+          if [ ${{ inputs.ENV }} == "development" ]
+          then
+            echo 'Setting Dev Env'
+            echo $DEV_ADMIN_SDK_BASE64 | base64 --decode > admin-sdk.json
+          elif [ ${{ inputs.ENV }} == "production" ]
+          then
+            echo 'Setting Prod Env'
+            echo $PROD_ADMIN_SDK_BASE64 | base64 --decode > admin-sdk.json
+          fi
+
+      - name: Bundle install
+        run: bundle install
+
+      - name: install dependencies
+        run: yarn install
+
+      - name: install functions dependencies
+        run: yarn installFirebaseFunctions
+
+      - name: Set Firebase Project
+        run: yarn firebase use ${{ inputs.ENV }}
+
+      - name: Deploy Functions
+        run: yarn deployFirestoreRules
+
+  deploy-storage-rules:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: yarn
+      - uses: ruby/setup-ruby@v1
+
+      - name: Retrieve the secret and decode it to a file
+        env:
+          DEV_ADMIN_SDK_BASE64: ${{ secrets.MURRAY_APPS_DEV_FIREBASE_ADMIN_BASE_64_ENCODED_JSON }}
+          PROD_ADMIN_SDK_BASE64: ${{ secrets.MURRAY_APPS_PROD_FIREBASE_ADMIN_BASE_64_ENCODED_JSON }}
+        run: |
+          if [ ${{ inputs.ENV }} == "development" ]
+          then
+            echo 'Setting Dev Env'
+            echo $DEV_ADMIN_SDK_BASE64 | base64 --decode > admin-sdk.json
+          elif [ ${{ inputs.ENV }} == "production" ]
+          then
+            echo 'Setting Prod Env'
+            echo $PROD_ADMIN_SDK_BASE64 | base64 --decode > admin-sdk.json
+          fi
+
+      - name: Bundle install
+        run: bundle install
+
+      - name: install dependencies
+        run: yarn install
+
+      - name: install functions dependencies
+        run: yarn installFirebaseFunctions
+
+      - name: Set Firebase Project
+        run: yarn firebase use ${{ inputs.ENV }}
+
+      - name: Deploy Functions
+        run: yarn deployStorageRules
