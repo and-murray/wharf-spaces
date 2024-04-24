@@ -60,13 +60,17 @@ exports.api = functions
  */
 exports.scheduledFunctionCrontab = functions
   .region('europe-west1')
-  .pubsub.schedule('0 21 * * *')
+  .runWith({
+    timeoutSeconds: 240,
+  })
+  .pubsub.schedule('*/5 * * * *')
   .timeZone('Europe/London')
   .onRun(async () => {
     try {
       await callCarAPI();
       console.log('Called car API Successfully');
+      return Promise.resolve();
     } catch (error) {
-      console.log(`Function error ${error}`);
+      return Promise.reject(error);
     }
   });
