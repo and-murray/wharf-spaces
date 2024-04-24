@@ -63,7 +63,7 @@ exports.scheduledFunctionCrontab = functions
   .runWith({
     timeoutSeconds: 240,
   })
-  .pubsub.schedule('*/5 * * * *')
+  .pubsub.schedule('0 21 * * *')
   .timeZone('Europe/London')
   .onRun(async () => {
     try {
