@@ -1,10 +1,17 @@
 name: distribute-apps
 
-on: [workflow_dispatch, workflow_call]
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+        description: 'Either development or production'
 
 jobs:
   distribute-ios:
     runs-on: macos-14
+    environment: ${{ inputs.environment }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -17,16 +24,16 @@ jobs:
           xcode-version: '15.2'
       - name: Retrieve the secret and decode it to a file
         env:
-          ADMIN_SDK_BASE64: ${{ secrets.MURRAY_APPS_DEV_FIREBASE_ADMIN_BASE_64_ENCODED_JSON }}
+          ADMIN_SDK_BASE64: ${{ secrets.FIREBASE_ADMIN_BASE_64_ENCODED_JSON }}
           APP_STORE_CONNECT_KEY_BASE_64_ENCODED_JSON: ${{ secrets.APP_STORE_CONNECT_KEY_BASE_64_ENCODED_JSON }}
         run: |
           echo $ADMIN_SDK_BASE64 | base64 --decode > admin-sdk.json
           echo $APP_STORE_CONNECT_KEY_BASE_64_ENCODED_JSON | base64 --decode > appstore-connect-api-key.json
-          touch .env.development
-          echo REACT_APP_FIREBASE_AUTH_WEB_CLIENT_ID = "${{ vars.MURRAY_APPS_DEV_REACT_APP_FIREBASE_AUTH_WEB_CLIENT_ID }}" >> .env.development
-          echo REACT_APP_FIREBASE_FUNCTIONS_BASE_URL = "${{ vars.MURRAY_APPS_DEV_REACT_APP_FIREBASE_FUNCTIONS_BASE_URL }}" >> .env.development
-          echo REMOTE_CONFIG_FETCH_DEBUG = "false" >> .env.development
-          cat .env.development
+          touch .env.${{ inputs.environment }}
+          echo REACT_APP_FIREBASE_AUTH_WEB_CLIENT_ID = "${{ vars.MURRAY_APPS_DEV_REACT_APP_FIREBASE_AUTH_WEB_CLIENT_ID }}" >> .env.${{ inputs.environment }}
+          echo REACT_APP_FIREBASE_FUNCTIONS_BASE_URL = "${{ vars.MURRAY_APPS_DEV_REACT_APP_FIREBASE_FUNCTIONS_BASE_URL }}" >> .env.${{ inputs.environment }}
+          echo REMOTE_CONFIG_FETCH_DEBUG = "false" >> .env.${{ inputs.environment }}
+          cat .env.${{ inputs.environment }}
 
       - name: Bundle install
         run: bundle install
@@ -35,9 +42,16 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: ios-qa-distribute
+        if: ${{ inputs.environment }} == development
         run: yarn ios:qa:distribute
+
+      - name: ios-testflight-distribute
+        if: ${{ inputs.environment }} == production
+        run: yarn ios:testflight:distribute
+
   distribute-android:
     runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -54,7 +68,7 @@ jobs:
 
       - name: Retrieve the secret and decode it to a file
         env:
-          ADMIN_SDK_BASE64: ${{ secrets.MURRAY_APPS_DEV_FIREBASE_ADMIN_BASE_64_ENCODED_JSON }}
+          ADMIN_SDK_BASE64: ${{ secrets.FIREBASE_ADMIN_BASE_64_ENCODED_JSON }}
           GOOGLE_PLAY_RELEASE_KEYSTORE_BASE64_ENCODED_PROPERTIES: ${{ secrets.GOOGLE_PLAY_RELEASE_KEYSTORE_BASE64_ENCODED_PROPERTIES }}
           ANDROID_RELEASE_KEYSTORE_BASE64_ENCODED: ${{ secrets.ANDROID_RELEASE_KEYSTORE_BASE64_ENCODED }}
           ANDROID_PROD_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_PROD_KEYSTORE_PASSWORD }}
@@ -63,11 +77,11 @@ jobs:
           mkdir android/app/play_store_keys
           echo $GOOGLE_PLAY_RELEASE_KEYSTORE_BASE64_ENCODED_PROPERTIES | base64 --decode > android/app/play_store_keys/release_keystore.properties
           echo $ANDROID_RELEASE_KEYSTORE_BASE64_ENCODED | base64 --decode > android/app/release.keystore
-          touch .env.development
-          echo REACT_APP_FIREBASE_AUTH_WEB_CLIENT_ID = "${{ vars.MURRAY_APPS_DEV_REACT_APP_FIREBASE_AUTH_WEB_CLIENT_ID }}" >> .env.development
-          echo REACT_APP_FIREBASE_FUNCTIONS_BASE_URL = "${{ vars.MURRAY_APPS_DEV_REACT_APP_FIREBASE_FUNCTIONS_BASE_URL }}" >> .env.development
-          echo REMOTE_CONFIG_FETCH_DEBUG = "false" >> .env.development
-          cat .env.development
+          touch .env.${{ inputs.environment }}
+          echo REACT_APP_FIREBASE_AUTH_WEB_CLIENT_ID = "${{ vars.MURRAY_APPS_DEV_REACT_APP_FIREBASE_AUTH_WEB_CLIENT_ID }}" >> .env.${{ inputs.environment }}
+          echo REACT_APP_FIREBASE_FUNCTIONS_BASE_URL = "${{ vars.MURRAY_APPS_DEV_REACT_APP_FIREBASE_FUNCTIONS_BASE_URL }}" >> .env.${{ inputs.environment }}
+          echo REMOTE_CONFIG_FETCH_DEBUG = "false" >> .env.${{ inputs.environment }}
+          cat .env.${{ inputs.environment }}
 
       - name: Bundle install
         run: bundle install
@@ -76,4 +90,9 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: android-qa-distribute
+        if: ${{ inputs.environment }} == development
         run: yarn android:qa:distribute
+
+      - name: ios-testflight-distribute
+        if: ${{ inputs.environment }} == production
+        run: yarn android:android:google_play:distribute

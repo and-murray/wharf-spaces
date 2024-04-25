@@ -1,23 +1,18 @@
-name: develop
+name: release
 
 on:
   push:
     branches:
-      - develop
+      - release/*
+      - feature/8-App-Distribute
 
 jobs:
   tests:
     uses: ./.github/workflows/test.yml
-  deploy:
-    needs: tests
-    uses: ./.github/workflows/deploy.yml
-    with:
-      environment: 'development'
-    secrets: inherit
   distribute-apps:
     needs: tests
     uses: ./.github/workflows/distribute-apps.yml
     secrets: inherit
     with:
-      environment: 'development'
+      environment: 'production'
     secrets: inherit

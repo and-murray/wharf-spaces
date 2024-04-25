@@ -146,7 +146,7 @@ platform :android do
     end
 
     lane :google_play_distribute do |options|
-        ENV["GOOGLE_APPLICATION_CREDENTIALS"]="murray-apps-firebase-adminsdk-f378n-6ee50c3655.json"
+        ENV["GOOGLE_APPLICATION_CREDENTIALS"]="admin-sdk.json"
         ENV["ENVFILE"]=".env.production"
         gradle(
             project_dir: "./android",
