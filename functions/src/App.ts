@@ -17,7 +17,7 @@ const swaggerDefinition = {
     title: 'MCDBA',
     version: '1.0.0',
     description:
-      "API description for MCDBA app. This API describes 3 Firebase Functions. It's important to remember car bookings (including all http methods) should be made against the car API, desk against the desk API and anything else against the API",
+      "API description for MCDBA app, This API describes 3 Firebase Functions. It's important to remember car bookings (including all http methods) should be made against the car API, desk against the desk API and anything else against the API",
   },
   servers: [
     {
