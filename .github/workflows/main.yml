@@ -10,10 +10,6 @@ jobs:
     uses: ./.github/workflows/test.yml
   deploy:
     needs: tests
+    environment: production
     uses: ./.github/workflows/deploy.yml
-    with:
-      ENV: 'production'
     secrets: inherit
-  distribute-apps:
-    needs: tests
-    uses: ./.github/workflows/distribute-apps.yml

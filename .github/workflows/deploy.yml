@@ -24,18 +24,9 @@ jobs:
 
       - name: Retrieve the secret and decode it to a file
         env:
-          DEV_ADMIN_SDK_BASE64: ${{ secrets.MURRAY_APPS_DEV_FIREBASE_ADMIN_BASE_64_ENCODED_JSON }}
-          PROD_ADMIN_SDK_BASE64: ${{ secrets.MURRAY_APPS_PROD_FIREBASE_ADMIN_BASE_64_ENCODED_JSON }}
+          ADMIN_SDK_BASE64: ${{ secrets.FIREBASE_ADMIN_BASE_64_ENCODED_JSON }}
         run: |
-          if [ ${{ inputs.ENV }} == "development" ]
-          then
-            echo 'Setting Dev Env'
-            echo $DEV_ADMIN_SDK_BASE64 | base64 --decode > admin-sdk.json
-          elif [ ${{ inputs.ENV }} == "production" ]
-          then
-            echo 'Setting Prod Env'
-            echo $PROD_ADMIN_SDK_BASE64 | base64 --decode > admin-sdk.json
-          fi
+          echo $ADMIN_SDK_BASE64 | base64 --decode > admin-sdk.json
 
       - name: Bundle install
         run: bundle install
