@@ -39,7 +39,7 @@ jobs:
         run: yarn installFirebaseFunctions
 
       - name: Set Firebase Project
-        run: yarn firebase use ${{ inputs.ENV }}
+        run: yarn firebase use ${{ inputs.environment }}
 
       - name: Deploy Functions
         env:
@@ -73,7 +73,7 @@ jobs:
         run: yarn installFirebaseFunctions
 
       - name: Set Firebase Project
-        run: yarn firebase use ${{ inputs.ENV }}
+        run: yarn firebase use ${{ inputs.environment }}
 
       - name: Deploy Functions
         run: yarn deployFirestoreRules
@@ -105,7 +105,7 @@ jobs:
         run: yarn installFirebaseFunctions
 
       - name: Set Firebase Project
-        run: yarn firebase use ${{ inputs.ENV }}
+        run: yarn firebase use ${{ inputs.environment }}
 
       - name: Deploy Functions
         run: yarn deployStorageRules
