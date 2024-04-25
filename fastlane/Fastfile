@@ -1,12 +1,15 @@
-fastlane_version '2.219.0'
+fastlane_version '2.220.0'
 
 platform :ios do
     iOSWorkspace = "./ios/MurrayDeskBooking.xcworkspace"
     iOSProject = "./ios/MurrayDeskBooking.xcodeproj"
 
     lane :qa_distribute do
+        ENV["GOOGLE_APPLICATION_CREDENTIALS"]="admin-sdk.json"
+        ENV["ENV"]="development"
+        setup_ci(force: true)
         increment_build_number(
-            build_number: "#{get_datetime_for_build_version}.#{number_of_commits}",
+            build_number: "#{get_datetime_for_build_version}",
             xcodeproj: iOSProject
         )
         match(type: "enterprise",
@@ -15,12 +18,13 @@ platform :ios do
             readonly: true,
             skip_google_cloud_account_confirmation: true,
             skip_certificate_matching: true,
-             force_for_new_devices: true)      
+            force_for_new_devices: true)
+        cocoapods(podfile: "ios/Podfile")
         gym(workspace: iOSWorkspace,
+            silent: true,
             configuration: 'Release-Dev',
             export_method: 'enterprise',
             export_team_id: 'T364HJZ84F')
-        ENV["GOOGLE_APPLICATION_CREDENTIALS"]="murray-apps-dev-firebase-adminsdk-57gqb-148f1fe61f.json"
         upload_symbols_to_crashlytics(dsym_path: ENV["DSYM_OUTPUT_PATH"], 
             binary_path: './ios/Pods/FirebaseCrashlytics/upload-symbols',
             gsp_path: './ios/Firebase/GoogleService-Info-Dev-Enterprise.plist')
@@ -112,7 +116,7 @@ end
 platform :android do
 
     before_all do |lane|
-        ENV["GOOGLE_APPLICATION_CREDENTIALS"]="murray-apps-dev-firebase-adminsdk-57gqb-148f1fe61f.json"
+        ENV["GOOGLE_APPLICATION_CREDENTIALS"]="admin-sdk.json"
         ENV["ENVFILE"]=".env.development"
         if ENV["ANDROID_HOME"].nil?
             UI.abort_with_message!('Please set ANDROID_HOME environment variable, this is likely "/Users/{YOUR_USERNAME}/Library/Android/sdk"')
@@ -177,8 +181,4 @@ private_lane :get_dev_release_notes do
     Hash: #{commit[:commit_hash]},
     Short Hash: #{commit[:abbreviated_commit_hash]}
     """
-end
-
-private_lane :get_commit_number do
-    number_of_commits
 end
