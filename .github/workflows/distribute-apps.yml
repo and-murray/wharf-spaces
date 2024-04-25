@@ -42,11 +42,11 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: ios-qa-distribute
-        if: ${{ inputs.environment }} == development
+        if: ${{ inputs.environment }} == 'development'
         run: yarn ios:qa:distribute
 
       - name: ios-testflight-distribute
-        if: ${{ inputs.environment }} == production
+        if: ${{ inputs.environment }} == 'production'
         run: yarn ios:testflight:distribute
 
   distribute-android:
@@ -90,9 +90,9 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: android-qa-distribute
-        if: ${{ inputs.environment }} == development
+        if: ${{ inputs.environment }} == 'development'
         run: yarn android:qa:distribute
 
       - name: ios-testflight-distribute
-        if: ${{ inputs.environment }} == production
-        run: yarn android:android:google_play:distribute
+        if: ${{ inputs.environment }} == 'production'
+        run: yarn android:google_play:distribute
