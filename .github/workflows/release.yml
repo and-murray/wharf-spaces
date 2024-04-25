@@ -12,7 +12,6 @@ jobs:
   distribute-apps:
     needs: tests
     uses: ./.github/workflows/distribute-apps.yml
-    secrets: inherit
     with:
       environment: 'production'
     secrets: inherit
