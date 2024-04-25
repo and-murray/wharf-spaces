@@ -27,6 +27,7 @@
     "cookie-parser": "^1.4.6",
     "dayjs": "^1.11.7",
     "dayjs-plugin-utc": "^0.1.2",
+    "fetch-retry": "^6.0.0",
     "firebase-admin": "^11.5.0",
     "firebase-functions": "^4.2.0",
     "http-errors": "^2.0.0",
