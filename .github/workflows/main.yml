@@ -10,7 +10,6 @@ jobs:
     uses: ./.github/workflows/test.yml
   deploy:
     needs: tests
-    environment: production
     uses: ./.github/workflows/deploy.yml
     with:
       environment: 'production'
