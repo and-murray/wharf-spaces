@@ -9,6 +9,7 @@ service cloud.firestore {
     match /bookings/{docID} {
       allow read: if isSignedIn();
     }
+    
     match /notes/{docID} {
     	allow write, read: if isSignedIn();
     }
