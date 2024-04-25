@@ -20,7 +20,7 @@ static def getNumberOfGitCommtis() {
     def result = "git rev-list HEAD --count".execute().text.trim() //unix
     if (result.empty) result = "PowerShell -Command git rev-list HEAD --count".execute().text.trim() //windows
     if (result.empty) throw new RuntimeException("Could not generate versioncode on this platform? Cmd output: ${result.text}")
-    return result.toInteger()
+    return result.toInteger() + 1000
 }
 
 react {
