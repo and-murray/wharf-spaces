@@ -3,7 +3,7 @@ name: deploy
 on:
   workflow_call:
     inputs:
-      ENV:
+      environment:
         required: true
         type: string
         description: 'Either development or production'
@@ -14,6 +14,7 @@ env:
 jobs:
   deploy-functions:
     runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -47,6 +48,7 @@ jobs:
 
   deploy-firestore-rules:
     runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -78,6 +80,7 @@ jobs:
 
   deploy-storage-rules:
     runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
