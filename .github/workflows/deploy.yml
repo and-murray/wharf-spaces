@@ -12,7 +12,31 @@ env:
   GOOGLE_APPLICATION_CREDENTIALS: 'admin-sdk.json'
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    outputs:
+      storage: ${{ steps.filter.outputs.storage }}
+      firestore: ${{ steps.filter.outputs.firestore }}
+      functions: ${{ steps.filter.outputs.functions }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          base: 'develop'
+          filters: |
+            storage:
+              - 'storage.rules'
+            firestore:
+              - 'firestore.rules'
+            functions:
+              - 'functions/**'
+
   deploy-functions:
+    needs: changes
+    if: ${{ needs.changes.outputs.functions == 'true' }}
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     steps:
@@ -47,6 +71,8 @@ jobs:
         run: yarn deployFirebaseFunctions
 
   deploy-firestore-rules:
+    needs: changes
+    if: ${{ needs.changes.outputs.firestore == 'true' }}
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     steps:
@@ -79,6 +105,8 @@ jobs:
         run: yarn deployFirestoreRules
 
   deploy-storage-rules:
+    needs: changes
+    if: ${{ needs.changes.outputs.storage == 'true' }}
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     steps:
