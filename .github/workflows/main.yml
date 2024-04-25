@@ -12,4 +12,3 @@ jobs:
     needs: tests
     environment: production
     uses: ./.github/workflows/deploy.yml
-    secrets: inherit

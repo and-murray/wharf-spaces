@@ -13,7 +13,6 @@ jobs:
     environment: development
     needs: tests
     uses: ./.github/workflows/deploy.yml
-    secrets: inherit
   distribute-apps:
     needs: tests
     uses: ./.github/workflows/distribute-apps.yml
