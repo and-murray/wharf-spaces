@@ -5,6 +5,7 @@ service firebase.storage {
     match /privacy-policy.html {
       allow read;
     }
+    
     match /terms-and-conditions.html {
     	 allow read;
     }
