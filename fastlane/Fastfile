@@ -52,6 +52,14 @@ platform :ios do
             build_number: "#{get_datetime_for_build_version}.#{number_of_commits}",
             xcodeproj: iOSProject
         )
+        gradle(
+            project_dir: "./android",
+            properties: {
+                # Version code set in build.gradle not here
+                "versionName" => version_number_string,
+                "prodKeyStorePassword" => ENV["ANDROID_PROD_KEYSTORE_PASSWORD"]
+            }
+          )
     end
 
     lane :testflight_distribute do
