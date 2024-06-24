@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - develop
+      - feature/8-App-Distribute
 
 jobs:
   tests:
@@ -17,4 +18,6 @@ jobs:
   distribute-apps:
     needs: tests
     uses: ./.github/workflows/distribute-apps.yml
+    with:
+      environment: 'development'
     secrets: inherit

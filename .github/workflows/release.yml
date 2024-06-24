@@ -1,0 +1,16 @@
+name: release
+
+on:
+  push:
+    branches:
+      - release/*
+
+jobs:
+  tests:
+    uses: ./.github/workflows/test.yml
+  distribute-apps:
+    needs: tests
+    uses: ./.github/workflows/distribute-apps.yml
+    with:
+      environment: 'production'
+    secrets: inherit
