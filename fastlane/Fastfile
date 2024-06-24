@@ -12,7 +12,7 @@ platform :ios do
             build_number: "#{get_datetime_for_build_version}",
             xcodeproj: iOSProject
         )
-        match(type: "ad-hoc",
+        match(type: "adhoc",
             app_identifier: 'digital.and.murray-apps',
             readonly: true,
             skip_google_cloud_account_confirmation: true,
@@ -22,7 +22,7 @@ platform :ios do
         gym(workspace: iOSWorkspace,
             silent: true,
             configuration: 'Release-Dev',
-            export_method: 'ad-hoc')
+            export_method: 'adhoc')
         upload_symbols_to_crashlytics(dsym_path: ENV["DSYM_OUTPUT_PATH"], 
             binary_path: './ios/Pods/FirebaseCrashlytics/upload-symbols',
             gsp_path: './ios/Firebase/GoogleService-Info-Dev.plist')
