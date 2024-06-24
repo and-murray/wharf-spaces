@@ -9,14 +9,14 @@ jobs:
   tests:
     uses: ./.github/workflows/test.yml
   deploy:
-    when: manual
+    on: workflow_dispatch
     needs: tests
     uses: ./.github/workflows/deploy.yml
     with:
       environment: 'development'
     secrets: inherit
   distribute-apps:
-    when: manual
+    on: workflow_dispatch
     needs: tests
     uses: ./.github/workflows/distribute-apps.yml
     with:
