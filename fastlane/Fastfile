@@ -12,9 +12,8 @@ platform :ios do
             build_number: "#{get_datetime_for_build_version}",
             xcodeproj: iOSProject
         )
-        match(type: "enterprise",
-            team_id: 'T364HJZ84F',
-            app_identifier: 'digital.and.enterprise.murray-apps',
+        match(type: "ad-hoc",
+            app_identifier: 'digital.and.murray-apps',
             readonly: true,
             skip_google_cloud_account_confirmation: true,
             skip_certificate_matching: true,
@@ -23,11 +22,10 @@ platform :ios do
         gym(workspace: iOSWorkspace,
             silent: true,
             configuration: 'Release-Dev',
-            export_method: 'enterprise',
-            export_team_id: 'T364HJZ84F')
+            export_method: 'ad-hoc')
         upload_symbols_to_crashlytics(dsym_path: ENV["DSYM_OUTPUT_PATH"], 
             binary_path: './ios/Pods/FirebaseCrashlytics/upload-symbols',
-            gsp_path: './ios/Firebase/GoogleService-Info-Dev-Enterprise.plist')
+            gsp_path: './ios/Firebase/GoogleService-Info-Dev.plist')
         firebase_app_distribution(
             groups: "devs, product",
             release_notes: "#{get_dev_release_notes}"
