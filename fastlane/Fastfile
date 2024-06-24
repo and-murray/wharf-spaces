@@ -22,7 +22,7 @@ platform :ios do
         gym(workspace: iOSWorkspace,
             silent: true,
             configuration: 'Release-Dev',
-            export_method: 'adhoc')
+            export_method: 'ad-hoc')
         upload_symbols_to_crashlytics(dsym_path: ENV["DSYM_OUTPUT_PATH"], 
             binary_path: './ios/Pods/FirebaseCrashlytics/upload-symbols',
             gsp_path: './ios/Firebase/GoogleService-Info-Dev.plist')
