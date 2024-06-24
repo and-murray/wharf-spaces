@@ -353,7 +353,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "PATH_TO_GOOGLE_PLISTS=\"${PROJECT_DIR}/Firebase\"\n\ncase \"${CONFIGURATION}\" in\n\n   \"Debug-Dev\" )\n        cp -r \"$PATH_TO_GOOGLE_PLISTS/GoogleService-Info-Dev.plist\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist\" ;;\n   \"Release-Dev\" )\n       cp -r \"$PATH_TO_GOOGLE_PLISTS/GoogleService-Info-Dev-Enterprise.plist\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist\" ;;\n   \"Debug-Production\" | \"Release-Production\" )\n        cp -r \"$PATH_TO_GOOGLE_PLISTS/GoogleService-Info-Prod.plist\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist\" ;;\n\n    *)\n        ;;\nesac\n";
+			shellScript = "PATH_TO_GOOGLE_PLISTS=\"${PROJECT_DIR}/Firebase\"\n\ncase \"${CONFIGURATION}\" in\n\n   \"Debug-Dev\" | \"Release-Dev\" )\n        cp -r \"$PATH_TO_GOOGLE_PLISTS/GoogleService-Info-Dev.plist\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist\" ;;\n   \"Debug-Production\" | \"Release-Production\" )\n        cp -r \"$PATH_TO_GOOGLE_PLISTS/GoogleService-Info-Prod.plist\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist\" ;;\n\n    *)\n        ;;\nesac\n";
 		};
 		7DD2151B3E178CD8FB34632F /* [CP-User] [RNFB] Crashlytics Configuration */ = {
 			isa = PBXShellScriptBuildPhase;
