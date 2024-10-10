@@ -16,7 +16,7 @@ jest.mock('@firebase/messaging/messagingService', () => ({
   saveTokenToDatabase: (token: string) => mockSaveTokenToDatabase(token),
   checkMessagingPermission: () => mockCheckMessagingPermission(),
 }));
-jest.mock('@screens/DeskScreen/DeskScreen');
+jest.mock('@screens/BookingScreen/BookingScreen');
 
 describe('When the Home container is displayed', () => {
   beforeEach(() => {
