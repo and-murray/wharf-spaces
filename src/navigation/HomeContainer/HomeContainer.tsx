@@ -34,6 +34,7 @@ function HomeContainer(): React.JSX.Element {
       <IconButton
         onPress={logoutAlert}
         variant="unstyled"
+        accessibilityLabel="Log Out"
         icon={<Icon as={LogoutIcon} />}
       />
     );
