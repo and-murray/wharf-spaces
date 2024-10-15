@@ -53,11 +53,6 @@ const AvailableSpaces = ({bookings, userData}: AvailableSpacesProps) => {
       let remainingCapacity = 0;
       remainingCapacity = parkingCapacity[businessUnit];
 
-      // override parking capacity for adams before join date
-      // if (businessUnit === BusinessUnit.adams) {
-      //   remainingCapacity = parkingCapacity.adams;
-      // } else
-
       if (canBookAnySpace && businessUnit !== BusinessUnit.unknown) {
         remainingCapacity =
           parkingCapacity.murray +
