@@ -5,7 +5,6 @@ import {
   checkSpaceTypeBeingBooked,
   isBookingDateLimitedToBU,
   isValidCarBookingDate,
-  isBeforeHawkingJoin,
 } from './BookingUtils';
 
 let mockServerTimestamp = '2023-06-30T00:00:00Z';
@@ -23,7 +22,7 @@ let defaults = {
   deskCapacity: 36,
   murrayCarCapacity: 6,
   tenzingCarCapacity: 2,
-  hawkingCarCapacity: 2,
+  adamsCarCapacity: 2,
   unknownCarCapacity: 0,
 };
 jest.mock('../../Services/Defaults/defaults', () => ({
@@ -150,7 +149,7 @@ describe('BookingUtils', () => {
         expectedCapacity:
           defaults.murrayCarCapacity +
           defaults.tenzingCarCapacity +
-          defaults.hawkingCarCapacity,
+          defaults.adamsCarCapacity,
         description:
           'should calculate correct car space capacity for murray BU when booking for the same day',
       },
@@ -161,7 +160,7 @@ describe('BookingUtils', () => {
         expectedCapacity:
           defaults.murrayCarCapacity +
           defaults.tenzingCarCapacity +
-          defaults.hawkingCarCapacity,
+          defaults.adamsCarCapacity,
         description:
           'should calculate correct car space capacity for murray BU when booking after 9PM for the next day',
       },
@@ -188,7 +187,7 @@ describe('BookingUtils', () => {
         expectedCapacity:
           defaults.murrayCarCapacity +
           defaults.tenzingCarCapacity +
-          defaults.hawkingCarCapacity,
+          defaults.adamsCarCapacity,
         description:
           'should calculate correct car space capacity for tenzing BU when booking for the same day',
       },
@@ -199,7 +198,7 @@ describe('BookingUtils', () => {
         expectedCapacity:
           defaults.murrayCarCapacity +
           defaults.tenzingCarCapacity +
-          defaults.hawkingCarCapacity,
+          defaults.adamsCarCapacity,
         description:
           'should calculate correct car space capacity for tenzing BU when booking after 9PM for the next day',
       },
@@ -222,40 +221,40 @@ describe('BookingUtils', () => {
       {
         serverTimestamp: '2024-05-11T12:00:00Z',
         dateToBook: '2024-05-11T00:00:00Z',
-        businessUnit: 'hawking',
+        businessUnit: 'adams',
         expectedCapacity:
           defaults.murrayCarCapacity +
           defaults.tenzingCarCapacity +
-          defaults.hawkingCarCapacity,
+          defaults.adamsCarCapacity,
         description:
-          'should calculate correct car space capacity for hawking BU when booking for the same day',
+          'should calculate correct car space capacity for adams BU when booking for the same day',
       },
       {
         serverTimestamp: '2024-05-11T22:00:00Z',
         dateToBook: '2024-05-12T00:00:00Z',
-        businessUnit: 'hawking',
+        businessUnit: 'adams',
         expectedCapacity:
           defaults.murrayCarCapacity +
           defaults.tenzingCarCapacity +
-          defaults.hawkingCarCapacity,
+          defaults.adamsCarCapacity,
         description:
-          'should calculate correct car space capacity for hawking BU when booking after 9PM for the next day',
+          'should calculate correct car space capacity for adams BU when booking after 9PM for the next day',
       },
       {
         serverTimestamp: '2024-05-11T19:00:00Z',
         dateToBook: '2024-05-12T00:00:00Z',
-        businessUnit: 'hawking',
-        expectedCapacity: defaults.hawkingCarCapacity,
+        businessUnit: 'adams',
+        expectedCapacity: defaults.adamsCarCapacity,
         description:
-          'should calculate correct car space capacity for hawking BU when booking before 9PM for the next day',
+          'should calculate correct car space capacity for adams BU when booking before 9PM for the next day',
       },
       {
         serverTimestamp: '2024-05-11T10:00:00Z',
         dateToBook: '2024-05-13T00:00:00Z',
-        businessUnit: 'hawking',
-        expectedCapacity: defaults.hawkingCarCapacity,
+        businessUnit: 'adams',
+        expectedCapacity: defaults.adamsCarCapacity,
         description:
-          'should calculate correct car space capacity for hawking BU when booking 2 days before',
+          'should calculate correct car space capacity for adams BU when booking 2 days before',
       },
       {
         serverTimestamp: '2024-05-11T12:00:00Z',
@@ -264,41 +263,6 @@ describe('BookingUtils', () => {
         expectedCapacity: defaults.unknownCarCapacity,
         description:
           'should calculate correct car space capacity for unknown BU',
-      },
-      // TODO remove after hawking join date
-      {
-        serverTimestamp: '2024-04-28T12:00:00Z',
-        dateToBook: '2024-04-28T00:00:00Z',
-        businessUnit: 'hawking',
-        expectedCapacity:
-          defaults.murrayCarCapacity + defaults.tenzingCarCapacity + 0,
-        description:
-          'should calculate correct car space capacity for hawking BU when booking for the same day and before hawking join date',
-      },
-      {
-        serverTimestamp: '2024-04-27T22:00:00Z',
-        dateToBook: '2024-04-28T00:00:00Z',
-        businessUnit: 'hawking',
-        expectedCapacity:
-          defaults.murrayCarCapacity + defaults.tenzingCarCapacity + 0,
-        description:
-          'should calculate correct car space capacity for hawking BU when booking after 9PM for the next day and before hawking join date',
-      },
-      {
-        serverTimestamp: '2024-04-27T19:00:00Z',
-        dateToBook: '2024-04-28T00:00:00Z',
-        businessUnit: 'hawking',
-        expectedCapacity: 0,
-        description:
-          'should calculate correct car space capacity for hawking BU when booking before 9PM for the next day and before hawking join date',
-      },
-      {
-        serverTimestamp: '2024-05-26T10:00:00Z',
-        dateToBook: '2024-04-28T00:00:00Z',
-        businessUnit: 'hawking',
-        expectedCapacity: 0,
-        description:
-          'should calculate correct car space capacity for hawking BU when booking 2 days before and before hawking join date',
       },
     ];
 
@@ -413,18 +377,6 @@ describe('BookingUtils', () => {
         const isValidBookingDate = isValidCarBookingDate(bookingDate);
         expect(isValidBookingDate).toBe(true);
       });
-    });
-  });
-
-  // TODO: remove after hawking join
-  describe('isBeforeHawkingJoin', () => {
-    it.each([
-      ['2024-04-28T00:00:00Z', true],
-      ['2024-04-29T00:00:00Z', false],
-      ['2024-04-30T00:00:00Z', false],
-    ])('is booking date before hawking joining - %s', (dateToBook, result) => {
-      const isBefore = isBeforeHawkingJoin(dateToBook);
-      expect(isBefore).toBe(result);
     });
   });
 });

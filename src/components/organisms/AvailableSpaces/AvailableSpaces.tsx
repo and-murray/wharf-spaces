@@ -5,7 +5,6 @@ import {BookingType, SpaceType} from '@customTypes/booking';
 import {
   availableSpacesOptionfactory,
   calculateRemainingSpaces,
-  isBookingDateBeforeHawkingJoin,
 } from '@organisms/AvailableSpaces/helper';
 import {Booking, ReducedUserData} from '@customTypes';
 import Animated, {FadeInUp, FadeOutUp} from 'react-native-reanimated';
@@ -50,19 +49,20 @@ const AvailableSpaces = ({bookings, userData}: AvailableSpacesProps) => {
         currentDate,
         bookingDate,
       );
-      // TODO: revert after hawking join date
-      const isBeforeHawkingJoin = isBookingDateBeforeHawkingJoin(dateToBook);
-      const hawkingCapacity = isBeforeHawkingJoin ? 0 : parkingCapacity.hawking;
 
       let remainingCapacity = 0;
       remainingCapacity = parkingCapacity[businessUnit];
 
-      // override parking capacity for hawking before join date
-      if (businessUnit === BusinessUnit.hawking && isBeforeHawkingJoin) {
-        remainingCapacity = hawkingCapacity;
-      } else if (canBookAnySpace && businessUnit !== BusinessUnit.unknown) {
+      // override parking capacity for adams before join date
+      // if (businessUnit === BusinessUnit.adams) {
+      //   remainingCapacity = parkingCapacity.adams;
+      // } else
+
+      if (canBookAnySpace && businessUnit !== BusinessUnit.unknown) {
         remainingCapacity =
-          parkingCapacity.murray + parkingCapacity.tenzing + hawkingCapacity;
+          parkingCapacity.murray +
+          parkingCapacity.tenzing +
+          parkingCapacity.adams;
       }
 
       return remainingCapacity;

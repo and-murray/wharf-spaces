@@ -137,7 +137,7 @@ V1Router.use(validateFirebaseIdToken as any); // Anything after this requires lo
  *         description: The user does not have permission to make any one of the bookings they are requesting
  *         content:
  *           plain/text:
- *             example: Only Murray, Hawking, and Tenzing Users can book car spaces. Please speak to a PL or Club Exec
+ *             example: Only Murray, Adams, and Tenzing Users can book car spaces. Please speak to a PL or Club Exec
  *       201:
  *         description: The requested bookings were made successful.
  */

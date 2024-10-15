@@ -19,7 +19,6 @@ import {v4 as uuidv4} from 'uuid';
 import {
   checkDatesBeingBooked,
   checkSpaceTypeBeingBooked,
-  isBeforeHawkingJoin,
   isValidCarBookingDate,
 } from '../utils/BookingUtils/BookingUtils';
 import {isCorrectFunction} from '../utils/IsCorrectFunction';
@@ -104,14 +103,13 @@ export const createNewBookings = async (
       formattedBookings = await Promise.all(
         req.body.bookings.map(async (booking: BookingInput) => {
           if (
-            businessUnit === 'hawking' &&
-            booking.spaceType === SpaceType.Enum.car &&
-            isBeforeHawkingJoin(req.body.bookings[0].date)
+            businessUnit === 'adams' &&
+            booking.spaceType === SpaceType.Enum.car
           ) {
             res
               .status(403)
               .send(
-                'Hawking users are unable to book parking spaces for this date.',
+                'Adams users are unable to book parking spaces for this date.',
               );
             return;
           }
@@ -122,7 +120,7 @@ export const createNewBookings = async (
             res
               .status(403)
               .send(
-                'Only Murray, Hawking, and Tenzing Users can book car spaces. Please speak to a PL or Club Exec',
+                'Only Murray, Adams, and Tenzing Users can book car spaces. Please speak to a PL or Club Exec',
               );
             return;
           }

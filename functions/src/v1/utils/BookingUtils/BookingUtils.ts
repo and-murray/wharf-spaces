@@ -37,10 +37,8 @@ export function calculateCarSpaceCapacity(
   if (isBookingDateLimitedToBU(dateToBook) && !businessUnit) {
     throw Error('If booking date is limited to BU then BU is required');
   }
-  // TODO: revert after hawking join date
-  const hawkingCarCapacity = isBeforeHawkingJoin(dateToBook)
-    ? 0
-    : defaults.hawkingCarCapacity;
+
+  const adamsCarCapacity = defaults.adamsCarCapacity;
 
   // Cannot use remote config methods within firebase functions as build fails
   // hardcoding remaining capacity for now and subtracting capacity of prior bookings from batch
@@ -51,13 +49,13 @@ export function calculateCarSpaceCapacity(
     remainingCapacity =
       defaults.murrayCarCapacity +
       defaults.tenzingCarCapacity +
-      hawkingCarCapacity;
+      adamsCarCapacity;
   } else if (businessUnit === 'murray') {
     remainingCapacity = defaults.murrayCarCapacity;
   } else if (businessUnit === 'tenzing') {
     remainingCapacity = defaults.tenzingCarCapacity;
-  } else if (businessUnit === 'hawking') {
-    remainingCapacity = hawkingCarCapacity;
+  } else if (businessUnit === 'adams') {
+    remainingCapacity = adamsCarCapacity;
   }
 
   return remainingCapacity;
@@ -103,12 +101,4 @@ export const isValidCarBookingDate = (bookingDate: string): boolean => {
       londonServerTimestamp.add(7, 'day').isSame(dateUserBooks, 'day')
     );
   }
-};
-
-// TODO: revert after hawking join date
-export const isBeforeHawkingJoin = (bookingDate: string): boolean => {
-  const hawkingJoinDate = dayjs('2024-04-29T00:00:00Z');
-  const dateUserBooks = dayjs(bookingDate);
-
-  return dateUserBooks.isBefore(hawkingJoinDate, 'day');
 };
