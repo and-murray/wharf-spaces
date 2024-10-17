@@ -103,17 +103,6 @@ export const createNewBookings = async (
       formattedBookings = await Promise.all(
         req.body.bookings.map(async (booking: BookingInput) => {
           if (
-            businessUnit === 'adams' &&
-            booking.spaceType === SpaceType.Enum.car
-          ) {
-            res
-              .status(403)
-              .send(
-                'Adams users are unable to book parking spaces for this date.',
-              );
-            return;
-          }
-          if (
             businessUnit === 'unknown' &&
             booking.spaceType === SpaceType.Enum.car
           ) {
