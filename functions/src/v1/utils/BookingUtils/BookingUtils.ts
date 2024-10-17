@@ -38,8 +38,6 @@ export function calculateCarSpaceCapacity(
     throw Error('If booking date is limited to BU then BU is required');
   }
 
-  const adamsCarCapacity = defaults.adamsCarCapacity;
-
   // Cannot use remote config methods within firebase functions as build fails
   // hardcoding remaining capacity for now and subtracting capacity of prior bookings from batch
   let remainingCapacity = 0;
@@ -49,13 +47,13 @@ export function calculateCarSpaceCapacity(
     remainingCapacity =
       defaults.murrayCarCapacity +
       defaults.tenzingCarCapacity +
-      adamsCarCapacity;
+      defaults.adamsCarCapacity;
   } else if (businessUnit === 'murray') {
     remainingCapacity = defaults.murrayCarCapacity;
   } else if (businessUnit === 'tenzing') {
     remainingCapacity = defaults.tenzingCarCapacity;
   } else if (businessUnit === 'adams') {
-    remainingCapacity = adamsCarCapacity;
+    remainingCapacity = defaults.adamsCarCapacity;
   }
 
   return remainingCapacity;
