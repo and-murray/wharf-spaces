@@ -21,7 +21,6 @@ import AlertMessage from '@atoms/AlertMessage/AlertMessage';
 import SimpleInfoMessage from '@atoms/SimpleInfoIMessage/SimpleInfoMessage';
 import MurrayButton from '@atoms/MurrayButton/MurrayButton';
 import {LogLevel, logMessage} from '@root/src/util/Logging/Logging';
-import {isBookingDateBeforeHawkingJoin} from '../../organisms/AvailableSpaces/helper';
 
 export type AvailableSpaceViewProps = {
   relevantBookings: Booking[];
@@ -66,11 +65,6 @@ const AvailableSpaceView = ({
     selectedDayOptions: {selectedDay, selectedSpaceType},
     user: {user},
   } = useAppSelector(state => state);
-
-  const isBeforeHawkingJoin = useMemo(
-    () => isBookingDateBeforeHawkingJoin(selectedDay),
-    [selectedDay],
-  );
 
   useEffect(() => {
     const relevantBookingTimeSlot: TimeSlot | undefined =
@@ -256,8 +250,7 @@ const AvailableSpaceView = ({
 
   const handleButtonPress = async <T,>(action: () => Promise<T>) => {
     if (
-      (user?.businessUnit === BusinessUnit.unknown ||
-        (user?.businessUnit === BusinessUnit.hawking && isBeforeHawkingJoin)) &&
+      user?.businessUnit === BusinessUnit.unknown &&
       spaceType === SpaceType.car
     ) {
       setisUnknownUserAlertOpen(true);
@@ -429,9 +422,7 @@ const AvailableSpaceView = ({
               <AlertMessage
                 isOpen={isUnknownUserAlertOpen}
                 onClose={handleUnkownUserAlertClose}
-                message={`Sorry, only Murray${
-                  !isBeforeHawkingJoin ? ', Hawking,' : ''
-                } and Tenzing users can book a parking spot.`}
+                message="Sorry, only Murray, Adams, and Tenzing users can book a parking spot."
                 alertConfig={{
                   button1: {
                     onPress: handleUnkownUserAlertClose,

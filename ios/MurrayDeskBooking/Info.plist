@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.1.0</string>
+	<string>1.2.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -48,20 +48,20 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>20240418102602.11</string>
+	<string>20241024163631.26</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
-	<false />
+	<false/>
 	<key>LSRequiresIPhoneOS</key>
-	<true />
+	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
-		<false />
+		<false/>
 		<key>NSAllowsLocalNetworking</key>
-		<true />
+		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string />
+	<string></string>
 	<key>NSUserNotificationsUsageDescription</key>
 	<string>This app can send you notifications to tell you if you've been assigned a space after being on the reserve list</string>
 	<key>UIAppFonts</key>
@@ -91,6 +91,6 @@
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false />
+	<false/>
 </dict>
 </plist>

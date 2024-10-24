@@ -167,7 +167,7 @@ describe('When AvailableSpaces is shown on screen', () => {
         },
         firebaseRemoteConfig: {
           deskCapacity: 10,
-          parkingCapacity: {murray: 20, tenzing: 5, hawking: 5, unknown: 0},
+          parkingCapacity: {murray: 20, tenzing: 5, adams: 5, unknown: 0},
         },
       });
       render(
@@ -187,10 +187,7 @@ describe('When AvailableSpaces is shown on screen', () => {
 
     it('should set capacity to combined capacity and space type of car when close to booking date', () => {
       useAppSelectorSpy.mockReturnValue({
-        selectedDayOptions: {
-          selectedSpaceType: 'car',
-          selectedDay: '2024-07-04T00:00:00Z', // needed for isBookingDateBeforeHawkingJoin
-        },
+        selectedDayOptions: {selectedSpaceType: 'car'},
         user: {user: {businessUnit: 'murray'}},
         utils: {
           londonServerTimestamp: '2024-07-05T00:00:00',
@@ -198,7 +195,7 @@ describe('When AvailableSpaces is shown on screen', () => {
         },
         firebaseRemoteConfig: {
           deskCapacity: 10,
-          parkingCapacity: {murray: 20, tenzing: 5, hawking: 5, unknown: 0},
+          parkingCapacity: {murray: 20, tenzing: 5, adams: 5, unknown: 0},
         },
       });
       isCloseToBookingDateSpy.mockReturnValue(true);
@@ -227,7 +224,7 @@ describe('When AvailableSpaces is shown on screen', () => {
         },
         firebaseRemoteConfig: {
           deskCapacity: 10,
-          parkingCapacity: {murray: 20, tenzing: 5, hawking: 5, unknown: 0},
+          parkingCapacity: {murray: 20, tenzing: 5, adams: 5, unknown: 0},
         },
       });
       isCloseToBookingDateSpy.mockReturnValue(false);
@@ -256,7 +253,7 @@ describe('When AvailableSpaces is shown on screen', () => {
         },
         firebaseRemoteConfig: {
           deskCapacity: 10,
-          parkingCapacity: {murray: 20, tenzing: 5, hawking: 5, unknown: 0},
+          parkingCapacity: {murray: 20, tenzing: 5, adams: 5, unknown: 0},
         },
       });
       isCloseToBookingDateSpy.mockReturnValue(false);
@@ -275,20 +272,17 @@ describe('When AvailableSpaces is shown on screen', () => {
       );
     });
 
-    it('should set capacity to hawking capacity and space type of car when not close to booking date and bu is hawking', () => {
+    it('should set capacity to adams capacity and space type of car when not close to booking date and bu is adams', () => {
       useAppSelectorSpy.mockReturnValue({
-        selectedDayOptions: {
-          selectedSpaceType: 'car',
-          selectedDay: '2024-07-04T00:00:00Z', // needed for isBookingDateBeforeHawkingJoin
-        },
-        user: {user: {businessUnit: 'hawking'}},
+        selectedDayOptions: {selectedSpaceType: 'car'},
+        user: {user: {businessUnit: 'adams'}},
         utils: {
           londonServerTimestamp: '2024-07-05T00:00:00',
           storedDeviceTimestamp: '2024-07-05T00:00:00',
         },
         firebaseRemoteConfig: {
           deskCapacity: 10,
-          parkingCapacity: {murray: 20, tenzing: 5, hawking: 5, unknown: 0},
+          parkingCapacity: {murray: 20, tenzing: 5, adams: 5, unknown: 0},
         },
       });
       isCloseToBookingDateSpy.mockReturnValue(false);
@@ -301,39 +295,6 @@ describe('When AvailableSpaces is shown on screen', () => {
       expect(availableSpaceViewSpy).toBeCalledWith(
         expect.objectContaining({
           capacity: 5,
-          spaceType: 'car',
-        }),
-        {},
-      );
-    });
-
-    it('should set capacity to 0 and space type of car when not close to booking date and bu is hawking and before hawking join date', () => {
-      useAppSelectorSpy.mockReturnValue({
-        selectedDayOptions: {
-          selectedSpaceType: 'car',
-          selectedDay: '2024-04-27T00:00:00Z', // needed for isBookingDateBeforeHawkingJoin
-        },
-        user: {user: {businessUnit: 'hawking'}},
-        utils: {
-          londonServerTimestamp: '2024-04-26T00:00:00Z',
-          storedDeviceTimestamp: '2024-04-26T00:00:00Z',
-        },
-        firebaseRemoteConfig: {
-          deskCapacity: 10,
-          parkingCapacity: {murray: 20, tenzing: 5, hawking: 5, unknown: 0},
-        },
-      });
-      isCloseToBookingDateSpy.mockReturnValue(false);
-      render(
-        <TestWrapper>
-          <AvailableSpaces bookings={[]} userData={{}} />
-        </TestWrapper>,
-      );
-
-      expect(availableSpaceViewSpy).toHaveBeenNthCalledWith(
-        2, // account for rerenders
-        expect.objectContaining({
-          capacity: 0,
           spaceType: 'car',
         }),
         {},
@@ -342,10 +303,7 @@ describe('When AvailableSpaces is shown on screen', () => {
 
     it('should pass all bookings to AvailableSpaceView when close to booking date', () => {
       useAppSelectorSpy.mockReturnValue({
-        selectedDayOptions: {
-          selectedSpaceType: 'car',
-          selectedDay: '2024-07-04T00:00:00Z', // needed for isBookingDateBeforeHawkingJoin
-        },
+        selectedDayOptions: {selectedSpaceType: 'car'},
         user: {user: {id: 'testUserId1', businessUnit: 'murray'}},
         utils: {
           londonServerTimestamp: '2024-07-05T00:00:00',
@@ -353,7 +311,7 @@ describe('When AvailableSpaces is shown on screen', () => {
         },
         firebaseRemoteConfig: {
           deskCapacity: 10,
-          parkingCapacity: {murray: 20, tenzing: 5, hawking: 5, unknown: 0},
+          parkingCapacity: {murray: 20, tenzing: 5, adams: 5, unknown: 0},
         },
       });
       isCloseToBookingDateSpy.mockReturnValue(true);
@@ -406,7 +364,7 @@ describe('When AvailableSpaces is shown on screen', () => {
         },
         firebaseRemoteConfig: {
           deskCapacity: 10,
-          parkingCapacity: {murray: 20, tenzing: 5, hawking: 5, unknown: 0},
+          parkingCapacity: {murray: 20, tenzing: 5, adams: 5, unknown: 0},
         },
       });
       isCloseToBookingDateSpy.mockReturnValue(false);

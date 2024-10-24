@@ -26,7 +26,7 @@ export type Role = z.infer<typeof Role>;
  *         description: The business unit of the user.
  *         enum: ["user", "admin", "demo"]
  */
-export const BusinessUnit = z.enum(['murray', 'tenzing', 'hawking', 'unknown']);
+export const BusinessUnit = z.enum(['murray', 'tenzing', 'adams', 'unknown']);
 export type BusinessUnit = z.infer<typeof BusinessUnit>;
 
 /**

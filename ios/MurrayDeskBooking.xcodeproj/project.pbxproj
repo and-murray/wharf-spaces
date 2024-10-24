@@ -13,7 +13,6 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		207EE74429CCA65E00317E40 /* GoogleService-Info-Dev.plist in Resources */ = {isa = PBXBuildFile; fileRef = 207EE74329CCA65E00317E40 /* GoogleService-Info-Dev.plist */; };
 		514796652A29F8E600FB1053 /* GoogleService-Info-Prod.plist in Resources */ = {isa = PBXBuildFile; fileRef = 514796642A29F8E600FB1053 /* GoogleService-Info-Prod.plist */; };
-		51ADC62A2A8B9F2A0093FCCC /* GoogleService-Info-Dev-Enterprise.plist in Resources */ = {isa = PBXBuildFile; fileRef = 51ADC6292A8B9F2A0093FCCC /* GoogleService-Info-Dev-Enterprise.plist */; };
 		597DC41BBA5B09775751F4A9 /* Pods_MurrayDeskBooking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEBDB5A1E30E583143BCEA9D /* Pods_MurrayDeskBooking.framework */; };
 		A2D7A18B951F40EC848CA20A /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA99568EA6094AFFB3B8AA30 /* Poppins-Medium.ttf */; };
 		B542175DF37D751347484CA1 /* Pods_MurrayDeskBooking_MurrayDeskBookingTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D78E1633A8DBAB3FC509DB1 /* Pods_MurrayDeskBooking_MurrayDeskBookingTests.framework */; };
@@ -48,7 +47,6 @@
 		3B4392A12AC88292D35C810B /* Pods-MurrayDeskBooking.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MurrayDeskBooking.debug.xcconfig"; path = "Target Support Files/Pods-MurrayDeskBooking/Pods-MurrayDeskBooking.debug.xcconfig"; sourceTree = "<group>"; };
 		40CF97D4E1AC0FDB7D3966EA /* Pods-MurrayDeskBooking.release-production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MurrayDeskBooking.release-production.xcconfig"; path = "Target Support Files/Pods-MurrayDeskBooking/Pods-MurrayDeskBooking.release-production.xcconfig"; sourceTree = "<group>"; };
 		514796642A29F8E600FB1053 /* GoogleService-Info-Prod.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Prod.plist"; sourceTree = "<group>"; };
-		51ADC6292A8B9F2A0093FCCC /* GoogleService-Info-Dev-Enterprise.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Dev-Enterprise.plist"; sourceTree = "<group>"; };
 		51CD04E82A430F8D00393B06 /* MurrayDeskBooking.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = MurrayDeskBooking.entitlements; path = MurrayDeskBooking/MurrayDeskBooking.entitlements; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-MurrayDeskBooking.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MurrayDeskBooking.release.xcconfig"; path = "Target Support Files/Pods-MurrayDeskBooking/Pods-MurrayDeskBooking.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-MurrayDeskBooking-MurrayDeskBookingTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MurrayDeskBooking-MurrayDeskBookingTests.debug.xcconfig"; path = "Target Support Files/Pods-MurrayDeskBooking-MurrayDeskBookingTests/Pods-MurrayDeskBooking-MurrayDeskBookingTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -130,7 +128,6 @@
 		51730C172A28F01600D82E8F /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
-				51ADC6292A8B9F2A0093FCCC /* GoogleService-Info-Dev-Enterprise.plist */,
 				514796642A29F8E600FB1053 /* GoogleService-Info-Prod.plist */,
 				207EE74329CCA65E00317E40 /* GoogleService-Info-Dev.plist */,
 			);
@@ -299,7 +296,6 @@
 				514796652A29F8E600FB1053 /* GoogleService-Info-Prod.plist in Resources */,
 				EDFA085D2A94FA98000DFF38 /* BootSplash.storyboard in Resources */,
 				207EE74429CCA65E00317E40 /* GoogleService-Info-Dev.plist in Resources */,
-				51ADC62A2A8B9F2A0093FCCC /* GoogleService-Info-Dev-Enterprise.plist in Resources */,
 				A2D7A18B951F40EC848CA20A /* Poppins-Medium.ttf in Resources */,
 				DF3F907AB5834855BCCD11C5 /* Poppins-Regular.ttf in Resources */,
 			);
@@ -357,7 +353,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "PATH_TO_GOOGLE_PLISTS=\"${PROJECT_DIR}/Firebase\"\n\ncase \"${CONFIGURATION}\" in\n\n   \"Debug-Dev\" )\n        cp -r \"$PATH_TO_GOOGLE_PLISTS/GoogleService-Info-Dev.plist\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist\" ;;\n   \"Release-Dev\" )\n       cp -r \"$PATH_TO_GOOGLE_PLISTS/GoogleService-Info-Dev-Enterprise.plist\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist\" ;;\n   \"Debug-Production\" | \"Release-Production\" )\n        cp -r \"$PATH_TO_GOOGLE_PLISTS/GoogleService-Info-Prod.plist\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist\" ;;\n\n    *)\n        ;;\nesac\n";
+			shellScript = "PATH_TO_GOOGLE_PLISTS=\"${PROJECT_DIR}/Firebase\"\n\ncase \"${CONFIGURATION}\" in\n\n   \"Debug-Dev\" | \"Release-Dev\" )\n        cp -r \"$PATH_TO_GOOGLE_PLISTS/GoogleService-Info-Dev.plist\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist\" ;;\n   \"Debug-Production\" | \"Release-Production\" )\n        cp -r \"$PATH_TO_GOOGLE_PLISTS/GoogleService-Info-Prod.plist\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist\" ;;\n\n    *)\n        ;;\nesac\n";
 		};
 		7DD2151B3E178CD8FB34632F /* [CP-User] [RNFB] Crashlytics Configuration */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -592,7 +588,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MurrayDeskBooking/MurrayDeskBooking.entitlements;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 20240418102602.11;
+				CURRENT_PROJECT_VERSION = 20241024163631.26;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = NXQ795GAN6;
 				ENABLE_BITCODE = NO;
@@ -630,9 +626,9 @@
 				CODE_SIGN_ENTITLEMENTS = MurrayDeskBooking/MurrayDeskBooking.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 20240418102602.11;
+				CURRENT_PROJECT_VERSION = 20241024163631.26;
 				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = T364HJZ84F;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = NXQ795GAN6;
 				INFOPLIST_FILE = MurrayDeskBooking/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -644,10 +640,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "digital.and.enterprise.murray-apps";
+				PRODUCT_BUNDLE_IDENTIFIER = "digital.and.murray-apps";
 				PRODUCT_NAME = "Wharf Spaces";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match InHouse digital.and.enterprise.murray-apps";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match AdHoc digital.and.murray-apps";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
@@ -736,10 +732,7 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
@@ -754,7 +747,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MurrayDeskBooking/MurrayDeskBooking.entitlements;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 20240418102602.11;
+				CURRENT_PROJECT_VERSION = 20241024163631.26;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = NXQ795GAN6;
 				ENABLE_BITCODE = NO;
@@ -882,10 +875,7 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
@@ -902,7 +892,7 @@
 				CODE_SIGN_ENTITLEMENTS = MurrayDeskBooking/MurrayDeskBooking.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 20240418102602.11;
+				CURRENT_PROJECT_VERSION = 20241024163631.26;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = NXQ795GAN6;
 				INFOPLIST_FILE = MurrayDeskBooking/Info.plist;
@@ -1033,10 +1023,7 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
@@ -1114,10 +1101,7 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;

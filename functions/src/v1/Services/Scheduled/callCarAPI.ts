@@ -32,9 +32,10 @@ export async function callCarAPI() {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({date: midnightDate, spaceType: 'car'}),
-    // retry up to 3 times with backoff if 429 status code
+    // retry up to 3 times with backoff if >400 status code
     retries: 3,
-    retryOn: [429],
+    retryOn: async (_attempt, error, response) =>
+      error !== null || (response !== null && response.status >= 400),
     retryDelay: (attempt, _error, _response) => Math.pow(3, attempt) * 5000,
   };
   const response = await fetch(url, options);

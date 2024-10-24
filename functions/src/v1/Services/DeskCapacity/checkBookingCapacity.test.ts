@@ -40,7 +40,7 @@ describe('Check Booking Capacity Tests ', () => {
   describe('Desk Bookings', () => {
     const spaceType: SpaceType = 'desk';
 
-    describe('User is from Murray, Hawking, or Tenzing', () => {
+    describe('User is from Murray, Adams, or Tenzing', () => {
       let murrayBooking: Booking = {
         id: '1',
         date: '2023-05-11T00:00:00Z',
@@ -63,7 +63,7 @@ describe('Check Booking Capacity Tests ', () => {
         createdAt: FieldValue.serverTimestamp(),
         updatedAt: FieldValue.serverTimestamp(),
       };
-      let hawkingBooking: Booking = {
+      let adamsBooking: Booking = {
         id: '3',
         date: '2023-05-11T00:00:00Z',
         timeSlot: 'am',
@@ -96,14 +96,14 @@ describe('Check Booking Capacity Tests ', () => {
         createdAt: new Timestamp(0, 0),
         updatedAt: new Timestamp(0, 0),
       };
-      const mockHawkingUser: User = {
+      const mockAdamsUser: User = {
         id: '987',
         firstName: 'Test',
         lastName: 'User',
         email: 'test@example.com',
         profilePicUrl: 'https://example.com/test-photo.jpg',
         role: 'user',
-        businessUnit: 'hawking',
+        businessUnit: 'adams',
         createdAt: new Timestamp(0, 0),
         updatedAt: new Timestamp(0, 0),
       };
@@ -112,7 +112,7 @@ describe('Check Booking Capacity Tests ', () => {
       beforeEach(() => {
         getFirestoreUserSpy.mockResolvedValueOnce(mockMurrayUser);
         getFirestoreUserSpy.mockResolvedValueOnce(mockTenzingUser);
-        getFirestoreUserSpy.mockResolvedValueOnce(mockHawkingUser);
+        getFirestoreUserSpy.mockResolvedValueOnce(mockAdamsUser);
       });
 
       describe('Is Limited to BU', () => {
@@ -143,11 +143,11 @@ describe('Check Booking Capacity Tests ', () => {
             jest.clearAllMocks();
             murrayBooking.timeSlot = 'am';
             tenzingBooking.timeSlot = 'am';
-            hawkingBooking.timeSlot = 'am';
+            adamsBooking.timeSlot = 'am';
             getNonReservedBookingsOnDateSpy.mockResolvedValue([
               murrayBooking,
               tenzingBooking,
-              hawkingBooking,
+              adamsBooking,
             ]);
           });
 
@@ -168,11 +168,11 @@ describe('Check Booking Capacity Tests ', () => {
             jest.clearAllMocks();
             murrayBooking.timeSlot = 'pm';
             tenzingBooking.timeSlot = 'pm';
-            hawkingBooking.timeSlot = 'pm';
+            adamsBooking.timeSlot = 'pm';
             getNonReservedBookingsOnDateSpy.mockResolvedValue([
               murrayBooking,
               tenzingBooking,
-              hawkingBooking,
+              adamsBooking,
             ]);
           });
 
@@ -193,11 +193,11 @@ describe('Check Booking Capacity Tests ', () => {
             jest.clearAllMocks();
             murrayBooking.timeSlot = 'allDay';
             tenzingBooking.timeSlot = 'allDay';
-            hawkingBooking.timeSlot = 'allDay';
+            adamsBooking.timeSlot = 'allDay';
             getNonReservedBookingsOnDateSpy.mockResolvedValue([
               murrayBooking,
               tenzingBooking,
-              hawkingBooking,
+              adamsBooking,
             ]);
           });
 
@@ -243,11 +243,11 @@ describe('Check Booking Capacity Tests ', () => {
             jest.clearAllMocks();
             murrayBooking.timeSlot = 'am';
             tenzingBooking.timeSlot = 'am';
-            hawkingBooking.timeSlot = 'am';
+            adamsBooking.timeSlot = 'am';
             getNonReservedBookingsOnDateSpy.mockResolvedValue([
               murrayBooking,
               tenzingBooking,
-              hawkingBooking,
+              adamsBooking,
             ]);
           });
 
@@ -268,11 +268,11 @@ describe('Check Booking Capacity Tests ', () => {
             jest.clearAllMocks();
             murrayBooking.timeSlot = 'pm';
             tenzingBooking.timeSlot = 'pm';
-            hawkingBooking.timeSlot = 'pm';
+            adamsBooking.timeSlot = 'pm';
             getNonReservedBookingsOnDateSpy.mockResolvedValue([
               murrayBooking,
               tenzingBooking,
-              hawkingBooking,
+              adamsBooking,
             ]);
           });
 
@@ -293,11 +293,11 @@ describe('Check Booking Capacity Tests ', () => {
             jest.clearAllMocks();
             murrayBooking.timeSlot = 'allDay';
             tenzingBooking.timeSlot = 'allDay';
-            hawkingBooking.timeSlot = 'allDay';
+            adamsBooking.timeSlot = 'allDay';
             getNonReservedBookingsOnDateSpy.mockResolvedValue([
               murrayBooking,
               tenzingBooking,
-              hawkingBooking,
+              adamsBooking,
             ]);
           });
 
@@ -338,7 +338,7 @@ describe('Check Booking Capacity Tests ', () => {
         createdAt: FieldValue.serverTimestamp(),
         updatedAt: FieldValue.serverTimestamp(),
       };
-      let hawkingBooking: Booking = {
+      let adamsBooking: Booking = {
         id: '3',
         date: '2023-05-11T00:00:00Z',
         timeSlot: 'am',
@@ -371,14 +371,14 @@ describe('Check Booking Capacity Tests ', () => {
         createdAt: new Timestamp(0, 0),
         updatedAt: new Timestamp(0, 0),
       };
-      const mockHawkingUser: User = {
+      const mockAdamsUser: User = {
         id: '987',
         firstName: 'Test',
         lastName: 'User',
         email: 'test@example.com',
         profilePicUrl: 'https://example.com/test-photo.jpg',
         role: 'user',
-        businessUnit: 'hawking',
+        businessUnit: 'adams',
         createdAt: new Timestamp(0, 0),
         updatedAt: new Timestamp(0, 0),
       };
@@ -387,7 +387,7 @@ describe('Check Booking Capacity Tests ', () => {
       beforeEach(() => {
         getFirestoreUserSpy.mockResolvedValueOnce(mockMurrayUser);
         getFirestoreUserSpy.mockResolvedValueOnce(mockTenzingUser);
-        getFirestoreUserSpy.mockResolvedValueOnce(mockHawkingUser);
+        getFirestoreUserSpy.mockResolvedValueOnce(mockAdamsUser);
       });
 
       describe('Is Limited to BU', () => {
@@ -418,11 +418,11 @@ describe('Check Booking Capacity Tests ', () => {
             jest.clearAllMocks();
             murrayBooking.timeSlot = 'am';
             tenzingBooking.timeSlot = 'am';
-            hawkingBooking.timeSlot = 'am';
+            adamsBooking.timeSlot = 'am';
             getNonReservedBookingsOnDateSpy.mockResolvedValue([
               murrayBooking,
               tenzingBooking,
-              hawkingBooking,
+              adamsBooking,
             ]);
           });
 
@@ -443,11 +443,11 @@ describe('Check Booking Capacity Tests ', () => {
             jest.clearAllMocks();
             murrayBooking.timeSlot = 'pm';
             tenzingBooking.timeSlot = 'pm';
-            hawkingBooking.timeSlot = 'pm';
+            adamsBooking.timeSlot = 'pm';
             getNonReservedBookingsOnDateSpy.mockResolvedValue([
               murrayBooking,
               tenzingBooking,
-              hawkingBooking,
+              adamsBooking,
             ]);
           });
 
@@ -468,11 +468,11 @@ describe('Check Booking Capacity Tests ', () => {
             jest.clearAllMocks();
             murrayBooking.timeSlot = 'allDay';
             tenzingBooking.timeSlot = 'allDay';
-            hawkingBooking.timeSlot = 'allDay';
+            adamsBooking.timeSlot = 'allDay';
             getNonReservedBookingsOnDateSpy.mockResolvedValue([
               murrayBooking,
               tenzingBooking,
-              hawkingBooking,
+              adamsBooking,
             ]);
           });
 
@@ -518,11 +518,11 @@ describe('Check Booking Capacity Tests ', () => {
             jest.clearAllMocks();
             murrayBooking.timeSlot = 'am';
             tenzingBooking.timeSlot = 'am';
-            hawkingBooking.timeSlot = 'am';
+            adamsBooking.timeSlot = 'am';
             getNonReservedBookingsOnDateSpy.mockResolvedValue([
               murrayBooking,
               tenzingBooking,
-              hawkingBooking,
+              adamsBooking,
             ]);
           });
 
@@ -543,11 +543,11 @@ describe('Check Booking Capacity Tests ', () => {
             jest.clearAllMocks();
             murrayBooking.timeSlot = 'pm';
             tenzingBooking.timeSlot = 'pm';
-            hawkingBooking.timeSlot = 'pm';
+            adamsBooking.timeSlot = 'pm';
             getNonReservedBookingsOnDateSpy.mockResolvedValue([
               murrayBooking,
               tenzingBooking,
-              hawkingBooking,
+              adamsBooking,
             ]);
           });
 
@@ -568,11 +568,11 @@ describe('Check Booking Capacity Tests ', () => {
             jest.clearAllMocks();
             murrayBooking.timeSlot = 'allDay';
             tenzingBooking.timeSlot = 'allDay';
-            hawkingBooking.timeSlot = 'allDay';
+            adamsBooking.timeSlot = 'allDay';
             getNonReservedBookingsOnDateSpy.mockResolvedValue([
               murrayBooking,
               tenzingBooking,
-              hawkingBooking,
+              adamsBooking,
             ]);
           });
 
@@ -594,7 +594,7 @@ describe('Check Booking Capacity Tests ', () => {
   describe('Car Bookings', () => {
     const spaceType: SpaceType = 'car';
 
-    describe('User is from Murray, Hawking, or Tenzing', () => {
+    describe('User is from Murray, Adams, or Tenzing', () => {
       let murrayBooking: Booking = {
         id: '1',
         date: '2023-05-11T00:00:00Z',
@@ -617,7 +617,7 @@ describe('Check Booking Capacity Tests ', () => {
         createdAt: FieldValue.serverTimestamp(),
         updatedAt: FieldValue.serverTimestamp(),
       };
-      let hawkingBooking: Booking = {
+      let adamsBooking: Booking = {
         id: '3',
         date: '2023-05-11T00:00:00Z',
         timeSlot: 'am',
@@ -650,14 +650,14 @@ describe('Check Booking Capacity Tests ', () => {
         createdAt: new Timestamp(0, 0),
         updatedAt: new Timestamp(0, 0),
       };
-      const mockHawkingUser: User = {
+      const mockAdamsUser: User = {
         id: '987',
         firstName: 'Test',
         lastName: 'User',
         email: 'test@example.com',
         profilePicUrl: 'https://example.com/test-photo.jpg',
         role: 'user',
-        businessUnit: 'hawking',
+        businessUnit: 'adams',
         createdAt: new Timestamp(0, 0),
         updatedAt: new Timestamp(0, 0),
       };
@@ -666,7 +666,7 @@ describe('Check Booking Capacity Tests ', () => {
       beforeEach(() => {
         getFirestoreUserSpy.mockResolvedValueOnce(mockMurrayUser);
         getFirestoreUserSpy.mockResolvedValueOnce(mockTenzingUser);
-        getFirestoreUserSpy.mockResolvedValueOnce(mockHawkingUser);
+        getFirestoreUserSpy.mockResolvedValueOnce(mockAdamsUser);
       });
 
       describe('Is Limited to BU', () => {
@@ -698,11 +698,11 @@ describe('Check Booking Capacity Tests ', () => {
             jest.clearAllMocks();
             murrayBooking.timeSlot = 'am';
             tenzingBooking.timeSlot = 'am';
-            hawkingBooking.timeSlot = 'am';
+            adamsBooking.timeSlot = 'am';
             getNonReservedBookingsOnDateSpy.mockResolvedValue([
               murrayBooking,
               tenzingBooking,
-              hawkingBooking,
+              adamsBooking,
             ]);
           });
 
@@ -723,11 +723,11 @@ describe('Check Booking Capacity Tests ', () => {
             jest.clearAllMocks();
             murrayBooking.timeSlot = 'pm';
             tenzingBooking.timeSlot = 'pm';
-            hawkingBooking.timeSlot = 'pm';
+            adamsBooking.timeSlot = 'pm';
             getNonReservedBookingsOnDateSpy.mockResolvedValue([
               murrayBooking,
               tenzingBooking,
-              hawkingBooking,
+              adamsBooking,
             ]);
           });
 
@@ -748,11 +748,11 @@ describe('Check Booking Capacity Tests ', () => {
             jest.clearAllMocks();
             murrayBooking.timeSlot = 'allDay';
             tenzingBooking.timeSlot = 'allDay';
-            hawkingBooking.timeSlot = 'allDay';
+            adamsBooking.timeSlot = 'allDay';
             getNonReservedBookingsOnDateSpy.mockResolvedValue([
               murrayBooking,
               tenzingBooking,
-              hawkingBooking,
+              adamsBooking,
             ]);
           });
 
@@ -799,11 +799,11 @@ describe('Check Booking Capacity Tests ', () => {
             jest.clearAllMocks();
             murrayBooking.timeSlot = 'am';
             tenzingBooking.timeSlot = 'am';
-            hawkingBooking.timeSlot = 'am';
+            adamsBooking.timeSlot = 'am';
             getNonReservedBookingsOnDateSpy.mockResolvedValue([
               murrayBooking,
               tenzingBooking,
-              hawkingBooking,
+              adamsBooking,
             ]);
           });
 
@@ -824,11 +824,11 @@ describe('Check Booking Capacity Tests ', () => {
             jest.clearAllMocks();
             murrayBooking.timeSlot = 'pm';
             tenzingBooking.timeSlot = 'pm';
-            hawkingBooking.timeSlot = 'pm';
+            adamsBooking.timeSlot = 'pm';
             getNonReservedBookingsOnDateSpy.mockResolvedValue([
               murrayBooking,
               tenzingBooking,
-              hawkingBooking,
+              adamsBooking,
             ]);
           });
 
@@ -849,11 +849,11 @@ describe('Check Booking Capacity Tests ', () => {
             jest.clearAllMocks();
             murrayBooking.timeSlot = 'allDay';
             tenzingBooking.timeSlot = 'allDay';
-            hawkingBooking.timeSlot = 'allDay';
+            adamsBooking.timeSlot = 'allDay';
             getNonReservedBookingsOnDateSpy.mockResolvedValue([
               murrayBooking,
               tenzingBooking,
-              hawkingBooking,
+              adamsBooking,
             ]);
           });
 
@@ -894,7 +894,7 @@ describe('Check Booking Capacity Tests ', () => {
         createdAt: FieldValue.serverTimestamp(),
         updatedAt: FieldValue.serverTimestamp(),
       };
-      let hawkingBooking: Booking = {
+      let adamsBooking: Booking = {
         id: '3',
         date: '2023-05-11T00:00:00Z',
         timeSlot: 'am',
@@ -927,14 +927,14 @@ describe('Check Booking Capacity Tests ', () => {
         createdAt: new Timestamp(0, 0),
         updatedAt: new Timestamp(0, 0),
       };
-      const mockHawkingUser: User = {
+      const mockAdamsUser: User = {
         id: '987',
         firstName: 'Test',
         lastName: 'User',
         email: 'test@example.com',
         profilePicUrl: 'https://example.com/test-photo.jpg',
         role: 'user',
-        businessUnit: 'hawking',
+        businessUnit: 'adams',
         createdAt: new Timestamp(0, 0),
         updatedAt: new Timestamp(0, 0),
       };
@@ -943,7 +943,7 @@ describe('Check Booking Capacity Tests ', () => {
       beforeEach(() => {
         getFirestoreUserSpy.mockResolvedValueOnce(mockMurrayUser);
         getFirestoreUserSpy.mockResolvedValueOnce(mockTenzingUser);
-        getFirestoreUserSpy.mockResolvedValueOnce(mockHawkingUser);
+        getFirestoreUserSpy.mockResolvedValueOnce(mockAdamsUser);
       });
       describe('Is Limited to BU', () => {
         beforeEach(() => {
@@ -974,11 +974,11 @@ describe('Check Booking Capacity Tests ', () => {
             jest.clearAllMocks();
             murrayBooking.timeSlot = 'am';
             tenzingBooking.timeSlot = 'am';
-            hawkingBooking.timeSlot = 'am';
+            adamsBooking.timeSlot = 'am';
             getNonReservedBookingsOnDateSpy.mockResolvedValue([
               murrayBooking,
               tenzingBooking,
-              hawkingBooking,
+              adamsBooking,
             ]);
           });
 
@@ -999,11 +999,11 @@ describe('Check Booking Capacity Tests ', () => {
             jest.clearAllMocks();
             murrayBooking.timeSlot = 'pm';
             tenzingBooking.timeSlot = 'pm';
-            hawkingBooking.timeSlot = 'pm';
+            adamsBooking.timeSlot = 'pm';
             getNonReservedBookingsOnDateSpy.mockResolvedValue([
               murrayBooking,
               tenzingBooking,
-              hawkingBooking,
+              adamsBooking,
             ]);
           });
 
@@ -1024,11 +1024,11 @@ describe('Check Booking Capacity Tests ', () => {
             jest.clearAllMocks();
             murrayBooking.timeSlot = 'allDay';
             tenzingBooking.timeSlot = 'allDay';
-            hawkingBooking.timeSlot = 'allDay';
+            adamsBooking.timeSlot = 'allDay';
             getNonReservedBookingsOnDateSpy.mockResolvedValue([
               murrayBooking,
               tenzingBooking,
-              hawkingBooking,
+              adamsBooking,
             ]);
           });
 
@@ -1075,11 +1075,11 @@ describe('Check Booking Capacity Tests ', () => {
             jest.clearAllMocks();
             murrayBooking.timeSlot = 'am';
             tenzingBooking.timeSlot = 'am';
-            hawkingBooking.timeSlot = 'am';
+            adamsBooking.timeSlot = 'am';
             getNonReservedBookingsOnDateSpy.mockResolvedValue([
               murrayBooking,
               tenzingBooking,
-              hawkingBooking,
+              adamsBooking,
             ]);
           });
 
@@ -1100,11 +1100,11 @@ describe('Check Booking Capacity Tests ', () => {
             jest.clearAllMocks();
             murrayBooking.timeSlot = 'pm';
             tenzingBooking.timeSlot = 'pm';
-            hawkingBooking.timeSlot = 'pm';
+            adamsBooking.timeSlot = 'pm';
             getNonReservedBookingsOnDateSpy.mockResolvedValue([
               murrayBooking,
               tenzingBooking,
-              hawkingBooking,
+              adamsBooking,
             ]);
           });
 
@@ -1125,11 +1125,11 @@ describe('Check Booking Capacity Tests ', () => {
             jest.clearAllMocks();
             murrayBooking.timeSlot = 'allDay';
             tenzingBooking.timeSlot = 'allDay';
-            hawkingBooking.timeSlot = 'allDay';
+            adamsBooking.timeSlot = 'allDay';
             getNonReservedBookingsOnDateSpy.mockResolvedValue([
               murrayBooking,
               tenzingBooking,
-              hawkingBooking,
+              adamsBooking,
             ]);
           });
 

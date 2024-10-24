@@ -9,7 +9,7 @@ import {
 export type ParkingCapacityConfig = {
   murray: number;
   tenzing: number;
-  hawking: number;
+  adams: number;
   unknown: number;
 };
 export type FirebaseRemoteConfigState = {
