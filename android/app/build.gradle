@@ -92,7 +92,7 @@ android {
         applicationId "digital.and.murrayapps"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 3 // Version code static will stop the app from being rebuilt whilst doing development
+        versionCode 4 // Version code static will stop the app from being rebuilt whilst doing development
         versionName "1.2.0"
 
         resValue "string", "build_config_package", "digital.and.murrayapps" // Required for react-native-config as we have applicationIdSuffix set
