@@ -25,7 +25,7 @@ export enum Role {
 export enum BusinessUnit {
   murray = 'murray',
   tenzing = 'tenzing',
-  hawking = 'hawking',
+  adams = 'adams',
   unknown = 'unknown',
 }
 
