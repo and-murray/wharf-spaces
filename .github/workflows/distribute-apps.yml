@@ -8,6 +8,14 @@ on:
         type: string
         description: 'Either development or production'
 
+
+  workflow_dispatch:
+    inputs:
+      environment:
+        required: true
+        type: string
+        description: 'Either development or production'
+
 jobs:
   distribute-ios:
     runs-on: macos-14
