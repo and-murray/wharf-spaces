@@ -152,7 +152,7 @@ We use fastlane lanes for this - [Read the guide here](https://anddigitaltransfo
 
 ## I have an M1/M2 macbook (rather than intel) and it's not working
 
-- If you are running on an M1/M2 macbook, run this command before dealing with ruby/bundler/pods: `env /usr/bin/arch -arm64 /bin/zsh --login`. If any of the steps with ruby or bundler fail, try prefixing them with arch -arm64 (e.g. arch -arm64 bundle install)
+- If you are running on an M1/M2 macbook, run this command before dealing with ruby/bundler/pods: `env /usr/bin/arch -arm64 /bin/zsh --login`. If any of the steps with ruby or bundler fail, try prefixing them with `arch -arm64` (e.g. `arch -arm64 bundle install`)
 
 ## I'm seeing error messages
 `Failed to launch emulator. Reason: No emulators found as an output of emulator -list-avds`
@@ -167,7 +167,9 @@ OR
 
 ## Unknown ruby interpreter version (do not know how to handle): >=XXXX
 
-- Strongly recommend using [RVM](https://rvm.io/), it allows you to have different Ruby versions for different projects/directories on your machine. With RVM install you do the following and ignore this warning: `rvm install XXXX; rvm use XXXX;` _(where XXXX is the version quoted in the error message)_
+- We strongly recommend using a ruby version manager such as [RVM](https://rvm.io/), which allows you to have different Ruby versions for different projects/directories on your machine. With RVM install you do the following: `rvm install X.X.X`
+`rvm use X.X.X`
+_(where X.X.X is the version quoted in the error message)_
 
 ## "Help! I've tried everything and I'm all out of ideas."
 
