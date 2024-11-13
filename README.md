@@ -12,12 +12,12 @@
 
 - **NOTE**: If you have issues with any of the set up, check the [Troubleshooting section](#Troubleshooting).
 
-- Before anything else, request access to the Club Murray Organisation on GitHub. This can be requested from Owners on [this list](https://github.com/orgs/and-murray/people) - you may need another ANDi on the project to access this list on GitHub for you so you know who to ask.
+- Before anything else, request access to the Club Murray Organisation on GitHub. This can be requested from Owners on [this list](https://github.com/orgs/and-murray/people) - you may need another ANDi on the project to access this list on GitHub for you so you know who to ask to grant you access.
 - Follow the steps on the [React Native docs](https://reactnative.dev/docs/environment-setup) to get setup. You want to follow the _'Installing dependencies'_ instructions under the React Native CLI Quickstart tab for both iOS and Android.
   - For the Ruby section, [RVM](https://rvm.io/) is recommended to make it easy to manage Ruby versions.
 
 ## Cloning the project
-- Clone the project onto your machine using either SSH or HTTPS. We recommend using SSH, which requires you to setup an [SSH key](https://github.com/settings/keys). Once you've generated an SSH key and added it to your GitHub, you should be able to clone the project in the usual fashion.
+- Clone the project onto your machine using either SSH or HTTPS. We recommend using SSH, which requires you to setup an [SSH key](https://github.com/settings/keys). Once you've [generated an SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) and [added it to your GitHub account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account), you should be able to clone the project in the usual fashion.
 - Downloading [Git Credential Manager](https://github.com/git-ecosystem/git-credential-manager) is recommended to help in resolving any authentication issues that may arise.
 
 ## Setting Up Env Files
@@ -34,16 +34,16 @@
 
 ## Getting the app running
 
-- Once you have completed the environment setup and have the project cloned, we're ready to get the app running.
+- Once you have completed the environment setup and have the project cloned, you're ready to get the app running.
 - Navigate to the root folder of the project in a terminal and perform a `yarn install`. We're using yarn in this project instead of npm, so you should not be using npm to execute any commands.
   - If you do not have yarn installed, install it either via npm or brew (instructions [here](https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable))
-- If you are running on an M1/M2 macbook, you may need to run this command before dealing with ruby/bundler/pods: `env /usr/bin/arch -arm64 /bin/zsh --login`. If any of the steps with ruby or bundler fail, try prefixing them with arch -arm64 (e.g. arch -arm64 bundle install)
-- Install [RVM](https://rvm.io/) - (if you haven't already - it allows you to have different Ruby versions for different projects/directories on your machine).
+- If you are running on an M1/M2 macbook, you may need to run this command before dealing with ruby/bundler/pods: `env /usr/bin/arch -arm64 /bin/zsh --login`. If any of the steps with ruby or bundler fail, try prefixing them with `arch -arm64` (e.g. `arch -arm64 bundle install`)
+- Install [RVM](https://rvm.io/) if you haven't already. This allows you to have different Ruby versions for different projects/directories on your machine.
 - Navigate to the ios folder (`cd ios`) and perform `bundle install`
   - If you get the error _'your ruby version is x but your gemfile is y'_, try entering these commands: `rvm install y` followed by `rvm use y`, then retry the `bundle install`.
 - Then perform a `bundle exec pod install`
   - If you get an error about compatible versions of firebase/coreOnly, run `bundle exec pod install --repo-update`
-- If you haven't already, you'll need to drag and drop the NetSkope cert onto both your Android emulator and iOS simulator. On your Mac, this can be found at `Library/Application Support/Netskope/STAgent/data/nscacert.pem`
+- Drag and drop the NetSkope cert onto both your Android emulator and iOS simulator. On your Mac, this can be found at `Library/Application Support/Netskope/STAgent/data/nscacert.pem`
   - Make sure you're looking in the system-level `Library` rather than the user-level folder with the same name.
 - Once all the above commands have succeeded, then:
   - to build and install the Android app `yarn android:debug:dev`
