@@ -16,12 +16,8 @@
 - Follow the steps on the [React Native docs](https://reactnative.dev/docs/environment-setup) to get setup. You want to follow the _'Installing dependencies'_ instructions under the React Native CLI Quickstart tab for both iOS and Android.
   - For the Ruby section, [RVM](https://rvm.io/) is recommended to make it easy to manage Ruby versions.
 
-## Cloning the project
-- Clone the project onto your machine using either SSH or HTTPS. We recommend using SSH, which requires you to setup an [SSH key](https://github.com/settings/keys). Once you've [generated an SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) and [added it to your GitHub account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account), you should be able to clone the project in the usual fashion.
-- Downloading [Git Credential Manager](https://github.com/git-ecosystem/git-credential-manager) is recommended to help in resolving any authentication issues that may arise.
-
 ## Setting Up Env Files
-
+- Clone the project
 - See the .env.template file for how the environment files should be setup.
 - For those with access to `and-murray` org some of these values can be found in the org variables.
   - These are in the format `MURRAY_APPS_DEV_REACT_APP_FIREBASE_FUNCTIONS_BASE_URL`
@@ -37,14 +33,13 @@
 - Once you have completed the environment setup and have the project cloned, you're ready to get the app running.
 - Navigate to the root folder of the project in a terminal and perform a `yarn install`. We're using yarn in this project instead of npm, so you should not be using npm to execute any commands.
   - If you do not have yarn installed, install it either via npm or brew (instructions [here](https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable))
-- If you are running on an M1/M2 macbook, you may need to run this command before dealing with ruby/bundler/pods: `env /usr/bin/arch -arm64 /bin/zsh --login`. If any of the steps with ruby or bundler fail, try prefixing them with `arch -arm64` (e.g. `arch -arm64 bundle install`)
+- If any of the steps with ruby or bundler fail, check the [Troubleshooting section](#Troubleshooting).
 - Install [RVM](https://rvm.io/) if you haven't already. This allows you to have different Ruby versions for different projects/directories on your machine.
 - Navigate to the ios folder (`cd ios`) and perform `bundle install`
   - If you get the error _'your ruby version is x but your gemfile is y'_, try entering these commands: `rvm install y` followed by `rvm use y`, then retry the `bundle install`.
 - Then perform a `bundle exec pod install`
   - If you get an error about compatible versions of firebase/coreOnly, run `bundle exec pod install --repo-update`
-- Drag and drop the NetSkope cert onto both your Android emulator and iOS simulator. On your Mac, this can be found at `Library/Application Support/Netskope/STAgent/data/nscacert.pem`
-  - Make sure you're looking in the system-level `Library` rather than the user-level folder with the same name.
+- Drag and drop the NetSkope cert onto both your Android emulator and iOS simulator. On your Mac, this can be found at `/Library/Application\ Support/Netskope/STAgent/data/nscacert.pem`
 - Once all the above commands have succeeded, then:
   - to build and install the Android app `yarn android:debug:dev`
   - to build and install the iOS app `yarn ios:debug:dev`
@@ -167,11 +162,11 @@ OR
 
 ## Unknown ruby interpreter version (do not know how to handle): >=XXXX
 
-- We strongly recommend using a ruby version manager such as [RVM](https://rvm.io/), which allows you to have different Ruby versions for different projects/directories on your machine. With RVM install you do the following: `rvm install X.X.X`
+- We strongly recommend using a Ruby version manager such as [RVM](https://rvm.io/), which allows you to have different Ruby versions for different projects/directories on your machine. With RVM install you do the following: `rvm install X.X.X`
 `rvm use X.X.X`
 _(where X.X.X is the version quoted in the error message)_
 
-## "Help! I've tried everything and I'm all out of ideas."
+## "Help! I've tried nothing and I'm all out of ideas."
 
 - Try `yarn clean-caches`. If it's still not working, you can try deleting `node_modules` and running `yarn install`.
 
