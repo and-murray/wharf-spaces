@@ -1,10 +1,8 @@
 # Murray Clubhouse Desk Booking App
 
-[TOC]
-
 ## Useful links
 
-- [Agile board](https://anddigitaltransformation.atlassian.net/jira/software/projects/MCDBA/boards/643)
+- [Agile board](https://anddigitaltransformation.atlassian.net/jira/software/projects/MCDBA/boards/643) (You may need to request a reactivation of your Jira account at #atlassian-support on Slack)
 - [Google drive docs](https://drive.google.com/drive/folders/1M-sT97TqRw4cPgEA8zXti2LlWIOZhCdq)
 - [Confluence page](https://anddigitaltransformation.atlassian.net/jira/software/projects/MCDBA/pages)
 - [Firestore](https://console.firebase.google.com/project/murray-spaces-dev/firestore/data/~2F)
@@ -14,22 +12,14 @@
 
 - **NOTE**: If you have issues with any of the set up, check the [Troubleshooting section](#Troubleshooting).
 
-- Before anything else, request access to the AND central gitlab. This can often take a couple of days to go through, so you can complete the rest of the environment setup whilst waiting for access:
-  - Head to the _Solarwinds service desk_ from Okta and search for _'gitlab'_ in the search bar.
-  - Click on _'Request gitlab access'_ and fill in the details.
-  - Submit the ticket and check back on it every few hours in case one of the service desk team have added any comments asking for more info.
+- Before anything else, request access to the Club Murray Organisation on GitHub. This can be requested from Owners on [this list](https://github.com/orgs/and-murray/people) - you may need another ANDi on the project to access this list on GitHub for you so you know who to ask to grant you access.
 - Follow the steps on the [React Native docs](https://reactnative.dev/docs/environment-setup) to get setup. You want to follow the _'Installing dependencies'_ instructions under the React Native CLI Quickstart tab for both iOS and Android.
   - For the Ruby section, [RVM](https://rvm.io/) is recommended to make it easy to manage Ruby versions.
 
 ## Cloning the project
-
-- Once you have gitlab access, ask the team to be added to the project.
-- You'll need to have the AND vpn running in order to access the gitlab, which can be downloaded and setup from okta (look for _AND vpn_). With the VPN running, you should be able to access the [project](https://git.core.and-digital.com/murray/murray-booking).
-- Clone the project onto your machine using either SSH or HTTPS. I recommend using SSH, which requires you to setup an [SSH key](https://git.core.and-digital.com/-/profile/keys). Once you've generated an SSH key and added it to your gitlab, you should be able to clone the project in the usual fashion.
-- Downloading [Git Credential Manager](https://github.com/git-ecosystem/git-credential-manager) is recommended to help in resolving any authentication issues that may arise.
+- Clone the project onto your machine using either SSH or HTTPS. We recommend using SSH, which requires you to setup an [SSH key](https://github.com/settings/keys). Once you've [generated an SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) and [added it to your GitHub account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account), you should be able to clone the project in the usual fashion.
 
 ## Setting Up Env Files
-
 - See the .env.template file for how the environment files should be setup.
 - For those with access to `and-murray` org some of these values can be found in the org variables.
   - These are in the format `MURRAY_APPS_DEV_REACT_APP_FIREBASE_FUNCTIONS_BASE_URL`
@@ -42,15 +32,16 @@
 
 ## Getting the app running
 
-- Once you have completed the environment setup and have the project cloned, we're ready to get the app running.
+- Once you have completed the environment setup and have the project cloned, you're ready to get the app running.
 - Navigate to the root folder of the project in a terminal and perform a `yarn install`. We're using yarn in this project instead of npm, so you should not be using npm to execute any commands.
   - If you do not have yarn installed, install it either via npm or brew (instructions [here](https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable))
-- If you are running on an M1/M2 macbook, run this command before dealing with ruby/bundler/pods: `env /usr/bin/arch -arm64 /bin/zsh --login`. If any of the steps with ruby or bundler fail, try prefixing them with arch -arm64 (e.g. arch -arm64 bundle install)
-- Install [RVM](https://rvm.io/) - (if you haven't already - it allows you to have different Ruby versions for different projects/directories on your machine).
+- If any of the steps with ruby or bundler fail, check the [Troubleshooting section](#Troubleshooting).
+- Install [RVM](https://rvm.io/) if you haven't already. This allows you to have different Ruby versions for different projects/directories on your machine.
 - Navigate to the ios folder (`cd ios`) and perform `bundle install`
   - If you get the error _'your ruby version is x but your gemfile is y'_, try entering these commands: `rvm install y` followed by `rvm use y`, then retry the `bundle install`.
 - Then perform a `bundle exec pod install`
   - If you get an error about compatible versions of firebase/coreOnly, run `bundle exec pod install --repo-update`
+- Drag and drop the NetSkope cert onto both your Android emulator and iOS simulator. On your Mac, this can be found at `/Library/Application\ Support/Netskope/STAgent/data/nscacert.pem`
 - Once all the above commands have succeeded, then:
   - to build and install the Android app `yarn android:debug:dev`
   - to build and install the iOS app `yarn ios:debug:dev`
@@ -65,11 +56,11 @@ We use match to manage certificates & profiles for running on devices.
 - Occasionally you may need to rerun `gcloud auth application-default` if credentials have expired.
 - Run `yarn ios:setup` to install the certificates.
 
+# Firebase
+
 ## Deploying to firebase distribution
 
-- Run `yarn ios:qa:distribute` to deploy your current branch (usually develop or main) to the firebase distibution. This only needs to be done for iOS because Android is handled by the CI and so are the functions.
-
-# Firebase
+- Run `yarn ios:qa:distribute` to deploy your current branch (usually develop or main) to the firebase distribution. This only needs to be done for iOS because Android is handled by the CI and so are the functions.
 
 ## Build variant/Configurations/Schemes/Flavours
 
@@ -94,14 +85,14 @@ On Android there are the following build variants:
 - ProductionDebug
 - ProductionRelease
 
-These are combination of the `productFlavours`: (_These are for separate Firebase instances, keeping data separate for each backend._)
+The above are combinations of `productFlavours` and `buildTypes`. 
 
+`productFlavours`_These are for separate Firebase instances, keeping data separate for each backend._
 - Development
 - Production
   The `google-services.json` files are in separate folders for each flavour: `android/app/src/development/google-services.json` & `android/app/src/production/google-services.json`
 
-These are combination of the `buildTypes`: (_These are for different types of builds, the release type is optimised and doesn't have any debugging or developer features._)
-
+`buildTypes` _These are for different types of builds, the release type is optimised and doesn't have any debugging or developer features._
 - Debug
 - Release
 
@@ -148,15 +139,7 @@ There is also an adminsdk json file that contains the secrets that allow admin a
 
 - Simply run `yarn test`
 
-## git-crypt CI - change/regenerate key
-
-If the git-crypt key has been regenerated/changed, the CI will need to be updated to include this new key.
-We need to upload the key as a base64 encoded string because secure files don't work correctly GitLab CI, to do so:
-
-- Convert it from the binary form via `base64 -i git-crypt-key -o base64-git-crypt-key`
-- Take the contents of the base64 file and update the variable `CRYPT_KEY` in GitLab variables. Make sure it is masked.
-
-# Deploying the app to App Store and Play store
+# Deploying the app to App Store and Play Store
 
 We use fastlane lanes for this - [Read the guide here](https://anddigitaltransformation.atlassian.net/wiki/spaces/ML/pages/4487938094/Release+Guide)
 
@@ -166,11 +149,14 @@ We use fastlane lanes for this - [Read the guide here](https://anddigitaltransfo
 
 ## I have an M1/M2 macbook (rather than intel) and it's not working
 
-- If you are running on an M1/M2 macbook, run this command before dealing with ruby/bundler/pods: `env /usr/bin/arch -arm64 /bin/zsh --login`. If any of the steps with ruby or bundler fail, try prefixing them with arch -arm64 (e.g. arch -arm64 bundle install)
+- If you are running on an M1/M2 macbook, run this command before dealing with ruby/bundler/pods: `env /usr/bin/arch -arm64 /bin/zsh --login`. If any of the steps with ruby or bundler fail, try prefixing them with `arch -arm64` (e.g. `arch -arm64 bundle install`)
 
-## I'm seeing error message `Failed to launch emulator. Reason: No emulators found as an output of emulator -list-avds` OR `error Failed to install the app. Make sure you have the Android...`
+## I'm seeing error messages
+`Failed to launch emulator. Reason: No emulators found as an output of emulator -list-avds`
+OR
+`error Failed to install the app. Make sure you have the Android...`
 
-- If `yarn  react-native doctor` doesn't report Android issues, you may have an issue elsewhere:
+- Try `yarn  react-native doctor`. If this doesn't report Android issues, you may have an issue elsewhere...
 
 ### If you're a fish shell user
 
@@ -178,11 +164,13 @@ We use fastlane lanes for this - [Read the guide here](https://anddigitaltransfo
 
 ## Unknown ruby interpreter version (do not know how to handle): >=XXXX
 
-- Strongly recommend using [RVM](https://rvm.io/), it allows you to have different Ruby versions for different projects/directories on your machine. With RVM install you do the following and ignore this warning: `rvm install XXXX; rvm use XXXX;` _(where XXXX is the version quoted in the error message)_
+- We strongly recommend using a Ruby version manager such as [RVM](https://rvm.io/), which allows you to have different Ruby versions for different projects/directories on your machine. With RVM install you do the following: `rvm install X.X.X`
+`rvm use X.X.X`
+_(where X.X.X is the version quoted in the error message)_
 
 ## "Help! I've tried nothing and I'm all out of ideas."
 
-- Try `yarn clean-caches`. If it's still, not working, you can try deleting `node_modules` and running `yarn install`.
+- Try `yarn clean-caches`. If it's still not working, you can try deleting `node_modules` and running `yarn install`.
 
 ## `Watchman crawl failed`
 

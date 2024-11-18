@@ -2320,7 +2320,7 @@ DEPENDENCIES:
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
-  trunk:
+  https://github.com/CocoaPods/Specs:
     - abseil
     - AppAuth
     - AppCheckCore
@@ -2614,6 +2614,6 @@ SPEC CHECKSUMS:
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Yoga: 1b901a6d6eeba4e8a2e8f308f708691cdb5db312
 
-PODFILE CHECKSUM: dff8fecb91d9c9d42604a40beb64e19c8afb8c6f
+PODFILE CHECKSUM: 38871ac8242ef65f81c14808ee02ef5b3cbd7f91
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.14.3
