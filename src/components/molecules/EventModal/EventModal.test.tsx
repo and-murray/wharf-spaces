@@ -66,7 +66,7 @@ describe('When the event modal is on the screen', () => {
           createdAt: {_nanoseconds: 212000000, _seconds: 1683735476},
           date: '2023-01-01',
           isClubhouseClosed: false,
-          text: 'Test event fri edit 3',
+          text: "This is a dummy note - EventModal just needs to know that a note exists for the day so it doesn't reset the text field value to an empty string",
           updatedAt: {_nanoseconds: 604000000, _seconds: 1683737545},
           uuid: 'b0b6646f-0c69-479b-8ba4-b6bacf90e66d',
         },
