@@ -9,6 +9,7 @@ import {deleteNote} from '@firebase/firestore/deleteNote';
 import {createNote} from '@firebase/firestore/createNote';
 import AlertMessage from '@atoms/AlertMessage/AlertMessage';
 import {WarningSymbolIcon} from '../../atoms/Warning/WarningSymbol/WarningSymbol';
+import {useAppSelector} from '@root/src/state/utils/hooks';
 
 type EventModalProps = {
   hasEvent: boolean;
@@ -31,6 +32,8 @@ const EventModal = ({
   warningMessage,
   eventDocumentId,
 }: EventModalProps) => {
+  const {notes} = useAppSelector(state => state.note);
+
   const [inputFieldText, setInputFieldText] = useState<string>('');
   const windowHeight: number = Dimensions.get('window').height;
 
@@ -50,6 +53,14 @@ const EventModal = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentEvent]);
+
+  useEffect(() => {
+    if (notes) {
+      if (notes.length === 0) {
+        setInputFieldText('');
+      }
+    }
+  }, [notes]);
 
   async function onPress(): Promise<void> {
     if (hasEvent) {
