@@ -10,6 +10,7 @@ import {createNote} from '@firebase/firestore/createNote';
 import AlertMessage from '@atoms/AlertMessage/AlertMessage';
 import {WarningSymbolIcon} from '../../atoms/Warning/WarningSymbol/WarningSymbol';
 import {useAppSelector} from '@root/src/state/utils/hooks';
+import {Note} from '@root/src/types/notes';
 
 type EventModalProps = {
   hasEvent: boolean;
@@ -42,6 +43,12 @@ const EventModal = ({
 
   const uniqueId = uuid.v4().toString();
 
+  function resetFieldTextOnEventlessDay(updatedNotes: Note[]) {
+    if (updatedNotes?.length === 0) {
+      setInputFieldText('');
+    }
+  }
+
   useEffect(() => {
     if (hasEvent) {
       setInputFieldText(currentEvent);
@@ -55,11 +62,7 @@ const EventModal = ({
   }, [currentEvent]);
 
   useEffect(() => {
-    if (notes) {
-      if (notes.length === 0) {
-        setInputFieldText('');
-      }
-    }
+    resetFieldTextOnEventlessDay(notes);
   }, [notes]);
 
   async function onPress(): Promise<void> {
