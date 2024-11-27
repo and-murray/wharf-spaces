@@ -4,7 +4,6 @@ import {
   AvailableTimeSlots,
 } from '@customTypes/.';
 import {TimeSlot} from '@customTypes/booking';
-import dayjs from 'dayjs';
 
 export const calculateRemainingSpaces = (
   bookings: Booking[],
@@ -60,11 +59,4 @@ export const availableSpacesOptionfactory = (
       isBooked: false,
     },
   ];
-};
-
-// TODO: revert after hawking join date
-export const isBookingDateBeforeHawkingJoin = (dateToBook: string) => {
-  const hawkingJoinDate = dayjs('2024-04-29T00:00:00Z');
-  const dateUserBooks = dayjs(dateToBook);
-  return dateUserBooks.isBefore(hawkingJoinDate, 'day');
 };
