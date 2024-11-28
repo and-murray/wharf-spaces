@@ -33,5 +33,6 @@ jobs:
     uses: ./.github/workflows/distribute-apps.yml
     with:
       environment: 'production'
+      version_string: '${{ env.VERSION_STRING }}'
     secrets: inherit
-    if: github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/release'
+    if: github.ref != 'refs/heads/release'
