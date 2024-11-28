@@ -7,6 +7,10 @@ on:
         required: true
         type: string
         description: 'Either development or production'
+      version_string:
+        required: false
+        type: string
+        description: 'The version string to be used for the app'
 
 jobs:
   distribute-ios:
