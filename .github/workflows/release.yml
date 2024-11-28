@@ -4,12 +4,6 @@ on:
   push:
     branches:
       - release
-  workflow_dispatch:
-    inputs:
-      version_number:
-        required: true
-        type: string
-        description: 'Version number in the format: 1.0.0'
 
 jobs:
   check_branch:
@@ -22,6 +16,11 @@ jobs:
           exit 1
   tests:
     uses: ./.github/workflows/test.yml
+  get_version_number:
+    uses: pozetroninc/github-action-get-latest-release@master
+    with:
+      repository: ${{ github.repository }}
+    if: github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/release'
   distribute-apps:
     needs: [tests, check_branch]
     uses: ./.github/workflows/distribute-apps.yml
