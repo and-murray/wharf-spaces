@@ -7,6 +7,8 @@ on:
   workflow_dispatch:
     inputs:
       version_number:
+        required: true
+        type: string
         description: 'Version number in the format: 1.0.0'
 
 jobs:
@@ -22,7 +24,8 @@ jobs:
     uses: ./.github/workflows/test.yml
   check_release_exists:
     uses: insightsengineering/release-existence-action@v1.0.0
-    with: ${{ inputs.version_number }}
+    with:
+      release-tag: ${{ inputs.version_number }}
     if: github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/release
   distribute-apps:
     needs: check_release_exists
