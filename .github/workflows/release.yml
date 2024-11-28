@@ -3,14 +3,32 @@ name: release
 on:
   push:
     branches:
-      - release/*
+      - release
+  workflow_dispatch:
+    inputs:
+      version_number:
+        description: 'Version number in the format: 1.0.0'
 
 jobs:
+  check_branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch
+        if: github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/release
+        run: |
+          echo "ERROR: You can only run this on release branches"
+          exit 1
   tests:
     uses: ./.github/workflows/test.yml
+  check_release_exists:
+    uses: insightsengineering/release-existence-action@v1.0.0
+    with: ${{ inputs.version_number }}
+    if: github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/release
   distribute-apps:
-    needs: tests
+    needs: check_release_exists
     uses: ./.github/workflows/distribute-apps.yml
     with:
       environment: 'production'
+      version_number: ${{ inputs.version_number }}
     secrets: inherit
+    if: github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/release
