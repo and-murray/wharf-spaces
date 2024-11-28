@@ -16,16 +16,14 @@ jobs:
           exit 1
   tests:
     uses: ./.github/workflows/test.yml
-  get_version_number:
-    uses: pozetroninc/github-action-get-latest-release@master
-    with:
-      repository: ${{ github.repository }}
-    if: github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/release'
   distribute-apps:
     needs: [tests, check_branch]
-    uses: ./.github/workflows/distribute-apps.yml
-    with:
-      environment: 'production'
-      version_number: ${{ inputs.version_number }}
-    secrets: inherit
+    steps:
+      - uses: pozetroninc/github-action-get-latest-release@master
+        with:
+          repository: ${{ github.repository }}
+      - uses: ./.github/workflows/distribute-apps.yml
+        with:
+          environment: 'production'
+        secrets: inherit
     if: github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/release'
