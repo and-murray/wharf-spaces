@@ -20,11 +20,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: pozetroninc/github-action-get-latest-release@master
+        id: get-latest-release
         with:
           repository: ${{ github.repository }}
       - name: Echo Version
         run: |
-          echo ${env.release}
+          echo ${steps.get-latest-release.outputs.release}
 
   distribute-apps:
     needs: [tests, check_branch, get_version_number]
