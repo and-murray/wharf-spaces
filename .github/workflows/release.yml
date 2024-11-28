@@ -24,7 +24,7 @@ jobs:
           repository: ${{ github.repository }}
       - name: Echo Version
         run: |
-          echo ${var.release}
+          echo ${env.release}
 
   distribute-apps:
     needs: [tests, check_branch, get_version_number]
