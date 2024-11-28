@@ -17,6 +17,7 @@ jobs:
   tests:
     uses: ./.github/workflows/test.yml
   distribute-apps:
+    runs-on: ubuntu-latest
     needs: [tests, check_branch]
     steps:
       - uses: pozetroninc/github-action-get-latest-release@master
