@@ -35,4 +35,3 @@ jobs:
       environment: 'production'
       version_string: '${{ needs.get_version_number.outputs.version_string }}'
     secrets: inherit
-    if: github.ref != 'refs/heads/release'
