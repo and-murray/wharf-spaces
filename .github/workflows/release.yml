@@ -23,7 +23,7 @@ jobs:
   tests:
     uses: ./.github/workflows/test.yml
   distribute-apps:
-    needs: check_release_exists
+    needs: [tests, check_branch]
     uses: ./.github/workflows/distribute-apps.yml
     with:
       environment: 'production'
