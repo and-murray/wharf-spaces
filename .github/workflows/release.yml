@@ -29,4 +29,4 @@ jobs:
       environment: 'production'
       version_number: ${{ inputs.version_number }}
     secrets: inherit
-    if: github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/release
+    if: github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/release'
