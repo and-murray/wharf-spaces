@@ -49,6 +49,7 @@ platform :ios do
     end
 
     lane :testflight_distribute do |options|
+        version_number_string = options[:version_number_string]
         tag = "#{version_number_string}-ios"
         add_git_tag(tag: tag, force: true)
         push_git_tags(tag: tag, force: true)
@@ -135,6 +136,9 @@ platform :android do
 
     lane :google_play_distribute do |options|
         version_number_string = options[:version_number_string]
+        tag = "#{version_number_string}-android"
+        add_git_tag(tag: tag, force: true)
+        push_git_tags(tag: tag, force: true)
         ENV["GOOGLE_APPLICATION_CREDENTIALS"]="admin-sdk.json"
         ENV["ENVFILE"]=".env.production"
         gradle(
