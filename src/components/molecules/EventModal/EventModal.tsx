@@ -32,11 +32,12 @@ const EventModal = ({
   eventDocumentId,
 }: EventModalProps) => {
   const [inputFieldText, setInputFieldText] = useState<string>('');
-  const windowHeight: number = Dimensions.get('window').height;
-
+  const [unsavedEvents, setUnsavedEvents] = useState<Record<string, string>>(
+    {},
+  );
   const [isAlertOpen, setIsAlertOpen] = React.useState(false);
-  const onClose = () => setIsAlertOpen(false);
 
+  const windowHeight: number = Dimensions.get('window').height;
   const uniqueId = uuid.v4().toString();
 
   useEffect(() => {
@@ -45,11 +46,15 @@ const EventModal = ({
       if (!isEqual(currentEvent, inputFieldText) && showEventModal) {
         setIsAlertOpen(true);
       }
+    } else if (unsavedEvents.hasOwnProperty(selectedDate)) {
+      setInputFieldText(unsavedEvents[selectedDate]);
     } else {
       setInputFieldText('');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentEvent]);
+
+  const onCloseAlert = () => setIsAlertOpen(false);
 
   async function onPress(): Promise<void> {
     if (hasEvent) {
@@ -64,10 +69,24 @@ const EventModal = ({
     setShowEventModal(false);
   }
 
+  const onCloseModal = () => {
+    if (inputFieldText) {
+      setUnsavedEvents(prevState => ({
+        ...prevState,
+        [selectedDate]: inputFieldText,
+      }));
+    } else if (unsavedEvents.hasOwnProperty(selectedDate)) {
+      const copiedUnsavedEvents = {...unsavedEvents};
+      delete copiedUnsavedEvents[selectedDate];
+      setUnsavedEvents(_ => ({...copiedUnsavedEvents}));
+    }
+    setShowEventModal(false);
+  };
+
   return (
     <Modal
       isOpen={showEventModal}
-      onClose={() => setShowEventModal(false)}
+      onClose={onCloseModal}
       animationPreset={'slide'}
       justifyContent={'flex-end'}
       size={'full'}
@@ -119,18 +138,18 @@ const EventModal = ({
             borderColor={'brand.white'}>
             <LongButton
               buttonText={'Save'}
-              onPress={() => onPress()}
+              onPress={onPress}
               isDisabled={false}
             />
             <AlertMessage
               isOpen={isAlertOpen}
-              onClose={onClose}
+              onClose={onCloseAlert}
               title="Event updated"
               message="Sorry, someone else has updated this event. Please review
               before making any further changes."
               alertConfig={{
                 button1: {
-                  onPress: onClose,
+                  onPress: onCloseAlert,
                   colorScheme: 'warmGray',
                   text: 'Ok',
                 },
