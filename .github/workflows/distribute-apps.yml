@@ -88,6 +88,8 @@ jobs:
           echo REACT_APP_FIREBASE_FUNCTIONS_BASE_URL = "${{ vars.MURRAY_APPS_DEV_REACT_APP_FIREBASE_FUNCTIONS_BASE_URL }}" >> .env.${{ inputs.environment }}
           echo REMOTE_CONFIG_FETCH_DEBUG = "false" >> .env.${{ inputs.environment }}
           cat .env.${{ inputs.environment }}
+          git config --global user.email "christopher.batin@and.digital"
+          git config --global user.name "Github Runner"
 
       - name: Bundle install
         run: bundle install
