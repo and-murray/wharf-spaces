@@ -75,13 +75,13 @@ jobs:
       - name: Retrieve the secret and decode it to a file
         env:
           ADMIN_SDK_BASE64: ${{ secrets.FIREBASE_ADMIN_BASE_64_ENCODED_JSON }}
-          GOOGLE_PLAY_RELEASE_KEYSTORE_BASE64_ENCODED_PROPERTIES: ${{ secrets.GOOGLE_PLAY_RELEASE_KEYSTORE_BASE64_ENCODED_PROPERTIES }}
+          GOOGLE_PLAY_KEY_JSON_BASE64_ENCODED: ${{ secrets.GOOGLE_PLAY_KEY_JSON_BASE64_ENCODED }}
           ANDROID_RELEASE_KEYSTORE_BASE64_ENCODED: ${{ secrets.ANDROID_RELEASE_KEYSTORE_BASE64_ENCODED }}
           ANDROID_PROD_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_PROD_KEYSTORE_PASSWORD }}
         run: |
           echo $ADMIN_SDK_BASE64 | base64 --decode > admin-sdk.json
           mkdir android/app/play_store_keys
-          echo $GOOGLE_PLAY_RELEASE_KEYSTORE_BASE64_ENCODED_PROPERTIES | base64 --decode > android/app/play_store_keys/release_keystore.properties
+          echo $GOOGLE_PLAY_KEY_JSON_BASE64_ENCODED | base64 --decode > android/app/play_store_keys/pc-api-5670955761957146419-138-d5132b70bac6.json
           echo $ANDROID_RELEASE_KEYSTORE_BASE64_ENCODED | base64 --decode > android/app/release.keystore
           touch .env.${{ inputs.environment }}
           echo REACT_APP_FIREBASE_AUTH_WEB_CLIENT_ID = "${{ vars.MURRAY_APPS_DEV_REACT_APP_FIREBASE_AUTH_WEB_CLIENT_ID }}" >> .env.${{ inputs.environment }}
