@@ -32,16 +32,9 @@ platform :ios do
         )
     end
 
-    lane :update_version_number do
-        version_number_string = UI.input "Please enter the version number (without any letters): "
-        version_number = version_number_string.to_f
-        if version_number == 0.0
-            UI.abort_with_message!("Invalid version number please try again.")
-        end
-        verify = UI.confirm "Confirm? #{version_number_string}"
-        if verify == false
-            UI.abort_with_message!("Incorrect version number, ending lane")
-        end
+    lane :update_version_number do |options|
+        version_number_string = options[:version_number_string]
+        # iOS
         increment_version_number(
             version_number: version_number_string,
             xcodeproj: iOSProject
@@ -50,17 +43,12 @@ platform :ios do
             build_number: "#{get_datetime_for_build_version}.#{number_of_commits}",
             xcodeproj: iOSProject
         )
-        gradle(
-            project_dir: "./android",
-            properties: {
-                # Version code set in build.gradle not here
-                "versionName" => version_number_string,
-                "prodKeyStorePassword" => ENV["ANDROID_PROD_KEYSTORE_PASSWORD"]
-            }
-          )
+        # Git
+        git_commit(path: ["*.plist", "*/project.pbxproj"], message: "[skip ci] Version Bumps")
+        push_to_git_remote(tags: false)
     end
 
-    lane :testflight_distribute do
+    lane :testflight_distribute do |options|
         tag = "#{version_number_string}-ios"
         add_git_tag(tag: tag, force: true)
         push_git_tags(tag: tag, force: true)
@@ -146,6 +134,7 @@ platform :android do
     end
 
     lane :google_play_distribute do |options|
+        version_number_string = options[:version_number_string]
         ENV["GOOGLE_APPLICATION_CREDENTIALS"]="admin-sdk.json"
         ENV["ENVFILE"]=".env.production"
         gradle(
@@ -158,9 +147,12 @@ platform :android do
             build_type: "Release",
             properties: {
                 # Version code set in build.gradle not here
+                "versionName" => version_number_string,
                 "prodKeyStorePassword" => ENV["ANDROID_PROD_KEYSTORE_PASSWORD"]
             }
           )
+        git_commit(path: ["*.gradle"], message: "[skip ci] Version Bumps")
+        push_to_git_remote(tags: false)
         upload_to_play_store(
             release_status:"draft",
             package_name:"digital.and.murrayapps.production",
