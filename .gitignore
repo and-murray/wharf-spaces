@@ -73,6 +73,7 @@ EmulatorData/
 functions/EmulatorData/
 
 # Keys, just in case someone accidentally includes them here
+admin-sdk.json
 *-firebase-adminsdk-*.json
 appstore-connect-api-key.json
 android/app/release.keystore
