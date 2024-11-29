@@ -1,4 +1,4 @@
-fastlane_version '2.220.0'
+fastlane_version '2.225.0'
 
 platform :ios do
     iOSWorkspace = "./ios/MurrayDeskBooking.xcworkspace"
