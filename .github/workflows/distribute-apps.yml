@@ -51,7 +51,7 @@ jobs:
 
       - name: ios-testflight-distribute
         if: inputs.environment == 'production'
-        run: yarn ios:testflight:distribute
+        run: bundle exec fastlane ios testflight_distribute version_number_string:${{ inputs.version_string }}
 
   distribute-android:
     runs-on: ubuntu-latest
@@ -99,4 +99,4 @@ jobs:
 
       - name: android-playstore-distribute
         if: inputs.environment == 'production'
-        run: yarn android:google_play:distribute
+        run: bundle exec fastlane android google_play_distribute version_number_string:${{ inputs.version_string }}

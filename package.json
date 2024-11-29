@@ -8,7 +8,6 @@
     "ios:release:dev": "ENVFILE=.env.development react-native run-ios --mode Release-Dev",
     "ios:release:prod": "ENVFILE=.env.production react-native run-ios --mode Release-Production",
     "ios:qa:distribute": "bundle exec fastlane ios qa_distribute",
-    "ios:testflight:distribute": "bundle exec fastlane ios testflight_distribute",
     "ios:setup": "bundle exec fastlane ios setup_profiles_certs",
     "android:debug:dev": "ENVFILE=.env.development react-native run-android --mode DevelopmentDebug --appIdSuffix=development",
     "android:release:dev": "ENVFILE=.env.development react-native run-android --mode DevelopmentRelease --appIdSuffix=development ",
