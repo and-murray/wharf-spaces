@@ -44,16 +44,12 @@
 		2D78E1633A8DBAB3FC509DB1 /* Pods_MurrayDeskBooking_MurrayDeskBookingTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MurrayDeskBooking_MurrayDeskBookingTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		33B08D1DA049BC476F9E24FE /* Pods-MurrayDeskBooking.debug-production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MurrayDeskBooking.debug-production.xcconfig"; path = "Target Support Files/Pods-MurrayDeskBooking/Pods-MurrayDeskBooking.debug-production.xcconfig"; sourceTree = "<group>"; };
 		35521BD2036C08CABE1F464D /* Pods-MurrayDeskBooking-MurrayDeskBookingTests.debug-dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MurrayDeskBooking-MurrayDeskBookingTests.debug-dev.xcconfig"; path = "Target Support Files/Pods-MurrayDeskBooking-MurrayDeskBookingTests/Pods-MurrayDeskBooking-MurrayDeskBookingTests.debug-dev.xcconfig"; sourceTree = "<group>"; };
-		3B4392A12AC88292D35C810B /* Pods-MurrayDeskBooking.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MurrayDeskBooking.debug.xcconfig"; path = "Target Support Files/Pods-MurrayDeskBooking/Pods-MurrayDeskBooking.debug.xcconfig"; sourceTree = "<group>"; };
 		40CF97D4E1AC0FDB7D3966EA /* Pods-MurrayDeskBooking.release-production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MurrayDeskBooking.release-production.xcconfig"; path = "Target Support Files/Pods-MurrayDeskBooking/Pods-MurrayDeskBooking.release-production.xcconfig"; sourceTree = "<group>"; };
 		514796642A29F8E600FB1053 /* GoogleService-Info-Prod.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Prod.plist"; sourceTree = "<group>"; };
 		51CD04E82A430F8D00393B06 /* MurrayDeskBooking.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = MurrayDeskBooking.entitlements; path = MurrayDeskBooking/MurrayDeskBooking.entitlements; sourceTree = "<group>"; };
-		5709B34CF0A7D63546082F79 /* Pods-MurrayDeskBooking.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MurrayDeskBooking.release.xcconfig"; path = "Target Support Files/Pods-MurrayDeskBooking/Pods-MurrayDeskBooking.release.xcconfig"; sourceTree = "<group>"; };
-		5B7EB9410499542E8C5724F5 /* Pods-MurrayDeskBooking-MurrayDeskBookingTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MurrayDeskBooking-MurrayDeskBookingTests.debug.xcconfig"; path = "Target Support Files/Pods-MurrayDeskBooking-MurrayDeskBookingTests/Pods-MurrayDeskBooking-MurrayDeskBookingTests.debug.xcconfig"; sourceTree = "<group>"; };
 		636CC2EFE9D89C143C308710 /* Pods-MurrayDeskBooking-MurrayDeskBookingTests.debug-production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MurrayDeskBooking-MurrayDeskBookingTests.debug-production.xcconfig"; path = "Target Support Files/Pods-MurrayDeskBooking-MurrayDeskBookingTests/Pods-MurrayDeskBooking-MurrayDeskBookingTests.debug-production.xcconfig"; sourceTree = "<group>"; };
 		7159A38764C976030C534A7A /* Pods-MurrayDeskBooking.release-dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MurrayDeskBooking.release-dev.xcconfig"; path = "Target Support Files/Pods-MurrayDeskBooking/Pods-MurrayDeskBooking.release-dev.xcconfig"; sourceTree = "<group>"; };
 		77E8A87F390C4893A79201DA /* Poppins-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Regular.ttf"; path = "../src/res/fonts/Poppins-Regular.ttf"; sourceTree = "<group>"; };
-		89C6BE57DB24E9ADA2F236DE /* Pods-MurrayDeskBooking-MurrayDeskBookingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MurrayDeskBooking-MurrayDeskBookingTests.release.xcconfig"; path = "Target Support Files/Pods-MurrayDeskBooking-MurrayDeskBookingTests/Pods-MurrayDeskBooking-MurrayDeskBookingTests.release.xcconfig"; sourceTree = "<group>"; };
 		A4CC179D38D33DAE9D9CF1C5 /* Pods-MurrayDeskBooking-MurrayDeskBookingTests.release-dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MurrayDeskBooking-MurrayDeskBookingTests.release-dev.xcconfig"; path = "Target Support Files/Pods-MurrayDeskBooking-MurrayDeskBookingTests/Pods-MurrayDeskBooking-MurrayDeskBookingTests.release-dev.xcconfig"; sourceTree = "<group>"; };
 		AB9A5C2DCD00B21B48AA9D96 /* Pods-MurrayDeskBooking.debug-dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MurrayDeskBooking.debug-dev.xcconfig"; path = "Target Support Files/Pods-MurrayDeskBooking/Pods-MurrayDeskBooking.debug-dev.xcconfig"; sourceTree = "<group>"; };
 		AC8DF1E7A1E7A53EF057898E /* Pods-MurrayDeskBooking-MurrayDeskBookingTests.release-production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MurrayDeskBooking-MurrayDeskBookingTests.release-production.xcconfig"; path = "Target Support Files/Pods-MurrayDeskBooking-MurrayDeskBookingTests/Pods-MurrayDeskBooking-MurrayDeskBookingTests.release-production.xcconfig"; sourceTree = "<group>"; };
@@ -178,10 +174,6 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3B4392A12AC88292D35C810B /* Pods-MurrayDeskBooking.debug.xcconfig */,
-				5709B34CF0A7D63546082F79 /* Pods-MurrayDeskBooking.release.xcconfig */,
-				5B7EB9410499542E8C5724F5 /* Pods-MurrayDeskBooking-MurrayDeskBookingTests.debug.xcconfig */,
-				89C6BE57DB24E9ADA2F236DE /* Pods-MurrayDeskBooking-MurrayDeskBookingTests.release.xcconfig */,
 				AB9A5C2DCD00B21B48AA9D96 /* Pods-MurrayDeskBooking.debug-dev.xcconfig */,
 				33B08D1DA049BC476F9E24FE /* Pods-MurrayDeskBooking.debug-production.xcconfig */,
 				7159A38764C976030C534A7A /* Pods-MurrayDeskBooking.release-dev.xcconfig */,
@@ -732,10 +724,7 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
@@ -878,10 +867,7 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
@@ -1029,10 +1015,7 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
@@ -1110,10 +1093,7 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
