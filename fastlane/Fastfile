@@ -49,17 +49,20 @@ platform :ios do
     end
 
     lane :testflight_distribute do |options|
+        ENV["GOOGLE_APPLICATION_CREDENTIALS"]="admin-sdk.json"
+        ENV["ENV"]="development"
+        setup_ci(force: true)
         version_number_string = options[:version_number_string]
         tag = "#{version_number_string}-ios"
         add_git_tag(tag: tag, force: true)
         push_git_tags(tag: tag, force: true)
         match(type: "appstore",
             skip_google_cloud_account_confirmation: true) 
+        cocoapods(podfile: "ios/Podfile")
         gym(workspace: iOSWorkspace,
             configuration: 'Release-Production',
             export_method: 'app-store', 
             include_bitcode: true)
-        ENV["GOOGLE_APPLICATION_CREDENTIALS"]="admin-sdk.json"
         upload_symbols_to_crashlytics(dsym_path: ENV["DSYM_OUTPUT_PATH"], 
             binary_path: './ios/Pods/FirebaseCrashlytics/upload-symbols')
         upload_to_testflight(
