@@ -143,13 +143,13 @@ platform :android do
     lane :google_play_distribute do |options|
         version_number_string = options[:version_number_string]
         tag = "#{version_number_string}-android"
-        # add_git_tag(tag: tag, force: true)
-        # push_git_tags(tag: tag, force: true)
+        add_git_tag(tag: tag, force: true)
+        push_git_tags(tag: tag, force: true)
         ENV["GOOGLE_APPLICATION_CREDENTIALS"]="admin-sdk.json"
         ENV["ENVFILE"]=".env.production"
-        # gradle(
-        #     project_dir: "./android",
-        #     task: "clean")
+        gradle(
+            project_dir: "./android",
+            task: "clean")
         gradle(
             project_dir: "./android",
             task: "bundle",
