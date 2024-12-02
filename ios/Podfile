@@ -47,7 +47,16 @@ target 'MurrayDeskBooking' do
           if target.name == 'react-native-config'
             config.build_settings['ENVFILE'] = ENVFILES[config.name]
           end
-          
+
+          if target.name == 'BoringSSL-GRPC'
+            target.source_build_phase.files.each do |file|
+              if file.settings && file.settings['COMPILER_FLAGS']
+                flags = file.settings['COMPILER_FLAGS'].split
+                flags.reject! { |flag| flag == '-GCC_WARN_INHIBIT_ALL_WARNINGS' }
+                file.settings['COMPILER_FLAGS'] = flags.join(' ')
+              end
+            end
+          end
           # On Xcode 15.0.1 you get this error:
           # "No template named 'unary_function' in namespace 'std'; did you mean '__unary_function'?"
           # Adding this fixes it, as per https://stackoverflow.com/a/77136535
