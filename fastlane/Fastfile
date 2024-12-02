@@ -74,6 +74,7 @@ platform :ios do
             notify_external_testers: true,
             expire_previous_builds: true,
             groups: ["Murray App Beta Testers"],
+            beta_app_description: "App for employees for the company only for booking desk and car spaces. We use Google Sign-in as a business solution and therefore are not required to have Sign In with Apple.",
             beta_app_review_info: {
                 contact_email: "christopher.batin@and.digital",
                 contact_first_name: "Christopher",
