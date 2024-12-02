@@ -53,6 +53,7 @@ platform :ios do
         ENV["ENV"]="development"
         setup_ci(force: true)
         version_number_string = options[:version_number_string]
+        update_version_number version_number_string:version_number_string
         tag = "#{version_number_string}-ios"
         add_git_tag(tag: tag, force: true)
         push_git_tags(tag: tag, force: true)
