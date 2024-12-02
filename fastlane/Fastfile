@@ -64,7 +64,8 @@ platform :ios do
             export_method: 'app-store', 
             include_bitcode: true)
         upload_symbols_to_crashlytics(dsym_path: ENV["DSYM_OUTPUT_PATH"], 
-            binary_path: './ios/Pods/FirebaseCrashlytics/upload-symbols')
+            binary_path: './ios/Pods/FirebaseCrashlytics/upload-symbols',
+            gsp_path: './ios/Firebase/GoogleService-Info-Prod.plist')
         upload_to_testflight(
             demo_account_required: true,
             api_key_path: './appstore-connect-api-key.json',
