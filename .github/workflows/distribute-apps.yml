@@ -82,7 +82,7 @@ jobs:
         run: |
           echo $ADMIN_SDK_BASE64 | base64 --decode > admin-sdk.json
           mkdir android/app/play_store_keys
-          echo $GOOGLE_PLAY_KEY_JSON_BASE64_ENCODED | base64 --decode > android/app/play_store_keys/pc-api-5670955761957146419-138-d5132b70bac6.json
+          echo $GOOGLE_PLAY_KEY_JSON_BASE64_ENCODED | base64 --decode > android/app/play_store_keys/murray-apps-9ae8e17f9aa5.json
           echo $ANDROID_RELEASE_KEYSTORE_PROPERTIES_BASE64_ENCODED | base64 --decode > android/app/play_store_keys/release_keystore.properties
           echo $ANDROID_RELEASE_KEYSTORE_BASE64_ENCODED | base64 --decode > android/app/release.keystore
           touch .env.${{ inputs.environment }}

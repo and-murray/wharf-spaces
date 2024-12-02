@@ -143,13 +143,13 @@ platform :android do
     lane :google_play_distribute do |options|
         version_number_string = options[:version_number_string]
         tag = "#{version_number_string}-android"
-        add_git_tag(tag: tag, force: true)
-        push_git_tags(tag: tag, force: true)
+        # add_git_tag(tag: tag, force: true)
+        # push_git_tags(tag: tag, force: true)
         ENV["GOOGLE_APPLICATION_CREDENTIALS"]="admin-sdk.json"
         ENV["ENVFILE"]=".env.production"
-        gradle(
-            project_dir: "./android",
-            task: "clean")
+        # gradle(
+        #     project_dir: "./android",
+        #     task: "clean")
         gradle(
             project_dir: "./android",
             task: "bundle",
@@ -157,8 +157,7 @@ platform :android do
             build_type: "Release",
             properties: {
                 # Version code set in build.gradle not here
-                "versionName" => version_number_string,
-                "prodKeyStorePassword" => ENV["ANDROID_PROD_KEYSTORE_PASSWORD"]
+                "versionName" => version_number_string
             }
           )
         # TODO: Update gradle file with new version number and commit this
@@ -168,7 +167,7 @@ platform :android do
             release_status:"draft",
             package_name:"digital.and.murrayapps.production",
             track:"internal",
-            json_key:"./android/app/play_store_keys/pc-api-5670955761957146419-138-d5132b70bac6.json",
+            json_key:"./android/app/play_store_keys/murray-apps-9ae8e17f9aa5.json",
             mapping_paths: ["./android/app/build/outputs/mapping/productionRelease/mapping.txt"]
         )
     end
