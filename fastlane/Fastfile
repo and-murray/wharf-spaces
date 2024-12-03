@@ -82,7 +82,7 @@ platform :ios do
             xcodeproj: iOSProject
         )
         # Git
-        git_commit(path: ["*.plist", "*/project.pbxproj", "*.gradle"], message: "[skip ci] Version Bumps")
+        git_commit(path: ["*.plist", "*/project.pbxproj"], message: "[skip ci] Version Bumps")
         push_to_git_remote(tags: false, force_with_lease: true)
     end
 
@@ -173,7 +173,7 @@ platform :android do
         # Android
         increment_version_code(
             gradle_file_path: "./android/app/build.gradle",
-            version_code: 1030
+            version_code: 1031
         )
         increment_version_name(
             gradle_file_path: "./android/app/build.gradle",
