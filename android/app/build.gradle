@@ -92,19 +92,11 @@ android {
         applicationId "digital.and.murrayapps"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 3 // Version code static will stop the app from being rebuilt whilst doing development
-        versionName "1.1.0"
-
+        // Set by fastlane
+        versionCode 1002
+        // Set by fastlane
+        versionName "1.2.1"
         resValue "string", "build_config_package", "digital.and.murrayapps" // Required for react-native-config as we have applicationIdSuffix set
-
-        applicationVariants.all { variant ->
-            // Only set Version code for release as otherwise, the app will be rebuilt repeatedly during development
-            if (variant.buildType.name == "release") {
-                variant.outputs.each { output ->
-                    output.versionCodeOverride = getNumberOfGitCommtis()
-                }
-            }
-        }
     }
 
 

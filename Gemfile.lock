@@ -162,6 +162,8 @@ GEM
     fastlane-plugin-firebase_app_distribution (0.9.1)
       google-apis-firebaseappdistribution_v1 (~> 0.3.0)
       google-apis-firebaseappdistribution_v1alpha (~> 0.2.0)
+    fastlane-plugin-increment_version_code (0.4.3)
+    fastlane-plugin-increment_version_name (0.0.10)
     fastlane-sirp (1.0.0)
       sysrandom (~> 1.0)
     ffi (1.17.0)
@@ -289,6 +291,8 @@ DEPENDENCIES
   cocoapods (>= 1.13, < 1.15)
   fastlane (= 2.225.0)
   fastlane-plugin-firebase_app_distribution
+  fastlane-plugin-increment_version_code
+  fastlane-plugin-increment_version_name
 
 RUBY VERSION
    ruby 3.0.0p0

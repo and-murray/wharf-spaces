@@ -140,8 +140,32 @@ platform :android do
         )
     end
 
+    lane :update_version_number do |options|
+        version_number_string = options[:version_number_string]
+        previous_build_number = google_play_track_version_codes(
+            package_name: "digital.and.murrayapps.production",
+            track: "internal",
+            json_key: "./android/app/play_store_keys/murray-apps-9ae8e17f9aa5.json",
+        )[0]
+        new_build_number = previous_build_number + 1
+        # Android
+        increment_version_code(
+            gradle_file_path: "./android/app/build.gradle",
+            version_code: 1030
+        )
+        increment_version_name(
+            gradle_file_path: "./android/app/build.gradle",
+            version_name: version_number_string
+          )
+        # Git
+        git_commit(path: ["*.gradle"], message: "[skip ci] Version Bumps")
+        push_to_git_remote(tags: false)
+    end
+
     lane :google_play_distribute do |options|
         version_number_string = options[:version_number_string]
+        setup_ci(force: true)
+        update_version_number version_number_string:version_number_string
         tag = "#{version_number_string}-android"
         add_git_tag(tag: tag, force: true)
         push_git_tags(tag: tag, force: true)
@@ -154,15 +178,8 @@ platform :android do
             project_dir: "./android",
             task: "bundle",
             flavor: "production",
-            build_type: "Release",
-            properties: {
-                # Version code set in build.gradle not here
-                "versionName" => version_number_string
-            }
-          )
-        # TODO: Update gradle file with new version number and commit this
-        # git_commit(path: ["*.gradle"], message: "[skip ci] Version Bumps")
-        # push_to_git_remote(tags: false)
+            build_type: "Release"
+        )
         upload_to_play_store(
             release_status:"draft",
             package_name:"digital.and.murrayapps.production",
