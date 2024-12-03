@@ -1,9 +1,9 @@
 fastlane_version '2.225.0'
 
-platform :ios do
-    iOSWorkspace = "./ios/MurrayDeskBooking.xcworkspace"
-    iOSProject = "./ios/MurrayDeskBooking.xcodeproj"
+iOSWorkspace = "./ios/MurrayDeskBooking.xcworkspace"
+iOSProject = "./ios/MurrayDeskBooking.xcodeproj"
 
+platform :ios do
     lane :qa_distribute do
         ENV["GOOGLE_APPLICATION_CREDENTIALS"]="admin-sdk.json"
         ENV["ENV"]="development"
