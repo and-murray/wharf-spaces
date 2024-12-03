@@ -12,10 +12,6 @@ project.ext.envConfigFiles = [
 
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
-def keystorePropertiesFile = project(':app').file("play_store_keys/release_keystore.properties");
-def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-
 static def getNumberOfGitCommtis() {
     def result = "git rev-list HEAD --count".execute().text.trim() //unix
     if (result.empty) result = "PowerShell -Command git rev-list HEAD --count".execute().text.trim() //windows
@@ -108,10 +104,15 @@ android {
             keyPassword 'android'
         }
         release {
-            storeFile file(keystoreProperties['storeFileName'])
-            storePassword keystoreProperties['storePassword']
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
+            def keystorePropertiesFile = project(':app').file("play_store_keys/release_keystore.properties")
+            def keystoreProperties = new Properties()
+            if(keystorePropertiesFile.exists()) {
+                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+                storeFile file(keystoreProperties['storeFileName'])
+                storePassword keystoreProperties['storePassword']
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+            }
         }
     }
     buildTypes {
