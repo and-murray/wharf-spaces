@@ -156,9 +156,18 @@ We need to upload the key as a base64 encoded string because secure files don't 
 - Convert it from the binary form via `base64 -i git-crypt-key -o base64-git-crypt-key`
 - Take the contents of the base64 file and update the variable `CRYPT_KEY` in GitLab variables. Make sure it is masked.
 
-# Deploying the app to App Store and Play store
+# Creating a Release
 
-We use fastlane lanes for this - [Read the guide here](https://anddigitaltransformation.atlassian.net/wiki/spaces/ML/pages/4487938094/Release+Guide)
+1. Create a Release Within Github with the version number of the new release as the tag and main branch as the target. Generate release notes and set as the latest release and save as a draft. [You can do this here](https://github.com/and-murray/wharf-spaces/releases)
+2. Checkout the `release` branch.
+3. Merge the code you wish to release into the `release` branch and push this up. This will start a workflow to create distribution apps for the Google Play and Apple App Stores. They will be uploaded for testing in Testflight and Internal Test. Note the version number is taken from the latest Github Release.
+4. Create a PR from `release` into main. You can merge this but merging this after approvals. On merge into main this will deploy the latest version of the functions if there are any changes.
+5. Regression test the apps on Test Flight and Google Play. If there are any issues merge your fixes via PR into the release branch and repeat step 4.
+6. You may now release the apps after regression testing is complete.
+7. Publish the release in Github.
+8. Create a delta PR from main into develop to ensure it is up to date with any changes.
+
+Note deployments to Testflight, Internal Test and Production require approval in Github actions by somebody from Murray.
 
 # Troubleshooting
 
