@@ -82,7 +82,7 @@ platform :ios do
         )
         # Git
         git_commit(path: ["*.plist", "*/project.pbxproj"], message: "[skip ci] Version Bumps")
-        git_pull
+        git_pull(rebase: true)
         push_to_git_remote(tags: false)
     end
 
@@ -180,7 +180,7 @@ platform :android do
           )
         # Git
         git_commit(path: ["*.gradle"], message: "[skip ci] Version Bumps")
-        git_pull
+        git_pull(rebase: true)
         push_to_git_remote(tags: false)
     end
 end
