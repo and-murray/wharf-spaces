@@ -1,7 +1,7 @@
 import React from 'react';
 import {render, waitFor} from '@testing-library/react-native';
 import {TestWrapper} from '../../components/TestWrapper';
-import DeskScreen from './DeskScreen';
+import BookingScreen from './BookingScreen';
 import * as DeskCalendar from '@organisms/DeskCalendar/DeskCalendar';
 import * as EventViewer from '@organisms/EventViewer/EventViewer';
 import * as AvailableSpaces from '@organisms/AvailableSpaces/AvailableSpaces';
@@ -68,7 +68,7 @@ const useAppSelectorSpy = jest.spyOn(useAppSelector, 'useAppSelector');
 const calculateNewUserIdsSpy = jest.spyOn(FirebaseUtils, 'calculateNewUserIds');
 jest.mock('@react-native-segmented-control/segmented-control');
 
-describe('When DeskScreen is rendered', () => {
+describe('When BookingScreen is rendered', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     deskCalenderSpy.mockImplementation();
@@ -99,7 +99,7 @@ describe('When DeskScreen is rendered', () => {
     getUsersSpy.mockResolvedValue(mockUserData);
     render(
       <TestWrapper>
-        <DeskScreen />
+        <BookingScreen />
       </TestWrapper>,
     );
 

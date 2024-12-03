@@ -60,6 +60,14 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 
 
+### android update_version_number
+
+```sh
+[bundle exec] fastlane android update_version_number
+```
+
+
+
 ### android google_play_distribute
 
 ```sh
