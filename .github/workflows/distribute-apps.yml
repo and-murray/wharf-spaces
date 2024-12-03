@@ -47,7 +47,7 @@ jobs:
       - name: install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: ios-testflight-distribute
+      - name: Update Version Numbers
         if: inputs.environment == 'production'
         run: bundle exec fastlane update_version_number version_number_string:${{ inputs.version_string }}
 
