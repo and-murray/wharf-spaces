@@ -72,7 +72,6 @@ platform :ios do
 
     lane :update_version_number do |options|
         version_number_string = options[:version_number_string]
-        # iOS
         increment_version_number(
             version_number: version_number_string,
             xcodeproj: iOSProject
@@ -83,7 +82,8 @@ platform :ios do
         )
         # Git
         git_commit(path: ["*.plist", "*/project.pbxproj"], message: "[skip ci] Version Bumps")
-        push_to_git_remote(tags: false, force_with_lease: true)
+        git_pull
+        push_to_git_remote(tags: false)
     end
 
     lane :setup_profiles_certs do
@@ -170,10 +170,9 @@ platform :android do
             json_key: "./android/app/play_store_keys/murray-apps-9ae8e17f9aa5.json",
         )[0]
         new_build_number = previous_build_number + 1
-        # Android
         increment_version_code(
             gradle_file_path: "./android/app/build.gradle",
-            version_code: 1031
+            version_code: new_build_number
         )
         increment_version_name(
             gradle_file_path: "./android/app/build.gradle",
@@ -181,7 +180,8 @@ platform :android do
           )
         # Git
         git_commit(path: ["*.gradle"], message: "[skip ci] Version Bumps")
-        push_to_git_remote(tags: false, force_with_lease: true)
+        git_pull
+        push_to_git_remote(tags: false)
     end
 end
 
