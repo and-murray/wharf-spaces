@@ -102,7 +102,6 @@ This is all configured from `android/app/build.gradle`.
 
 See the [Firebase docs](https://firebase.google.com/docs/cli/?authuser=0#windows-npm) for the most up to date instructions.
 
-- Currently for the UI Emulator to work you need to use node version 18 as 19 is not working with it. Use [nvm](https://github.com/nvm-sh/nvm) to make sure you are using the latest lts version.
 - `yarn install` will ensure the cli is installed as it is in the package.json [This guide has the most up to date commands](https://firebase.google.com/docs/cli/?authuser=0#windows-npm)
 - Run the following to install the firestore emulator: `firebase setup:emulators:firestore`. See [this](https://firebase.google.com/docs/firestore/security/test-rules-emulator?hl=en&authuser=0) for more up to date setup if required.
 - Install version 17 of the openJDK. Instructions [here](https://medium.com/@datatec.studio/3-steps-to-install-openjdk-11-on-macos-3ae0e10dfa1a)
