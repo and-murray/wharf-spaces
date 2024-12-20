@@ -1,5 +1,6 @@
 import React, {useEffect, useLayoutEffect} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import BookingScreen from '@root/src/screens/BookingScreen/BookingScreen';
 import {Alert} from 'react-native';
 import {IconButton, Icon} from 'native-base';
@@ -15,7 +16,8 @@ import {LogLevel, logMessage} from '@root/src/util/Logging/Logging';
 import {hideSplashScreen} from '@root/src/state/reducers/SplashScreenReducer';
 import {useAppDispatch} from '@state/utils/hooks';
 
-const Stack = createStackNavigator();
+// const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 function HomeContainer(): React.JSX.Element {
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -74,15 +76,20 @@ function HomeContainer(): React.JSX.Element {
   });
 
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Bookings"
-        component={BookingScreen}
-        options={{
-          headerRight: logoutButton,
-        }}
-      />
-    </Stack.Navigator>
+    <Tab.Navigator>
+      <Tab.Screen name="Bookings" component={BookingScreen} />
+    </Tab.Navigator>
   );
+  // return (
+  //   <Stack.Navigator>
+  //     <Stack.Screen
+  //       name="Bookings"
+  //       component={BookingScreen}
+  //       options={{
+  //         headerRight: logoutButton,
+  //       }}
+  //     />
+  //   </Stack.Navigator>
+  // );
 }
 export default HomeContainer;
