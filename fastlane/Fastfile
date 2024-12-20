@@ -1,9 +1,9 @@
-fastlane_version '2.220.0'
+fastlane_version '2.225.0'
+
+iOSWorkspace = "./ios/MurrayDeskBooking.xcworkspace"
+iOSProject = "./ios/MurrayDeskBooking.xcodeproj"
 
 platform :ios do
-    iOSWorkspace = "./ios/MurrayDeskBooking.xcworkspace"
-    iOSProject = "./ios/MurrayDeskBooking.xcodeproj"
-
     lane :qa_distribute do
         ENV["GOOGLE_APPLICATION_CREDENTIALS"]="admin-sdk.json"
         ENV["ENV"]="development"
@@ -32,47 +32,25 @@ platform :ios do
         )
     end
 
-    lane :update_version_number do
-        version_number_string = UI.input "Please enter the version number (without any letters): "
-        version_number = version_number_string.to_f
-        if version_number == 0.0
-            UI.abort_with_message!("Invalid version number please try again.")
-        end
-        verify = UI.confirm "Confirm? #{version_number_string}"
-        if verify == false
-            UI.abort_with_message!("Incorrect version number, ending lane")
-        end
-        increment_version_number(
-            version_number: version_number_string,
-            xcodeproj: iOSProject
-        )
-        increment_build_number(
-            build_number: "#{get_datetime_for_build_version}.#{number_of_commits}",
-            xcodeproj: iOSProject
-        )
-        gradle(
-            project_dir: "./android",
-            properties: {
-                # Version code set in build.gradle not here
-                "versionName" => version_number_string,
-                "prodKeyStorePassword" => ENV["ANDROID_PROD_KEYSTORE_PASSWORD"]
-            }
-          )
-    end
-
-    lane :testflight_distribute do
+    lane :testflight_distribute do |options|
+        ENV["GOOGLE_APPLICATION_CREDENTIALS"]="admin-sdk.json"
+        ENV["ENV"]="development"
+        version_number_string = options[:version_number_string]
+        setup_ci(force: true)
+        update_version_number version_number_string:version_number_string
         tag = "#{version_number_string}-ios"
         add_git_tag(tag: tag, force: true)
         push_git_tags(tag: tag, force: true)
         match(type: "appstore",
             skip_google_cloud_account_confirmation: true) 
+        cocoapods(podfile: "ios/Podfile")
         gym(workspace: iOSWorkspace,
             configuration: 'Release-Production',
-            export_method: 'app-store', 
+            export_method: 'app-store',
             include_bitcode: true)
-        ENV["GOOGLE_APPLICATION_CREDENTIALS"]="admin-sdk.json"
         upload_symbols_to_crashlytics(dsym_path: ENV["DSYM_OUTPUT_PATH"], 
-            binary_path: './ios/Pods/FirebaseCrashlytics/upload-symbols')
+            binary_path: './ios/Pods/FirebaseCrashlytics/upload-symbols',
+            gsp_path: './ios/Firebase/GoogleService-Info-Prod.plist')
         upload_to_testflight(
             demo_account_required: true,
             api_key_path: './appstore-connect-api-key.json',
@@ -80,6 +58,7 @@ platform :ios do
             notify_external_testers: true,
             expire_previous_builds: true,
             groups: ["Murray App Beta Testers"],
+            beta_app_description: "App for employees for the company only for booking desk and car spaces. We use Google Sign-in as a business solution and therefore are not required to have Sign In with Apple.",
             beta_app_review_info: {
                 contact_email: "christopher.batin@and.digital",
                 contact_first_name: "Christopher",
@@ -89,6 +68,22 @@ platform :ios do
                 notes: "App for employees for the company only. We use Google Sign-in as a business solution and therefore are not required to have Sign In with Apple."
                 },
             changelog: changelog_from_git_commits)
+    end
+
+    lane :update_version_number do |options|
+        version_number_string = options[:version_number_string]
+        increment_version_number(
+            version_number: version_number_string,
+            xcodeproj: iOSProject
+        )
+        increment_build_number(
+            build_number: "#{get_datetime_for_build_version}.#{number_of_commits}",
+            xcodeproj: iOSProject
+        )
+        # Git
+        git_commit(path: ["*.plist", "*/project.pbxproj"], message: "[skip ci] Version Bumps")
+        git_pull(rebase: true)
+        push_to_git_remote(tags: false)
     end
 
     lane :setup_profiles_certs do
@@ -106,11 +101,6 @@ platform :ios do
             skip_google_cloud_account_confirmation: true,
             force_for_new_devices: true) 
     end
-
-    private_lane :get_datetime_for_build_version do
-        Time.now.utc.strftime("%Y%m%d%H%M%S")
-    end
-
 end
 
 platform :android do
@@ -146,6 +136,12 @@ platform :android do
     end
 
     lane :google_play_distribute do |options|
+        version_number_string = options[:version_number_string]
+        setup_ci(force: true)
+        update_version_number version_number_string:version_number_string
+        tag = "#{version_number_string}-android"
+        add_git_tag(tag: tag, force: true)
+        push_git_tags(tag: tag, force: true)
         ENV["GOOGLE_APPLICATION_CREDENTIALS"]="admin-sdk.json"
         ENV["ENVFILE"]=".env.production"
         gradle(
@@ -155,19 +151,37 @@ platform :android do
             project_dir: "./android",
             task: "bundle",
             flavor: "production",
-            build_type: "Release",
-            properties: {
-                # Version code set in build.gradle not here
-                "prodKeyStorePassword" => ENV["ANDROID_PROD_KEYSTORE_PASSWORD"]
-            }
-          )
+            build_type: "Release"
+        )
         upload_to_play_store(
             release_status:"draft",
             package_name:"digital.and.murrayapps.production",
             track:"internal",
-            json_key:"./android/app/play_store_keys/pc-api-5670955761957146419-138-d5132b70bac6.json",
+            json_key:"./android/app/play_store_keys/murray-apps-9ae8e17f9aa5.json",
             mapping_paths: ["./android/app/build/outputs/mapping/productionRelease/mapping.txt"]
         )
+    end
+
+    lane :update_version_number do |options|
+        version_number_string = options[:version_number_string]
+        previous_build_number = google_play_track_version_codes(
+            package_name: "digital.and.murrayapps.production",
+            track: "internal",
+            json_key: "./android/app/play_store_keys/murray-apps-9ae8e17f9aa5.json",
+        )[0]
+        new_build_number = previous_build_number + 1
+        increment_version_code(
+            gradle_file_path: "./android/app/build.gradle",
+            version_code: new_build_number
+        )
+        increment_version_name(
+            gradle_file_path: "./android/app/build.gradle",
+            version_name: version_number_string
+          )
+        # Git
+        git_commit(path: ["*.gradle"], message: "[skip ci] Version Bumps")
+        git_pull(rebase: true)
+        push_to_git_remote(tags: false)
     end
 end
 
@@ -181,4 +195,8 @@ private_lane :get_dev_release_notes do
     Hash: #{commit[:commit_hash]},
     Short Hash: #{commit[:abbreviated_commit_hash]}
     """
+end
+
+private_lane :get_datetime_for_build_version do
+    Time.now.utc.strftime("%Y%m%d%H%M%S")
 end
