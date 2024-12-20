@@ -7,6 +7,18 @@ on:
         required: true
         type: string
         description: 'Either development or production'
+      version_string:
+        required: false
+        type: string
+        description: 'The version string to be used for the app'
+
+
+  workflow_dispatch:
+    inputs:
+      environment:
+        required: true
+        type: string
+        description: 'Either development or production'
 
 jobs:
   distribute-ios:
@@ -21,14 +33,16 @@ jobs:
       - uses: ruby/setup-ruby@v1
       - uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: '15.2'
+          xcode-version: '16.0'
       - name: Retrieve the secret and decode it to a file
         env:
           ADMIN_SDK_BASE64: ${{ secrets.FIREBASE_ADMIN_BASE_64_ENCODED_JSON }}
           APP_STORE_CONNECT_KEY_BASE_64_ENCODED_JSON: ${{ secrets.APP_STORE_CONNECT_KEY_BASE_64_ENCODED_JSON }}
+          FASTLANE_MATCH_BUCKET_ACCESS_BASE_64_JSON: ${{ secrets.FASTLANE_MATCH_BUCKET_ACCESS_BASE_64_JSON }}
         run: |
           echo $ADMIN_SDK_BASE64 | base64 --decode > admin-sdk.json
           echo $APP_STORE_CONNECT_KEY_BASE_64_ENCODED_JSON | base64 --decode > appstore-connect-api-key.json
+          echo $FASTLANE_MATCH_BUCKET_ACCESS_BASE_64_JSON | base64 --decode > gc_keys.json
           touch .env.${{ inputs.environment }}
           echo REACT_APP_FIREBASE_AUTH_WEB_CLIENT_ID = "${{ vars.MURRAY_APPS_DEV_REACT_APP_FIREBASE_AUTH_WEB_CLIENT_ID }}" >> .env.${{ inputs.environment }}
           echo REACT_APP_FIREBASE_FUNCTIONS_BASE_URL = "${{ vars.MURRAY_APPS_DEV_REACT_APP_FIREBASE_FUNCTIONS_BASE_URL }}" >> .env.${{ inputs.environment }}
@@ -47,7 +61,7 @@ jobs:
 
       - name: ios-testflight-distribute
         if: inputs.environment == 'production'
-        run: yarn ios:testflight:distribute
+        run: bundle exec fastlane ios testflight_distribute version_number_string:${{ inputs.version_string }}
 
   distribute-android:
     runs-on: ubuntu-latest
@@ -69,19 +83,23 @@ jobs:
       - name: Retrieve the secret and decode it to a file
         env:
           ADMIN_SDK_BASE64: ${{ secrets.FIREBASE_ADMIN_BASE_64_ENCODED_JSON }}
-          GOOGLE_PLAY_RELEASE_KEYSTORE_BASE64_ENCODED_PROPERTIES: ${{ secrets.GOOGLE_PLAY_RELEASE_KEYSTORE_BASE64_ENCODED_PROPERTIES }}
+          GOOGLE_PLAY_KEY_JSON_BASE64_ENCODED: ${{ secrets.GOOGLE_PLAY_KEY_JSON_BASE64_ENCODED }}
           ANDROID_RELEASE_KEYSTORE_BASE64_ENCODED: ${{ secrets.ANDROID_RELEASE_KEYSTORE_BASE64_ENCODED }}
+          ANDROID_RELEASE_KEYSTORE_PROPERTIES_BASE64_ENCODED: ${{ secrets.ANDROID_RELEASE_KEYSTORE_PROPERTIES_BASE64_ENCODED }}
           ANDROID_PROD_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_PROD_KEYSTORE_PASSWORD }}
         run: |
           echo $ADMIN_SDK_BASE64 | base64 --decode > admin-sdk.json
           mkdir android/app/play_store_keys
-          echo $GOOGLE_PLAY_RELEASE_KEYSTORE_BASE64_ENCODED_PROPERTIES | base64 --decode > android/app/play_store_keys/release_keystore.properties
+          echo $GOOGLE_PLAY_KEY_JSON_BASE64_ENCODED | base64 --decode > android/app/play_store_keys/murray-apps-9ae8e17f9aa5.json
+          echo $ANDROID_RELEASE_KEYSTORE_PROPERTIES_BASE64_ENCODED | base64 --decode > android/app/play_store_keys/release_keystore.properties
           echo $ANDROID_RELEASE_KEYSTORE_BASE64_ENCODED | base64 --decode > android/app/release.keystore
           touch .env.${{ inputs.environment }}
           echo REACT_APP_FIREBASE_AUTH_WEB_CLIENT_ID = "${{ vars.MURRAY_APPS_DEV_REACT_APP_FIREBASE_AUTH_WEB_CLIENT_ID }}" >> .env.${{ inputs.environment }}
           echo REACT_APP_FIREBASE_FUNCTIONS_BASE_URL = "${{ vars.MURRAY_APPS_DEV_REACT_APP_FIREBASE_FUNCTIONS_BASE_URL }}" >> .env.${{ inputs.environment }}
           echo REMOTE_CONFIG_FETCH_DEBUG = "false" >> .env.${{ inputs.environment }}
           cat .env.${{ inputs.environment }}
+          git config --global user.email "christopher.batin@and.digital"
+          git config --global user.name "Github Runner"
 
       - name: Bundle install
         run: bundle install
@@ -95,4 +113,4 @@ jobs:
 
       - name: android-playstore-distribute
         if: inputs.environment == 'production'
-        run: yarn android:google_play:distribute
+        run: bundle exec fastlane android google_play_distribute version_number_string:${{ inputs.version_string }}
