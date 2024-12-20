@@ -14,12 +14,14 @@ import {
 import messaging from '@react-native-firebase/messaging';
 import {LogLevel, logMessage} from '@root/src/util/Logging/Logging';
 import {hideSplashScreen} from '@root/src/state/reducers/SplashScreenReducer';
-import {useAppDispatch} from '@state/utils/hooks';
+import {useAppDispatch, useAppSelector} from '@state/utils/hooks';
+import {MyBookingsIcon} from '@root/src/res/images/MyBookingIcon';
 
-// const Stack = createStackNavigator();
+const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 function HomeContainer(): React.JSX.Element {
   const dispatch = useAppDispatch();
+  const featureFlags = useAppSelector(state => state.featureFlags);
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       Alert.alert(
@@ -40,6 +42,9 @@ function HomeContainer(): React.JSX.Element {
         icon={<Icon as={LogoutIcon} />}
       />
     );
+  }
+  function tabBarIcon(color: string) {
+    return <MyBookingsIcon color={color} />;
   }
   const logoutAlert = () => {
     Alert.alert(
@@ -74,22 +79,40 @@ function HomeContainer(): React.JSX.Element {
   useLayoutEffect(() => {
     dispatch(hideSplashScreen(true)); // dismiss if not already dismissed when home screen shown.
   });
-
-  return (
-    <Tab.Navigator>
-      <Tab.Screen name="Bookings" component={BookingScreen} />
-    </Tab.Navigator>
-  );
-  // return (
-  //   <Stack.Navigator>
-  //     <Stack.Screen
-  //       name="Bookings"
-  //       component={BookingScreen}
-  //       options={{
-  //         headerRight: logoutButton,
-  //       }}
-  //     />
-  //   </Stack.Navigator>
-  // );
+  console.log(featureFlags.tabBarEnabled);
+  if (featureFlags.tabBarEnabled === true) {
+    console.log('========');
+    console.log('TAB BAR ENABLED');
+    return (
+      <Tab.Navigator
+        screenOptions={{
+          tabBarActiveTintColor: 'red',
+          tabBarTestID: 'TabBar',
+        }}>
+        <Tab.Screen
+          name="Bookings"
+          component={BookingScreen}
+          options={{
+            headerRight: logoutButton,
+            tabBarIcon: ({color}) => tabBarIcon(color),
+          }}
+        />
+      </Tab.Navigator>
+    );
+  } else {
+    console.log('========');
+    console.log('TAB BAR NOT ENABLED');
+    return (
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Bookings"
+          component={BookingScreen}
+          options={{
+            headerRight: logoutButton,
+          }}
+        />
+      </Stack.Navigator>
+    );
+  }
 }
 export default HomeContainer;

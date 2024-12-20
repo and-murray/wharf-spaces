@@ -7,9 +7,11 @@ import loadingSlice from './reducers/LoadingSlice';
 import errorSlice from './reducers/ErrorSlice';
 import utilsSlice from './reducers/UtilsSlice';
 import splashScreenReducer from './reducers/SplashScreenReducer';
+import featureFlagsSlice from './reducers/FeatureFlagsSlice';
 
 const rootReducer = combineReducers({
   firebaseRemoteConfig: remoteConfigSlice,
+  featureFlags: featureFlagsSlice,
   user: userSlice,
   selectedDayOptions: selectedDaySlice,
   note: noteSlice,
