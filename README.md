@@ -17,9 +17,11 @@
   - For the Ruby section, [RVM](https://rvm.io/) is recommended to make it easy to manage Ruby versions.
 
 ## Cloning the project
+
 - Clone the project onto your machine using either SSH or HTTPS. We recommend using SSH, which requires you to setup an [SSH key](https://github.com/settings/keys). Once you've [generated an SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) and [added it to your GitHub account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account), you should be able to clone the project in the usual fashion.
 
 ## Setting Up Env Files
+
 - See the .env.template file for how the environment files should be setup.
 - For those with access to `and-murray` org some of these values can be found in the org variables.
   - These are in the format `MURRAY_APPS_DEV_REACT_APP_FIREBASE_FUNCTIONS_BASE_URL`
@@ -85,14 +87,16 @@ On Android there are the following build variants:
 - ProductionDebug
 - ProductionRelease
 
-The above are combinations of `productFlavours` and `buildTypes`. 
+The above are combinations of `productFlavours` and `buildTypes`.
 
 `productFlavours`_These are for separate Firebase instances, keeping data separate for each backend._
+
 - Development
 - Production
   The `google-services.json` files are in separate folders for each flavour: `android/app/src/development/google-services.json` & `android/app/src/production/google-services.json`
 
 `buildTypes` _These are for different types of builds, the release type is optimised and doesn't have any debugging or developer features._
+
 - Debug
 - Release
 
@@ -139,14 +143,6 @@ There is also an adminsdk json file that contains the secrets that allow admin a
 
 - Simply run `yarn test`
 
-# Deploying the app to App Store and Play Store
-
-If the git-crypt key has been regenerated/changed, the CI will need to be updated to include this new key.
-We need to upload the key as a base64 encoded string because secure files don't work correctly GitLab CI, to do so:
-
-- Convert it from the binary form via `base64 -i git-crypt-key -o base64-git-crypt-key`
-- Take the contents of the base64 file and update the variable `CRYPT_KEY` in GitLab variables. Make sure it is masked.
-
 # Creating a Release
 
 1. Create a Release Within Github with the version number of the new release as the tag and main branch as the target. Generate release notes and set as the latest release and save as a draft. [You can do this here](https://github.com/and-murray/wharf-spaces/releases)
@@ -169,6 +165,7 @@ Note deployments to Testflight, Internal Test and Production require approval in
 - If you are running on an M1/M2 macbook, run this command before dealing with ruby/bundler/pods: `env /usr/bin/arch -arm64 /bin/zsh --login`. If any of the steps with ruby or bundler fail, try prefixing them with `arch -arm64` (e.g. `arch -arm64 bundle install`)
 
 ## I'm seeing error messages
+
 `Failed to launch emulator. Reason: No emulators found as an output of emulator -list-avds`
 OR
 `error Failed to install the app. Make sure you have the Android...`
@@ -182,8 +179,8 @@ OR
 ## Unknown ruby interpreter version (do not know how to handle): >=XXXX
 
 - We strongly recommend using a Ruby version manager such as [RVM](https://rvm.io/), which allows you to have different Ruby versions for different projects/directories on your machine. With RVM install you do the following: `rvm install X.X.X`
-`rvm use X.X.X`
-_(where X.X.X is the version quoted in the error message)_
+  `rvm use X.X.X`
+  _(where X.X.X is the version quoted in the error message)_
 
 ## "Help! I've tried nothing and I'm all out of ideas."
 

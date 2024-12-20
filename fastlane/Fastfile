@@ -80,7 +80,6 @@ platform :ios do
             build_number: "#{get_datetime_for_build_version}.#{number_of_commits}",
             xcodeproj: iOSProject
         )
-        # Git
         git_commit(path: ["*.plist", "*/project.pbxproj"], message: "[skip ci] Version Bumps")
         git_pull(rebase: true)
         push_to_git_remote(tags: false)
@@ -178,7 +177,6 @@ platform :android do
             gradle_file_path: "./android/app/build.gradle",
             version_name: version_number_string
           )
-        # Git
         git_commit(path: ["*.gradle"], message: "[skip ci] Version Bumps")
         git_pull(rebase: true)
         push_to_git_remote(tags: false)
