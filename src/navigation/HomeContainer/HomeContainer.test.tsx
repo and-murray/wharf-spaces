@@ -2,6 +2,7 @@ import React from 'react';
 import {TestWrapper} from '@components/TestWrapper';
 import {render, waitFor} from '@testing-library/react-native';
 import HomeContainer from './HomeContainer';
+import * as hooks from '@state/utils/hooks';
 
 const mockSaveTokenToDatabase = jest.fn();
 const mockRequestMessagingPermission = () => {};
@@ -46,5 +47,31 @@ describe('When the Home container is displayed', () => {
 
       expect(mockSaveTokenToDatabase).toBeCalledTimes(0);
     });
+  });
+
+  it('renders a normal navigation stack with child when tabBarEnabled is false', () => {
+    jest.spyOn(hooks, 'useAppSelector').mockReturnValue({
+      tabBarEnabled: false,
+    });
+
+    const {queryByTestId} = render(
+      <TestWrapper>
+        <HomeContainer />
+      </TestWrapper>,
+    );
+    expect(queryByTestId('TabBar')).toBeNull();
+  });
+
+  it('renders a tab bar with child when tabBarEnabled is true', () => {
+    jest.spyOn(hooks, 'useAppSelector').mockReturnValue({
+      tabBarEnabled: true,
+    });
+
+    const {queryByTestId} = render(
+      <TestWrapper>
+        <HomeContainer />
+      </TestWrapper>,
+    );
+    expect(queryByTestId('TabBar')).toBeTruthy();
   });
 });
