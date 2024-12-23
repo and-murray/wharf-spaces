@@ -81,8 +81,6 @@ function HomeContainer(): React.JSX.Element {
   });
   console.log(featureFlags.tabBarEnabled);
   if (featureFlags.tabBarEnabled === true) {
-    console.log('========');
-    console.log('TAB BAR ENABLED');
     return (
       <Tab.Navigator
         screenOptions={{
@@ -100,8 +98,6 @@ function HomeContainer(): React.JSX.Element {
       </Tab.Navigator>
     );
   } else {
-    console.log('========');
-    console.log('TAB BAR NOT ENABLED');
     return (
       <Stack.Navigator>
         <Stack.Screen
