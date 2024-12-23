@@ -3,8 +3,9 @@ import {FeatureFlags} from '@root/src/types/FeatureFlags';
 import {fetchRemoteConfig} from './RemoteConfigSlice';
 import {getFeatureFlags} from '@root/src/firebase/remoteConfig/fetchRemoteConfig';
 
+// These flags should be turned off until a feature is ready for release
 const initialState: FeatureFlags = {
-  tabBarEnabled: true,
+  tabBarEnabled: false,
 };
 
 export const featureFlagsSlice = createSlice({
