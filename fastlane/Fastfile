@@ -34,7 +34,7 @@ platform :ios do
 
     lane :testflight_distribute do |options|
         ENV["GOOGLE_APPLICATION_CREDENTIALS"]="admin-sdk.json"
-        ENV["ENV"]="development"
+        ENV["ENV"]="production"
         version_number_string = options[:version_number_string]
         setup_ci(force: true)
         update_version_number version_number_string:version_number_string
