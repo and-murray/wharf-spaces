@@ -1,9 +1,10 @@
-name: develop
+name: development
 
 on:
   push:
     branches:
-      - develop
+      - main
+      - 87-Update-Actions-For-Github-Flow
 
 jobs:
   tests:

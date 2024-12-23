@@ -1,0 +1,22 @@
+name: production
+
+on:
+  release:
+    types: [edited, published]
+
+jobs:
+  tests:
+    uses: ./.github/workflows/test.yml
+  deploy:
+    needs: tests
+    uses: ./.github/workflows/deploy.yml
+    with:
+      environment: 'production'
+    secrets: inherit
+  distribute-apps:
+    needs: tests
+    uses: ./.github/workflows/distribute-apps.yml
+    with:
+      environment: 'production'
+      version_string: ${{ github.ref }}
+    secrets: inherit
