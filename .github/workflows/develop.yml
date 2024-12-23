@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - develop
+      - fix/85/Dev-Builds
 
 jobs:
   tests:
