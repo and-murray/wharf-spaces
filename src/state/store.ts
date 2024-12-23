@@ -10,6 +10,7 @@ import splashScreenReducer from './reducers/SplashScreenReducer';
 import featureFlagsSlice from './reducers/FeatureFlagsSlice';
 
 const rootReducer = combineReducers({
+  splashScreen: splashScreenReducer,
   firebaseRemoteConfig: remoteConfigSlice,
   featureFlags: featureFlagsSlice,
   user: userSlice,
@@ -18,7 +19,6 @@ const rootReducer = combineReducers({
   loading: loadingSlice,
   error: errorSlice,
   utils: utilsSlice,
-  splashScreen: splashScreenReducer,
 });
 
 export const setupStore = (preloadedState?: Partial<RootState>) =>

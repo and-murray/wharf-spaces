@@ -1,4 +1,4 @@
-import React, {useEffect, useLayoutEffect} from 'react';
+import React, {useEffect} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import BookingScreen from '@root/src/screens/BookingScreen/BookingScreen';
@@ -13,14 +13,12 @@ import {
 } from '@firebase/messaging/messagingService';
 import messaging from '@react-native-firebase/messaging';
 import {LogLevel, logMessage} from '@root/src/util/Logging/Logging';
-import {hideSplashScreen} from '@root/src/state/reducers/SplashScreenReducer';
-import {useAppDispatch, useAppSelector} from '@state/utils/hooks';
+import {useAppSelector} from '@state/utils/hooks';
 import {MyBookingsIcon} from '@root/src/res/images/MyBookingIcon';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 function HomeContainer(): React.JSX.Element {
-  const dispatch = useAppDispatch();
   const featureFlags = useAppSelector(state => state.featureFlags);
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
@@ -32,7 +30,6 @@ function HomeContainer(): React.JSX.Element {
 
     return unsubscribe;
   }, []);
-
   function logoutButton() {
     return (
       <IconButton
@@ -76,9 +73,6 @@ function HomeContainer(): React.JSX.Element {
     });
   }, []);
 
-  useLayoutEffect(() => {
-    dispatch(hideSplashScreen(true)); // dismiss if not already dismissed when home screen shown.
-  });
   if (featureFlags?.tabBarEnabled) {
     return (
       <Tab.Navigator

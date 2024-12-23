@@ -34,6 +34,4 @@ export const featureFlagsSlice = createSlice({
     });
   },
 });
-
-export const {setTabBarEnabled} = featureFlagsSlice.actions;
 export default featureFlagsSlice.reducer;
