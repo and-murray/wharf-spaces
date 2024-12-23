@@ -29,7 +29,7 @@ export const featureFlagsSlice = createSlice({
       const featureFlags = getFeatureFlags();
       if (featureFlags !== undefined) {
         // If a feature flag is disabled locally it should always be off otherwise check remote config
-        state.tabBarEnabled = initialState ? featureFlags.tabBarEnabled : false;
+        state.tabBarEnabled = initialState && featureFlags.tabBarEnabled;
       }
     });
   },
