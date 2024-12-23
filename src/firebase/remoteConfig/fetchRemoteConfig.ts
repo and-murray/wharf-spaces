@@ -38,6 +38,6 @@ async function setDefaults() {
 const parkingDefault = JSON.stringify({
   murray: 6,
   tenzing: 2,
-  hawking: 2,
+  adams: 2,
   unknown: 0,
 });

@@ -12,15 +12,11 @@ project.ext.envConfigFiles = [
 
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
-def keystorePropertiesFile = project(':app').file("play_store_keys/release_keystore.properties");
-def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-
 static def getNumberOfGitCommtis() {
     def result = "git rev-list HEAD --count".execute().text.trim() //unix
     if (result.empty) result = "PowerShell -Command git rev-list HEAD --count".execute().text.trim() //windows
     if (result.empty) throw new RuntimeException("Could not generate versioncode on this platform? Cmd output: ${result.text}")
-    return result.toInteger()
+    return result.toInteger() + 1000
 }
 
 react {
@@ -92,19 +88,11 @@ android {
         applicationId "digital.and.murrayapps"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 3 // Version code static will stop the app from being rebuilt whilst doing development
-        versionName "1.1.0"
-
+        // Set by fastlane
+        versionCode 1033
+        // Set by fastlane
+        versionName "1.2.1"
         resValue "string", "build_config_package", "digital.and.murrayapps" // Required for react-native-config as we have applicationIdSuffix set
-
-        applicationVariants.all { variant ->
-            // Only set Version code for release as otherwise, the app will be rebuilt repeatedly during development
-            if (variant.buildType.name == "release") {
-                variant.outputs.each { output ->
-                    output.versionCodeOverride = getNumberOfGitCommtis()
-                }
-            }
-        }
     }
 
 
@@ -116,10 +104,15 @@ android {
             keyPassword 'android'
         }
         release {
-            storeFile file(keystoreProperties['storeFileName'])
-            storePassword keystoreProperties['storePassword']
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
+            def keystorePropertiesFile = project(':app').file("play_store_keys/release_keystore.properties")
+            def keystoreProperties = new Properties()
+            if(keystorePropertiesFile.exists()) {
+                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+                storeFile file(keystoreProperties['storeFileName'])
+                storePassword keystoreProperties['storePassword']
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+            }
         }
     }
     buildTypes {

@@ -1,6 +1,6 @@
 import React, {useEffect, useLayoutEffect} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import DeskScreen from '@screens/DeskScreen/DeskScreen';
+import BookingScreen from '@root/src/screens/BookingScreen/BookingScreen';
 import {Alert} from 'react-native';
 import {IconButton, Icon} from 'native-base';
 import {signOut} from '@firebase/authentication/FirebaseGoogleAuthentication';
@@ -34,6 +34,7 @@ function HomeContainer(): React.JSX.Element {
       <IconButton
         onPress={logoutAlert}
         variant="unstyled"
+        accessibilityLabel="Log Out"
         icon={<Icon as={LogoutIcon} />}
       />
     );
@@ -76,7 +77,7 @@ function HomeContainer(): React.JSX.Element {
     <Stack.Navigator>
       <Stack.Screen
         name="Bookings"
-        component={DeskScreen}
+        component={BookingScreen}
         options={{
           headerRight: logoutButton,
         }}
