@@ -1,6 +1,6 @@
 {
   "name": "MurrayDeskBooking",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
   "scripts": {
     "ios:debug:dev": "ENVFILE=.env.development react-native run-ios --mode Debug-Dev",
@@ -8,14 +8,12 @@
     "ios:release:dev": "ENVFILE=.env.development react-native run-ios --mode Release-Dev",
     "ios:release:prod": "ENVFILE=.env.production react-native run-ios --mode Release-Production",
     "ios:qa:distribute": "bundle exec fastlane ios qa_distribute",
-    "ios:testflight:distribute": "bundle exec fastlane ios testflight_distribute",
     "ios:setup": "bundle exec fastlane ios setup_profiles_certs",
     "android:debug:dev": "ENVFILE=.env.development react-native run-android --mode DevelopmentDebug --appIdSuffix=development",
-    "android:release:dev": "ENVFILE=.env.development react-native run-android --mode DevelopmentRelease --appIdSuffix=development ",
+    "android:release:dev": "ENVFILE=.env.development react-native run-android --mode DevelopmentRelease --appIdSuffix=development",
     "android:debug:prod": "ENVFILE=.env.production react-native run-android --mode ProductionDebug --appIdSuffix=production",
     "android:release:prod": "ENVFILE=.env.production react-native run-android --mode ProductionRelease --appIdSuffix=production",
     "android:qa:distribute": "bundle exec fastlane android qa_distribute",
-    "android:google_play:distribute": "bundle exec fastlane android google_play_distribute",
     "lint": "eslint .",
     "test": "jest",
     "test-functions": "cd functions && yarn ci-test",
