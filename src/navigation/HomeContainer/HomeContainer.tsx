@@ -79,8 +79,7 @@ function HomeContainer(): React.JSX.Element {
   useLayoutEffect(() => {
     dispatch(hideSplashScreen(true)); // dismiss if not already dismissed when home screen shown.
   });
-  console.log(featureFlags.tabBarEnabled);
-  if (featureFlags.tabBarEnabled === true) {
+  if (featureFlags?.tabBarEnabled) {
     return (
       <Tab.Navigator
         screenOptions={{

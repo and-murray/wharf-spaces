@@ -27,9 +27,7 @@ export const featureFlagsSlice = createSlice({
         );
       }
       const featureFlags = getFeatureFlags();
-      console.log('GOT FEATURE FLAGS');
       if (featureFlags !== undefined) {
-        console.log('Feature FLAGS defined');
         // If a feature flag is disabled locally it should always be off otherwise check remote config
         state.tabBarEnabled = initialState ? featureFlags.tabBarEnabled : false;
       }
