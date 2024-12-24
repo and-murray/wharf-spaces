@@ -1,0 +1,75 @@
+name: production
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_type:
+        required: true
+        type: choice
+        options:
+          - app
+          - functions
+          - all
+        default: 'all'
+      version_string:
+        required: true
+        type: string
+
+jobs:
+  check_branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch
+        if: github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/main'
+        run: |
+          echo "ERROR: You can only run this on main branches"
+          exit 1
+  tests:
+    uses: ./.github/workflows/test.yml
+  get_version_number:
+    runs-on: ubuntu-latest
+    outputs:
+      version_string: ${{ steps.get-latest-release.outputs.release }}
+    steps:
+      - uses: pozetroninc/github-action-get-latest-release@master
+        id: get-latest-release
+        with:
+          repository: ${{ github.repository }}
+      - name: Echo Version
+        run: |
+          echo "${{ steps.get-latest-release.outputs.release }}"
+      - name: Verify Release Created
+        if: steps.get-latest-release.outputs.release != inputs.version_string
+        run: |
+          echo "ERROR: Your version string must match the latest published release in github"
+          exit 1
+  prepare_for_release:
+    runs-on: macos-14
+    environment: 'production'
+    steps:
+      - name: Checkout Tag
+        uses: actions/checkout@v4
+        with:
+          ssh-key: ${{ secrets.DEPLOY_KEY_PRIVATE_SSH }}
+      - name: With Apps
+        if: ${{ inputs.release_type == 'app' || inputs.release_type == 'all' }}
+        run: bundle exec fastlane ios testflight_distribute version_number_string:${{ inputs.version_string }} includes_apps:true
+      - name: Functions Only
+        if: ${{ inputs.release_type == 'functions'}}
+        run: bundle exec fastlane ios testflight_distribute version_number_string:${{ inputs.version_string }} includes_apps:false
+  deploy:
+    needs: [tests, check_branch, get_version_number, prepare_for_release]
+    uses: ./.github/workflows/deploy.yml
+    with:
+      environment: 'production'
+      version_string: '${{ needs.get_version_number.outputs.version_string }}'
+    secrets: inherit
+    if: ${{ inputs.release_type == 'functions' || inputs.release_type == 'all' }}
+  distribute-apps:
+    needs: [tests, check_branch, get_version_number, prepare_for_release]
+    uses: ./.github/workflows/distribute-apps.yml
+    with:
+      environment: 'production'
+      version_string: '${{ needs.get_version_number.outputs.version_string }}'
+    secrets: inherit
+    if: ${{ inputs.release_type == 'app' || inputs.release_type == 'all' }}
