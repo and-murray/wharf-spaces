@@ -44,6 +44,7 @@ jobs:
           echo "ERROR: Your version string must match the latest published release in github"
           exit 1
   prepare_for_release:
+    needs: [tests, check_branch, get_version_number]
     runs-on: macos-14
     environment: 'production'
     steps:
