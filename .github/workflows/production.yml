@@ -47,6 +47,10 @@ jobs:
     runs-on: macos-14
     environment: 'production'
     steps:
+      - name: Checkout Tag
+        uses: actions/checkout@v4
+        with:
+          ssh-key: ${{ secrets.DEPLOY_KEY_PRIVATE_SSH }}
       - name: With Apps
         if: ${{ inputs.release_type == 'app' || inputs.release_type == 'all' }}
         run: bundle exec fastlane ios testflight_distribute version_number_string:${{ inputs.version_string }} includes_apps:true
