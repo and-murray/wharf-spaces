@@ -8,7 +8,7 @@ on:
         type: string
         description: 'Either development or production'
       version_string:
-        required: true
+        required: false
         type: string
 
 env:
