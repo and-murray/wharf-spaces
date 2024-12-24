@@ -1,0 +1,30 @@
+name: development
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  check_branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch
+        if: github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/release'
+        run: |
+          echo "ERROR: You can only run this on release branches"
+          exit 1
+  tests:
+    uses: ./.github/workflows/test.yml
+  deploy:
+    needs: tests
+    uses: ./.github/workflows/deploy.yml
+    with:
+      environment: 'development'
+    secrets: inherit
+  distribute-apps:
+    needs: [tests, check_branch, get_version_number]
+    uses: ./.github/workflows/distribute-apps.yml
+    with:
+      environment: 'development'
+    secrets: inherit

@@ -1,6 +1,5 @@
 import React, {useEffect, useLayoutEffect} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import BookingScreen from '@root/src/screens/BookingScreen/BookingScreen';
 import {Alert} from 'react-native';
 import {IconButton, Icon} from 'native-base';
@@ -79,35 +78,16 @@ function HomeContainer(): React.JSX.Element {
     dispatch(screensLoaded(true)); // dismiss if not already dismissed when home screen shown.
   });
 
-  if (featureFlags?.tabBarEnabled) {
-    return (
-      <Tab.Navigator
-        screenOptions={{
-          tabBarActiveTintColor: 'red',
-          tabBarTestID: 'TabBar',
-        }}>
-        <Tab.Screen
-          name="Bookings"
-          component={BookingScreen}
-          options={{
-            headerRight: logoutButton,
-            tabBarIcon: ({color}) => tabBarIcon(color),
-          }}
-        />
-      </Tab.Navigator>
-    );
-  } else {
-    return (
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Bookings"
-          component={BookingScreen}
-          options={{
-            headerRight: logoutButton,
-          }}
-        />
-      </Stack.Navigator>
-    );
-  }
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Bookings"
+        component={BookingScreen}
+        options={{
+          headerRight: logoutButton,
+        }}
+      />
+    </Stack.Navigator>
+  );
 }
 export default HomeContainer;
