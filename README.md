@@ -1,8 +1,8 @@
 # Wharf Spaces App
 
-[Getting Started](./docs/Setup.md)
-[Creating A Release](./docs/Release.md)
-[Troubleshooting](./docs/Troubleshooting.md)
+- [Getting Started](./docs/Setup.md)
+- [Creating A Release](./docs/Release.md)
+- [Troubleshooting](./docs/Troubleshooting.md)
 
 ## Useful links
 
