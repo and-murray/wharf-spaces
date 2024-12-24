@@ -64,6 +64,24 @@ jobs:
         run: bundle install
       - name: install dependencies
         run: yarn install --frozen-lockfile
+      - name: Retrieve the secret and decode it to a file
+        env:
+          ADMIN_SDK_BASE64: ${{ secrets.FIREBASE_ADMIN_BASE_64_ENCODED_JSON }}
+          GOOGLE_PLAY_KEY_JSON_BASE64_ENCODED: ${{ secrets.GOOGLE_PLAY_KEY_JSON_BASE64_ENCODED }}
+          ANDROID_RELEASE_KEYSTORE_BASE64_ENCODED: ${{ secrets.ANDROID_RELEASE_KEYSTORE_BASE64_ENCODED }}
+          ANDROID_RELEASE_KEYSTORE_PROPERTIES_BASE64_ENCODED: ${{ secrets.ANDROID_RELEASE_KEYSTORE_PROPERTIES_BASE64_ENCODED }}
+          ANDROID_PROD_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_PROD_KEYSTORE_PASSWORD }}
+        run: |
+          echo $ADMIN_SDK_BASE64 | base64 --decode > admin-sdk.json
+          mkdir android/app/play_store_keys
+          echo $GOOGLE_PLAY_KEY_JSON_BASE64_ENCODED | base64 --decode > android/app/play_store_keys/murray-apps-9ae8e17f9aa5.json
+          echo $ANDROID_RELEASE_KEYSTORE_PROPERTIES_BASE64_ENCODED | base64 --decode > android/app/play_store_keys/release_keystore.properties
+          echo $ANDROID_RELEASE_KEYSTORE_BASE64_ENCODED | base64 --decode > android/app/release.keystore
+          touch .env.${{ inputs.environment }}
+          echo REACT_APP_FIREBASE_AUTH_WEB_CLIENT_ID = "${{ vars.MURRAY_APPS_DEV_REACT_APP_FIREBASE_AUTH_WEB_CLIENT_ID }}" >> .env.${{ inputs.environment }}
+          echo REACT_APP_FIREBASE_FUNCTIONS_BASE_URL = "${{ vars.MURRAY_APPS_DEV_REACT_APP_FIREBASE_FUNCTIONS_BASE_URL }}" >> .env.${{ inputs.environment }}
+          echo REMOTE_CONFIG_FETCH_DEBUG = "false" >> .env.${{ inputs.environment }}
+          cat .env.${{ inputs.environment }}
       - name: Prepare For Release
         if: ${{ inputs.release_type == 'app' || inputs.release_type == 'all' }}
         run: bundle exec fastlane prepare_for_release version_number_string:${{ inputs.version_string }} release_type:${{ inputs.release_type }}
