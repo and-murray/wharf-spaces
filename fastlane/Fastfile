@@ -140,8 +140,8 @@ end
 lane :prepare_for_release do |options|
     setup_ci(force: true)
     version_number_string = options[:version_number_string]
-    includes_apps = options[:includes_apps]
-    if includes_apps
+    release_type = options[:release_type]
+    if release_type == 'app' || release_type == 'all'
         prepare_apps_for_release version_number_string:version_number_string
     end
     tag = "#{version_number_string}"

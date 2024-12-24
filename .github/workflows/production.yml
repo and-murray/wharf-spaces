@@ -64,12 +64,9 @@ jobs:
         run: bundle install
       - name: install dependencies
         run: yarn install --frozen-lockfile
-      - name: With Apps
+      - name: Prepare For Release
         if: ${{ inputs.release_type == 'app' || inputs.release_type == 'all' }}
-        run: bundle exec fastlane ios testflight_distribute version_number_string:${{ inputs.version_string }} includes_apps:true
-      - name: Functions Only
-        if: ${{ inputs.release_type == 'functions'}}
-        run: bundle exec fastlane ios testflight_distribute version_number_string:${{ inputs.version_string }} includes_apps:false
+        run: bundle exec fastlane ios prepare_for_release version_number_string:${{ inputs.version_string }} release_type:${{ inputs.release_type }}
   deploy:
     needs: [tests, check_branch, get_version_number, prepare_for_release]
     uses: ./.github/workflows/deploy.yml
