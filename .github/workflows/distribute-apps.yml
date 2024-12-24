@@ -12,14 +12,6 @@ on:
         type: string
         description: 'The version string to be used for the app'
 
-
-  workflow_dispatch:
-    inputs:
-      environment:
-        required: true
-        type: string
-        description: 'Either development or production'
-
 jobs:
   distribute-ios:
     runs-on: macos-14
