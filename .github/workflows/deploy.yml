@@ -7,6 +7,9 @@ on:
         required: true
         type: string
         description: 'Either development or production'
+      version_string:
+        required: true
+        type: string
 
 env:
   GOOGLE_APPLICATION_CREDENTIALS: 'admin-sdk.json'
@@ -21,7 +24,14 @@ jobs:
       firestore: ${{ steps.filter.outputs.firestore }}
       functions: ${{ steps.filter.outputs.functions }}
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Tag
+        if: inputs.environment == 'production'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.version_string}}
+      - name: Checkout Branch
+        if: inputs.environment == 'development'
+        uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3
         id: filter
         with:
@@ -40,7 +50,14 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Tag
+        if: inputs.environment == 'production'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.version_string}}
+      - name: Checkout Branch
+        if: inputs.environment == 'development'
+        uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.node-version'
@@ -76,7 +93,14 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Tag
+        if: inputs.environment == 'production'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.version_string}}
+      - name: Checkout Branch
+        if: inputs.environment == 'development'
+        uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.node-version'
@@ -110,7 +134,14 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Tag
+        if: inputs.environment == 'production'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.version_string}}
+      - name: Checkout Branch
+        if: inputs.environment == 'development'
+        uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.node-version'

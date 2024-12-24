@@ -17,7 +17,14 @@ jobs:
     runs-on: macos-14
     environment: ${{ inputs.environment }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Tag
+        if: inputs.environment == 'production'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.version_string}}
+      - name: Checkout Branch
+        if: inputs.environment == 'development'
+        uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.node-version'
@@ -59,7 +66,14 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Tag
+        if: inputs.environment == 'production'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.version_string}}
+      - name: Checkout Branch
+        if: inputs.environment == 'development'
+        uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.node-version'
