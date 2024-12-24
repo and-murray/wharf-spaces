@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - 87-Update-Actions-For-Github-Flow
 
 jobs:
   tests:
