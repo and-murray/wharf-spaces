@@ -102,7 +102,6 @@ This is all configured from `android/app/build.gradle`.
 
 See the [Firebase docs](https://firebase.google.com/docs/cli/?authuser=0#windows-npm) for the most up to date instructions.
 
-- Currently for the UI Emulator to work you need to use node version 18 as 19 is not working with it. Use [nvm](https://github.com/nvm-sh/nvm) to make sure you are using the latest lts version.
 - `yarn install` will ensure the cli is installed as it is in the package.json [This guide has the most up to date commands](https://firebase.google.com/docs/cli/?authuser=0#windows-npm)
 - Run the following to install the firestore emulator: `firebase setup:emulators:firestore`. See [this](https://firebase.google.com/docs/firestore/security/test-rules-emulator?hl=en&authuser=0) for more up to date setup if required.
 - Install version 17 of the openJDK. Instructions [here](https://medium.com/@datatec.studio/3-steps-to-install-openjdk-11-on-macos-3ae0e10dfa1a)
@@ -141,7 +140,24 @@ There is also an adminsdk json file that contains the secrets that allow admin a
 
 # Deploying the app to App Store and Play Store
 
-We use fastlane lanes for this - [Read the guide here](https://anddigitaltransformation.atlassian.net/wiki/spaces/ML/pages/4487938094/Release+Guide)
+If the git-crypt key has been regenerated/changed, the CI will need to be updated to include this new key.
+We need to upload the key as a base64 encoded string because secure files don't work correctly GitLab CI, to do so:
+
+- Convert it from the binary form via `base64 -i git-crypt-key -o base64-git-crypt-key`
+- Take the contents of the base64 file and update the variable `CRYPT_KEY` in GitLab variables. Make sure it is masked.
+
+# Creating a Release
+
+1. Create a Release Within Github with the version number of the new release as the tag and main branch as the target. Generate release notes and set as the latest release and save as a draft. [You can do this here](https://github.com/and-murray/wharf-spaces/releases)
+2. Checkout the `release` branch.
+3. Merge the code you wish to release into the `release` branch and push this up. This will start a workflow to create distribution apps for the Google Play and Apple App Stores. They will be uploaded for testing in Testflight and Internal Test. Note the version number is taken from the latest Github Release.
+4. Create a PR from `release` into main. You can merge this but merging this after approvals. On merge into main this will deploy the latest version of the functions if there are any changes.
+5. Regression test the apps on Test Flight and Google Play. If there are any issues merge your fixes via PR into the release branch and repeat step 4.
+6. You may now release the apps after regression testing is complete.
+7. Publish the release in Github.
+8. Create a delta PR from main into develop to ensure it is up to date with any changes.
+
+Note deployments to Testflight, Internal Test and Production require approval in Github actions by somebody from Murray.
 
 # Troubleshooting
 
