@@ -35,7 +35,6 @@ platform :ios do
     lane :testflight_distribute do |options|
         ENV["GOOGLE_APPLICATION_CREDENTIALS"]="admin-sdk.json"
         ENV["ENV"]="production"
-        version_number_string = options[:version_number_string]
         setup_ci(force: true)
         match(type: "appstore",
             skip_google_cloud_account_confirmation: true) 
@@ -64,22 +63,6 @@ platform :ios do
                 notes: "App for employees for the company only. We use Google Sign-in as a business solution and therefore are not required to have Sign In with Apple."
                 },
             changelog: changelog_from_git_commits)
-    end
-
-    lane :update_version_number do |options|
-        version_number_string = options[:version_number_string]
-        increment_version_number(
-            version_number: version_number_string,
-            xcodeproj: iOSProject
-        )
-        increment_build_number(
-            build_number: "#{get_datetime_for_build_version}.#{number_of_commits}",
-            xcodeproj: iOSProject
-        )
-        # Git
-        git_commit(path: ["*.plist", "*/project.pbxproj"], message: "[skip ci] Version Bumps")
-        git_pull(rebase: true)
-        push_to_git_remote(tags: false)
     end
 
     lane :setup_profiles_certs do
@@ -132,7 +115,6 @@ platform :android do
     end
 
     lane :google_play_distribute do |options|
-        version_number_string = options[:version_number_string]
         setup_ci(force: true)
         ENV["GOOGLE_APPLICATION_CREDENTIALS"]="admin-sdk.json"
         ENV["ENVFILE"]=".env.production"

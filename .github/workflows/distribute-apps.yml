@@ -60,7 +60,7 @@ jobs:
 
       - name: ios-testflight-distribute
         if: inputs.environment == 'production'
-        run: bundle exec fastlane ios testflight_distribute version_number_string:${{ inputs.version_string }}
+        run: bundle exec fastlane ios testflight_distribute
 
   distribute-android:
     runs-on: ubuntu-latest
@@ -104,8 +104,6 @@ jobs:
           echo REACT_APP_FIREBASE_FUNCTIONS_BASE_URL = "${{ vars.MURRAY_APPS_DEV_REACT_APP_FIREBASE_FUNCTIONS_BASE_URL }}" >> .env.${{ inputs.environment }}
           echo REMOTE_CONFIG_FETCH_DEBUG = "false" >> .env.${{ inputs.environment }}
           cat .env.${{ inputs.environment }}
-          git config --global user.email "christopher.batin@and.digital"
-          git config --global user.name "Github Runner"
 
       - name: Bundle install
         run: bundle install
@@ -119,4 +117,4 @@ jobs:
 
       - name: android-playstore-distribute
         if: inputs.environment == 'production'
-        run: bundle exec fastlane android google_play_distribute version_number_string:${{ inputs.version_string }}
+        run: bundle exec fastlane android google_play_distribute
