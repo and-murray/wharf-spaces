@@ -3,6 +3,7 @@ import {fireEvent, render} from '@testing-library/react-native';
 import EventModal from './EventModal';
 import {TestWrapper} from '@components/TestWrapper';
 import * as Warning from '@atoms/Warning/Warning';
+import * as hooks from '@state/utils/hooks';
 
 const warningSpy = jest.spyOn(Warning, 'default');
 const setEventModal = jest.fn();
@@ -58,6 +59,20 @@ describe('When the event modal is on the screen', () => {
   });
 
   it('SHOULD display event text in input field if event exists', () => {
+    jest.spyOn(hooks, 'useAppSelector').mockReturnValue({
+      selectedDay: '2023-01-01',
+      notes: [
+        {
+          createdAt: {_nanoseconds: 212000000, _seconds: 1683735476},
+          date: '2023-01-01',
+          isClubhouseClosed: false,
+          text: "This is a dummy note - EventModal just needs to know that a note exists for the day so it doesn't reset the text field value to an empty string",
+          updatedAt: {_nanoseconds: 604000000, _seconds: 1683737545},
+          uuid: 'b0b6646f-0c69-479b-8ba4-b6bacf90e66d',
+        },
+      ],
+    });
+
     const {getByTestId} = render(
       <TestWrapper>
         <EventModal
