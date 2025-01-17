@@ -1,4 +1,5 @@
 import remoteConfig from '@react-native-firebase/remote-config';
+import {FeatureFlags} from '@root/src/types/FeatureFlags';
 import {ParkingCapacityConfig} from '@state/reducers/RemoteConfigSlice';
 import Config from 'react-native-config';
 
@@ -8,6 +9,14 @@ export function getDeskCapacity(): number {
 
 export function getIsDemoLoginEnabled(): boolean {
   return remoteConfig().getBoolean('isDemoLoginEnabled');
+}
+
+export function getFeatureFlags(): FeatureFlags | undefined {
+  const featureFlags = remoteConfig().getString('featureFlags');
+  if (featureFlags) {
+    return JSON.parse(featureFlags);
+  }
+  return undefined;
 }
 
 export function getParkingCapacity(): ParkingCapacityConfig {
