@@ -1,6 +1,9 @@
 name: development
 
 on:
+  push:
+    branches:
+      - main
   merge_group:
     branches:
       - main
