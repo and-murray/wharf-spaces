@@ -1,7 +1,6 @@
 import React from 'react';
 import {act} from '@testing-library/react-native';
 import AvailableSpaceView from '@molecules/AvailableSpaceView/AvailableSpaceView';
-import {TestWrapper} from '@components/TestWrapper';
 import {
   guestDeskProps,
   personalDeskProps,

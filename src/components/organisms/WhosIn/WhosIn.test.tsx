@@ -1,11 +1,10 @@
 import React from 'react';
-import {TestWrapper} from '@components/TestWrapper';
 import {waitFor} from '@testing-library/react-native';
 import WhosIn from './WhosIn';
 import * as WhosInRow from '@molecules/WhosInRow/WhosInRow';
 import {TimeSlot, BookingType, SpaceType} from '@customTypes/booking';
 import {renderWithProviders as render} from '@root/src/util/test-utils';
-import {userStateStub, userStub} from '@root/src/util/stubs';
+import {userStateStub} from '@root/src/util/stubs';
 
 let whosInRowSpy = jest.spyOn(WhosInRow, 'default');
 let mockUserData = {
