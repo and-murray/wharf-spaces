@@ -10,6 +10,7 @@ import {checkAppIntegrity} from '../util/FirebaseUtils/FirebaseUtils';
 import RNExitApp from 'react-native-exit-app';
 import AlertMessage from '../components/atoms/AlertMessage/AlertMessage';
 import BootSplash from 'react-native-bootsplash';
+import {screensLoaded} from '../state/reducers/SplashScreenReducer';
 
 function AppContainer(): JSX.Element {
   const hideSplashScreen = useAppSelector(
@@ -39,6 +40,7 @@ function AppContainer(): JSX.Element {
       if (isValidApp) {
         dispatch(fetchRemoteConfig());
         dispatch(fetchLondonTime());
+        dispatch(screensLoaded(true));
       }
     };
 

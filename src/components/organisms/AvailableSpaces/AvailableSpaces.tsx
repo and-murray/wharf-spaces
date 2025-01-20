@@ -60,7 +60,7 @@ const AvailableSpaces = ({bookings, userData}: AvailableSpacesProps) => {
         remainingCapacity =
           parkingCapacity.murray +
           parkingCapacity.tenzing +
-          parkingCapacity.hawking;
+          parkingCapacity.adams;
       }
 
       return remainingCapacity;

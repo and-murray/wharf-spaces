@@ -422,7 +422,7 @@ const AvailableSpaceView = ({
               <AlertMessage
                 isOpen={isUnknownUserAlertOpen}
                 onClose={handleUnkownUserAlertClose}
-                message="Sorry, only Murray, Hawking, and Tenzing users can book a parking spot."
+                message="Sorry, only Murray, Adams, and Tenzing users can book a parking spot."
                 alertConfig={{
                   button1: {
                     onPress: handleUnkownUserAlertClose,

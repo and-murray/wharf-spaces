@@ -1,6 +1,6 @@
 import React from 'react';
 import {waitFor} from '@testing-library/react-native';
-import DeskScreen from './DeskScreen';
+import BookingScreen from './BookingScreen';
 import * as DeskCalendar from '@organisms/DeskCalendar/DeskCalendar';
 import * as EventViewer from '@organisms/EventViewer/EventViewer';
 import * as AvailableSpaces from '@organisms/AvailableSpaces/AvailableSpaces';
@@ -68,7 +68,7 @@ const subscribeToNotesCollectionSpy = jest.spyOn(
 const calculateNewUserIdsSpy = jest.spyOn(FirebaseUtils, 'calculateNewUserIds');
 jest.mock('@react-native-segmented-control/segmented-control');
 
-describe('When DeskScreen is rendered', () => {
+describe('When BookingScreen is rendered', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     deskCalenderSpy.mockImplementation();
@@ -86,7 +86,7 @@ describe('When DeskScreen is rendered', () => {
     calculateNewUserIdsSpy.mockReturnValue([mockBookings[0].userId]);
     getUsersSpy.mockResolvedValue(mockUserData);
 
-    render(<DeskScreen />, {
+    render(<BookingScreen />, {
       preloadedState: {
         selectedDayOptions: {
           selectedDay: '2024-07-05T00:00:00Z',
@@ -113,7 +113,13 @@ describe('When DeskScreen is rendered', () => {
         firebaseRemoteConfig: {
           isDemoLoginEnabled: false,
           deskCapacity: 36,
-          parkingCapacity: {murray: 10, tenzing: 4, unknown: 0},
+          parkingCapacity: {
+            murray: 10,
+            tenzing: 4,
+            unknown: 0,
+            adams: 5,
+          },
+          featureFlags: undefined,
         },
       },
     });

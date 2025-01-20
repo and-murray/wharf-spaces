@@ -25,7 +25,7 @@ import Animated, {Layout} from 'react-native-reanimated';
 import {fetchLondonTime} from '@state/reducers/UtilsSlice';
 import {LongButton} from '@root/src/components/atoms';
 
-export default function DeskScreen() {
+export default function BookingScreen() {
   const dispatch = useAppDispatch();
   const [deskBookings, setDeskBookings] = useState<Booking[]>([]);
   const [isValidBookingDate, setIsValidBookingDate] = useState<boolean>(false);

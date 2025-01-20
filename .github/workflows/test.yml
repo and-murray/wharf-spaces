@@ -1,36 +1,47 @@
 name: test
 
-on:
-  pull_request_review:
-    types: [submitted]
+on: [push, workflow_dispatch, workflow_call]
 
 jobs:
-  test:
-    if: github.event.review.state == 'APPROVED'
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version-file: '.node-version'
           cache: yarn
-
-      - name: unlock secrets
-        uses: sliteteam/github-action-git-crypt-unlock@1.2.0
-        env:
-          GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
 
       - name: install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: install functions dependencies
-        run: cd functions && yarn install --frozen-lockfile
-
       - name: lint
         run: yarn lint
+  test-app:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: yarn
+
+      - name: install dependencies
+        run: yarn install --frozen-lockfile
 
       - name: test
         run: yarn test
+  test-functions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: yarn
+
+      - name: install functions dependencies
+        run: cd functions && yarn install --frozen-lockfile
 
       - name: test firebase functions
         run: yarn test-functions

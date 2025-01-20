@@ -1,0 +1,170 @@
+name: deploy
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+        description: 'Either development or production'
+      version_string:
+        required: false
+        type: string
+
+env:
+  GOOGLE_APPLICATION_CREDENTIALS: 'admin-sdk.json'
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    outputs:
+      storage: ${{ steps.filter.outputs.storage }}
+      firestore: ${{ steps.filter.outputs.firestore }}
+      functions: ${{ steps.filter.outputs.functions }}
+    steps:
+      - name: Checkout Tag
+        if: inputs.environment == 'production'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.version_string}}
+      - name: Checkout Branch
+        if: inputs.environment == 'development'
+        uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          base: 'develop'
+          filters: |
+            storage:
+              - 'storage.rules'
+            firestore:
+              - 'firestore.rules'
+            functions:
+              - 'functions/**'
+
+  deploy-functions:
+    needs: changes
+    if: ${{ needs.changes.outputs.functions == 'true' }}
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Checkout Tag
+        if: inputs.environment == 'production'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.version_string}}
+      - name: Checkout Branch
+        if: inputs.environment == 'development'
+        uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: yarn
+      - uses: ruby/setup-ruby@v1
+
+      - name: Retrieve the secret and decode it to a file
+        env:
+          ADMIN_SDK_BASE64: ${{ secrets.FIREBASE_ADMIN_BASE_64_ENCODED_JSON }}
+        run: |
+          echo $ADMIN_SDK_BASE64 | base64 --decode > admin-sdk.json
+
+      - name: Bundle install
+        run: bundle install
+
+      - name: install dependencies
+        run: yarn install
+
+      - name: install functions dependencies
+        run: yarn installFirebaseFunctions
+
+      - name: Set Firebase Project
+        run: yarn firebase use ${{ inputs.environment }}
+
+      - name: Deploy Functions
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: '../admin-sdk.json'
+        run: yarn deployFirebaseFunctions
+
+  deploy-firestore-rules:
+    needs: changes
+    if: ${{ needs.changes.outputs.firestore == 'true' }}
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Checkout Tag
+        if: inputs.environment == 'production'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.version_string}}
+      - name: Checkout Branch
+        if: inputs.environment == 'development'
+        uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: yarn
+      - uses: ruby/setup-ruby@v1
+
+      - name: Retrieve the secret and decode it to a file
+        env:
+          ADMIN_SDK_BASE64: ${{ secrets.FIREBASE_ADMIN_BASE_64_ENCODED_JSON }}
+        run: |
+          echo $ADMIN_SDK_BASE64 | base64 --decode > admin-sdk.json
+
+      - name: Bundle install
+        run: bundle install
+
+      - name: install dependencies
+        run: yarn install
+
+      - name: install functions dependencies
+        run: yarn installFirebaseFunctions
+
+      - name: Set Firebase Project
+        run: yarn firebase use ${{ inputs.environment }}
+
+      - name: Deploy Functions
+        run: yarn deployFirestoreRules
+
+  deploy-storage-rules:
+    needs: changes
+    if: ${{ needs.changes.outputs.storage == 'true' }}
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Checkout Tag
+        if: inputs.environment == 'production'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.version_string}}
+      - name: Checkout Branch
+        if: inputs.environment == 'development'
+        uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: yarn
+      - uses: ruby/setup-ruby@v1
+
+      - name: Retrieve the secret and decode it to a file
+        env:
+          ADMIN_SDK_BASE64: ${{ secrets.FIREBASE_ADMIN_BASE_64_ENCODED_JSON }}
+        run: |
+          echo $ADMIN_SDK_BASE64 | base64 --decode > admin-sdk.json
+
+      - name: Bundle install
+        run: bundle install
+
+      - name: install dependencies
+        run: yarn install
+
+      - name: install functions dependencies
+        run: yarn installFirebaseFunctions
+
+      - name: Set Firebase Project
+        run: yarn firebase use ${{ inputs.environment }}
+
+      - name: Deploy Functions
+        run: yarn deployStorageRules

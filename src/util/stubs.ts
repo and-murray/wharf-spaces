@@ -25,6 +25,7 @@ export const utilsStateStub = {
 
 export const firebaseRemoteConfigStub = {
   deskCapacity: 10,
-  parkingCapacity: {murray: 20, tenzing: 5, hawking: 5, unknown: 0},
+  parkingCapacity: {murray: 20, tenzing: 5, adams: 5, unknown: 0},
   isDemoLoginEnabled: false,
+  featureFlags: undefined,
 };

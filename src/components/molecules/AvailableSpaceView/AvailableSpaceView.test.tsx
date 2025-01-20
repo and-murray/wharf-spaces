@@ -16,7 +16,6 @@ import {BusinessUnit} from '@customTypes/user';
 import * as DayTimeSelector from '@atoms/DayTimeSelector/DayTimeSelector';
 import * as Warning from '@atoms/Warning/Warning';
 import * as BookButton from '@atoms/BookButton/BookButton';
-import * as hooks from '@state/utils/hooks';
 import * as selectedDayOptions from '@state/reducers/selectedDayOptionsSlice';
 import * as UserProfileSection from '@molecules/UserProfileSection/UserProfileSection';
 import * as Counter from '@atoms/Counter/Counter';
@@ -535,7 +534,7 @@ describe('When AvailableSpaceView is on the screen', () => {
     expect(alertMessageSpy).toBeCalledWith(
       expect.objectContaining({
         message:
-          'Sorry, only Murray, Hawking, and Tenzing users can book a parking spot.',
+          'Sorry, only Murray, Adams, and Tenzing users can book a parking spot.',
       }),
       {},
     );

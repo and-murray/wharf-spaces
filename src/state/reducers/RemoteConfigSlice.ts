@@ -4,24 +4,28 @@ import {
   getDeskCapacity,
   getParkingCapacity,
   getIsDemoLoginEnabled,
+  getFeatureFlags,
 } from '@firebase/remoteConfig/fetchRemoteConfig';
+import {FeatureFlags} from '@root/src/types/FeatureFlags';
 
 export type ParkingCapacityConfig = {
   murray: number;
   tenzing: number;
-  hawking: number;
+  adams: number;
   unknown: number;
 };
 export type FirebaseRemoteConfigState = {
   deskCapacity: number;
   parkingCapacity: ParkingCapacityConfig;
   isDemoLoginEnabled: boolean;
+  featureFlags: FeatureFlags | undefined;
 };
 
 const initialState: FirebaseRemoteConfigState = {
   deskCapacity: getDeskCapacity(),
   parkingCapacity: getParkingCapacity(),
   isDemoLoginEnabled: getIsDemoLoginEnabled(),
+  featureFlags: getFeatureFlags(),
 };
 
 export const fetchRemoteConfig = createAsyncThunk(
@@ -47,6 +51,7 @@ export const remoteConfigSlice = createSlice({
       state.deskCapacity = getDeskCapacity();
       state.parkingCapacity = getParkingCapacity();
       state.isDemoLoginEnabled = getIsDemoLoginEnabled();
+      state.featureFlags = getFeatureFlags();
     });
   },
 });

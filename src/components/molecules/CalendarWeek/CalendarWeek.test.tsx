@@ -1,5 +1,4 @@
 import React from 'react';
-import {TestWrapper} from '@components/TestWrapper';
 import {fireEvent, waitFor} from '@testing-library/react-native';
 import CalendarWeek from '@molecules/CalendarWeek/CalendarWeek';
 import * as selectedDaySlice from '@state/reducers/selectedDayOptionsSlice';
@@ -41,9 +40,7 @@ describe('When the calendar week is on screen', () => {
 
   it('Renders Correctly', async () => {
     const {getByTestId, getByText} = render(
-      <TestWrapper>
-        <CalendarWeek days={testDays} weekOffset={0} currentDay={0} />
-      </TestWrapper>,
+      <CalendarWeek days={testDays} weekOffset={0} currentDay={0} />,
     );
 
     await waitFor(() => {
@@ -62,9 +59,7 @@ describe('When the calendar week is on screen', () => {
 
   it('Shows the first 5 five days if weekOffset=0', async () => {
     const {getByText} = render(
-      <TestWrapper>
-        <CalendarWeek days={testDays} weekOffset={0} currentDay={0} />
-      </TestWrapper>,
+      <CalendarWeek days={testDays} weekOffset={0} currentDay={0} />,
     );
 
     await waitFor(() => {
@@ -80,9 +75,7 @@ describe('When the calendar week is on screen', () => {
 
   it('Shows the last 5 five days if weekOffset=1', async () => {
     const {getByText} = render(
-      <TestWrapper>
-        <CalendarWeek days={testDays} weekOffset={1} currentDay={0} />
-      </TestWrapper>,
+      <CalendarWeek days={testDays} weekOffset={1} currentDay={0} />,
     );
     await waitFor(() => {
       expect(bankHolidaysSpy).toHaveBeenCalled();
@@ -101,9 +94,7 @@ describe('When the calendar week is on screen', () => {
     );
 
     const {getByText} = render(
-      <TestWrapper>
-        <CalendarWeek days={testDays} weekOffset={0} currentDay={1} />
-      </TestWrapper>,
+      <CalendarWeek days={testDays} weekOffset={0} currentDay={1} />,
     );
 
     await waitFor(() => {
@@ -117,11 +108,7 @@ describe('When the calendar week is on screen', () => {
   it('Disables the SelectableDate component if it is in the past', async () => {
     let selectableDateSpy = jest.spyOn(selectableDate, 'default');
 
-    render(
-      <TestWrapper>
-        <CalendarWeek days={testDays} weekOffset={0} currentDay={2} />
-      </TestWrapper>,
-    );
+    render(<CalendarWeek days={testDays} weekOffset={0} currentDay={2} />);
 
     await waitFor(() => {
       expect(bankHolidaysSpy).toHaveBeenCalled();
@@ -143,11 +130,7 @@ describe('When the calendar week is on screen', () => {
       },
     ]);
     let selectableDateSpy = jest.spyOn(selectableDate, 'default');
-    render(
-      <TestWrapper>
-        <CalendarWeek days={testDays} weekOffset={0} currentDay={0} />
-      </TestWrapper>,
-    );
+    render(<CalendarWeek days={testDays} weekOffset={0} currentDay={0} />);
 
     await waitFor(() => {
       expect(bankHolidaysSpy).toHaveBeenCalled();
@@ -166,11 +149,7 @@ describe('When the calendar week is on screen', () => {
 
   it('Enables the SelectableDate component if it is not in the past and not a bank holiday', async () => {
     let selectableDateSpy = jest.spyOn(selectableDate, 'default');
-    render(
-      <TestWrapper>
-        <CalendarWeek days={testDays} weekOffset={0} currentDay={0} />
-      </TestWrapper>,
-    );
+    render(<CalendarWeek days={testDays} weekOffset={0} currentDay={0} />);
     await waitFor(() => {
       expect(bankHolidaysSpy).toHaveBeenCalled();
     });

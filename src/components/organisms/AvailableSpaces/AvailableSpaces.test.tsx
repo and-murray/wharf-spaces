@@ -233,6 +233,36 @@ describe('When AvailableSpaces is shown on screen', () => {
       );
     });
 
+    it('should set capacity to adams capacity and space type of car when not close to booking date and bu is adams', () => {
+      isCloseToBookingDateSpy.mockReturnValue(false);
+      render(
+          <AvailableSpaces bookings={[]} userData={{}}/>, 
+        {preloadedState: {
+          ...preloadedState,
+          selectedDayOptions: {
+            selectedDay: '2024-07-05T00:00:00Z',
+            selectedSpaceType: SpaceType.car,
+          },
+          user: {
+            activeBookingDates: [],
+            user: {
+              ...userStub,
+              businessUnit: BusinessUnit.adams,
+            },
+          },
+
+        }}
+      );
+
+      expect(availableSpaceViewSpy).toBeCalledWith(
+        expect.objectContaining({
+          capacity: 5,
+          spaceType: 'car',
+        }),
+        {},
+      );
+    });
+
     it('should pass all bookings to AvailableSpaceView when close to booking date', () => {
       isCloseToBookingDateSpy.mockReturnValue(true);
       render(

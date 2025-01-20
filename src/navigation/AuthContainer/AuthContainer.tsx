@@ -5,7 +5,7 @@ import {fetchRemoteConfig} from '@state/reducers/RemoteConfigSlice';
 import {useAppDispatch, useAppSelector} from '@state/utils/hooks';
 import {clearUser, fetchUser} from '@state/reducers/UserSlice';
 import {setLoading} from '@root/src/state/reducers/LoadingSlice';
-import {hideSplashScreen} from '@state/reducers/SplashScreenReducer';
+import {screensLoaded} from '@state/reducers/SplashScreenReducer';
 import LoginScreen from '@root/src/screens/LoginScreen/LoginScreen';
 import {resetSelectedOptionsState} from '@state/reducers/selectedDayOptionsSlice';
 type CustomComponentProps = {
@@ -36,7 +36,7 @@ const AuthContainer = ({children}: CustomComponentProps): React.JSX.Element => {
     if (!currentUser) {
       dispatch(clearUser());
       setIsAuthenticated(false);
-      dispatch(hideSplashScreen(true)); // dismiss splash when login needed
+      dispatch(screensLoaded(true)); // dismiss splash when login needed
     }
   };
 
