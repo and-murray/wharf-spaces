@@ -53,6 +53,9 @@ jobs:
         run: |
           previous_tag=`git rev-list --tags --skip=1 --max-count=1 | xargs git describe --abbrev=0 --tags $1 | xargs echo`
           echo "previous_tag=$previous_tag" >> $GITHUB_OUTPUT
+      - name: Echo Previous Release
+        run: |
+          echo "${{ steps.get-latest-release.outputs.release }}"
   prepare_for_release:
     needs: [tests, get_version_number]
     runs-on: macos-14
