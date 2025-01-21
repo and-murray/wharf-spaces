@@ -48,6 +48,7 @@ jobs:
         with:
           ref: ${{ inputs.version_string}}
       - id: get-previous-release
+        name: get-previous-release
         run: git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-count=1`
 
   prepare_for_release:
