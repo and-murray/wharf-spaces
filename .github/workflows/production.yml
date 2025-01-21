@@ -46,10 +46,11 @@ jobs:
           exit 1
       - uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.version_string}}
-      - id: get-previous-release
-        name: get-previous-release
-        run: git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-count=1`
+          repository: ${{ github.repository }}
+      - name: get-previous-release
+        run: |
+          echo `git rev-list --tags --skip=1 --max-count=1 | git describe --abbrev=0 --tags`
+        id: get-previous-release
 
   prepare_for_release:
     needs: [tests, get_version_number]
