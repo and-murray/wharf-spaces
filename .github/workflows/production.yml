@@ -48,6 +48,7 @@ jobs:
         with:
           ref: ${{ inputs.version_string}}
           fetch-tags: true
+          fetch-depth: 0
       - name: get-previous-release
         id: get-previous-release
         run: |
