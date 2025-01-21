@@ -44,9 +44,10 @@ jobs:
         run: |
           echo "ERROR: Your version string must match the latest published release in github"
           exit 1
+      - uses: actions/checkout@v4
       - id: get-previous-release
-        run: |
-          git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-count=1`
+        run: git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-count=1`
+
   prepare_for_release:
     needs: [tests, get_version_number]
     runs-on: macos-14
