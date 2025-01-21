@@ -12,7 +12,7 @@ const validateFirebaseIdToken = async (
     !(req.cookies && req.cookies.__session)
   ) {
     functions.logger.error(
-      'No Firebase ID token was passed as a Bearer token in the Authorization header.',
+      'No Firebase ID token was passed as a Bearer token in the Authorization header!',
       'Make sure you authorize your request by providing the following HTTP header:',
       'Authorization: Bearer <Firebase ID Token>',
       'or by passing a "__session" cookie.',
