@@ -16,14 +16,13 @@ on:
         type: string
 
 jobs:
-  # check_branch:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Check branch
-  #       if: github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/main'
-  #       run: |
-  #         echo "ERROR: You can only run this on main branches"
-  #         exit 1
+  check_branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch
+        if: github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/main'
+        run: |
+          echo "ERROR: You can only run this on main branches"
   tests:
     uses: ./.github/workflows/test.yml
   get_version_number:
