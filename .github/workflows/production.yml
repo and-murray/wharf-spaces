@@ -108,11 +108,11 @@ jobs:
       previous_tag: '${{ needs.get_version_number.outputs.previous_tag }}'
     secrets: inherit
     if: ${{ inputs.release_type == 'functions' || inputs.release_type == 'all' }}
-  distribute-apps:
-    needs: [tests, get_version_number, prepare_for_release]
-    uses: ./.github/workflows/distribute-apps.yml
-    with:
-      environment: 'production'
-      version_string: '${{ needs.get_version_number.outputs.version_string }}'
-    secrets: inherit
-    if: ${{ inputs.release_type == 'app' || inputs.release_type == 'all' }}
+  # distribute-apps:
+  #   needs: [tests, get_version_number, prepare_for_release]
+  #   uses: ./.github/workflows/distribute-apps.yml
+  #   with:
+  #     environment: 'production'
+  #     version_string: '${{ needs.get_version_number.outputs.version_string }}'
+  #   secrets: inherit
+  #   if: ${{ inputs.release_type == 'app' || inputs.release_type == 'all' }}
