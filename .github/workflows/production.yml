@@ -55,7 +55,7 @@ jobs:
           echo "previous_tag=$previous_tag" >> $GITHUB_OUTPUT
       - name: Echo Previous Release
         run: |
-          echo "${{ steps.get-latest-release.outputs.release }}"
+          echo "${{ steps.get-previous-release.outputs.previous_tag }}"
   prepare_for_release:
     needs: [tests, get_version_number]
     runs-on: macos-14
