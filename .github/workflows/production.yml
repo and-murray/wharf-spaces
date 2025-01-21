@@ -49,7 +49,7 @@ jobs:
           repository: ${{ github.repository }}
       - name: get-previous-release
         run: |
-          echo `git rev-list --tags --skip=1 --max-count=1 | git describe --abbrev=0 --tags`
+          echo `git rev-list --tags --skip=1 --max-count=1 | git describe --abbrev=0`
         id: get-previous-release
 
   prepare_for_release:
