@@ -30,6 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       version_string: ${{ steps.get-latest-release.outputs.release }}
+      previous_tag: ${{ steps.get-previous-release.outputs }}
     steps:
       - uses: pozetroninc/github-action-get-latest-release@master
         id: get-latest-release
@@ -43,6 +44,9 @@ jobs:
         run: |
           echo "ERROR: Your version string must match the latest published release in github"
           exit 1
+      - id: get-previous-release
+        run: |
+          git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-count=1`
   prepare_for_release:
     needs: [tests, check_branch, get_version_number]
     runs-on: macos-14
@@ -91,7 +95,7 @@ jobs:
     with:
       environment: 'production'
       version_string: '${{ needs.get_version_number.outputs.version_string }}'
-      previous_tag: git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-count=1`
+      previous_tag: '${{ needs.get_version_number.outputs.previous_tag }}'
     secrets: inherit
     if: ${{ inputs.release_type == 'functions' || inputs.release_type == 'all' }}
   distribute-apps:
