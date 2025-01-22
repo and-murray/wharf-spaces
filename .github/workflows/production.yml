@@ -16,14 +16,14 @@ on:
         type: string
 
 jobs:
-  # check_branch:
-  #   runs-on: ubuntu-latest
-  # steps:
-  #   - name: Check branch
-  #     if: github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/main'
-  #     run: |
-  #       echo "ERROR: You can only run this on main branches"
-  #
+  check_branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch
+        if: github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/main'
+        run: |
+          echo "ERROR: You can only run this on main branches"
+          exit 1
   tests:
     uses: ./.github/workflows/test.yml
   get_version_number:
@@ -58,7 +58,7 @@ jobs:
         run: |
           echo "${{ steps.get-previous-release.outputs.previous_tag }}"
   prepare_for_release:
-    needs: [tests, get_version_number]
+    needs: [tests, check_branch, get_version_number]
     runs-on: macos-14
     environment: 'production'
     steps:
@@ -100,7 +100,7 @@ jobs:
         if: ${{ inputs.release_type == 'app' || inputs.release_type == 'all' }}
         run: bundle exec fastlane prepare_for_release version_number_string:${{ inputs.version_string }} release_type:${{ inputs.release_type }}
   deploy:
-    needs: [tests, get_version_number, prepare_for_release]
+    needs: [tests, check_branch, get_version_number, prepare_for_release]
     uses: ./.github/workflows/deploy.yml
     with:
       environment: 'production'
@@ -108,11 +108,11 @@ jobs:
       previous_tag: '${{ needs.get_version_number.outputs.previous_tag }}'
     secrets: inherit
     if: ${{ inputs.release_type == 'functions' || inputs.release_type == 'all' }}
-  # distribute-apps:
-  #   needs: [tests, get_version_number, prepare_for_release]
-  #   uses: ./.github/workflows/distribute-apps.yml
-  #   with:
-  #     environment: 'production'
-  #     version_string: '${{ needs.get_version_number.outputs.version_string }}'
-  #   secrets: inherit
-  #   if: ${{ inputs.release_type == 'app' || inputs.release_type == 'all' }}
+  distribute-apps:
+    needs: [tests, check_branch, get_version_number, prepare_for_release]
+    uses: ./.github/workflows/distribute-apps.yml
+    with:
+      environment: 'production'
+      version_string: '${{ needs.get_version_number.outputs.version_string }}'
+    secrets: inherit
+    if: ${{ inputs.release_type == 'app' || inputs.release_type == 'all' }}
