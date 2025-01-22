@@ -10,6 +10,10 @@ on:
       version_string:
         required: false
         type: string
+      previous_tag:
+        required: false
+        default: 'main'
+        type: string
 
 env:
   GOOGLE_APPLICATION_CREDENTIALS: 'admin-sdk.json'
@@ -35,7 +39,7 @@ jobs:
       - uses: dorny/paths-filter@v3
         id: filter
         with:
-          base: 'develop'
+          base: ${{ inputs.previous_tag }}
           filters: |
             storage:
               - 'storage.rules'
