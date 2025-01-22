@@ -32,7 +32,7 @@ jobs:
       - uses: ruby/setup-ruby@v1
       - uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: '16.0'
+          xcode-version: '^16.2'
       - name: Retrieve the secret and decode it to a file
         env:
           ADMIN_SDK_BASE64: ${{ secrets.FIREBASE_ADMIN_BASE_64_ENCODED_JSON }}
