@@ -59,7 +59,7 @@ jobs:
           echo "${{ steps.get-previous-release.outputs.previous_tag }}"
   prepare_for_release:
     needs: [tests, check_branch, get_version_number]
-    runs-on: macos-14
+    runs-on: macos-15
     environment: 'production'
     steps:
       - name: Checkout Tag
