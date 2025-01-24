@@ -30,6 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       version_string: ${{ steps.get-latest-release.outputs.release }}
+      previous_tag: ${{ steps.get-previous-release.outputs.previous_tag }}
     steps:
       - uses: pozetroninc/github-action-get-latest-release@master
         id: get-latest-release
@@ -43,9 +44,22 @@ jobs:
         run: |
           echo "ERROR: Your version string must match the latest published release in github"
           exit 1
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.version_string}}
+          fetch-tags: true
+          fetch-depth: 0
+      - name: get-previous-release
+        id: get-previous-release
+        run: |
+          previous_tag=`git rev-list --tags --skip=1 --max-count=1 | xargs git describe --abbrev=0 --tags $1 | xargs echo`
+          echo "previous_tag=$previous_tag" >> $GITHUB_OUTPUT
+      - name: Echo Previous Release
+        run: |
+          echo "${{ steps.get-previous-release.outputs.previous_tag }}"
   prepare_for_release:
     needs: [tests, check_branch, get_version_number]
-    runs-on: macos-14
+    runs-on: macos-15
     environment: 'production'
     steps:
       - name: Checkout Tag
@@ -59,7 +73,7 @@ jobs:
       - uses: ruby/setup-ruby@v1
       - uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: '16.0'
+          xcode-version: '^16.2'
       - name: Bundle install
         run: bundle install
       - name: install dependencies
@@ -91,6 +105,7 @@ jobs:
     with:
       environment: 'production'
       version_string: '${{ needs.get_version_number.outputs.version_string }}'
+      previous_tag: '${{ needs.get_version_number.outputs.previous_tag }}'
     secrets: inherit
     if: ${{ inputs.release_type == 'functions' || inputs.release_type == 'all' }}
   distribute-apps:
