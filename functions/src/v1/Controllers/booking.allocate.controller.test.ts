@@ -1,4 +1,4 @@
-import * as functions from 'firebase-functions';
+import {Request, Response} from 'express';
 import * as isBookingDateLimitedToBU from '../utils/BookingUtils/BookingUtils';
 import * as checkBookingCapacity from '../Services/DeskCapacity/checkBookingCapacity';
 import * as assignEmptySpacesToReserved from '../Services/FirebaseAdminService/assignEmptySpacesToReserved';
@@ -23,15 +23,15 @@ describe('Allocate Empty Slots Controller', () => {
   const mockSend = jest.fn();
   const mockResponse = {
     status: mockStatus,
-  } as unknown as functions.Response<any>;
+  } as unknown as Response<any>;
 
-  let mockRequest: functions.https.Request;
+  let mockRequest: Request;
 
   beforeEach(() => {
     jest.clearAllMocks();
     mockRequest = {
       body: [],
-    } as functions.https.Request;
+    } as Request;
     checkBookingCapacitySpy.mockResolvedValue({am: 1, pm: 1, allDay: 1});
   });
   describe('when passed an invalid request ', () => {
@@ -55,7 +55,7 @@ describe('Allocate Empty Slots Controller', () => {
               date: '2023-05-11T00:00:00Z',
               spaceType: 'car',
             },
-          } as functions.https.Request;
+          } as Request;
           assignEmptySpacesToReservedSpy.mockResolvedValue(true);
           await allocateEmptySlots(mockRequest, mockResponse);
           expect(mockResponse.status).toBeCalledWith(400);
@@ -70,7 +70,7 @@ describe('Allocate Empty Slots Controller', () => {
               spaceType: 'car',
               businessUnit: 'murray',
             },
-          } as functions.https.Request;
+          } as Request;
           assignEmptySpacesToReservedSpy.mockResolvedValue(true);
           isBookingDateLimitedToBUSpy.mockReturnValue(true);
           await allocateEmptySlots(mockRequest, mockResponse);
@@ -90,7 +90,7 @@ describe('Allocate Empty Slots Controller', () => {
               date: '2023-05-11T00:00:00Z',
               spaceType: 'car',
             },
-          } as functions.https.Request;
+          } as Request;
           assignEmptySpacesToReservedSpy.mockResolvedValue(true);
           isBookingDateLimitedToBUSpy.mockReturnValue(false);
           await allocateEmptySlots(mockRequest, mockResponse);
@@ -124,7 +124,7 @@ describe('Allocate Empty Slots Controller', () => {
               date: '2023-05-11T00:00:00Z',
               spaceType: 'desk',
             },
-          } as functions.https.Request;
+          } as Request;
           assignEmptySpacesToReservedSpy.mockResolvedValue(true);
           await allocateEmptySlots(mockRequest, mockResponse);
           expect(mockResponse.status).toBeCalledWith(204);
@@ -139,7 +139,7 @@ describe('Allocate Empty Slots Controller', () => {
               spaceType: 'desk',
               businessUnit: 'murray',
             },
-          } as functions.https.Request;
+          } as Request;
           assignEmptySpacesToReservedSpy.mockResolvedValue(true);
           isBookingDateLimitedToBUSpy.mockReturnValue(true);
           await allocateEmptySlots(mockRequest, mockResponse);
@@ -159,7 +159,7 @@ describe('Allocate Empty Slots Controller', () => {
               date: '2023-05-11T00:00:00Z',
               spaceType: 'desk',
             },
-          } as functions.https.Request;
+          } as Request;
           assignEmptySpacesToReservedSpy.mockResolvedValue(true);
           await allocateEmptySlots(mockRequest, mockResponse);
           expect(mockResponse.status).toBeCalledWith(204);
@@ -174,7 +174,7 @@ describe('Allocate Empty Slots Controller', () => {
               spaceType: 'desk',
               businessUnit: 'murray',
             },
-          } as functions.https.Request;
+          } as Request;
           assignEmptySpacesToReservedSpy.mockResolvedValue(true);
           await allocateEmptySlots(mockRequest, mockResponse);
           expect(mockResponse.status).toBeCalledWith(204);

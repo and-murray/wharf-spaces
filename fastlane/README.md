@@ -13,20 +13,23 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 # Available Actions
 
+### prepare_for_release
+
+```sh
+[bundle exec] fastlane prepare_for_release
+```
+
+
+
+----
+
+
 ## iOS
 
 ### ios qa_distribute
 
 ```sh
 [bundle exec] fastlane ios qa_distribute
-```
-
-
-
-### ios update_version_number
-
-```sh
-[bundle exec] fastlane ios update_version_number
 ```
 
 
@@ -56,14 +59,6 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ```sh
 [bundle exec] fastlane android qa_distribute
-```
-
-
-
-### android update_version_number
-
-```sh
-[bundle exec] fastlane android update_version_number
 ```
 
 

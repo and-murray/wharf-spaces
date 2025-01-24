@@ -1,12 +1,9 @@
-import * as functions from 'firebase-functions';
+import {Request, Response} from 'express';
 import {EditBookingsRequest} from '../Models/booking.model';
 import {HttpError} from 'http-errors';
 import {editExistingBookings} from '../Services/FirebaseAdminService/editExistingBookings';
 
-export const editBookings = async (
-  req: functions.Request,
-  res: functions.Response<any>,
-) => {
+export const editBookings = async (req: Request, res: Response<any>) => {
   let editBookingsRequest: EditBookingsRequest;
   try {
     try {

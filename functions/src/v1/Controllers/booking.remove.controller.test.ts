@@ -1,7 +1,7 @@
 import * as firebaseAdminService from '../Services/FirebaseAdminService/firebaseAdminService';
 import * as firebaseSpaceReassignService from '../Services/FirebaseAdminService/firebaseSpaceReassignService';
 import removeBookings from './booking.remove.controller';
-import * as functions from 'firebase-functions';
+import {Request, Response} from 'express';
 import {ZodError} from 'zod';
 import createError from 'http-errors';
 
@@ -22,10 +22,10 @@ describe('Remove Booking controller', () => {
   const mockSend = jest.fn();
   const mockResponse = {
     status: mockStatus,
-  } as unknown as functions.Response<any>;
+  } as unknown as Response<any>;
 
   describe('has the correct request', () => {
-    let mockRequest: functions.https.Request;
+    let mockRequest: Request;
     beforeEach(() => {
       jest.clearAllMocks();
       mockRequest = {
@@ -46,7 +46,7 @@ describe('Remove Booking controller', () => {
           sub: '',
           uid: '98765',
         },
-      } as functions.https.Request;
+      } as Request;
     });
 
     it('should call delete bookings with correct parameters and assignSpacesToReserved', async () => {
@@ -74,7 +74,7 @@ describe('Remove Booking controller', () => {
     });
   });
   describe('Is called with incorrect parameters', () => {
-    let mockRequest: functions.https.Request;
+    let mockRequest: Request;
     beforeEach(() => {
       mockRequest = {
         body: {bookingIds: '1234'},
@@ -94,7 +94,7 @@ describe('Remove Booking controller', () => {
           sub: '',
           uid: '1234',
         },
-      } as functions.https.Request;
+      } as Request;
     });
 
     it('Should return a 400', async () => {

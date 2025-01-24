@@ -1,5 +1,5 @@
 import {getLondonTime} from './serverTime.get.controller';
-import * as functions from 'firebase-functions';
+import {Request, Response} from 'express';
 
 let mockServerTimestamp = '2023-06-30T00:00:00Z';
 const mockedToDate = jest.fn(() => mockServerTimestamp);
@@ -13,18 +13,18 @@ jest.mock('firebase-admin', () => ({
   },
 }));
 describe('Get london server time', () => {
-  let mockRequest: functions.https.Request;
+  let mockRequest: Request;
   const mockStatus = jest.fn().mockImplementation(() => ({
     send: mockSend,
   }));
   const mockSend = jest.fn();
   const mockResponse = {
     status: mockStatus,
-  } as unknown as functions.Response<any>;
+  } as unknown as Response<any>;
 
   beforeEach(() => {
     jest.clearAllMocks();
-    mockRequest = {} as functions.https.Request;
+    mockRequest = {} as Request;
   });
 
   it('should return 200', async () => {

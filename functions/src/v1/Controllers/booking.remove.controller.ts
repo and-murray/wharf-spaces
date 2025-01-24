@@ -1,13 +1,11 @@
 import {deleteBookings} from '../Services/FirebaseAdminService/firebaseAdminService';
 import {DeleteBookingRequest} from '../Models/booking.model';
-import * as functions from 'firebase-functions';
+import {Request, Response} from 'express';
+
 import {HttpError} from 'http-errors';
 import {assignSpacesToReserved} from '../Services/FirebaseAdminService/firebaseSpaceReassignService';
 
-export const removeBookings = async (
-  req: functions.Request,
-  res: functions.Response<any>,
-) => {
+export const removeBookings = async (req: Request, res: Response<any>) => {
   try {
     DeleteBookingRequest.parse(req.body);
   } catch (error) {

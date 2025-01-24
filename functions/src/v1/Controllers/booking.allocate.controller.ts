@@ -1,13 +1,10 @@
-import * as functions from 'firebase-functions';
+import {Request, Response} from 'express';
 import {assignEmptySpacesToReserved} from '../Services/FirebaseAdminService/assignEmptySpacesToReserved';
 import {AllocateEmptySlotsRequest} from '../Models/booking.model';
 import {checkBookingCapacity} from '../Services/DeskCapacity/checkBookingCapacity';
 import {isBookingDateLimitedToBU} from '../utils/BookingUtils/BookingUtils';
 
-export const allocateEmptySlots = async (
-  req: functions.Request,
-  res: functions.Response<any>,
-) => {
+export const allocateEmptySlots = async (req: Request, res: Response<any>) => {
   let allocateEmptySlotsRequest: AllocateEmptySlotsRequest;
   try {
     try {

@@ -1,4 +1,4 @@
-import * as functions from 'firebase-functions';
+import {Request, Response} from 'express';
 import {checkBookingCapacity} from '../Services/DeskCapacity/checkBookingCapacity';
 import {
   Booking,
@@ -23,10 +23,7 @@ import {
 } from '../utils/BookingUtils/BookingUtils';
 import {isCorrectFunction} from '../utils/IsCorrectFunction';
 
-export const createNewBookings = async (
-  req: functions.Request,
-  res: functions.Response<any>,
-) => {
+export const createNewBookings = async (req: Request, res: Response<any>) => {
   let bookingRequest: BookingRequest;
   try {
     bookingRequest = BookingRequest.parse(req.body);

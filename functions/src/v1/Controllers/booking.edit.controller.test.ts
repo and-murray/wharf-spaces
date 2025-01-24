@@ -1,4 +1,4 @@
-import * as functions from 'firebase-functions';
+import {Request, Response} from 'express';
 import {editBookings} from './booking.edit.controller';
 import * as editExistingBookings from '../Services/FirebaseAdminService/editExistingBookings';
 
@@ -13,15 +13,15 @@ describe('Edit Bookings Controller', () => {
   const mockSend = jest.fn();
   const mockResponse = {
     status: mockStatus,
-  } as unknown as functions.Response<any>;
+  } as unknown as Response<any>;
 
-  let mockRequest: functions.https.Request;
+  let mockRequest: Request;
 
   beforeEach(() => {
     jest.clearAllMocks();
     mockRequest = {
       body: [],
-    } as functions.https.Request;
+    } as Request;
   });
   describe('when passed an invalid request ', () => {
     it('should return 400', async () => {
@@ -72,7 +72,7 @@ describe('Edit Bookings Controller', () => {
           sub: '',
           uid: '98765',
         },
-      } as functions.https.Request;
+      } as Request;
       editExistingBookingsSpy.mockResolvedValue();
       await editBookings(mockRequest, mockResponse);
       expect(mockResponse.status).toBeCalledWith(204);
