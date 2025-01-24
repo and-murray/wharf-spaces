@@ -1,4 +1,4 @@
-import {Request, Response} from 'express';
+import type {Request, Response} from 'express';
 import * as admin from 'firebase-admin';
 import {getConfig} from '../Config';
 

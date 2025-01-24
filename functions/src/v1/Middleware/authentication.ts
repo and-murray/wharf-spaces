@@ -1,4 +1,4 @@
-import {Request, Response} from 'express';
+import type {Request, Response} from 'express';
 import {logger} from 'firebase-functions/v2';
 import * as admin from 'firebase-admin';
 

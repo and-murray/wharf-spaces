@@ -1,4 +1,4 @@
-import {Request, Response} from 'express';
+import type {Request, Response} from 'express';
 import {EditBookingsRequest} from '../Models/booking.model';
 import {HttpError} from 'http-errors';
 import {editExistingBookings} from '../Services/FirebaseAdminService/editExistingBookings';

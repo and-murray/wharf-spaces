@@ -1,4 +1,4 @@
-import {Request, Response} from 'express';
+import type {Request, Response} from 'express';
 import * as isBookingDateLimitedToBU from '../utils/BookingUtils/BookingUtils';
 import * as checkBookingCapacity from '../Services/DeskCapacity/checkBookingCapacity';
 import * as assignEmptySpacesToReserved from '../Services/FirebaseAdminService/assignEmptySpacesToReserved';

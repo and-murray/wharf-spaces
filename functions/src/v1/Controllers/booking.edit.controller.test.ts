@@ -1,4 +1,4 @@
-import {Request, Response} from 'express';
+import type {Request, Response} from 'express';
 import {editBookings} from './booking.edit.controller';
 import * as editExistingBookings from '../Services/FirebaseAdminService/editExistingBookings';
 

@@ -1,7 +1,7 @@
 import * as firebaseAdminService from '../Services/FirebaseAdminService/firebaseAdminService';
 import * as firebaseSpaceReassignService from '../Services/FirebaseAdminService/firebaseSpaceReassignService';
 import removeBookings from './booking.remove.controller';
-import {Request, Response} from 'express';
+import type {Request, Response} from 'express';
 import {ZodError} from 'zod';
 import createError from 'http-errors';
 

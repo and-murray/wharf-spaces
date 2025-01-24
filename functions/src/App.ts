@@ -2,7 +2,7 @@ import admin from 'firebase-admin';
 import V1Router from './Routes/v1/route';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import {Request, Response} from 'express';
+import type {Request, Response} from 'express';
 
 admin.initializeApp();
 

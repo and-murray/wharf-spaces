@@ -1,4 +1,4 @@
-import {Request, Response} from 'express';
+import type {Request, Response} from 'express';
 import createNewBookings from './booking.create.controller';
 import * as firebaseAdminService from '../Services/FirebaseAdminService/firebaseAdminService';
 import * as checkBookingCapacity from '../Services/DeskCapacity/checkBookingCapacity';

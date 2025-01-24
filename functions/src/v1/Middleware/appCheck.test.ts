@@ -1,6 +1,6 @@
 import * as admin from 'firebase-admin';
 import {DecodedIdToken} from 'firebase-admin/auth';
-import {Request, Response} from 'express';
+import type {Request, Response} from 'express';
 import {
   createRequest,
   createResponse,

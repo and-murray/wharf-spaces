@@ -1,4 +1,4 @@
-import {Request, Response} from 'express';
+import type {Request, Response} from 'express';
 import {assignEmptySpacesToReserved} from '../Services/FirebaseAdminService/assignEmptySpacesToReserved';
 import {AllocateEmptySlotsRequest} from '../Models/booking.model';
 import {checkBookingCapacity} from '../Services/DeskCapacity/checkBookingCapacity';

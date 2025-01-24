@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import {Request, Response} from 'express';
+import type {Request, Response} from 'express';
 import admin from 'firebase-admin';
 import {applicationTimezone} from '../utils/BookingUtils/BookingUtils';
 

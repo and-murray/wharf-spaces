@@ -1,6 +1,6 @@
 import {deleteBookings} from '../Services/FirebaseAdminService/firebaseAdminService';
 import {DeleteBookingRequest} from '../Models/booking.model';
-import {Request, Response} from 'express';
+import type {Request, Response} from 'express';
 
 import {HttpError} from 'http-errors';
 import {assignSpacesToReserved} from '../Services/FirebaseAdminService/firebaseSpaceReassignService';

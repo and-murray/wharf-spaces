@@ -1,5 +1,5 @@
 import App from './App';
-import {Request, Response} from 'express';
+import type {Request, Response} from 'express';
 import supertest from 'supertest';
 import validateFirebaseIdToken from './v1/Middleware/authentication';
 import {DecodedIdToken} from 'firebase-admin/auth';
