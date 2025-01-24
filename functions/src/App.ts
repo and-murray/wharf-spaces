@@ -72,7 +72,7 @@ App.use(express.json());
 App.use(cors);
 App.use(cookieParser);
 
-App.use((req: Request, res: Response<any>, next: Function) => {
+App.use((req: Request, res: Response, next: Function) => {
   if (
     (req.originalUrl === '/docs' || req.originalUrl === '/docs/') &&
     process.env.FUNCTION_TARGET !== 'api'

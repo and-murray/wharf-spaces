@@ -13,7 +13,7 @@ describe('Edit Bookings Controller', () => {
   const mockSend = jest.fn();
   const mockResponse = {
     status: mockStatus,
-  } as unknown as Response<any>;
+  } as unknown as Response;
 
   let mockRequest: Request;
 

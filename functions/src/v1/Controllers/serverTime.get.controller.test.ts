@@ -20,7 +20,7 @@ describe('Get london server time', () => {
   const mockSend = jest.fn();
   const mockResponse = {
     status: mockStatus,
-  } as unknown as Response<any>;
+  } as unknown as Response;
 
   beforeEach(() => {
     jest.clearAllMocks();

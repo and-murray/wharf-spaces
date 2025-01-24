@@ -4,7 +4,7 @@ import {AllocateEmptySlotsRequest} from '../Models/booking.model';
 import {checkBookingCapacity} from '../Services/DeskCapacity/checkBookingCapacity';
 import {isBookingDateLimitedToBU} from '../utils/BookingUtils/BookingUtils';
 
-export const allocateEmptySlots = async (req: Request, res: Response<any>) => {
+export const allocateEmptySlots = async (req: Request, res: Response) => {
   let allocateEmptySlotsRequest: AllocateEmptySlotsRequest;
   try {
     try {

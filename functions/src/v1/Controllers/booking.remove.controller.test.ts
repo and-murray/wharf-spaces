@@ -22,7 +22,7 @@ describe('Remove Booking controller', () => {
   const mockSend = jest.fn();
   const mockResponse = {
     status: mockStatus,
-  } as unknown as Response<any>;
+  } as unknown as Response;
 
   describe('has the correct request', () => {
     let mockRequest: Request;

@@ -5,7 +5,7 @@ import type {Request, Response} from 'express';
 import {HttpError} from 'http-errors';
 import {assignSpacesToReserved} from '../Services/FirebaseAdminService/firebaseSpaceReassignService';
 
-export const removeBookings = async (req: Request, res: Response<any>) => {
+export const removeBookings = async (req: Request, res: Response) => {
   try {
     DeleteBookingRequest.parse(req.body);
   } catch (error) {

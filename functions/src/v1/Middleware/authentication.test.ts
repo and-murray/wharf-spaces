@@ -12,7 +12,7 @@ import {
 describe('Validate Firebase Id Token tests', () => {
   admin.initializeApp();
   let testRequest: MockRequest<Request>;
-  let testResponse: MockResponse<Response<any>>;
+  let testResponse: MockResponse<Response>;
   let testNextFunction: Function = () => {};
 
   beforeEach(() => {

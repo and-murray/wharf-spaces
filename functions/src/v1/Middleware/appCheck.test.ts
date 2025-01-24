@@ -16,7 +16,7 @@ const firebaseAuthSpy = jest.spyOn(admin.auth(), 'verifyIdToken');
 
 describe('Validate App Check Token tests', () => {
   let testRequest: MockRequest<Request>;
-  let testResponse: MockResponse<Response<any>>;
+  let testResponse: MockResponse<Response>;
   let testNextFunction: Function = () => {};
   const mockAuthToken = 'Bearer eyTEST12345';
   const mockToken = '123456';

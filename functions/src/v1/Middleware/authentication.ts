@@ -4,7 +4,7 @@ import * as admin from 'firebase-admin';
 
 const validateFirebaseIdToken = async (
   req: Request,
-  res: Response<any>,
+  res: Response,
   next: Function,
 ) => {
   if (

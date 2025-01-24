@@ -3,7 +3,7 @@ import {EditBookingsRequest} from '../Models/booking.model';
 import {HttpError} from 'http-errors';
 import {editExistingBookings} from '../Services/FirebaseAdminService/editExistingBookings';
 
-export const editBookings = async (req: Request, res: Response<any>) => {
+export const editBookings = async (req: Request, res: Response) => {
   let editBookingsRequest: EditBookingsRequest;
   try {
     try {

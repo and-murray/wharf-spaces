@@ -23,7 +23,7 @@ import {
 } from '../utils/BookingUtils/BookingUtils';
 import {isCorrectFunction} from '../utils/IsCorrectFunction';
 
-export const createNewBookings = async (req: Request, res: Response<any>) => {
+export const createNewBookings = async (req: Request, res: Response) => {
   let bookingRequest: BookingRequest;
   try {
     bookingRequest = BookingRequest.parse(req.body);

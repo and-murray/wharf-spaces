@@ -87,7 +87,7 @@ describe('Desk Booking Function', () => {
 
 const createMockAppCheckMiddleware = () => {
   forceTypeToMockFunction(appCheck).mockImplementation(
-    async (req: Request, res: Response<any>, next: Function) => {
+    async (req: Request, res: Response, next: Function) => {
       next();
     },
   );
@@ -95,7 +95,7 @@ const createMockAppCheckMiddleware = () => {
 
 const createMockMiddleware = (isAuthenticated: boolean) => {
   forceTypeToMockFunction(validateFirebaseIdToken).mockImplementation(
-    async (req: Request, res: Response<any>, next: Function) => {
+    async (req: Request, res: Response, next: Function) => {
       if (isAuthenticated) {
         const token: DecodedIdToken = {
           aud: '',
