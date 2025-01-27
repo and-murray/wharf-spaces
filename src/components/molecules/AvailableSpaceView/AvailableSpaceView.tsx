@@ -13,7 +13,7 @@ import {
   postBookings,
 } from '@state/reducers/selectedDayOptionsSlice';
 import {Cross} from '@res/images/Cross';
-import {determineWarningProps} from './viewHelper';
+import {determineWarningProps} from './viewHelper/viewHelper';
 import {GroupIcon} from '@res/images/GroupIcon';
 import BoldText from '@atoms/BoldText/BoldText';
 import {BusinessUnit} from '@customTypes/user';
@@ -83,8 +83,12 @@ const AvailableSpaceView = ({
         spaceLeft: remainingOptions.find(
           remainingOption => remainingOption.id === option.id,
         )?.spaceLeft,
+        reservedSpaces: remainingOptions.find(
+          remainingOption => remainingOption.id === option.id,
+        )?.reservedSpaces,
       };
     });
+
     setIsFullSelected(
       newOptions.some(
         option => option.isSelected === true && (option.spaceLeft ?? 1) <= 0,
@@ -92,6 +96,7 @@ const AvailableSpaceView = ({
     );
     setPreviousSelectedSpaceType(selectedSpaceType);
     setOptions(newOptions);
+
     // line below disabled as it wants the dependency array to include
     // options - since the useEffect sets options, we don't want this to run
     // every time options changes. This will be optimised in a future
@@ -266,6 +271,7 @@ const AvailableSpaceView = ({
   };
 
   const showWarning = isFullSelected || hasCommunalSpace;
+
   return (
     <VStack
       importantForAccessibility="no"

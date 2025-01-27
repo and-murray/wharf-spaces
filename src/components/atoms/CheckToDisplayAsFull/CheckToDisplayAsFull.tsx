@@ -4,6 +4,7 @@ import ReservedCount from '@atoms/ReservedCount/ReservedCount';
 
 type CheckToDisplayAsFullProps = {
   spaceLeft: number | undefined;
+  reservedSpaces: number | undefined;
   capacity: number;
   subheadingTextColor: string;
   subheadingTextColorFull: string;
@@ -12,6 +13,7 @@ type CheckToDisplayAsFullProps = {
 
 const CheckToDisplayAsFull = ({
   spaceLeft,
+  reservedSpaces,
   capacity,
   subheadingTextColor,
   subheadingTextColorFull,
@@ -27,34 +29,20 @@ const CheckToDisplayAsFull = ({
     return 'Full';
   }, [spaceLeft, capacity]);
 
-  const spaceAvailable = spaceLeft && spaceLeft < 0;
+  const spaceAvailable = spaceLeft === 0;
 
   return (
-    <>
-      {spaceAvailable ? (
-        <View justifyContent={'space-between'} flexDirection={'row'}>
-          <Text
-            fontFamily={'body'}
-            fontWeight="500"
-            fontSize={14}
-            color={subheadingTextColorFull}>
-            Full
-          </Text>
-          <ReservedCount count={`${-spaceLeft}`} />
-        </View>
-      ) : (
-        <Text
-          fontFamily={'body'}
-          fontWeight="400"
-          fontSize={14}
-          color={
-            spaceLeft === 0 ? subheadingTextColorFull : subheadingTextColor
-          }
-          testID={`DayTimeSelectorSubheading-${id}`}>
-          {subheadingText}
-        </Text>
-      )}
-    </>
+    <View justifyContent={'space-between'} flexDirection={'row'}>
+      <Text
+        fontFamily={'body'}
+        fontWeight={spaceAvailable ? '500' : '400'}
+        fontSize={14}
+        color={spaceLeft === 0 ? subheadingTextColorFull : subheadingTextColor}
+        testID={`DayTimeSelectorSubheading-${id}`}>
+        {spaceAvailable ? 'Full' : subheadingText}
+      </Text>
+      {reservedSpaces !== 0 && <ReservedCount count={reservedSpaces} />}
+    </View>
   );
 };
 export default CheckToDisplayAsFull;

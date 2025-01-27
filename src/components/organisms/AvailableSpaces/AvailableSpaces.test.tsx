@@ -330,6 +330,7 @@ describe('When AvailableSpaces is shown on screen', () => {
               isBooked: false,
               isSelected: false,
               spaceLeft: 28,
+              reservedSpaces: 0,
               timeSlot: 'allDay',
             },
             {
@@ -338,6 +339,7 @@ describe('When AvailableSpaces is shown on screen', () => {
               isBooked: false,
               isSelected: false,
               spaceLeft: 28,
+              reservedSpaces: 0,
               timeSlot: 'am',
             },
             {
@@ -346,6 +348,7 @@ describe('When AvailableSpaces is shown on screen', () => {
               isBooked: false,
               isSelected: false,
               spaceLeft: 28,
+              reservedSpaces: 0,
               timeSlot: 'pm',
             },
           ],
@@ -383,6 +386,7 @@ describe('When AvailableSpaces is shown on screen', () => {
               isBooked: false,
               isSelected: false,
               spaceLeft: 19,
+              reservedSpaces: 0,
               timeSlot: 'allDay',
             },
             {
@@ -391,6 +395,7 @@ describe('When AvailableSpaces is shown on screen', () => {
               isBooked: false,
               isSelected: false,
               spaceLeft: 19,
+              reservedSpaces: 0,
               timeSlot: 'am',
             },
             {
@@ -399,6 +404,7 @@ describe('When AvailableSpaces is shown on screen', () => {
               isBooked: false,
               isSelected: false,
               spaceLeft: 19,
+              reservedSpaces: 0,
               timeSlot: 'pm',
             },
           ],
