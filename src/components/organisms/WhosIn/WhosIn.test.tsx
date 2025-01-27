@@ -54,10 +54,6 @@ describe('When WhosIn is on screen ', () => {
   });
 
   describe('For Car Booking', () => {
-    // beforeEach(() => {
-    //   whosInRowSpy.mockImplementation();
-    // });
-
     it('Renders Correctly', () => {
       const {getByText} = render(<WhosIn bookings={[]} userData={{}} />, {
         preloadedState: {
