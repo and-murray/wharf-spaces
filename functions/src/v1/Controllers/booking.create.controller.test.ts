@@ -1,4 +1,4 @@
-import * as functions from 'firebase-functions';
+import type {Request, Response} from 'express';
 import createNewBookings from './booking.create.controller';
 import * as firebaseAdminService from '../Services/FirebaseAdminService/firebaseAdminService';
 import * as checkBookingCapacity from '../Services/DeskCapacity/checkBookingCapacity';
@@ -47,14 +47,14 @@ describe('Create Booking controller ', () => {
   const mockSend = jest.fn();
   const mockResponse = {
     status: mockStatus,
-  } as unknown as functions.Response<any>;
+  } as unknown as Response;
 
-  let mockRequest: functions.https.Request;
+  let mockRequest: Request;
   beforeEach(() => {
     jest.clearAllMocks();
     mockRequest = {
       body: [],
-    } as functions.https.Request;
+    } as Request;
     checkDatesBeingBookedSpy.mockReturnValue(['2023-05-11T00:00:00Z']);
     checkSpaceTypeBeingBookedSpy.mockReturnValue(['desk']);
     isCorrectFunctionSpy.mockReturnValue(true);
