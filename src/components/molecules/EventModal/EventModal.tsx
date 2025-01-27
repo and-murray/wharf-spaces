@@ -9,6 +9,8 @@ import {deleteNote} from '@firebase/firestore/deleteNote';
 import {createNote} from '@firebase/firestore/createNote';
 import AlertMessage from '@atoms/AlertMessage/AlertMessage';
 import {WarningSymbolIcon} from '../../atoms/Warning/WarningSymbol/WarningSymbol';
+import {useAppSelector} from '@root/src/state/utils/hooks';
+import {Note} from '@root/src/types/notes';
 
 type EventModalProps = {
   hasEvent: boolean;
@@ -31,6 +33,8 @@ const EventModal = ({
   warningMessage,
   eventDocumentId,
 }: EventModalProps) => {
+  const {notes} = useAppSelector(state => state.note);
+
   const [inputFieldText, setInputFieldText] = useState<string>('');
   const windowHeight: number = Dimensions.get('window').height;
 
@@ -38,6 +42,12 @@ const EventModal = ({
   const onClose = () => setIsAlertOpen(false);
 
   const uniqueId = uuid.v4().toString();
+
+  function resetFieldTextOnEventlessDay(updatedNotes: Note[]) {
+    if (updatedNotes?.length === 0) {
+      setInputFieldText('');
+    }
+  }
 
   useEffect(() => {
     if (hasEvent) {
@@ -50,6 +60,10 @@ const EventModal = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentEvent]);
+
+  useEffect(() => {
+    resetFieldTextOnEventlessDay(notes);
+  }, [notes]);
 
   async function onPress(): Promise<void> {
     if (hasEvent) {
