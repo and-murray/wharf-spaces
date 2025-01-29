@@ -1,5 +1,5 @@
 import App from './App';
-import * as functions from 'firebase-functions';
+import type {Request, Response} from 'express';
 import supertest from 'supertest';
 import validateFirebaseIdToken from './v1/Middleware/authentication';
 import {DecodedIdToken} from 'firebase-admin/auth';
@@ -87,11 +87,7 @@ describe('Desk Booking Function', () => {
 
 const createMockAppCheckMiddleware = () => {
   forceTypeToMockFunction(appCheck).mockImplementation(
-    async (
-      req: functions.https.Request,
-      res: functions.Response<any>,
-      next: Function,
-    ) => {
+    async (req: Request, res: Response, next: Function) => {
       next();
     },
   );
@@ -99,11 +95,7 @@ const createMockAppCheckMiddleware = () => {
 
 const createMockMiddleware = (isAuthenticated: boolean) => {
   forceTypeToMockFunction(validateFirebaseIdToken).mockImplementation(
-    async (
-      req: functions.https.Request,
-      res: functions.Response<any>,
-      next: Function,
-    ) => {
+    async (req: Request, res: Response, next: Function) => {
       if (isAuthenticated) {
         const token: DecodedIdToken = {
           aud: '',

@@ -1,7 +1,7 @@
 import validateFirebaseIdToken from './authentication';
 import * as admin from 'firebase-admin';
 import {DecodedIdToken} from 'firebase-admin/auth';
-import * as functions from 'firebase-functions';
+import type {Request, Response} from 'express';
 import {
   createRequest,
   createResponse,
@@ -11,8 +11,8 @@ import {
 
 describe('Validate Firebase Id Token tests', () => {
   admin.initializeApp();
-  let testRequest: MockRequest<functions.https.Request>;
-  let testResponse: MockResponse<functions.Response<any>>;
+  let testRequest: MockRequest<Request>;
+  let testResponse: MockResponse<Response>;
   let testNextFunction: Function = () => {};
 
   beforeEach(() => {
