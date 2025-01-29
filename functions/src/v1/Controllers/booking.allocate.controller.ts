@@ -10,15 +10,14 @@ export const allocateEmptySlots = async (req: Request, res: Response) => {
     try {
       allocateEmptySlotsRequest = AllocateEmptySlotsRequest.parse(req.body);
     } catch (error) {
-      res.status(400).send(error);
-      return;
+      return res.status(400).send(error);
     }
     if (
       isBookingDateLimitedToBU(allocateEmptySlotsRequest.date) &&
       allocateEmptySlotsRequest.spaceType === 'car' &&
       !allocateEmptySlotsRequest.businessUnit
     ) {
-      res
+      return res
         .status(400)
         .send(
           'If date is restricted to business unit and space type is cars then business unit to make allocations against must be provided',
@@ -35,9 +34,8 @@ export const allocateEmptySlots = async (req: Request, res: Response) => {
       allocateEmptySlotsRequest.spaceType,
       allocateEmptySlotsRequest.businessUnit,
     );
-    res.status(204).send();
+    return res.status(204).send();
   } catch (error) {
-    res.status(500).send(error);
-    return;
+    return res.status(500).send(error);
   }
 };
