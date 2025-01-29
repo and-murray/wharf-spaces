@@ -2581,7 +2581,7 @@ firebase-functions-test@^3.1.0:
     lodash "^4.17.5"
     ts-deepmerge "^2.0.1"
 
-firebase-functions@^6.2.0:
+firebase-functions@6.2.0:
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/firebase-functions/-/firebase-functions-6.2.0.tgz#fb25db0e886e8e69cdd015254120f62a018694eb"
   integrity sha512-vfyyVHS8elxplzEQ9To+NaINRPFUsDasQrasTa2eFJBYSPzdhkw6rwLmvwyYw622+ze+g4sDIb14VZym+afqXQ==

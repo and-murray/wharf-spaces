@@ -6412,7 +6412,7 @@ firebase-admin@^12.0.0:
     "@google-cloud/firestore" "^7.7.0"
     "@google-cloud/storage" "^7.7.0"
 
-firebase-tools@^13.29.2:
+firebase-tools@13.29.2:
   version "13.29.2"
   resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-13.29.2.tgz#30e6a22da541448eb8182eb40e0e39a1e5e4bcdf"
   integrity sha512-6P4PR4TcrATPI+ut0qhh7gW3GJ0HYaLC2Fr5lesAXkrdAYw7OvOGDzXaRFuORwkCS5grVQuCcJVSsVbjXKAkew==
