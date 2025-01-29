@@ -19,14 +19,11 @@ const WhosIn = ({bookings, userData}: WhosInProps) => {
   const [andiCount, visitorCount] = andiAndvisitorNumbers;
 
   const [rows, setRows] = useState<Element[]>([]);
-  const {
-    selectedDayOptions: {selectedSpaceType},
-    user: {user},
-  } = useAppSelector(state => state);
-  const isCarReserveList =
-    bookings.length > 0 &&
-    selectedSpaceType === SpaceType.car &&
-    bookings[0].isReserveSpace;
+  const selectedSpaceType = useAppSelector(
+    state => state.selectedDayOptions.selectedSpaceType,
+  );
+  const user = useAppSelector(state => state.user.user);
+
   useMemo(async () => {
     // default rows back when nothing booked otherwise data persists onto days without any bookings
     if (Object.keys(userData).length === 0 || user?.id === undefined) {
@@ -70,6 +67,7 @@ const WhosIn = ({bookings, userData}: WhosInProps) => {
       return ordered;
     };
     const orderedReserveList = reserveListBookingsInOrder();
+
     const generatedRows = bookings.map((booking, index) => {
       const isGuest = booking.bookingType === BookingType.guest;
       let bookingUserData = userData[booking.userId] ?? {
@@ -112,18 +110,11 @@ const WhosIn = ({bookings, userData}: WhosInProps) => {
         />
       );
     });
-
-    if (isCarReserveList) {
-      generatedRows.sort(
-        (a, b) => a.props.reserveListPosition - b.props.reserveListPosition,
-      );
-    } else {
-      generatedRows.sort((a, b) => a.props.name.localeCompare(b.props.name));
-    }
+    generatedRows.sort((a, b) => a.props.name.localeCompare(b.props.name));
 
     setRows(generatedRows);
     calculateVisitorsAndAndis(generatedRows, totalVisitorCount);
-  }, [bookings, user?.id, userData, isCarReserveList]);
+  }, [bookings, user?.id, userData]);
 
   const constructWhoIsInCountString = () => {
     let whoIsInString = andiCount + ' ANDi' + (andiCount === 1 ? '' : 's');
@@ -148,8 +139,6 @@ const WhosIn = ({bookings, userData}: WhosInProps) => {
   const constructWhoIsInString = () => {
     if (selectedSpaceType === SpaceType.desk) {
       return "Who's in?";
-    } else if (isCarReserveList) {
-      return "Who's waiting?";
     } else if (selectedSpaceType === SpaceType.car) {
       return "Who's parking?";
     }

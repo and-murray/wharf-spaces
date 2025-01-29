@@ -30,17 +30,15 @@ export default function BookingScreen() {
   const [deskBookings, setDeskBookings] = useState<Booking[]>([]);
   const [isValidBookingDate, setIsValidBookingDate] = useState<boolean>(false);
   const [carBookings, setCarBookings] = useState<Booking[]>([]);
-  const [confirmedCarBookings, setConfirmedCarBookings] = useState<Booking[]>(
-    [],
-  );
-  const [reserveCarBookings, setReserveCarBookings] = useState<Booking[]>([]);
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [userData, setUserData] = useState<ReducedUserData>({});
-  let {
-    selectedDayOptions: {selectedDay},
-    user: {user},
-    utils: {londonServerTimestamp, storedDeviceTimestamp},
-  } = useAppSelector(state => state);
+  const selectedDay = useAppSelector(
+    state => state.selectedDayOptions.selectedDay,
+  );
+  const user = useAppSelector(state => state.user.user);
+  const {londonServerTimestamp, storedDeviceTimestamp} = useAppSelector(
+    state => state.utils,
+  );
   const userId = user ? user.id : null;
   const styles = StyleSheet.create({
     segmentStyle: {
@@ -49,12 +47,7 @@ export default function BookingScreen() {
       marginHorizontal: 16,
     },
   });
-  const shouldShowIsWaitingList = () => {
-    if (selectedIndex === 1 && reserveCarBookings.length > 0) {
-      return true;
-    }
-    return false;
-  };
+
   useEffect(() => {
     if (selectedDay === '') {
       return;
@@ -68,21 +61,11 @@ export default function BookingScreen() {
         const carBookingsOnDate = bookings.filter(
           booking => booking.spaceType === SpaceType.car,
         );
-        const confirmedCarBookingsOnDate = bookings.filter(
-          booking =>
-            booking.spaceType === SpaceType.car && !booking.isReserveSpace,
-        );
         const deskBookingsOnDate = bookings.filter(
           booking => booking.spaceType === SpaceType.desk,
         );
-        const reserveCarBookingsOnDate = bookings.filter(
-          booking =>
-            booking.spaceType === SpaceType.car && booking.isReserveSpace,
-        );
         setCarBookings(carBookingsOnDate);
         setDeskBookings(deskBookingsOnDate);
-        setConfirmedCarBookings(confirmedCarBookingsOnDate);
-        setReserveCarBookings(reserveCarBookingsOnDate);
         dispatch(setLoading(false));
       },
     );
@@ -201,21 +184,11 @@ export default function BookingScreen() {
                   <Animated.View layout={Layout}>
                     <WhosIn
                       bookings={
-                        selectedIndex === 0
-                          ? deskBookings
-                          : confirmedCarBookings
+                        selectedIndex === 0 ? deskBookings : carBookings
                       }
                       userData={userData}
                     />
                   </Animated.View>
-                  {shouldShowIsWaitingList() && (
-                    <Animated.View layout={Layout}>
-                      <WhosIn
-                        bookings={reserveCarBookings}
-                        userData={userData}
-                      />
-                    </Animated.View>
-                  )}
                 </>
               ) : (
                 <VStack

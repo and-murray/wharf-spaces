@@ -26,12 +26,16 @@ const AvailableSpaces = ({bookings, userData}: AvailableSpacesProps) => {
   const [filteredBookings, setFilteredBookings] = useState<Booking[]>([]);
   const [isVisitorEditEnabled, setIsVisitorEditEnabled] = useState(false);
   const toggleDisplayGuestBooking = () => setShowGuestSpaces(!showGuestSpaces);
-  let {
-    selectedDayOptions: {selectedSpaceType, selectedDay},
-    user: {user},
-    firebaseRemoteConfig: {deskCapacity, parkingCapacity},
-    utils: {londonServerTimestamp, storedDeviceTimestamp},
-  } = useAppSelector(state => state);
+  const {selectedSpaceType, selectedDay} = useAppSelector(
+    state => state.selectedDayOptions,
+  );
+  const {deskCapacity, parkingCapacity} = useAppSelector(
+    state => state.firebaseRemoteConfig,
+  );
+  const user = useAppSelector(state => state.user.user);
+  const {londonServerTimestamp, storedDeviceTimestamp} = useAppSelector(
+    state => state.utils,
+  );
 
   const remainingSpaces = calculateRemainingSpaces(filteredBookings, capacity);
   const remainingOptions = availableSpacesOptionfactory(remainingSpaces);
@@ -52,7 +56,6 @@ const AvailableSpaces = ({bookings, userData}: AvailableSpacesProps) => {
 
       let remainingCapacity = 0;
       remainingCapacity = parkingCapacity[businessUnit];
-
       if (canBookAnySpace && businessUnit !== BusinessUnit.unknown) {
         remainingCapacity =
           parkingCapacity.murray +
