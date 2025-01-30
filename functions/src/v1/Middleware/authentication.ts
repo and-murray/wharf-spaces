@@ -1,9 +1,10 @@
-import * as functions from 'firebase-functions';
+import type {Request, Response} from 'express';
+import {logger} from 'firebase-functions/v2';
 import * as admin from 'firebase-admin';
 
 const validateFirebaseIdToken = async (
-  req: functions.https.Request,
-  res: functions.Response<any>,
+  req: Request,
+  res: Response,
   next: Function,
 ) => {
   if (
@@ -11,7 +12,7 @@ const validateFirebaseIdToken = async (
       !req.headers.authorization.startsWith('Bearer ')) &&
     !(req.cookies && req.cookies.__session)
   ) {
-    functions.logger.error(
+    logger.error(
       'No Firebase ID token was passed as a Bearer token in the Authorization header',
       'Make sure you authorize your request by providing the following HTTP header:',
       'Authorization: Bearer <Firebase ID Token>',
@@ -43,7 +44,7 @@ const validateFirebaseIdToken = async (
     next();
     return;
   } catch (error) {
-    functions.logger.error('Error while verifying Firebase ID token:', error);
+    logger.error('Error while verifying Firebase ID token:', error);
     res.status(401).send('Unauthorized');
     return;
   }

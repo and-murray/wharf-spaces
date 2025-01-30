@@ -61,10 +61,10 @@ const AvailableSpaceView = ({
 
   const [isUnknownUserAlertOpen, setisUnknownUserAlertOpen] = useState(false);
 
-  let {
-    selectedDayOptions: {selectedDay, selectedSpaceType},
-    user: {user},
-  } = useAppSelector(state => state);
+  const {selectedDay, selectedSpaceType} = useAppSelector(
+    state => state.selectedDayOptions,
+  );
+  const user = useAppSelector(state => state.user.user);
 
   useEffect(() => {
     const relevantBookingTimeSlot: TimeSlot | undefined =

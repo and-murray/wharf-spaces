@@ -7,9 +7,9 @@ import EmailPasswordLoginModal from './EmailPasswordLoginModal';
 import {GoogleSignInError} from '@firebase/authentication/FirebaseGoogleAuthentication';
 
 export default function HomeScreen() {
-  let {
-    firebaseRemoteConfig: {isDemoLoginEnabled},
-  } = useAppSelector(state => state);
+  const {isDemoLoginEnabled} = useAppSelector(
+    state => state.firebaseRemoteConfig,
+  );
   const [, setSignInError] = useState<GoogleSignInError>();
   const [demoLoginEnabled, setDemoLoginEnabled] = useState<boolean>(false);
   const [crashlyticsEnabled, setCrashlyticsEnabled] = useState(

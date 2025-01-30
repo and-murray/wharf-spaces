@@ -1,7 +1,6 @@
 import React from 'react';
-import {act, render} from '@testing-library/react-native';
+import {act} from '@testing-library/react-native';
 import AvailableSpaceView from '@molecules/AvailableSpaceView/AvailableSpaceView';
-import {TestWrapper} from '@components/TestWrapper';
 import {
   guestDeskProps,
   personalDeskProps,
@@ -12,16 +11,33 @@ import {
   adminCarProps,
 } from '@molecules/AvailableSpaceView/availableSpaceViewTestUtils';
 import Booking, {BookingType, SpaceType, TimeSlot} from '@customTypes/booking';
+import {BusinessUnit} from '@customTypes/user';
 import * as DayTimeSelector from '@atoms/DayTimeSelector/DayTimeSelector';
 import * as Warning from '@atoms/Warning/Warning';
 import * as BookButton from '@atoms/BookButton/BookButton';
-import * as hooks from '@state/utils/hooks';
 import * as selectedDayOptions from '@state/reducers/selectedDayOptionsSlice';
 import * as UserProfileSection from '@molecules/UserProfileSection/UserProfileSection';
 import * as Counter from '@atoms/Counter/Counter';
 import * as AlertMessage from '@atoms/AlertMessage/AlertMessage';
 import * as SimpleInfoMessage from '@atoms/SimpleInfoIMessage/SimpleInfoMessage';
 import * as MurrayButton from '@atoms/MurrayButton/MurrayButton';
+import {
+  firebaseRemoteConfigStub,
+  userStateStub,
+  userStub,
+  utilsStateStub,
+} from '@root/src/util/stubs';
+import {renderWithProviders as render} from '@root/src/util/test-utils';
+
+const preloadedState = {
+  selectedDayOptions: {
+    selectedDay: '2024-07-05T00:00:00Z',
+    selectedSpaceType: SpaceType.desk,
+  },
+  user: userStateStub,
+  utils: utilsStateStub,
+  firebaseRemoteConfig: firebaseRemoteConfigStub,
+};
 
 const guestWithBookingsProps = {
   ...guestDeskProps,
@@ -32,7 +48,6 @@ const personalWithBookingsProps = {
   ...personalDeskProps,
   relevantBookings: testBookingsPersonal,
 };
-const useAppSelectorSpy = jest.spyOn(hooks, 'useAppSelector');
 const deleteBookingsSpy = jest.spyOn(selectedDayOptions, 'deleteBookings');
 const dayTimeSelectorSpy = jest.spyOn(DayTimeSelector, 'default');
 const postBookingsSpy = jest.spyOn(selectedDayOptions, 'postBookings');
@@ -48,15 +63,6 @@ const murrayButtonSpy = jest.spyOn(MurrayButton, 'default');
 describe('When AvailableSpaceView is on the screen', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    useAppSelectorSpy.mockReturnValue({
-      selectedDayOptions: {
-        selectedDay: '2023-07-05T00:00:00Z',
-        selectedTimeSlot: '',
-        selectedSpaceType: SpaceType.desk,
-      },
-      user: {activeBookings: [[], []], user: {id: 'testUserId'}},
-      firebaseRemoteConfig: {deskCapacity: 36},
-    });
     dayTimeSelectorSpy.mockReturnValue(<></>);
     bookButtonSpy.mockReturnValue(<></>);
     warningSpy.mockReturnValue(<></>);
@@ -70,9 +76,8 @@ describe('When AvailableSpaceView is on the screen', () => {
   describe('When an admin is viewing parking', () => {
     it('renders correctly for personal car with no bookings', () => {
       const {queryByTestId} = render(
-        <TestWrapper>
-          <AvailableSpaceView {...adminCarProps} />
-        </TestWrapper>,
+        <AvailableSpaceView {...adminCarProps} />,
+        {preloadedState},
       );
       expect(queryByTestId('OpenGuestBooking')).toBeTruthy();
     });
@@ -80,9 +85,8 @@ describe('When AvailableSpaceView is on the screen', () => {
 
   it('renders correctly for personal desk with no bookings', () => {
     const {getByTestId, getByText} = render(
-      <TestWrapper>
-        <AvailableSpaceView {...personalDeskProps} />
-      </TestWrapper>,
+      <AvailableSpaceView {...personalDeskProps} />,
+      {preloadedState},
     );
 
     expect(getByText('Select a time')).toBeTruthy();
@@ -132,9 +136,8 @@ describe('When AvailableSpaceView is on the screen', () => {
 
   it('renders correctly for personal car with no bookings', () => {
     const {getByTestId, getByText, queryByTestId} = render(
-      <TestWrapper>
-        <AvailableSpaceView {...personalCarProps} />
-      </TestWrapper>,
+      <AvailableSpaceView {...personalCarProps} />,
+      {preloadedState},
     );
 
     expect(getByText('Select a time')).toBeTruthy();
@@ -184,9 +187,8 @@ describe('When AvailableSpaceView is on the screen', () => {
 
   it('renders correctly for guest desk with no bookings', () => {
     const {getByTestId, getByText} = render(
-      <TestWrapper>
-        <AvailableSpaceView {...guestDeskProps} />
-      </TestWrapper>,
+      <AvailableSpaceView {...guestDeskProps} />,
+      {preloadedState},
     );
 
     expect(getByTestId('CloseGuestBooking')).toBeTruthy();
@@ -235,20 +237,14 @@ describe('When AvailableSpaceView is on the screen', () => {
   });
 
   it('does not show you have booked X visitor spaces text when no spaces are booked for visitors', () => {
-    const {queryByTestId} = render(
-      <TestWrapper>
-        <AvailableSpaceView {...guestDeskProps} />
-      </TestWrapper>,
-    );
+    const {queryByTestId} = render(<AvailableSpaceView {...guestDeskProps} />, {
+      preloadedState,
+    });
     expect(queryByTestId('GuestBookedID')).toBeFalsy();
   });
 
   it('sets an option to "selected" when clicked and deselects the option when clicked again', () => {
-    render(
-      <TestWrapper>
-        <AvailableSpaceView {...personalDeskProps} />
-      </TestWrapper>,
-    );
+    render(<AvailableSpaceView {...personalDeskProps} />, {preloadedState});
 
     expect(dayTimeSelectorSpy).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -284,11 +280,7 @@ describe('When AvailableSpaceView is on the screen', () => {
   });
 
   it('deselects options when a different option is clicked', () => {
-    render(
-      <TestWrapper>
-        <AvailableSpaceView {...personalDeskProps} />
-      </TestWrapper>,
-    );
+    render(<AvailableSpaceView {...personalDeskProps} />, {preloadedState});
 
     let update = dayTimeSelectorSpy.mock.calls[0][0].update;
     act(() => {
@@ -359,9 +351,8 @@ describe('When AvailableSpaceView is on the screen', () => {
     };
     it('renders with a red border when an orange is selected', () => {
       const {getByTestId} = render(
-        <TestWrapper>
-          <AvailableSpaceView {...noSpacesRemainingProps} />
-        </TestWrapper>,
+        <AvailableSpaceView {...noSpacesRemainingProps} />,
+        {preloadedState},
       );
       let update = dayTimeSelectorSpy.mock.calls[0][0].update;
       act(() => {
@@ -374,11 +365,9 @@ describe('When AvailableSpaceView is on the screen', () => {
     });
 
     it('displays a warning when a full option is selected', () => {
-      render(
-        <TestWrapper>
-          <AvailableSpaceView {...noSpacesRemainingProps} />
-        </TestWrapper>,
-      );
+      render(<AvailableSpaceView {...noSpacesRemainingProps} />, {
+        preloadedState,
+      });
 
       let update = dayTimeSelectorSpy.mock.calls[0][0].update;
       act(() => {
@@ -397,11 +386,7 @@ describe('When AvailableSpaceView is on the screen', () => {
 
   describe("When the user hasn't made a booking for that day", () => {
     it('Should disable the booking button until an option is selected', () => {
-      render(
-        <TestWrapper>
-          <AvailableSpaceView {...personalDeskProps} />
-        </TestWrapper>,
-      );
+      render(<AvailableSpaceView {...personalDeskProps} />, {preloadedState});
 
       expect(bookButtonSpy).toBeCalledWith(
         expect.objectContaining({isDisabled: true}),
@@ -418,11 +403,7 @@ describe('When AvailableSpaceView is on the screen', () => {
     });
 
     it('should disable the book button if counter`s input is invalid', () => {
-      render(
-        <TestWrapper>
-          <AvailableSpaceView {...guestDeskProps} />
-        </TestWrapper>,
-      );
+      render(<AvailableSpaceView {...guestDeskProps} />, {preloadedState});
       let update = dayTimeSelectorSpy.mock.calls[0][0].update;
       act(() => {
         update(guestDeskProps.remainingOptions[0].id);
@@ -442,11 +423,7 @@ describe('When AvailableSpaceView is on the screen', () => {
     });
 
     it('calls post a desk booking when an option is selected and book button is pressed', async () => {
-      render(
-        <TestWrapper>
-          <AvailableSpaceView {...personalDeskProps} />
-        </TestWrapper>,
-      );
+      render(<AvailableSpaceView {...personalDeskProps} />, {preloadedState});
 
       expect(postBookingsSpy).not.toBeCalled();
       let update = dayTimeSelectorSpy.mock.calls[0][0].update;
@@ -460,20 +437,19 @@ describe('When AvailableSpaceView is on the screen', () => {
       expect(postBookingsSpy).toBeCalledWith({
         bookingType: 'personal',
         numberOfBookings: 1,
-        selectedDay: '2023-07-05T00:00:00Z',
+        selectedDay: '2024-07-05T00:00:00Z',
         spaceType: 'desk',
         timeSlot: 'allDay',
-        userId: 'testUserId',
+        userId: '001',
       });
     });
 
     it('calls post a car booking when an option is selected and book button is pressed', () => {
       render(
-        <TestWrapper>
-          <AvailableSpaceView
-            {...{...personalDeskProps, spaceType: SpaceType.car}}
-          />
-        </TestWrapper>,
+        <AvailableSpaceView
+          {...{...personalDeskProps, spaceType: SpaceType.car}}
+        />,
+        {preloadedState},
       );
 
       expect(postBookingsSpy).not.toBeCalled();
@@ -488,19 +464,15 @@ describe('When AvailableSpaceView is on the screen', () => {
       expect(postBookingsSpy).toBeCalledWith({
         bookingType: 'personal',
         numberOfBookings: 1,
-        selectedDay: '2023-07-05T00:00:00Z',
+        selectedDay: '2024-07-05T00:00:00Z',
         spaceType: 'car',
         timeSlot: 'allDay',
-        userId: 'testUserId',
+        userId: '001',
       });
     });
 
     it('posts multiple bookings when booking for more than one guest', async () => {
-      render(
-        <TestWrapper>
-          <AvailableSpaceView {...guestDeskProps} />
-        </TestWrapper>,
-      );
+      render(<AvailableSpaceView {...guestDeskProps} />, {preloadedState});
 
       expect(postBookingsSpy).not.toBeCalled();
       let update = dayTimeSelectorSpy.mock.calls[0][0].update;
@@ -516,8 +488,8 @@ describe('When AvailableSpaceView is on the screen', () => {
         book();
       });
       expect(postBookingsSpy).toBeCalledWith({
-        selectedDay: '2023-07-05T00:00:00Z',
-        userId: 'testUserId',
+        selectedDay: '2024-07-05T00:00:00Z',
+        userId: '001',
         timeSlot: 'allDay',
         spaceType: 'desk',
         bookingType: 'guest',
@@ -527,19 +499,26 @@ describe('When AvailableSpaceView is on the screen', () => {
   });
 
   it('does not post a car booking when user is unknown and book button is pressed and shows error message', () => {
-    useAppSelectorSpy.mockReturnValue({
-      selectedDayOptions: {
-        selectedDay: '2024-07-05T00:00:00Z',
-        selectedSpaceType: 'car',
-      },
-      user: {user: {businessUnit: 'unknown'}},
-    });
     render(
-      <TestWrapper>
-        <AvailableSpaceView
-          {...{...personalDeskProps, spaceType: SpaceType.car}}
-        />
-      </TestWrapper>,
+      <AvailableSpaceView
+        {...{...personalDeskProps, spaceType: SpaceType.car}}
+      />,
+      {
+        preloadedState: {
+          ...preloadedState,
+          selectedDayOptions: {
+            selectedDay: '2024-07-05T00:00:00Z',
+            selectedSpaceType: SpaceType.car,
+          },
+          user: {
+            activeBookingDates: [],
+            user: {
+              ...userStub,
+              businessUnit: BusinessUnit.unknown,
+            },
+          },
+        },
+      },
     );
 
     expect(postBookingsSpy).not.toBeCalled();
@@ -563,11 +542,9 @@ describe('When AvailableSpaceView is on the screen', () => {
 
   describe('has booked is true', () => {
     it('opens confirm delete modal when the cancel button is clicked and calls deleteBookings when confirmed', () => {
-      render(
-        <TestWrapper>
-          <AvailableSpaceView {...personalWithBookingsProps} />
-        </TestWrapper>,
-      );
+      render(<AvailableSpaceView {...personalWithBookingsProps} />, {
+        preloadedState,
+      });
       expect(alertMessageSpy).not.toBeCalled();
       let book = bookButtonSpy.mock.calls[2][0].onPress;
       act(() => {
@@ -589,20 +566,17 @@ describe('When AvailableSpaceView is on the screen', () => {
 
     it('show you have booked X visitor spaces text', () => {
       const {getByText, queryByTestId} = render(
-        <TestWrapper>
-          <AvailableSpaceView {...guestWithBookingsProps} />
-        </TestWrapper>,
+        <AvailableSpaceView {...guestWithBookingsProps} />,
+        {preloadedState},
       );
       expect(queryByTestId('GuestBookedID')).toBeTruthy();
       expect(getByText('You have booked 3 visitor spaces')).toBeTruthy();
     });
 
     it('does not call deleteBookings if the confirm cancellation modal is dismissed', () => {
-      render(
-        <TestWrapper>
-          <AvailableSpaceView {...personalWithBookingsProps} />
-        </TestWrapper>,
-      );
+      render(<AvailableSpaceView {...personalWithBookingsProps} />, {
+        preloadedState,
+      });
 
       let book = bookButtonSpy.mock.calls[2][0].onPress;
       act(() => {
@@ -626,17 +600,15 @@ describe('When AvailableSpaceView is on the screen', () => {
     });
 
     it('deletes all guest bookings when cancel is clicked', async () => {
-      render(
-        <TestWrapper>
-          <AvailableSpaceView {...guestWithBookingsProps} />
-        </TestWrapper>,
-      );
+      render(<AvailableSpaceView {...guestWithBookingsProps} />, {
+        preloadedState,
+      });
       expect(alertMessageSpy).not.toHaveBeenCalledWith(
         expect.objectContaining({
           isOpen: true,
         }),
       );
-      const book = bookButtonSpy.mock.calls[2][0].onPress;
+      const book = bookButtonSpy.mock.calls[1][0].onPress;
       act(() => {
         book();
       });
@@ -662,9 +634,8 @@ describe('When AvailableSpaceView is on the screen', () => {
 
     it('renders correctly for personal desk', () => {
       const {getByTestId, getByText} = render(
-        <TestWrapper>
-          <AvailableSpaceView {...personalWithBookingsProps} />
-        </TestWrapper>,
+        <AvailableSpaceView {...personalWithBookingsProps} />,
+        {preloadedState},
       );
 
       expect(getByText('Selected time:')).toBeTruthy();
@@ -714,9 +685,8 @@ describe('When AvailableSpaceView is on the screen', () => {
       };
 
       const {getByText} = render(
-        <TestWrapper>
-          <AvailableSpaceView {...personalWithBookingInCommunalProps} />
-        </TestWrapper>,
+        <AvailableSpaceView {...personalWithBookingInCommunalProps} />,
+        {preloadedState},
       );
 
       expect(getByText('Selected time:')).toBeTruthy();
@@ -736,9 +706,8 @@ describe('When AvailableSpaceView is on the screen', () => {
       };
 
       const {getByTestId, getByText} = render(
-        <TestWrapper>
-          <AvailableSpaceView {...personalWithBookingInCommunalProps} />
-        </TestWrapper>,
+        <AvailableSpaceView {...personalWithBookingInCommunalProps} />,
+        {preloadedState},
       );
 
       expect(getByText('Selected time:')).toBeTruthy();
@@ -785,9 +754,8 @@ describe('When AvailableSpaceView is on the screen', () => {
       };
 
       const {getByTestId, getByText} = render(
-        <TestWrapper>
-          <AvailableSpaceView {...guestWithBookingInCommunalProps} />
-        </TestWrapper>,
+        <AvailableSpaceView {...guestWithBookingInCommunalProps} />,
+        {preloadedState},
       );
 
       expect(getByText('Selected time:')).toBeTruthy();
@@ -822,9 +790,8 @@ describe('When AvailableSpaceView is on the screen', () => {
 
     it('renders correctly for guest desk', () => {
       const {getByTestId, getByText} = render(
-        <TestWrapper>
-          <AvailableSpaceView {...guestWithBookingsProps} />
-        </TestWrapper>,
+        <AvailableSpaceView {...guestWithBookingsProps} />,
+        {preloadedState},
       );
 
       expect(getByText('Selected time:')).toBeTruthy();
@@ -871,9 +838,8 @@ describe('When AvailableSpaceView is on the screen', () => {
       };
 
       const {getByText} = render(
-        <TestWrapper>
-          <AvailableSpaceView {...selectedNonBooked} />
-        </TestWrapper>,
+        <AvailableSpaceView {...selectedNonBooked} />,
+        {preloadedState},
       );
 
       expect(simpleInfoIMessageSpy).toBeCalled();
@@ -912,11 +878,7 @@ describe('When AvailableSpaceView is on the screen', () => {
         relevantBookings: testBookingsPersonal,
       };
 
-      render(
-        <TestWrapper>
-          <AvailableSpaceView {...selectedNonBooked} />
-        </TestWrapper>,
-      );
+      render(<AvailableSpaceView {...selectedNonBooked} />, {preloadedState});
 
       //equivalent to selection
       const updateFunc = dayTimeSelectorSpy.mock.calls[0][0].update;
@@ -944,9 +906,8 @@ describe('When AvailableSpaceView is on the screen', () => {
       };
 
       const {getByText} = render(
-        <TestWrapper>
-          <AvailableSpaceView {...selectedNonBooked} />
-        </TestWrapper>,
+        <AvailableSpaceView {...selectedNonBooked} />,
+        {preloadedState},
       );
 
       //equivalent to selection
@@ -979,9 +940,8 @@ describe('When AvailableSpaceView is on the screen', () => {
       };
 
       const {getByText} = render(
-        <TestWrapper>
-          <AvailableSpaceView {...selectedNonBooked} />
-        </TestWrapper>,
+        <AvailableSpaceView {...selectedNonBooked} />,
+        {preloadedState},
       );
 
       //equivalent to selection
@@ -1010,9 +970,8 @@ describe('When AvailableSpaceView is on the screen', () => {
       };
 
       const {getByText} = render(
-        <TestWrapper>
-          <AvailableSpaceView {...selectedNonBooked} />
-        </TestWrapper>,
+        <AvailableSpaceView {...selectedNonBooked} />,
+        {preloadedState},
       );
 
       expect(simpleInfoIMessageSpy).toBeCalled();

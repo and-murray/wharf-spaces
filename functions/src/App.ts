@@ -2,7 +2,7 @@ import admin from 'firebase-admin';
 import V1Router from './Routes/v1/route';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import * as functions from 'firebase-functions';
+import type {Request, Response} from 'express';
 
 admin.initializeApp();
 
@@ -72,28 +72,22 @@ App.use(express.json());
 App.use(cors);
 App.use(cookieParser);
 
-App.use(
-  (
-    req: functions.https.Request,
-    res: functions.Response<any>,
-    next: Function,
-  ) => {
-    if (
-      (req.originalUrl === '/docs' || req.originalUrl === '/docs/') &&
-      process.env.FUNCTION_TARGET !== 'api'
-    ) {
-      if (process.env.FUNCTION_TARGET !== 'api') {
-        return res
-          .status(403)
-          .send('You can only access docs on the api function');
-      }
+App.use((req: Request, res: Response, next: Function) => {
+  if (
+    (req.originalUrl === '/docs' || req.originalUrl === '/docs/') &&
+    process.env.FUNCTION_TARGET !== 'api'
+  ) {
+    if (process.env.FUNCTION_TARGET !== 'api') {
+      return res
+        .status(403)
+        .send('You can only access docs on the api function');
     }
-    if (req.originalUrl === '/docs') {
-      return res.redirect('docs/');
-    }
-    next();
-  },
-);
+  }
+  if (req.originalUrl === '/docs') {
+    return res.redirect('docs/');
+  }
+  next();
+});
 
 App.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
