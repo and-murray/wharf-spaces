@@ -8,16 +8,13 @@ import {setLoading} from '@root/src/state/reducers/LoadingSlice';
 import {screensLoaded} from '@state/reducers/SplashScreenReducer';
 import LoginScreen from '@root/src/screens/LoginScreen/LoginScreen';
 import {resetSelectedOptionsState} from '@state/reducers/selectedDayOptionsSlice';
-
 type CustomComponentProps = {
   children: ReactNode;
 };
 
 const AuthContainer = ({children}: CustomComponentProps): React.JSX.Element => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  let {
-    user: {user},
-  } = useAppSelector(state => state);
+  const user = useAppSelector(state => state.user.user);
 
   const dispatch = useAppDispatch();
 

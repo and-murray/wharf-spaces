@@ -1,11 +1,27 @@
 import React from 'react';
-import {TestWrapper} from '@components/TestWrapper';
-import {act, render} from '@testing-library/react-native';
+import {act} from '@testing-library/react-native';
 import AvailableSpaces from '@organisms/AvailableSpaces/AvailableSpaces';
-import * as useAppSelector from '@state/utils/hooks';
 import * as AvailableSpaceView from '@molecules/AvailableSpaceView/AvailableSpaceView';
 import * as DateTimeUtils from '@utils/DateTimeUtils/DateTimeUtils';
 import Booking, {BookingType, SpaceType, TimeSlot} from '@customTypes/booking';
+import {renderWithProviders as render} from '@root/src/util/test-utils';
+import {
+  firebaseRemoteConfigStub,
+  userStateStub,
+  userStub,
+  utilsStateStub,
+} from '@root/src/util/stubs';
+import {BusinessUnit, Role} from '@root/src/types/user';
+
+const preloadedState = {
+  selectedDayOptions: {
+    selectedDay: '2024-07-05T00:00:00Z',
+    selectedSpaceType: SpaceType.desk,
+  },
+  user: userStateStub,
+  utils: utilsStateStub,
+  firebaseRemoteConfig: firebaseRemoteConfigStub,
+};
 
 const mockBookings: Booking[] = [
   {
@@ -14,7 +30,7 @@ const mockBookings: Booking[] = [
     bookingType: BookingType.personal,
     spaceType: SpaceType.desk,
     isReserveSpace: false,
-    userId: 'testUserId1',
+    userId: '001',
     createdAt: 0,
     updatedAt: 0,
     id: 'testId1',
@@ -25,7 +41,7 @@ const mockBookings: Booking[] = [
     bookingType: BookingType.personal,
     spaceType: SpaceType.desk,
     isReserveSpace: false,
-    userId: 'testUserId2',
+    userId: '002',
     createdAt: 0,
     updatedAt: 0,
     id: 'testId2',
@@ -33,59 +49,42 @@ const mockBookings: Booking[] = [
 ];
 
 const mockUserData = {
-  ['testUserId1']: {
-    name: 'TestUser1',
-    profilePictureURI: 'TestImage1',
-    businessUnit: 'murray',
+  ['001']: {
+    name: `${userStub.firstName} ${userStub.lastName}`,
+    profilePictureURI: userStub.profilePicUrl,
+    businessUnit: userStub.businessUnit,
   },
-  ['testUserId2']: {
+  ['002']: {
     name: 'TestUser2',
     profilePictureURI: 'TestImage2',
     businessUnit: 'tenzing',
   },
 };
 
-const useAppSelectorSpy = jest.spyOn(useAppSelector, 'useAppSelector');
 const availableSpaceViewSpy = jest.spyOn(AvailableSpaceView, 'default');
 const isCloseToBookingDateSpy = jest.spyOn(
   DateTimeUtils,
   'isCloseToBookingDate',
 );
+
 describe('When AvailableSpaces is shown on screen', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    useAppSelectorSpy.mockReturnValue({
-      selectedDayOptions: {
-        selectedDay: '2024-07-05T00:00:00Z',
-        selectedTimeSlot: '',
-      },
-      utils: {
-        londonServerTimestamp: '2024-07-05T00:00:00',
-        storedDeviceTimestamp: '2024-07-05T00:00:00',
-      },
-      user: {activeBookings: [[], []], user: {id: 'testUserId'}},
-      firebaseRemoteConfig: {deskCapacity: 36},
-    });
     availableSpaceViewSpy.mockImplementation();
     isCloseToBookingDateSpy.mockReturnValue(false);
   });
 
   it('renders correctly', () => {
     const {getByTestId} = render(
-      <TestWrapper>
-        <AvailableSpaces bookings={[]} userData={{}} />
-      </TestWrapper>,
+      <AvailableSpaces bookings={[]} userData={{}} />,
+      {preloadedState},
     );
 
     expect(getByTestId('AvailableSpaces')).toBeTruthy();
   });
 
   it('displays and hides visitor booking correctly', () => {
-    render(
-      <TestWrapper>
-        <AvailableSpaces bookings={[]} userData={{}} />
-      </TestWrapper>,
-    );
+    render(<AvailableSpaces bookings={[]} userData={{}} />, {preloadedState});
     let availableSpaceViewInstanceProps =
       availableSpaceViewSpy.mock.calls[0][0];
     expect(availableSpaceViewInstanceProps.showGuestSpaces).toBeFalsy();
@@ -102,24 +101,8 @@ describe('When AvailableSpaces is shown on screen', () => {
   });
 
   describe('and desk is selected on the segment control', () => {
-    beforeEach(() => {
-      jest.clearAllMocks();
-      useAppSelectorSpy.mockReturnValue({
-        selectedDayOptions: {selectedSpaceType: 'desk'},
-        utils: {
-          londonServerTimestamp: '2024-07-05T00:00:00',
-          storedDeviceTimestamp: '2024-07-05T00:00:00',
-        },
-        user: {user: null},
-        firebaseRemoteConfig: {deskCapacity: 10, parkingCapacity: 20},
-      });
-    });
     it('should set capacity to deskCapacity: 10 and space type of desk', () => {
-      render(
-        <TestWrapper>
-          <AvailableSpaces bookings={[]} userData={{}} />
-        </TestWrapper>,
-      );
+      render(<AvailableSpaces bookings={[]} userData={{}} />, {preloadedState});
 
       expect(availableSpaceViewSpy).toBeCalledWith(
         expect.objectContaining({
@@ -132,11 +115,7 @@ describe('When AvailableSpaces is shown on screen', () => {
     });
 
     it('should show visitor AvailableSpaceView component and enableVistorEdit set to false', () => {
-      render(
-        <TestWrapper>
-          <AvailableSpaces bookings={[]} userData={{}} />
-        </TestWrapper>,
-      );
+      render(<AvailableSpaces bookings={[]} userData={{}} />, {preloadedState});
 
       const toggleFunc =
         availableSpaceViewSpy.mock.calls[0][0].toggleDisplayGuestBooking;
@@ -158,23 +137,22 @@ describe('When AvailableSpaces is shown on screen', () => {
 
   describe('and car is selected on the segment control', () => {
     it('should set capacity to unknown capacity and space type of car when bu is unknown', () => {
-      useAppSelectorSpy.mockReturnValue({
-        selectedDayOptions: {selectedSpaceType: 'car'},
-        user: {user: {businessUnit: 'unknown'}},
-        utils: {
-          londonServerTimestamp: '2024-07-05T00:00:00',
-          storedDeviceTimestamp: '2024-07-05T00:00:00',
-        },
-        firebaseRemoteConfig: {
-          deskCapacity: 10,
-          parkingCapacity: {murray: 20, tenzing: 5, adams: 5, unknown: 0},
+      render(<AvailableSpaces bookings={[]} userData={{}} />, {
+        preloadedState: {
+          ...preloadedState,
+          selectedDayOptions: {
+            selectedDay: '2024-07-05T00:00:00Z',
+            selectedSpaceType: SpaceType.car,
+          },
+          user: {
+            activeBookingDates: [],
+            user: {
+              ...userStub,
+              businessUnit: BusinessUnit.unknown,
+            },
+          },
         },
       });
-      render(
-        <TestWrapper>
-          <AvailableSpaces bookings={[]} userData={{}} />
-        </TestWrapper>,
-      );
 
       expect(availableSpaceViewSpy).toBeCalledWith(
         expect.objectContaining({
@@ -186,24 +164,16 @@ describe('When AvailableSpaces is shown on screen', () => {
     });
 
     it('should set capacity to combined capacity and space type of car when close to booking date', () => {
-      useAppSelectorSpy.mockReturnValue({
-        selectedDayOptions: {selectedSpaceType: 'car'},
-        user: {user: {businessUnit: 'murray'}},
-        utils: {
-          londonServerTimestamp: '2024-07-05T00:00:00',
-          storedDeviceTimestamp: '2024-07-05T00:00:00',
-        },
-        firebaseRemoteConfig: {
-          deskCapacity: 10,
-          parkingCapacity: {murray: 20, tenzing: 5, adams: 5, unknown: 0},
+      isCloseToBookingDateSpy.mockReturnValue(true);
+      render(<AvailableSpaces bookings={[]} userData={{}} />, {
+        preloadedState: {
+          ...preloadedState,
+          selectedDayOptions: {
+            selectedDay: '2024-07-05T00:00:00Z',
+            selectedSpaceType: SpaceType.car,
+          },
         },
       });
-      isCloseToBookingDateSpy.mockReturnValue(true);
-      render(
-        <TestWrapper>
-          <AvailableSpaces bookings={[]} userData={{}} />
-        </TestWrapper>,
-      );
 
       expect(availableSpaceViewSpy).toBeCalledWith(
         expect.objectContaining({
@@ -215,24 +185,16 @@ describe('When AvailableSpaces is shown on screen', () => {
     });
 
     it('should set capacity to murray capacity and space type of car when not close to booking date and bu is murray', () => {
-      useAppSelectorSpy.mockReturnValue({
-        selectedDayOptions: {selectedSpaceType: 'car'},
-        user: {user: {businessUnit: 'murray'}},
-        utils: {
-          londonServerTimestamp: '2024-07-05T00:00:00',
-          storedDeviceTimestamp: '2024-07-05T00:00:00',
-        },
-        firebaseRemoteConfig: {
-          deskCapacity: 10,
-          parkingCapacity: {murray: 20, tenzing: 5, adams: 5, unknown: 0},
+      isCloseToBookingDateSpy.mockReturnValue(false);
+      render(<AvailableSpaces bookings={[]} userData={{}} />, {
+        preloadedState: {
+          ...preloadedState,
+          selectedDayOptions: {
+            selectedDay: '2024-07-05T00:00:00Z',
+            selectedSpaceType: SpaceType.car,
+          },
         },
       });
-      isCloseToBookingDateSpy.mockReturnValue(false);
-      render(
-        <TestWrapper>
-          <AvailableSpaces bookings={[]} userData={{}} />
-        </TestWrapper>,
-      );
 
       expect(availableSpaceViewSpy).toBeCalledWith(
         expect.objectContaining({
@@ -244,24 +206,23 @@ describe('When AvailableSpaces is shown on screen', () => {
     });
 
     it('should set capacity to tenzing capacity and space type of car when not close to booking date and bu is tenzing', () => {
-      useAppSelectorSpy.mockReturnValue({
-        selectedDayOptions: {selectedSpaceType: 'car'},
-        user: {user: {businessUnit: 'tenzing'}},
-        utils: {
-          londonServerTimestamp: '2024-07-05T00:00:00',
-          storedDeviceTimestamp: '2024-07-05T00:00:00',
-        },
-        firebaseRemoteConfig: {
-          deskCapacity: 10,
-          parkingCapacity: {murray: 20, tenzing: 5, adams: 5, unknown: 0},
+      isCloseToBookingDateSpy.mockReturnValue(false);
+      render(<AvailableSpaces bookings={[]} userData={{}} />, {
+        preloadedState: {
+          ...preloadedState,
+          user: {
+            user: {
+              ...userStub,
+              businessUnit: BusinessUnit.tenzing,
+            },
+            activeBookingDates: [],
+          },
+          selectedDayOptions: {
+            selectedDay: '2024-07-05T00:00:00Z',
+            selectedSpaceType: SpaceType.car,
+          },
         },
       });
-      isCloseToBookingDateSpy.mockReturnValue(false);
-      render(
-        <TestWrapper>
-          <AvailableSpaces bookings={[]} userData={{}} />
-        </TestWrapper>,
-      );
 
       expect(availableSpaceViewSpy).toBeCalledWith(
         expect.objectContaining({
@@ -273,24 +234,23 @@ describe('When AvailableSpaces is shown on screen', () => {
     });
 
     it('should set capacity to adams capacity and space type of car when not close to booking date and bu is adams', () => {
-      useAppSelectorSpy.mockReturnValue({
-        selectedDayOptions: {selectedSpaceType: 'car'},
-        user: {user: {businessUnit: 'adams'}},
-        utils: {
-          londonServerTimestamp: '2024-07-05T00:00:00',
-          storedDeviceTimestamp: '2024-07-05T00:00:00',
-        },
-        firebaseRemoteConfig: {
-          deskCapacity: 10,
-          parkingCapacity: {murray: 20, tenzing: 5, adams: 5, unknown: 0},
+      isCloseToBookingDateSpy.mockReturnValue(false);
+      render(<AvailableSpaces bookings={[]} userData={{}} />, {
+        preloadedState: {
+          ...preloadedState,
+          selectedDayOptions: {
+            selectedDay: '2024-07-05T00:00:00Z',
+            selectedSpaceType: SpaceType.car,
+          },
+          user: {
+            activeBookingDates: [],
+            user: {
+              ...userStub,
+              businessUnit: BusinessUnit.adams,
+            },
+          },
         },
       });
-      isCloseToBookingDateSpy.mockReturnValue(false);
-      render(
-        <TestWrapper>
-          <AvailableSpaces bookings={[]} userData={{}} />
-        </TestWrapper>,
-      );
 
       expect(availableSpaceViewSpy).toBeCalledWith(
         expect.objectContaining({
@@ -302,23 +262,18 @@ describe('When AvailableSpaces is shown on screen', () => {
     });
 
     it('should pass all bookings to AvailableSpaceView when close to booking date', () => {
-      useAppSelectorSpy.mockReturnValue({
-        selectedDayOptions: {selectedSpaceType: 'car'},
-        user: {user: {id: 'testUserId1', businessUnit: 'murray'}},
-        utils: {
-          londonServerTimestamp: '2024-07-05T00:00:00',
-          storedDeviceTimestamp: '2024-07-05T00:00:00',
-        },
-        firebaseRemoteConfig: {
-          deskCapacity: 10,
-          parkingCapacity: {murray: 20, tenzing: 5, adams: 5, unknown: 0},
-        },
-      });
       isCloseToBookingDateSpy.mockReturnValue(true);
       render(
-        <TestWrapper>
-          <AvailableSpaces bookings={mockBookings} userData={mockUserData} />
-        </TestWrapper>,
+        <AvailableSpaces bookings={mockBookings} userData={mockUserData} />,
+        {
+          preloadedState: {
+            ...preloadedState,
+            selectedDayOptions: {
+              selectedDay: '2024-07-05T00:00:00Z',
+              selectedSpaceType: SpaceType.car,
+            },
+          },
+        },
       );
 
       expect(availableSpaceViewSpy).toBeCalledWith(
@@ -355,23 +310,18 @@ describe('When AvailableSpaces is shown on screen', () => {
     });
 
     it('should pass relevant bookings to users bu to AvailableSpaceView when not close to booking date', () => {
-      useAppSelectorSpy.mockReturnValue({
-        selectedDayOptions: {selectedSpaceType: 'car'},
-        user: {user: {id: 'testUserId1', businessUnit: 'murray'}},
-        utils: {
-          londonServerTimestamp: '2024-07-05T00:00:00',
-          storedDeviceTimestamp: '2024-07-05T00:00:00',
-        },
-        firebaseRemoteConfig: {
-          deskCapacity: 10,
-          parkingCapacity: {murray: 20, tenzing: 5, adams: 5, unknown: 0},
-        },
-      });
       isCloseToBookingDateSpy.mockReturnValue(false);
       render(
-        <TestWrapper>
-          <AvailableSpaces bookings={mockBookings} userData={mockUserData} />
-        </TestWrapper>,
+        <AvailableSpaces bookings={mockBookings} userData={mockUserData} />,
+        {
+          preloadedState: {
+            ...preloadedState,
+            selectedDayOptions: {
+              selectedDay: '2024-07-05T00:00:00Z',
+              selectedSpaceType: SpaceType.car,
+            },
+          },
+        },
       );
 
       expect(availableSpaceViewSpy).toBeCalledWith(
@@ -408,27 +358,22 @@ describe('When AvailableSpaces is shown on screen', () => {
     });
 
     describe('an admin is viewing the screen', () => {
-      beforeEach(() => {
-        jest.clearAllMocks();
-        useAppSelectorSpy.mockReturnValue({
-          selectedDayOptions: {selectedSpaceType: 'car'},
-          user: {user: {businessUnit: 'murray', role: 'admin'}},
-          utils: {
-            londonServerTimestamp: '2024-07-05T00:00:00',
-            storedDeviceTimestamp: '2024-07-05T00:00:00',
-          },
-          firebaseRemoteConfig: {
-            deskCapacity: 10,
-            parkingCapacity: {murray: 20},
-          },
-        });
-      });
-
       it('should set can book guests to true', () => {
         render(
-          <TestWrapper>
-            <AvailableSpaces bookings={[]} userData={{}} />
-          </TestWrapper>,
+          <AvailableSpaces bookings={mockBookings} userData={mockUserData} />,
+          {
+            preloadedState: {
+              ...preloadedState,
+              user: {
+                activeBookingDates: [],
+                user: {...userStub, role: Role.admin},
+              },
+              selectedDayOptions: {
+                selectedDay: '2024-07-05T00:00:00Z',
+                selectedSpaceType: SpaceType.car,
+              },
+            },
+          },
         );
         expect(availableSpaceViewSpy).toBeCalledWith(
           expect.objectContaining({
@@ -441,11 +386,19 @@ describe('When AvailableSpaces is shown on screen', () => {
       });
 
       it('should show visitor AvailableSpaceView component and enableVistorEdit set to true', () => {
-        render(
-          <TestWrapper>
-            <AvailableSpaces bookings={[]} userData={{}} />
-          </TestWrapper>,
-        );
+        render(<AvailableSpaces bookings={[]} userData={{}} />, {
+          preloadedState: {
+            ...preloadedState,
+            user: {
+              activeBookingDates: [],
+              user: {...userStub, role: Role.admin},
+            },
+            selectedDayOptions: {
+              selectedDay: '2024-07-05T00:00:00Z',
+              selectedSpaceType: SpaceType.car,
+            },
+          },
+        });
         const toggleFunc =
           availableSpaceViewSpy.mock.calls[0][0].toggleDisplayGuestBooking;
         act(() => {
@@ -466,30 +419,18 @@ describe('When AvailableSpaces is shown on screen', () => {
 
     describe('a none admin is viewing the screen', () => {
       it('should set can book guests to false', () => {
-        useAppSelectorSpy.mockReturnValue({
-          selectedDayOptions: {
-            selectedDay: '2023-07-05T00:00:00Z',
-            selectedSpaceType: 'car',
-          },
-          user: {user: {businessUnit: 'murray', role: 'user'}},
-          utils: {
-            londonServerTimestamp: '2024-07-05T00:00:00',
-            storedDeviceTimestamp: '2024-07-05T00:00:00',
-          },
-          firebaseRemoteConfig: {
-            deskCapacity: 10,
-            parkingCapacity: {murray: 20},
+        render(<AvailableSpaces bookings={[]} userData={{}} />, {
+          preloadedState: {
+            ...preloadedState,
+            selectedDayOptions: {
+              selectedDay: '2024-07-05T00:00:00Z',
+              selectedSpaceType: SpaceType.car,
+            },
           },
         });
-        render(
-          <TestWrapper>
-            <AvailableSpaces bookings={[]} userData={{}} />
-          </TestWrapper>,
-        );
 
         expect(availableSpaceViewSpy).toBeCalledWith(
           expect.objectContaining({
-            capacity: 20,
             spaceType: 'car',
             canBookGuests: false,
           }),
@@ -501,26 +442,22 @@ describe('When AvailableSpaces is shown on screen', () => {
 
   describe('and car is selected on the segment control as an unknown user', () => {
     it('should set capacity to parkingCapacity: 0 and space type of car', () => {
-      useAppSelectorSpy.mockReturnValue({
-        selectedDayOptions: {
-          selectedDay: '2023-07-05T00:00:00Z',
-          selectedSpaceType: 'car',
-        },
-        user: {user: {businessUnit: 'unknown'}},
-        utils: {
-          londonServerTimestamp: '2024-07-05T00:00:00',
-          storedDeviceTimestamp: '2024-07-05T00:00:00',
-        },
-        firebaseRemoteConfig: {
-          deskCapacity: 10,
-          parkingCapacity: {unknown: 0},
+      render(<AvailableSpaces bookings={[]} userData={{}} />, {
+        preloadedState: {
+          ...preloadedState,
+          user: {
+            user: {
+              ...userStub,
+              businessUnit: BusinessUnit.unknown,
+            },
+            activeBookingDates: [],
+          },
+          selectedDayOptions: {
+            selectedDay: '2024-07-05T00:00:00Z',
+            selectedSpaceType: SpaceType.car,
+          },
         },
       });
-      render(
-        <TestWrapper>
-          <AvailableSpaces bookings={[]} userData={{}} />
-        </TestWrapper>,
-      );
 
       expect(availableSpaceViewSpy).toBeCalledWith(
         expect.objectContaining({
