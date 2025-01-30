@@ -16,9 +16,9 @@ export function increaseRemainingCapacity(
     remainingCapacity.am += 1;
     remainingCapacity.pm += 1;
   }
-  remainingCapacity.allDay = Math.min(
+  remainingCapacity.allDay = Math.max(
     remainingCapacity.allDay,
-    remainingCapacity[timeSlot],
+    Math.min(remainingCapacity.am, remainingCapacity.pm),
   );
   return remainingCapacity;
 }

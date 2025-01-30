@@ -105,11 +105,11 @@ export async function editExistingBookings(
         remainingCapacity[edit.newTimeSlot] <= 0 &&
         !bookingData.isReserveSpace
       ) {
-        throw constructError(
-          new createError.Conflict(),
-          'No space available for selected timeslot',
-          edit.bookingId,
-        );
+        batch.update(booking.docRef, {
+          isReserveSpace: true,
+          timeSlot: edit.newTimeSlot,
+          updatedAt: getServerTime(),
+        });
       } else {
         batch.update(booking.docRef, {
           timeSlot: edit.newTimeSlot,

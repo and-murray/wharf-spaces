@@ -20,6 +20,7 @@ export const removeBookings = async (
       req.user?.uid ?? '',
     );
     await assignSpacesToReserved(deletedBookings);
+
     res.status(204).send();
   } catch (error) {
     if (error instanceof HttpError) {

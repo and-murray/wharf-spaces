@@ -201,7 +201,7 @@ describe('Check Booking Capacity Tests ', () => {
             ]);
           });
 
-          it('Returns a capacity of 5 all slots', async () => {
+          it('Returns a capacity of 33 all slots', async () => {
             const result = await checkBookingCapacity(
               testDate,
               spaceType,
@@ -276,7 +276,7 @@ describe('Check Booking Capacity Tests ', () => {
             ]);
           });
 
-          it('Returns a capacity of 36 for pm and all day', async () => {
+          it('Returns a capacity of 33 for pm and all day', async () => {
             const result = await checkBookingCapacity(
               testDate,
               spaceType,
@@ -476,7 +476,7 @@ describe('Check Booking Capacity Tests ', () => {
             ]);
           });
 
-          it('Returns a capacity of 5 all slots', async () => {
+          it('Returns a capacity of 33 all slots', async () => {
             const result = await checkBookingCapacity(
               testDate,
               spaceType,
@@ -551,7 +551,7 @@ describe('Check Booking Capacity Tests ', () => {
             ]);
           });
 
-          it('Returns a capacity of 36 for pm and all day', async () => {
+          it('Returns a capacity of 33 for pm and all day', async () => {
             const result = await checkBookingCapacity(
               testDate,
               spaceType,
@@ -865,6 +865,31 @@ describe('Check Booking Capacity Tests ', () => {
             );
             expect(result.am).toBe(5);
             expect(result.pm).toBe(5);
+            expect(result.allDay).toBe(5);
+          });
+        });
+
+        describe('There are allDay bookings and am bookings from each BU', () => {
+          beforeEach(() => {
+            jest.clearAllMocks();
+            murrayBooking.timeSlot = 'allDay';
+            tenzingBooking.timeSlot = 'am';
+            adamsBooking.timeSlot = 'am';
+            getNonReservedBookingsOnDateSpy.mockResolvedValue([
+              murrayBooking,
+              tenzingBooking,
+              adamsBooking,
+            ]);
+          });
+
+          it('Returns a capacity of 5 for am and all day and 7 for pm slots', async () => {
+            const result = await checkBookingCapacity(
+              testDate,
+              spaceType,
+              businessUnit,
+            );
+            expect(result.am).toBe(5);
+            expect(result.pm).toBe(7);
             expect(result.allDay).toBe(5);
           });
         });

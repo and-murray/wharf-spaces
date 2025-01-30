@@ -70,3 +70,19 @@ describe('Capacity Util Tests', () => {
     });
   });
 });
+
+describe('Capacity Util Tests FIX', () => {
+  let initialRemainingCapacity: BookingCapacity = {am: 1, pm: 0, allDay: 0};
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    initialRemainingCapacity = {am: 1, pm: 0, allDay: 0};
+  });
+
+  describe('Removing a PM Time Slot Booking', () => {
+    it('Increases the PM Time slot and allDay slot when am is also free', () => {
+      const result = increaseRemainingCapacity(initialRemainingCapacity, 'pm');
+      expect(result).toEqual({am: 1, pm: 1, allDay: 1});
+    });
+  });
+});

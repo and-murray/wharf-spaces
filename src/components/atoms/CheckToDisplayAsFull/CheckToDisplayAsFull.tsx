@@ -29,17 +29,19 @@ const CheckToDisplayAsFull = ({
     return 'Full';
   }, [spaceLeft, capacity]);
 
-  const spaceAvailable = spaceLeft === 0;
+  const noRemainingSpaces = spaceLeft === 0;
 
   return (
     <View justifyContent={'space-between'} flexDirection={'row'}>
       <Text
         fontFamily={'body'}
-        fontWeight={spaceAvailable ? '500' : '400'}
+        fontWeight={noRemainingSpaces ? '500' : '400'}
         fontSize={14}
-        color={spaceLeft === 0 ? subheadingTextColorFull : subheadingTextColor}
+        color={
+          noRemainingSpaces ? subheadingTextColorFull : subheadingTextColor
+        }
         testID={`DayTimeSelectorSubheading-${id}`}>
-        {spaceAvailable ? 'Full' : subheadingText}
+        {noRemainingSpaces ? 'Full' : subheadingText}
       </Text>
       {reservedSpaces !== 0 && <ReservedCount count={reservedSpaces} />}
     </View>
