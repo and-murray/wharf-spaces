@@ -830,7 +830,7 @@ describe('When AvailableSpaceView is on the screen', () => {
   describe('Edit Booking', () => {
     const pmId = testOptions.find(
       option => option.timeSlot === TimeSlot.pm,
-    )!.id;
+    )?.id;
 
     it('renders correctly when selected non-booked time slot', () => {
       const selectedNonBooked = {

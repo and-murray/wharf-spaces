@@ -25,9 +25,7 @@ const mockUserData = {
   },
 };
 jest.mock('@utils/TimeSlotUtils/TimeSlotUtils', () => ({
-  TimeSlotUtils: {
-    toString: jest.fn().mockImplementation(timeSlot => timeSlot),
-  },
+  toString: jest.fn().mockImplementation(timeSlot => timeSlot),
 }));
 
 describe('When WhosIn is on screen ', () => {
