@@ -28,5 +28,7 @@
       "@components/*": ["./src/components/*"]
     },
     "typeRoots": ["./src/types", "node_modules/@types"]
-  }
+  },
+  "include": ["./*"],
+  "exclude": ["functions/**/*"]
 }
