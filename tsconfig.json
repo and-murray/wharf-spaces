@@ -27,6 +27,9 @@
       "@utils/*": ["./src/util/*"],
       "@components/*": ["./src/components/*"]
     },
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
     "typeRoots": ["./src/types", "node_modules/@types"]
   },
   "include": ["./*"],

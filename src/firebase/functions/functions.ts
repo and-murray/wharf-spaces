@@ -72,6 +72,7 @@ export async function makeBookingRequest(
     const error = new Error(`${response.status} ${JSON.stringify(errorInfo)}`);
     return Promise.reject(error);
   }
+  return Promise.resolve();
 }
 
 export async function makeBookingDeletion(
@@ -102,6 +103,7 @@ export async function makeBookingDeletion(
     logMessage(LogLevel.error, error);
     return Promise.reject(error);
   }
+  return Promise.resolve();
 }
 
 export async function makeBookingEdit(
@@ -132,6 +134,7 @@ export async function makeBookingEdit(
     logMessage(LogLevel.error, error);
     return Promise.reject(error);
   }
+  return Promise.resolve();
 }
 
 export async function fetchLondonTimeFromServer(): Promise<string> {
