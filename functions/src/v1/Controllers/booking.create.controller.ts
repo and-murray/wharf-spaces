@@ -122,7 +122,7 @@ export const createNewBookings = async (req: Request, res: Response) => {
             return;
           }
 
-          let id = uuidv4();
+          const id = uuidv4();
           const timestampedBooking: Booking = {
             ...booking,
             id,

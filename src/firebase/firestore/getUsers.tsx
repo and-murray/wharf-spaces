@@ -6,14 +6,14 @@ import {ReducedUserData} from '@customTypes/ReducedUserData';
 
 export const getUsers = async (userIds: string[]): Promise<ReducedUserData> => {
   const uniqueUserIds = [...new Set(userIds)];
-  let collectionReference = db.collection(CollectionName.users);
-  let userData = await chunkQuery<User>(
+  const collectionReference = db.collection(CollectionName.users);
+  const userData = await chunkQuery<User>(
     collectionReference,
     'id',
     uniqueUserIds,
   );
 
-  let reducedUserData: ReducedUserData = userData.reduce(
+  const reducedUserData: ReducedUserData = userData.reduce(
     (accumulator, currentValue) => {
       return {
         ...accumulator,

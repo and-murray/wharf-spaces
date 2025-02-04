@@ -8,7 +8,7 @@ import {SpaceType} from '@customTypes/booking';
 
 describe('When WhosInRow is on screen', () => {
   describe('Desk Bookings', () => {
-    let profilePictureSpy = jest
+    const profilePictureSpy = jest
       .spyOn(ProfilePicture, 'default')
       .mockImplementation();
     it('Renders Correctly when booking is not communal space', () => {
@@ -73,7 +73,7 @@ describe('When WhosInRow is on screen', () => {
   });
 
   describe('Car Bookings', () => {
-    let profilePictureSpy = jest
+    const profilePictureSpy = jest
       .spyOn(ProfilePicture, 'default')
       .mockImplementation();
     it('Renders Correctly when booking is not reserve space', () => {

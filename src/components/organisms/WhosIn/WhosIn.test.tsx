@@ -6,8 +6,8 @@ import {TimeSlot, BookingType, SpaceType} from '@customTypes/booking';
 import {renderWithProviders as render} from '@root/src/util/test-utils';
 import {userStateStub} from '@root/src/util/stubs';
 
-let whosInRowSpy = jest.spyOn(WhosInRow, 'default');
-let mockUserData = {
+const whosInRowSpy = jest.spyOn(WhosInRow, 'default');
+const mockUserData = {
   ['userId1']: {
     name: 'Zane',
     profilePictureURI: 'profilePictureURI1',
@@ -25,9 +25,7 @@ let mockUserData = {
   },
 };
 jest.mock('@utils/TimeSlotUtils/TimeSlotUtils', () => ({
-  TimeSlotUtils: {
-    toString: jest.fn().mockImplementation(timeSlot => timeSlot),
-  },
+  toString: jest.fn().mockImplementation(timeSlot => timeSlot),
 }));
 
 describe('When WhosIn is on screen ', () => {

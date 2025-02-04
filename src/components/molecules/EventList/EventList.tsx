@@ -7,7 +7,7 @@ type EventListProps = {
 };
 
 const EventList = ({currentEvent, hasEvent}: EventListProps) => {
-  let headerText = hasEvent ? 'Event(s)' : 'Events in the clubhouse';
+  const headerText = hasEvent ? 'Event(s)' : 'Events in the clubhouse';
 
   return (
     <View flex={1}>

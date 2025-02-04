@@ -18,7 +18,7 @@ jest.mock('firebase-admin', () => ({
     },
   },
 }));
-let defaults = {
+const defaults = {
   deskCapacity: 36,
   murrayCarCapacity: 6,
   tenzingCarCapacity: 2,

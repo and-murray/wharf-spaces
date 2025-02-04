@@ -33,8 +33,8 @@ export function calculateNewUserIds(
   if (userIds.length === 0) {
     return [];
   }
-  let uniqueIds = [...Object.keys(existingUserData)];
-  let idsToFetch = userIds.filter(id => !uniqueIds.includes(id));
+  const uniqueIds = [...Object.keys(existingUserData)];
+  const idsToFetch = userIds.filter(id => !uniqueIds.includes(id));
   return idsToFetch;
 }
 
@@ -52,7 +52,7 @@ function androidProvider(): FirebaseAppCheckTypes.ReactNativeFirebaseAppCheckPro
  * Returns true if a valid app
  */
 export async function checkAppIntegrity(): Promise<boolean> {
-  let rnfbProvider = firebase
+  const rnfbProvider = firebase
     .appCheck()
     .newReactNativeFirebaseAppCheckProvider();
   rnfbProvider.configure({
@@ -66,7 +66,7 @@ export async function checkAppIntegrity(): Promise<boolean> {
     provider: rnfbProvider,
     isTokenAutoRefreshEnabled: true,
   });
-  let attemptCount = 0;
+  const attemptCount = 0;
   do {
     try {
       const {token} = await firebase.appCheck().getToken(true);

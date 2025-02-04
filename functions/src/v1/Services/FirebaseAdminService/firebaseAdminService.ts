@@ -12,9 +12,9 @@ const collectionName = 'bookings';
 
 export function sendToBookings(bookings: Booking[]) {
   const db = admin.firestore();
-  let batch = db.batch();
+  const batch = db.batch();
   bookings.forEach(booking => {
-    let docRef = db.collection(collectionName).doc(booking.id);
+    const docRef = db.collection(collectionName).doc(booking.id);
     batch.set(docRef, booking);
   });
   batch.commit();

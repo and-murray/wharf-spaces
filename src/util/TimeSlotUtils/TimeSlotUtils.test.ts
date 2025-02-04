@@ -1,4 +1,4 @@
-import {TimeSlotUtils} from './TimeSlotUtils';
+import {toString} from './TimeSlotUtils';
 import {TimeSlot} from '@customTypes/booking';
 
 describe('TimeSlotUtils', () => {
@@ -12,7 +12,7 @@ describe('TimeSlotUtils', () => {
 
     testData.forEach(({input, expected}) => {
       it(`should return "${expected}" for "${input}" time slot`, () => {
-        const result = TimeSlotUtils.toString(input);
+        const result = toString(input);
         expect(result).toBe(expected);
       });
     });

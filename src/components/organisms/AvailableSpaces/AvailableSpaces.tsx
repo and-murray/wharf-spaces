@@ -80,8 +80,8 @@ const AvailableSpaces = ({bookings, userData}: AvailableSpacesProps) => {
         return bookings;
       } else {
         return bookings.filter(booking => {
-          let bookingUserData = userData[booking.userId];
-          let businessUnit = bookingUserData
+          const bookingUserData = userData[booking.userId];
+          const businessUnit = bookingUserData
             ? bookingUserData.businessUnit
             : null;
           if (businessUnit === user?.businessUnit) {
