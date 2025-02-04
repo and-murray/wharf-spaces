@@ -7,7 +7,7 @@ import {Timestamp} from 'firebase-admin/firestore';
 
 const partialFirebaseRemoteConfigStub = {
   deskCapacity: 36,
-  parkingCapacity: {murray: 10, tenzing: 4, unknown: 0},
+  parkingCapacity: {murray: 10, tenzing: 4, unknown: 0, adams: 0},
 };
 
 describe('When AuthContainer is rendered on screen', () => {
@@ -63,6 +63,7 @@ describe('When AuthContainer is rendered on screen', () => {
           firebaseRemoteConfig: {
             ...partialFirebaseRemoteConfigStub,
             isDemoLoginEnabled: true,
+            featureFlags: undefined,
           },
         },
       },
@@ -81,6 +82,7 @@ describe('When AuthContainer is rendered on screen', () => {
           firebaseRemoteConfig: {
             ...partialFirebaseRemoteConfigStub,
             isDemoLoginEnabled: false,
+            featureFlags: undefined,
           },
         },
       },

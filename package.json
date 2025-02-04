@@ -24,7 +24,9 @@
     "installFirebaseFunctions": "cd functions && yarn install",
     "emulateFirebase:dev": "firebase use development; firebase emulators:start --only functions,firestore --import=EmulatorData --export-on-exit=EmulatorData",
     "emulateFirebase:prod": "firebase use production;  firebase emulators:start --only functions,firestore --import=EmulatorData --export-on-exit=EmulatorData",
-    "clean-caches": "./cleancaches.sh"
+    "clean-caches": "./cleancaches.sh",
+    "typecheck": "tsc --noEmit",
+    "typecheck-functions": "cd functions && yarn typecheck"
   },
   "dependencies": {
     "@babel/plugin-proposal-export-namespace-from": "7.18.9",

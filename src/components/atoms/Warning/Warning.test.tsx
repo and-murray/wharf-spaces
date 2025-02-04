@@ -17,6 +17,7 @@ describe('When a Warning is on the screen', () => {
         <Warning
           warningMessage={'this is a warning'}
           symbolToUse={WarningSymbolIcon.infoCircle}
+          borderColor="brand.blue"
         />
       </TestWrapper>,
     );
@@ -33,6 +34,7 @@ describe('When a Warning is on the screen', () => {
           warningMessage={'TEST MESSAGE'}
           symbolToUse={WarningSymbolIcon.warningTriangle}
           backgroundColor="#000000"
+          borderColor="brand.blue"
         />
       </TestWrapper>,
     );
