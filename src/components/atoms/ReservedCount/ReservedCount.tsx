@@ -3,7 +3,7 @@ import {Text, View} from 'native-base';
 import {ClockIcon} from '@res/images/ClockIcon';
 
 type ReservedCountProps = {
-  count: string;
+  count: number | undefined;
 };
 
 const ReservedCount = ({count}: ReservedCountProps) => (

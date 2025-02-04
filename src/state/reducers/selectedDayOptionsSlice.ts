@@ -94,6 +94,7 @@ export const postBookings = createAsyncThunk(
     const {selectedDayOptions} = appState as {
       selectedDayOptions: SelectedOptionsState;
     };
+
     await makeBookingRequest(
       selectedDayOptions.selectedSpaceType,
       bookingPostRequest,

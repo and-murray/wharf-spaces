@@ -35,19 +35,6 @@ export type Reassignables = {
   notifications: SpaceNotification[] | undefined;
 };
 
-export const toFreeSlots = (bookings: Booking[]) => {
-  const freeSlots: Map<string, FreeSlot> = new Map();
-  bookings.forEach(booking => {
-    const slotOnTheDate =
-      freeSlots.get(booking.date) ||
-      ({am: 0, pm: 0, allDay: 0, date: booking.date} as FreeSlot);
-    slotOnTheDate[booking.timeSlot] += 1;
-    freeSlots.set(booking.date, slotOnTheDate);
-  });
-
-  return Array.from(freeSlots.values());
-};
-
 /**
  * Based on the desk space availabilites on the dates in freeSlotsList, the function picks bookings (from reserved @param bookings list)
  * that can be promoted from reserved list.

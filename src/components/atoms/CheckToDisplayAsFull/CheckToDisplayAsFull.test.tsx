@@ -11,11 +11,11 @@ describe('Check To Display As Full tests', () => {
   });
 
   it.each`
-    argument     | expected
-    ${undefined} | ${' '}
-    ${2}         | ${'2/36'}
-    ${1}         | ${'1/36'}
-    ${0}         | ${'Full'}
+    argument                  | expected
+    ${[undefined, undefined]} | ${' '}
+    ${[2, 0]}                 | ${'2/36'}
+    ${[1, 0]}                 | ${'1/36'}
+    ${[0, 0]}                 | ${'Full'}
   `('displays $expected when desks is $argument', ({argument, expected}) => {
     const itemId = 100;
 
@@ -25,7 +25,8 @@ describe('Check To Display As Full tests', () => {
         <CheckToDisplayAsFull
           id={itemId}
           capacity={36}
-          spaceLeft={argument}
+          spaceLeft={argument[0]}
+          reservedSpaces={argument[1]}
           subheadingTextColor="brand.red"
           subheadingTextColorFull="other.darkRed"
         />
@@ -37,9 +38,9 @@ describe('Check To Display As Full tests', () => {
   });
 
   it.each`
-    argument | expected
-    ${-1}    | ${'1'}
-    ${-2}    | ${'2'}
+    argument  | expected
+    ${[0, 1]} | ${1}
+    ${[0, 2]} | ${2}
   `('displays $expected when desks is $argument', ({argument, expected}) => {
     const itemId = 100;
 
@@ -48,7 +49,8 @@ describe('Check To Display As Full tests', () => {
         <CheckToDisplayAsFull
           id={itemId}
           capacity={36}
-          spaceLeft={argument}
+          spaceLeft={argument[0]}
+          reservedSpaces={argument[1]}
           subheadingTextColor="brand.red"
           subheadingTextColorFull="other.darkRed"
         />
@@ -69,6 +71,7 @@ describe('Check To Display As Full tests', () => {
           id={itemId}
           capacity={36}
           spaceLeft={0}
+          reservedSpaces={0}
           subheadingTextColor="brand.red"
           subheadingTextColorFull="other.darkRed"
         />

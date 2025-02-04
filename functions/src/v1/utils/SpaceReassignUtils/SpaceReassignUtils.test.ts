@@ -7,7 +7,6 @@ import {
 } from '../../Models/booking.model';
 import * as bookingUtils from '../BookingUtils/BookingUtils';
 import {
-  toFreeSlots,
   findAssignableBookings,
   filterAssignableBookings,
   FreeSlot,
@@ -197,88 +196,6 @@ describe('SpaceReassignUtils', () => {
       const notifications = assignables.notifications;
       expect(notifications?.length).toBe(1);
       expect(notifications?.find(() => true)?.userIds).toEqual([user2.id]);
-    });
-  });
-
-  describe('toFreeSlots converter function', () => {
-    const freeSlotCheck = (
-      freeSlot: FreeSlot | undefined,
-      am: number,
-      pm: number,
-      allDay: number,
-    ) => {
-      expect(freeSlot).toBeDefined();
-      expect(freeSlot?.am).toBe(am);
-      expect(freeSlot?.pm).toBe(pm);
-      expect(freeSlot?.allDay).toBe(allDay);
-    };
-
-    it('should return one freeSlot item with correct values for respective time slots when bookings are on the date', () => {
-      const bookings: Booking[] = [
-        {
-          ...dummyBooking,
-          id: '2',
-          timeSlot: 'pm',
-          date: '2023-06-15T00:00:00Z',
-          createdAt: new Timestamp(100, 100),
-        },
-        {
-          ...dummyBooking,
-          id: '3',
-          timeSlot: 'am',
-          date: '2023-06-15T00:00:00Z',
-          createdAt: new Timestamp(101, 101),
-        },
-      ];
-      const freeSlots = toFreeSlots(bookings);
-      expect(freeSlots.length).toBe(1);
-      const freeSlot = freeSlots[0];
-      expect(freeSlot.date).toBe('2023-06-15T00:00:00Z');
-      freeSlotCheck(freeSlot, 1, 1, 0);
-    });
-
-    it('should group bookings based on date field value and reduced to freeSlot with corresponding time slot counts', () => {
-      const bookings: Booking[] = [
-        {
-          ...dummyBooking,
-          id: '2',
-          timeSlot: 'pm',
-          date: '2023-06-15T00:00:00Z',
-          createdAt: new Timestamp(100, 100),
-        },
-        {
-          ...dummyBooking,
-          id: '3',
-          timeSlot: 'am',
-          date: '2023-06-15T00:00:00Z',
-          createdAt: new Timestamp(101, 101),
-        },
-        {
-          ...dummyBooking,
-          id: '4',
-          timeSlot: 'allDay',
-          date: '2023-06-12T00:00:00Z',
-          createdAt: new Timestamp(102, 102),
-        },
-        {
-          ...dummyBooking,
-          id: '5',
-          timeSlot: 'allDay',
-          date: '2023-06-12T00:00:00Z',
-          createdAt: new Timestamp(103, 103),
-        },
-      ];
-
-      const freeSlots = toFreeSlots(bookings);
-      expect(freeSlots.length).toBe(2);
-      const date1FreeSlot = freeSlots.find(
-        slot => slot.date === '2023-06-15T00:00:00Z',
-      );
-      const date2FreeSlot = freeSlots.find(
-        slot => slot.date === '2023-06-12T00:00:00Z',
-      );
-      freeSlotCheck(date1FreeSlot, 1, 1, 0);
-      freeSlotCheck(date2FreeSlot, 0, 0, 2);
     });
   });
 
