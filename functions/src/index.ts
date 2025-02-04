@@ -5,9 +5,13 @@ import App from './App';
 import {DecodedIdToken} from 'firebase-admin/auth';
 import {callCarAPI} from './v1/Services/Scheduled/callCarAPI';
 
-declare module 'express-serve-static-core' {
-  interface Request {
-    user?: DecodedIdToken;
+// This is the officially endorsed method of extending express request via declaration merging
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace Express {
+    interface Request {
+      user?: DecodedIdToken;
+    }
   }
 }
 

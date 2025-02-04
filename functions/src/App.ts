@@ -88,6 +88,7 @@ App.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
+//@ts-expect-error Possibly due to express-serve-static-core not handling an array of request params correctly or due to us extending the request interface (correctly)
 App.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // V1
