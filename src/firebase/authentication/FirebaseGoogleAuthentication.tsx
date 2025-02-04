@@ -68,9 +68,11 @@ export const signInSilently = async () => {
       // When the user hasn't signed in before or they have signed out.
       // In this case, you should let the user sign in explicitly.
       await GoogleSignin.signOut();
+      return;
     } else if (error.message.includes('invalid_grant')) {
       // The token has expired or been revoked. Sign the user out, and prompt them to sign in again.
       await GoogleSignin.signOut();
+      return;
     } else {
       // Handle the error based on its type
       console.error('Error in silent sign-in: ', error);
@@ -122,10 +124,12 @@ export const GoogleSignInComponent = ({
           statusCodes.SIGN_IN_CANCELLED,
         );
         errorCallback(GoogleSignInError.SIGN_IN_CANCELLED);
+        return;
       } else if (error.code === statusCodes.IN_PROGRESS) {
         // operation (e.g. sign in) is in progress already
         console.error('Authentication error: ', statusCodes.IN_PROGRESS);
         errorCallback(GoogleSignInError.IN_PROGRESS);
+        return;
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
         // play services not available or outdated
         console.error(
@@ -133,10 +137,12 @@ export const GoogleSignInComponent = ({
           statusCodes.PLAY_SERVICES_NOT_AVAILABLE,
         );
         errorCallback(GoogleSignInError.PLAY_SERVICES_NOT_AVAILABLE);
+        return;
       } else {
         // some other error happened
         console.error('Authentication error: ', error, error.code);
         errorCallback(GoogleSignInError.UNKNOWN);
+        return;
       }
     }
   };

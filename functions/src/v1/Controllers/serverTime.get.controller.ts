@@ -3,7 +3,7 @@ import type {Request, Response} from 'express';
 import admin from 'firebase-admin';
 import {applicationTimezone} from '../utils/BookingUtils/BookingUtils';
 
-export const getLondonTime = async (req: Request, res: Response) => {
+export const getLondonTime = async (_req: Request, res: Response) => {
   const getServerTimestamp = admin.firestore.Timestamp.now().toDate();
   const londonServerTimestamp =
     dayjs(getServerTimestamp).tz(applicationTimezone);

@@ -87,6 +87,7 @@ const AvailableSpaces = ({bookings, userData}: AvailableSpacesProps) => {
           if (businessUnit === user?.businessUnit) {
             return booking;
           }
+          return false;
         });
       }
     }

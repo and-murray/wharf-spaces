@@ -17,6 +17,34 @@ jobs:
 
       - name: lint
         run: yarn lint
+  typecheck-app:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: yarn
+      
+      - name: install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: typecheck
+        run: yarn typecheck
+  typecheck-functions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: yarn
+
+      - name: install functions dependencies
+        run: cd functions && yarn install --frozen-lockfile
+
+      - name: typecheck functions
+        run: yarn typecheck-functions
   test-app:
     runs-on: ubuntu-latest
     steps:

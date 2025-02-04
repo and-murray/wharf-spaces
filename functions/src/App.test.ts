@@ -69,7 +69,7 @@ describe('Desk Booking Function', () => {
       it('should have called removeBookings and return 204', async () => {
         const removeBookingsMock = forceTypeToMockFunction(
           removeBookings,
-        ).mockImplementationOnce(async (req, res) => {
+        ).mockImplementationOnce(async (_req, res) => {
           res.status(204).send();
         });
         await request
@@ -87,7 +87,7 @@ describe('Desk Booking Function', () => {
 
 const createMockAppCheckMiddleware = () => {
   forceTypeToMockFunction(appCheck).mockImplementation(
-    async (req: Request, res: Response, next: Function) => {
+    async (_req: Request, _res: Response, next: Function) => {
       next();
     },
   );

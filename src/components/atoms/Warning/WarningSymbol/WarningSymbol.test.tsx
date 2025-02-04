@@ -16,7 +16,10 @@ describe('Warning Symbol', () => {
   it('renders correctly', () => {
     render(
       <TestWrapper>
-        <WarningSymbol symbolToUse={WarningSymbolIcon.warningTriangle} />
+        <WarningSymbol
+          symbolToUse={WarningSymbolIcon.warningTriangle}
+          color="#434343"
+        />
       </TestWrapper>,
     );
     expect(warningTriangleSpy).toHaveBeenCalled();
@@ -25,7 +28,10 @@ describe('Warning Symbol', () => {
   it('renders InfoCircle when passed a symbol prop of InfoCircle', () => {
     render(
       <TestWrapper>
-        <WarningSymbol symbolToUse={WarningSymbolIcon.infoCircle} />
+        <WarningSymbol
+          symbolToUse={WarningSymbolIcon.infoCircle}
+          color="#434343"
+        />
       </TestWrapper>,
     );
     expect(infoCircleSpy).toHaveBeenCalled();
