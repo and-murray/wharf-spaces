@@ -30,7 +30,7 @@ describe('getUsers', () => {
 
   it('reduces the response correctly', async () => {
     const userIds = ['userId1', 'userId2'];
-    let response = await getUsers(userIds);
+    const response = await getUsers(userIds);
     expect(response).toEqual({
       ['userId1']: {
         name: 'firstName1 lastName1',

@@ -11,7 +11,8 @@ describe('getFirestoreUser tests', () => {
     seconds: 1586343437,
     nanoseconds: 0,
     toDate: () => new Date(),
-    isEqual: (other: any) => other === mockTimestamp,
+    isEqual: (other: FirebaseFirestoreTypes.Timestamp) =>
+      other === mockTimestamp,
     toMillis: () => 1586343437000,
     toJSON: () => ({
       seconds: mockTimestamp.seconds,

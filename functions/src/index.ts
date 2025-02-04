@@ -5,11 +5,9 @@ import App from './App';
 import {DecodedIdToken} from 'firebase-admin/auth';
 import {callCarAPI} from './v1/Services/Scheduled/callCarAPI';
 
-declare global {
-  namespace Express {
-    export interface Request {
-      user?: DecodedIdToken;
-    }
+declare module 'express-serve-static-core' {
+  interface Request {
+    user?: DecodedIdToken;
   }
 }
 

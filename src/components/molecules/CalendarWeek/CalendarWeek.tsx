@@ -18,9 +18,9 @@ type CalendarWeekProps = {
 };
 
 const CalendarWeek = ({days, weekOffset, currentDay}: CalendarWeekProps) => {
-  let [selectedIndex, setSelectedIndex] = useState<number>(currentDay);
-  let [bankHolidays, setBankHolidays] = useState<BankHoliday[]>([]);
-  let {activeBookingDates} = useAppSelector(state => state.user);
+  const [selectedIndex, setSelectedIndex] = useState<number>(currentDay);
+  const [bankHolidays, setBankHolidays] = useState<BankHoliday[]>([]);
+  const {activeBookingDates} = useAppSelector(state => state.user);
   const dispatch = useAppDispatch();
 
   const parsedBookedDays = useMemo(() => {
@@ -48,7 +48,7 @@ const CalendarWeek = ({days, weekOffset, currentDay}: CalendarWeekProps) => {
     }
   };
 
-  let daysView = days.map((day, index) => {
+  const daysView = days.map((day, index) => {
     return (
       <SelectableDate
         key={index}
@@ -64,8 +64,8 @@ const CalendarWeek = ({days, weekOffset, currentDay}: CalendarWeekProps) => {
     );
   });
 
-  let firstWeek = daysView.slice(0, 5);
-  let secondWeek = daysView.slice(5, 10);
+  const firstWeek = daysView.slice(0, 5);
+  const secondWeek = daysView.slice(5, 10);
 
   return (
     <HStack

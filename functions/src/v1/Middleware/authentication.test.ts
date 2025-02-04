@@ -1,7 +1,7 @@
 import validateFirebaseIdToken from './authentication';
 import * as admin from 'firebase-admin';
 import {DecodedIdToken} from 'firebase-admin/auth';
-import type {Request, Response} from 'express';
+import type {NextFunction, Request, Response} from 'express';
 import {
   createRequest,
   createResponse,
@@ -13,7 +13,7 @@ describe('Validate Firebase Id Token tests', () => {
   admin.initializeApp();
   let testRequest: MockRequest<Request>;
   let testResponse: MockResponse<Response>;
-  let testNextFunction: Function = () => {};
+  const testNextFunction: NextFunction = jest.fn();
 
   beforeEach(() => {
     testResponse = createResponse();

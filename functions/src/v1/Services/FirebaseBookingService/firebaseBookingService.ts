@@ -8,7 +8,7 @@ export async function getNonReservedBookingsOnDate(
 ): Promise<Booking[]> {
   const db = admin.firestore();
   const ref = db.collection(collectionName);
-  let bookingData: Booking[] = [];
+  const bookingData: Booking[] = [];
   try {
     // Search for all bookings where they are of the same date as that trying to be booked
     const snapshot = await ref

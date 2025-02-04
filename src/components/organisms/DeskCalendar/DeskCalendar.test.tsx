@@ -67,7 +67,7 @@ describe('When desk calendar is shown on screen', () => {
   });
 
   it('Changes the week offset from 0 to 1 when the change week offset function is called', async () => {
-    let mockWeekNavigationControls = jest.spyOn(
+    const mockWeekNavigationControls = jest.spyOn(
       weekNavigationControls,
       'default',
     );
@@ -76,8 +76,9 @@ describe('When desk calendar is shown on screen', () => {
         <DeskCalendar />
       </TestWrapper>,
     );
-    let weekOffset = mockWeekNavigationControls.mock.calls[0][0].weekOffset;
-    let changeWeekOffset = mockWeekNavigationControls.mock.calls[0][0].onPress;
+    const weekOffset = mockWeekNavigationControls.mock.calls[0][0].weekOffset;
+    const changeWeekOffset =
+      mockWeekNavigationControls.mock.calls[0][0].onPress;
 
     expect(weekOffset).toBe(0);
     act(() => {
@@ -85,13 +86,13 @@ describe('When desk calendar is shown on screen', () => {
     });
 
     await waitFor(() => {
-      let updatedWeekOffset =
+      const updatedWeekOffset =
         mockWeekNavigationControls.mock.calls[1][0].weekOffset;
       expect(updatedWeekOffset).toBe(1);
     });
   });
   it('Changes the week offset from 1 to 0 when the change week offset function is called', async () => {
-    let mockWeekNavigationControls = jest.spyOn(
+    const mockWeekNavigationControls = jest.spyOn(
       weekNavigationControls,
       'default',
     );
@@ -101,21 +102,22 @@ describe('When desk calendar is shown on screen', () => {
       </TestWrapper>,
     );
 
-    let changeWeekOffset = mockWeekNavigationControls.mock.calls[0][0].onPress;
+    const changeWeekOffset =
+      mockWeekNavigationControls.mock.calls[0][0].onPress;
     act(() => {
       changeWeekOffset();
     });
     await waitFor(() => {
-      let weekOffset = mockWeekNavigationControls.mock.calls[1][0].weekOffset;
+      const weekOffset = mockWeekNavigationControls.mock.calls[1][0].weekOffset;
       expect(weekOffset).toBe(1);
     });
-    let updatedChangeWeekOffset =
+    const updatedChangeWeekOffset =
       mockWeekNavigationControls.mock.calls[1][0].onPress;
     act(() => {
       updatedChangeWeekOffset();
     });
     await waitFor(() => {
-      let updatedWeekOffset =
+      const updatedWeekOffset =
         mockWeekNavigationControls.mock.calls[2][0].weekOffset;
       expect(updatedWeekOffset).toBe(0);
     });

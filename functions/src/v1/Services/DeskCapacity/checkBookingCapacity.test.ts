@@ -10,7 +10,7 @@ import {
 import {FieldValue, Timestamp} from 'firebase-admin/firestore';
 import * as firebaseAdminService from '../../Services/FirebaseAdminService/firebaseAdminService';
 
-let getNonReservedBookingsOnDateSpy = jest.spyOn(
+const getNonReservedBookingsOnDateSpy = jest.spyOn(
   firebaseBookingService,
   'getNonReservedBookingsOnDate',
 );
@@ -26,7 +26,10 @@ const isBookingDateLimitedToBUSpy = jest.spyOn(
   'isBookingDateLimitedToBU',
 );
 
-let getFirestoreUserSpy = jest.spyOn(firebaseAdminService, 'getFirestoreUser');
+const getFirestoreUserSpy = jest.spyOn(
+  firebaseAdminService,
+  'getFirestoreUser',
+);
 
 const testDate = '2023-05-11T00:00:00Z';
 describe('Check Booking Capacity Tests ', () => {
@@ -41,7 +44,7 @@ describe('Check Booking Capacity Tests ', () => {
     const spaceType: SpaceType = 'desk';
 
     describe('User is from Murray, Adams, or Tenzing', () => {
-      let murrayBooking: Booking = {
+      const murrayBooking: Booking = {
         id: '1',
         date: '2023-05-11T00:00:00Z',
         timeSlot: 'am',
@@ -52,7 +55,7 @@ describe('Check Booking Capacity Tests ', () => {
         createdAt: FieldValue.serverTimestamp(),
         updatedAt: FieldValue.serverTimestamp(),
       };
-      let tenzingBooking: Booking = {
+      const tenzingBooking: Booking = {
         id: '2',
         date: '2023-05-11T00:00:00Z',
         timeSlot: 'am',
@@ -63,7 +66,7 @@ describe('Check Booking Capacity Tests ', () => {
         createdAt: FieldValue.serverTimestamp(),
         updatedAt: FieldValue.serverTimestamp(),
       };
-      let adamsBooking: Booking = {
+      const adamsBooking: Booking = {
         id: '3',
         date: '2023-05-11T00:00:00Z',
         timeSlot: 'am',
@@ -316,7 +319,7 @@ describe('Check Booking Capacity Tests ', () => {
     });
 
     describe('User is from unknown BU', () => {
-      let murrayBooking: Booking = {
+      const murrayBooking: Booking = {
         id: '1',
         date: '2023-05-11T00:00:00Z',
         timeSlot: 'am',
@@ -327,7 +330,7 @@ describe('Check Booking Capacity Tests ', () => {
         createdAt: FieldValue.serverTimestamp(),
         updatedAt: FieldValue.serverTimestamp(),
       };
-      let tenzingBooking: Booking = {
+      const tenzingBooking: Booking = {
         id: '2',
         date: '2023-05-11T00:00:00Z',
         timeSlot: 'am',
@@ -338,7 +341,7 @@ describe('Check Booking Capacity Tests ', () => {
         createdAt: FieldValue.serverTimestamp(),
         updatedAt: FieldValue.serverTimestamp(),
       };
-      let adamsBooking: Booking = {
+      const adamsBooking: Booking = {
         id: '3',
         date: '2023-05-11T00:00:00Z',
         timeSlot: 'am',
@@ -595,7 +598,7 @@ describe('Check Booking Capacity Tests ', () => {
     const spaceType: SpaceType = 'car';
 
     describe('User is from Murray, Adams, or Tenzing', () => {
-      let murrayBooking: Booking = {
+      const murrayBooking: Booking = {
         id: '1',
         date: '2023-05-11T00:00:00Z',
         timeSlot: 'am',
@@ -606,7 +609,7 @@ describe('Check Booking Capacity Tests ', () => {
         createdAt: FieldValue.serverTimestamp(),
         updatedAt: FieldValue.serverTimestamp(),
       };
-      let tenzingBooking: Booking = {
+      const tenzingBooking: Booking = {
         id: '2',
         date: '2023-05-11T00:00:00Z',
         timeSlot: 'am',
@@ -617,7 +620,7 @@ describe('Check Booking Capacity Tests ', () => {
         createdAt: FieldValue.serverTimestamp(),
         updatedAt: FieldValue.serverTimestamp(),
       };
-      let adamsBooking: Booking = {
+      const adamsBooking: Booking = {
         id: '3',
         date: '2023-05-11T00:00:00Z',
         timeSlot: 'am',
@@ -872,7 +875,7 @@ describe('Check Booking Capacity Tests ', () => {
     });
 
     describe('User BU is unknown', () => {
-      let murrayBooking: Booking = {
+      const murrayBooking: Booking = {
         id: '1',
         date: '2023-05-11T00:00:00Z',
         timeSlot: 'am',
@@ -883,7 +886,7 @@ describe('Check Booking Capacity Tests ', () => {
         createdAt: FieldValue.serverTimestamp(),
         updatedAt: FieldValue.serverTimestamp(),
       };
-      let tenzingBooking: Booking = {
+      const tenzingBooking: Booking = {
         id: '2',
         date: '2023-05-11T00:00:00Z',
         timeSlot: 'am',
@@ -894,7 +897,7 @@ describe('Check Booking Capacity Tests ', () => {
         createdAt: FieldValue.serverTimestamp(),
         updatedAt: FieldValue.serverTimestamp(),
       };
-      let adamsBooking: Booking = {
+      const adamsBooking: Booking = {
         id: '3',
         date: '2023-05-11T00:00:00Z',
         timeSlot: 'am',

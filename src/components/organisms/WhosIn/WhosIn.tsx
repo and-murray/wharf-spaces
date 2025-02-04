@@ -45,7 +45,7 @@ const WhosIn = ({bookings, userData}: WhosInProps) => {
       allVisitors: Element[],
       totalVisitorCount: number,
     ) => {
-      let numberOfAndis = allVisitors.length - totalVisitorCount;
+      const numberOfAndis = allVisitors.length - totalVisitorCount;
       setAndiAndVisitorNumbers([numberOfAndis, totalVisitorCount]);
     };
 
@@ -70,7 +70,7 @@ const WhosIn = ({bookings, userData}: WhosInProps) => {
 
     const generatedRows = bookings.map((booking, index) => {
       const isGuest = booking.bookingType === BookingType.guest;
-      let bookingUserData = userData[booking.userId] ?? {
+      const bookingUserData = userData[booking.userId] ?? {
         name: 'Error loading name data',
         profilePictureURI: 'Error loading image data',
         businessUnit: 'unknown',

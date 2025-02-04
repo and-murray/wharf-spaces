@@ -12,8 +12,7 @@ import {renderWithProviders as render} from '@root/src/util/test-utils';
 describe('When the calendar week is on screen', () => {
   let bankHolidaysSpy: jest.SpyInstance<
     Promise<BankHoliday[]>,
-    [today?: Dayjs | undefined],
-    any
+    [today?: Dayjs | undefined]
   >;
 
   beforeEach(() => {
@@ -25,7 +24,7 @@ describe('When the calendar week is on screen', () => {
     bankHolidaysSpy.mockResolvedValue([]);
   });
 
-  let testDays = [
+  const testDays = [
     '2023-06-26T00:00:00Z',
     '2023-06-27T00:00:00Z',
     '2023-06-28T00:00:00Z',
@@ -106,7 +105,7 @@ describe('When the calendar week is on screen', () => {
   });
 
   it('Disables the SelectableDate component if it is in the past', async () => {
-    let selectableDateSpy = jest.spyOn(selectableDate, 'default');
+    const selectableDateSpy = jest.spyOn(selectableDate, 'default');
 
     render(<CalendarWeek days={testDays} weekOffset={0} currentDay={2} />);
 
@@ -114,7 +113,7 @@ describe('When the calendar week is on screen', () => {
       expect(bankHolidaysSpy).toHaveBeenCalled();
     });
 
-    let expectedDisabledValues = [true, true, false, false, false];
+    const expectedDisabledValues = [true, true, false, false, false];
     expectedDisabledValues.forEach((value, index) => {
       expect(selectableDateSpy).toBeCalledWith(
         expect.objectContaining({date: testDays[index], disabled: value}),
@@ -129,14 +128,14 @@ describe('When the calendar week is on screen', () => {
         title: 'Valid bank holiday',
       },
     ]);
-    let selectableDateSpy = jest.spyOn(selectableDate, 'default');
+    const selectableDateSpy = jest.spyOn(selectableDate, 'default');
     render(<CalendarWeek days={testDays} weekOffset={0} currentDay={0} />);
 
     await waitFor(() => {
       expect(bankHolidaysSpy).toHaveBeenCalled();
     });
 
-    let expectedDisabledValues = [false, false, true, false, false];
+    const expectedDisabledValues = [false, false, true, false, false];
     expectedDisabledValues.forEach(async (value, index) => {
       await waitFor(() => {
         expect(selectableDateSpy).toBeCalledWith(
@@ -148,12 +147,12 @@ describe('When the calendar week is on screen', () => {
   });
 
   it('Enables the SelectableDate component if it is not in the past and not a bank holiday', async () => {
-    let selectableDateSpy = jest.spyOn(selectableDate, 'default');
+    const selectableDateSpy = jest.spyOn(selectableDate, 'default');
     render(<CalendarWeek days={testDays} weekOffset={0} currentDay={0} />);
     await waitFor(() => {
       expect(bankHolidaysSpy).toHaveBeenCalled();
     });
-    let expectedDisabledValues = [false, false, false, false, false];
+    const expectedDisabledValues = [false, false, false, false, false];
     expectedDisabledValues.forEach((value, index) => {
       expect(selectableDateSpy).toBeCalledWith(
         expect.objectContaining({date: testDays[index], disabled: value}),
@@ -169,7 +168,7 @@ describe('When the calendar week is on screen', () => {
       ['2023-06-28T00:00:00Z', false],
       ['2023-06-29T00:00:00Z', false],
     ];
-    let selectableDateSpy = jest.spyOn(selectableDate, 'default');
+    const selectableDateSpy = jest.spyOn(selectableDate, 'default');
     render(
       <CalendarWeek
         days={days.map(day => day[0])}

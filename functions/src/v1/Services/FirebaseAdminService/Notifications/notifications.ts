@@ -1,6 +1,6 @@
 import {Booking, TimeSlot} from '../../../Models/booking.model';
 import dayjs from 'dayjs';
-var advancedFormat = require('dayjs/plugin/advancedFormat');
+import advancedFormat from 'dayjs/plugin/advancedFormat';
 dayjs.extend(advancedFormat);
 
 const displayTimeSlotString = (timeSlot: TimeSlot): string => {

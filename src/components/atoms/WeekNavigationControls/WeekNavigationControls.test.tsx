@@ -24,7 +24,7 @@ describe('When week navigation controls is shown on screen', () => {
   });
 
   it('Shows next week when weekOffset=0', () => {
-    let weekOffset = 0;
+    const weekOffset = 0;
 
     const {getByText} = render(
       <TestWrapper>
@@ -35,7 +35,7 @@ describe('When week navigation controls is shown on screen', () => {
   });
 
   it('Shows previous week when weekOffset=1', () => {
-    let weekOffset = 1;
+    const weekOffset = 1;
 
     const {getByText} = render(
       <TestWrapper>
@@ -46,7 +46,7 @@ describe('When week navigation controls is shown on screen', () => {
   });
 
   it('Shows the right chevron when weekOffset=0', () => {
-    let weekOffset = 0;
+    const weekOffset = 0;
     render(
       <TestWrapper>
         <WeekNavigationControls weekOffset={weekOffset} onPress={jest.fn()} />
@@ -56,7 +56,7 @@ describe('When week navigation controls is shown on screen', () => {
   });
 
   it('Shows the left chevron when weekOffset=1', () => {
-    let weekOffset = 1;
+    const weekOffset = 1;
     render(
       <TestWrapper>
         <WeekNavigationControls weekOffset={weekOffset} onPress={jest.fn()} />

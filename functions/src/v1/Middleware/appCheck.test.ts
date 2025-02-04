@@ -1,6 +1,6 @@
 import * as admin from 'firebase-admin';
 import {DecodedIdToken} from 'firebase-admin/auth';
-import type {Request, Response} from 'express';
+import type {NextFunction, Request, Response} from 'express';
 import {
   createRequest,
   createResponse,
@@ -17,7 +17,7 @@ const firebaseAuthSpy = jest.spyOn(admin.auth(), 'verifyIdToken');
 describe('Validate App Check Token tests', () => {
   let testRequest: MockRequest<Request>;
   let testResponse: MockResponse<Response>;
-  let testNextFunction: Function = () => {};
+  const testNextFunction: NextFunction = jest.fn();
   const mockAuthToken = 'Bearer eyTEST12345';
   const mockToken = '123456';
   beforeEach(() => {

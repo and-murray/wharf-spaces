@@ -253,7 +253,7 @@ describe('When AvailableSpaceView is on the screen', () => {
       }),
       {},
     );
-    let update = dayTimeSelectorSpy.mock.calls[0][0].update;
+    const update = dayTimeSelectorSpy.mock.calls[0][0].update;
     act(() => {
       update(personalDeskProps.remainingOptions[0].id);
     });
@@ -282,7 +282,7 @@ describe('When AvailableSpaceView is on the screen', () => {
   it('deselects options when a different option is clicked', () => {
     render(<AvailableSpaceView {...personalDeskProps} />, {preloadedState});
 
-    let update = dayTimeSelectorSpy.mock.calls[0][0].update;
+    const update = dayTimeSelectorSpy.mock.calls[0][0].update;
     act(() => {
       update(personalDeskProps.remainingOptions[0].id);
     });
@@ -354,7 +354,7 @@ describe('When AvailableSpaceView is on the screen', () => {
         <AvailableSpaceView {...noSpacesRemainingProps} />,
         {preloadedState},
       );
-      let update = dayTimeSelectorSpy.mock.calls[0][0].update;
+      const update = dayTimeSelectorSpy.mock.calls[0][0].update;
       act(() => {
         update(noSpacesRemainingProps.remainingOptions[0].id);
       });
@@ -369,7 +369,7 @@ describe('When AvailableSpaceView is on the screen', () => {
         preloadedState,
       });
 
-      let update = dayTimeSelectorSpy.mock.calls[0][0].update;
+      const update = dayTimeSelectorSpy.mock.calls[0][0].update;
       act(() => {
         update(noSpacesRemainingProps.remainingOptions[0].id);
       });
@@ -392,7 +392,7 @@ describe('When AvailableSpaceView is on the screen', () => {
         expect.objectContaining({isDisabled: true}),
         {},
       );
-      let update = dayTimeSelectorSpy.mock.calls[0][0].update;
+      const update = dayTimeSelectorSpy.mock.calls[0][0].update;
       act(() => {
         update(personalDeskProps.remainingOptions[0].id);
       });
@@ -404,7 +404,7 @@ describe('When AvailableSpaceView is on the screen', () => {
 
     it('should disable the book button if counter`s input is invalid', () => {
       render(<AvailableSpaceView {...guestDeskProps} />, {preloadedState});
-      let update = dayTimeSelectorSpy.mock.calls[0][0].update;
+      const update = dayTimeSelectorSpy.mock.calls[0][0].update;
       act(() => {
         update(guestDeskProps.remainingOptions[0].id);
       });
@@ -412,7 +412,7 @@ describe('When AvailableSpaceView is on the screen', () => {
         expect.objectContaining({isDisabled: false}),
         {},
       );
-      let setCountValid = counterSpy.mock.calls[0][0].setCountValid;
+      const setCountValid = counterSpy.mock.calls[0][0].setCountValid;
       act(() => {
         setCountValid(false);
       });
@@ -426,11 +426,11 @@ describe('When AvailableSpaceView is on the screen', () => {
       render(<AvailableSpaceView {...personalDeskProps} />, {preloadedState});
 
       expect(postBookingsSpy).not.toBeCalled();
-      let update = dayTimeSelectorSpy.mock.calls[0][0].update;
+      const update = dayTimeSelectorSpy.mock.calls[0][0].update;
       act(() => {
         update(personalDeskProps.remainingOptions[0].id);
       });
-      let book = bookButtonSpy.mock.calls[3][0].onPress;
+      const book = bookButtonSpy.mock.calls[3][0].onPress;
       act(() => {
         book();
       });
@@ -453,11 +453,11 @@ describe('When AvailableSpaceView is on the screen', () => {
       );
 
       expect(postBookingsSpy).not.toBeCalled();
-      let update = dayTimeSelectorSpy.mock.calls[0][0].update;
+      const update = dayTimeSelectorSpy.mock.calls[0][0].update;
       act(() => {
         update(personalDeskProps.remainingOptions[0].id);
       });
-      let book = bookButtonSpy.mock.calls[3][0].onPress;
+      const book = bookButtonSpy.mock.calls[3][0].onPress;
       act(() => {
         book();
       });
@@ -475,15 +475,15 @@ describe('When AvailableSpaceView is on the screen', () => {
       render(<AvailableSpaceView {...guestDeskProps} />, {preloadedState});
 
       expect(postBookingsSpy).not.toBeCalled();
-      let update = dayTimeSelectorSpy.mock.calls[0][0].update;
+      const update = dayTimeSelectorSpy.mock.calls[0][0].update;
       act(() => {
         update(personalDeskProps.remainingOptions[0].id);
       });
-      let onCountChanged = counterSpy.mock.calls[0][0].onCountChanged;
+      const onCountChanged = counterSpy.mock.calls[0][0].onCountChanged;
       act(() => {
         onCountChanged(3);
       });
-      let book = bookButtonSpy.mock.calls[4][0].onPress;
+      const book = bookButtonSpy.mock.calls[4][0].onPress;
       act(() => {
         book();
       });
@@ -522,11 +522,11 @@ describe('When AvailableSpaceView is on the screen', () => {
     );
 
     expect(postBookingsSpy).not.toBeCalled();
-    let update = dayTimeSelectorSpy.mock.calls[0][0].update;
+    const update = dayTimeSelectorSpy.mock.calls[0][0].update;
     act(() => {
       update(personalDeskProps.remainingOptions[0].id);
     });
-    let book = bookButtonSpy.mock.calls[3][0].onPress;
+    const book = bookButtonSpy.mock.calls[3][0].onPress;
     act(() => {
       book();
     });
@@ -546,7 +546,7 @@ describe('When AvailableSpaceView is on the screen', () => {
         preloadedState,
       });
       expect(alertMessageSpy).not.toBeCalled();
-      let book = bookButtonSpy.mock.calls[2][0].onPress;
+      const book = bookButtonSpy.mock.calls[2][0].onPress;
       act(() => {
         book();
       });
@@ -578,7 +578,7 @@ describe('When AvailableSpaceView is on the screen', () => {
         preloadedState,
       });
 
-      let book = bookButtonSpy.mock.calls[2][0].onPress;
+      const book = bookButtonSpy.mock.calls[2][0].onPress;
       act(() => {
         book();
       });
@@ -828,8 +828,9 @@ describe('When AvailableSpaceView is on the screen', () => {
     });
   });
   describe('Edit Booking', () => {
-    const pmId = testOptions.find(option => option.timeSlot === TimeSlot.pm)!!
-      .id;
+    const pmId = testOptions.find(
+      option => option.timeSlot === TimeSlot.pm,
+    )!.id;
 
     it('renders correctly when selected non-booked time slot', () => {
       const selectedNonBooked = {

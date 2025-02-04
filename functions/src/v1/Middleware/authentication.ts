@@ -1,11 +1,11 @@
-import type {Request, Response} from 'express';
+import type {NextFunction, Request, Response} from 'express';
 import {logger} from 'firebase-functions/v2';
 import * as admin from 'firebase-admin';
 
 const validateFirebaseIdToken = async (
   req: Request,
   res: Response,
-  next: Function,
+  next: NextFunction,
 ) => {
   if (
     (!req.headers.authorization ||

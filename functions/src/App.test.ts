@@ -1,5 +1,5 @@
 import App from './App';
-import type {Request, Response} from 'express';
+import type {NextFunction, Request, Response} from 'express';
 import supertest from 'supertest';
 import validateFirebaseIdToken from './v1/Middleware/authentication';
 import {DecodedIdToken} from 'firebase-admin/auth';
@@ -11,6 +11,11 @@ jest.mock('./v1/Middleware/authentication', () => jest.fn());
 jest.mock('./v1/Middleware/appCheck', () => jest.fn());
 jest.mock('./v1/Controllers/booking.create.controller', () => jest.fn());
 jest.mock('./v1/Controllers/booking.remove.controller', () => jest.fn());
+
+const mockCreateNewBookings = jest.mocked(createNewBookings);
+const mockRemoveBookings = jest.mocked(removeBookings);
+const mockAppCheck = jest.mocked(appCheck);
+const mockValidateFirebaseIdToken = jest.mocked(validateFirebaseIdToken);
 
 describe('Desk Booking Function', () => {
   afterAll(() => {
@@ -48,37 +53,36 @@ describe('Desk Booking Function', () => {
     });
     describe('Creating Bookings', () => {
       it('should have called createNewBookings callback and return 201', async () => {
-        const createNewBookingsMock = forceTypeToMockFunction(
-          createNewBookings,
-        ).mockImplementationOnce((_req, res) => {
-          res.status(201).send();
-          return Promise.resolve();
-        });
+        const createNewBookingsMock =
+          mockCreateNewBookings.mockImplementationOnce((_req, res) => {
+            res.status(201).send();
+            return Promise.resolve();
+          });
         await request
           .post('/v1/booking')
           .send(JSON.stringify({bookings: []}))
           .set('Content-Type', 'application/json')
           .then(res => {
             expect(res.statusCode).toBe(201);
-            expect(createNewBookingsMock).toBeCalledTimes(1);
+            expect(createNewBookingsMock).toHaveBeenCalledTimes(1);
           });
       });
     });
 
     describe('"Delete" Bookings Request', () => {
       it('should have called removeBookings and return 204', async () => {
-        const removeBookingsMock = forceTypeToMockFunction(
-          removeBookings,
-        ).mockImplementationOnce(async (_req, res) => {
-          res.status(204).send();
-        });
+        const removeBookingsMock = mockRemoveBookings.mockImplementationOnce(
+          async (_req, res) => {
+            res.status(204).send();
+          },
+        );
         await request
           .delete('/v1/booking')
           .send(JSON.stringify({bookingIds: []}))
           .set('Content-Type', 'application/json')
           .then(res => {
             expect(res.statusCode).toBe(204);
-            expect(removeBookingsMock).toBeCalledTimes(1);
+            expect(removeBookingsMock).toHaveBeenCalledTimes(1);
           });
       });
     });
@@ -86,16 +90,16 @@ describe('Desk Booking Function', () => {
 });
 
 const createMockAppCheckMiddleware = () => {
-  forceTypeToMockFunction(appCheck).mockImplementation(
-    async (_req: Request, _res: Response, next: Function) => {
+  mockAppCheck.mockImplementation(
+    async (_req: Request, _res: Response, next: NextFunction) => {
       next();
     },
   );
 };
 
 const createMockMiddleware = (isAuthenticated: boolean) => {
-  forceTypeToMockFunction(validateFirebaseIdToken).mockImplementation(
-    async (req: Request, res: Response, next: Function) => {
+  mockValidateFirebaseIdToken.mockImplementation(
+    async (req: Request, res: Response, next: NextFunction) => {
       if (isAuthenticated) {
         const token: DecodedIdToken = {
           aud: '',
@@ -120,8 +124,4 @@ const createMockMiddleware = (isAuthenticated: boolean) => {
       }
     },
   );
-};
-
-const forceTypeToMockFunction = <F extends (...args: any[]) => any>(f: F) => {
-  return f as jest.MockedFunction<F>;
 };
