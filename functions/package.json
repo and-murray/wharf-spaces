@@ -9,7 +9,8 @@
     "deploy": "firebase deploy --only functions --force",
     "logs": "firebase functions:log",
     "test": "jest",
-    "ci-test": "jest --silent"
+    "ci-test": "jest --silent",
+    "typecheck": "tsc --noEmit"
   },
   "engines": {
     "node": "20"

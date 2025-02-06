@@ -15,6 +15,7 @@ const getBankHolidays = async (): Promise<AllBankHolidays | undefined> => {
     return bankHolidays;
   } catch (error) {
     logMessage(LogLevel.error, error);
+    return;
   }
 };
 
