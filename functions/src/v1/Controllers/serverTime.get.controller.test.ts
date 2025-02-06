@@ -1,7 +1,7 @@
 import {getLondonTime} from './serverTime.get.controller';
 import type {Request, Response} from 'express';
 
-let mockServerTimestamp = '2023-06-30T00:00:00Z';
+const mockServerTimestamp = '2023-06-30T00:00:00Z';
 const mockedToDate = jest.fn(() => mockServerTimestamp);
 jest.mock('firebase-admin', () => ({
   firestore: {

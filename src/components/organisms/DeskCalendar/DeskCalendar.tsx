@@ -9,7 +9,7 @@ import {CalendarWeek} from '@molecules';
 import {WeekNavigationControls} from '@atoms';
 
 const DeskCalendar = () => {
-  let [weekOffset, setWeekOffset] = useState(0);
+  const [weekOffset, setWeekOffset] = useState(0);
   const {selectedDay} = useAppSelector(state => state.selectedDayOptions);
 
   const changeWeekOffset = () => {

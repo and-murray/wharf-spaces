@@ -13,7 +13,7 @@ describe('WHEN a day is selected and event viewer is on the screen', () => {
     jest.clearAllMocks();
   });
 
-  let eventListMock = jest.spyOn(eventList, 'default').mockReturnValue(<></>);
+  const eventListMock = jest.spyOn(eventList, 'default').mockReturnValue(<></>);
 
   const mockOnSnapshot = jest.fn();
   const mockDispatch = jest.fn();

@@ -5,9 +5,11 @@ import App from './App';
 import {DecodedIdToken} from 'firebase-admin/auth';
 import {callCarAPI} from './v1/Services/Scheduled/callCarAPI';
 
+// This is the officially endorsed method of extending express request via declaration merging
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Express {
-    export interface Request {
+    interface Request {
       user?: DecodedIdToken;
     }
   }

@@ -46,7 +46,7 @@ export function getHexValue(colorString: string): string {
 
   const value: string = colorString
     .split('.')
-    //@ts-ignore
+    //@ts-expect-error due to the nature of this reduce, the typing is needlessly verbose
     .reduce((a, b) => a[b], theme.colors) as unknown as string;
 
   return value;

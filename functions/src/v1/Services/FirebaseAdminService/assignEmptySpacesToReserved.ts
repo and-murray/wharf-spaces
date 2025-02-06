@@ -59,7 +59,7 @@ export async function assignEmptySpacesToReserved(
   );
   const db = admin.firestore();
   const batch = db.batch();
-  let updatedCarBookings: Booking[] = [];
+  const updatedCarBookings: Booking[] = [];
   let anEditTookPlace = false;
   orderedBookings.forEach(booking => {
     const bookingFromMap = bookingMap.find(

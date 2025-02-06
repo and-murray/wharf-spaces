@@ -19,7 +19,7 @@ const CheckToDisplayAsFull = ({
   subheadingTextColorFull,
   id,
 }: CheckToDisplayAsFullProps) => {
-  let subheadingText = useMemo(() => {
+  const subheadingText = useMemo(() => {
     if (spaceLeft === undefined) {
       return ' ';
     }

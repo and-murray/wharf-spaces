@@ -10,8 +10,8 @@ import * as assignEmptySpacesToReserved from './assignEmptySpacesToReserved';
 
 const mockBatchUpdate = jest.fn();
 const mockBatchCommit = jest.fn();
-let mockDoc = jest.fn();
-let mockGet = jest.fn();
+const mockDoc = jest.fn();
+const mockGet = jest.fn();
 const mockWhere = jest.fn(() => ({
   get: mockGet,
 }));
@@ -157,7 +157,7 @@ describe('Edit Existing Bookings', () => {
     });
     describe('One of the bookings is on a different day', () => {
       it('Throws a bad request error', async () => {
-        let editedDocs = bookingDocs;
+        const editedDocs = bookingDocs;
         editedDocs[0].data.date = '2023-05-10T00:00:00Z';
         chunkQuerySpy.mockResolvedValueOnce(editedDocs);
         try {
@@ -175,7 +175,7 @@ describe('Edit Existing Bookings', () => {
 
     describe('One of the bookings is for a different space type', () => {
       it('Throws a bad request error', async () => {
-        let editedDocs = bookingDocs;
+        const editedDocs = bookingDocs;
         editedDocs[0].data.spaceType = 'car';
         chunkQuerySpy.mockResolvedValueOnce(editedDocs);
         try {
@@ -193,7 +193,7 @@ describe('Edit Existing Bookings', () => {
 
     describe('One of the bookings is for a different user', () => {
       it('Throws a bad request error', async () => {
-        let editedDocs = bookingDocs;
+        const editedDocs = bookingDocs;
         editedDocs[0].data.userId = '456';
         chunkQuerySpy.mockResolvedValueOnce(editedDocs);
         try {
@@ -266,7 +266,7 @@ describe('Edit Existing Bookings', () => {
 
     describe('Edits to reserve spaces are made regardless of capacity', () => {
       it('Calls batch update and commit', async () => {
-        let editedDocs = bookingDocs;
+        const editedDocs = bookingDocs;
         editedDocs[0].data.isReserveSpace = true;
         editedDocs[1].data.isReserveSpace = true;
         editedDocs[2].data.isReserveSpace = true;

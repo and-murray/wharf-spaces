@@ -33,7 +33,10 @@ export const checkBookingCapacity = async (
     return {am: 0, pm: 0, allDay: 0};
   }
 
-  let bookingsOnDay = await getNonReservedBookingsOnDate(dateToBook, spaceType);
+  const bookingsOnDay = await getNonReservedBookingsOnDate(
+    dateToBook,
+    spaceType,
+  );
 
   const isLimited = isBookingDateLimitedToBU(dateToBook);
   if (spaceType === SpaceType.Enum.car) {

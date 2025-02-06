@@ -81,7 +81,7 @@ const setDeskMessage = (
 export const checkAlternateAmOrPmFree = (options: AvailableSpacesOption[]) => {
   let hasSlotFree = false;
 
-  let allDayOption = options.find(
+  const allDayOption = options.find(
     option => option.timeSlot === TimeSlot.allDay,
   );
   // If they are booking for all day then not part of scenario
@@ -89,8 +89,8 @@ export const checkAlternateAmOrPmFree = (options: AvailableSpacesOption[]) => {
   if (allDayOption?.isSelected) {
     return hasSlotFree;
   }
-  let amOption = options.find(option => option.timeSlot === TimeSlot.am);
-  let pmOption = options.find(option => option.timeSlot === TimeSlot.pm);
+  const amOption = options.find(option => option.timeSlot === TimeSlot.am);
+  const pmOption = options.find(option => option.timeSlot === TimeSlot.pm);
 
   //Check if alternate to selected timeslot has spaces
   if (amOption?.isSelected) {

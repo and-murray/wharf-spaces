@@ -102,7 +102,7 @@ V1Router.patch('/booking/allocateEmptySlots', allocateEmptySlots);
  *       required: true
  *       example: Bearer feofuq34tq83j2dq3fq3ufbi
  */
-V1Router.use(validateFirebaseIdToken as any); // Anything after this requires login
+V1Router.use(validateFirebaseIdToken); // Anything after this requires login
 
 /**
  * @swagger

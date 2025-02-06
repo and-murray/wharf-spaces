@@ -33,8 +33,11 @@ const isValidCarBookingDateSpy = jest.spyOn(
   'isValidCarBookingDate',
 );
 const sendToBookingsSpy = jest.spyOn(firebaseAdminService, 'sendToBookings');
-let getFirestoreUserSpy = jest.spyOn(firebaseAdminService, 'getFirestoreUser');
-let mockBookingCapacity = jest.spyOn(
+const getFirestoreUserSpy = jest.spyOn(
+  firebaseAdminService,
+  'getFirestoreUser',
+);
+const mockBookingCapacity = jest.spyOn(
   checkBookingCapacity,
   'checkBookingCapacity',
 );

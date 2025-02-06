@@ -3,6 +3,7 @@ import {
   GoogleSignin,
   statusCodes,
   GoogleSigninButton,
+  type NativeModuleError,
 } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 import Config from 'react-native-config';
@@ -26,6 +27,13 @@ GoogleSignin.configure({
     'https://www.googleapis.com/auth/user.organization.read',
   ],
 });
+
+const isErrorWithCode = (error: unknown): error is NativeModuleError => {
+  // to account for https://github.com/facebook/react-native/issues/41950
+  // fixed in https://github.com/facebook/react-native/commit/9525074a194b9cf2b7ef8ed270978e3f7f2c41f7 0.74
+  const isNewArchErrorIOS = typeof error === 'object' && error != null;
+  return (error instanceof Error || isNewArchErrorIOS) && 'code' in error;
+};
 
 export const signOut = async () => {
   // Do any other signout work e.g clear notification tokens
@@ -63,13 +71,16 @@ export const signInSilently = async () => {
 
     // Sign-in the user with the credential
     return auth().signInWithCredential(googleCredential);
-  } catch (error: any) {
-    if (error.code === statusCodes.SIGN_IN_REQUIRED) {
+  } catch (error) {
+    if (isErrorWithCode(error) && error.code === statusCodes.SIGN_IN_REQUIRED) {
       // When the user hasn't signed in before or they have signed out.
       // In this case, you should let the user sign in explicitly.
       await GoogleSignin.signOut();
       return;
-    } else if (error.message.includes('invalid_grant')) {
+    } else if (
+      error instanceof Error &&
+      error.message.includes('invalid_grant')
+    ) {
       // The token has expired or been revoked. Sign the user out, and prompt them to sign in again.
       await GoogleSignin.signOut();
       return;
@@ -115,9 +126,12 @@ export const GoogleSignInComponent = ({
       dispatch(setLoading(true));
       // Sign-in the user with the credential
       return auth().signInWithCredential(googleCredential);
-    } catch (error: any) {
+    } catch (error) {
       dispatch(setLoading(false));
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+      if (
+        isErrorWithCode(error) &&
+        error.code === statusCodes.SIGN_IN_CANCELLED
+      ) {
         // user cancelled the login flow
         console.error(
           'Authentication error: SIGN_IN_CANCELLED',
@@ -125,12 +139,18 @@ export const GoogleSignInComponent = ({
         );
         errorCallback(GoogleSignInError.SIGN_IN_CANCELLED);
         return;
-      } else if (error.code === statusCodes.IN_PROGRESS) {
+      } else if (
+        isErrorWithCode(error) &&
+        error.code === statusCodes.IN_PROGRESS
+      ) {
         // operation (e.g. sign in) is in progress already
         console.error('Authentication error: ', statusCodes.IN_PROGRESS);
         errorCallback(GoogleSignInError.IN_PROGRESS);
         return;
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+      } else if (
+        isErrorWithCode(error) &&
+        error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE
+      ) {
         // play services not available or outdated
         console.error(
           'Authentication error: ',
@@ -140,7 +160,11 @@ export const GoogleSignInComponent = ({
         return;
       } else {
         // some other error happened
-        console.error('Authentication error: ', error, error.code);
+        console.error(
+          'Authentication error: ',
+          error,
+          isErrorWithCode(error) && error.code,
+        );
         errorCallback(GoogleSignInError.UNKNOWN);
         return;
       }
