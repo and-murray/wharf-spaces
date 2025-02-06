@@ -51,6 +51,7 @@ const DayTimeSelector = ({
   update,
   heading,
   spaceLeft,
+  reservedSpaces,
   id,
   isSelected,
   capacity,
@@ -84,6 +85,7 @@ const DayTimeSelector = ({
 
     return container;
   }, [isBooked, hasBookedCommunal, isBookingEditable, isSelected, spaceLeft]);
+
   return (
     <Pressable
       onPress={() => update(id)}
@@ -121,6 +123,7 @@ const DayTimeSelector = ({
       ) : (
         <CheckToDisplayAsFull
           spaceLeft={spaceLeft}
+          reservedSpaces={reservedSpaces}
           capacity={capacity}
           subheadingTextColor={subheadingTextColor}
           subheadingTextColorFull={subheadingTextColorFull}

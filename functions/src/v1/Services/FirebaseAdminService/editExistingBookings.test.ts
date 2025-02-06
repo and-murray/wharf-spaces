@@ -41,6 +41,7 @@ const assignEmptySpacesToReservedSpy = jest.spyOn(
   assignEmptySpacesToReserved,
   'assignEmptySpacesToReserved',
 );
+
 describe('Edit Existing Bookings', () => {
   beforeEach(() => {
     isCorrectFunctionSpy.mockReturnValue(true);
@@ -227,26 +228,28 @@ describe('Edit Existing Bookings', () => {
     });
 
     describe('At least one of the edits cannot be made because of capacity', () => {
-      it('Throws a conflict error', async () => {
+      it('Calls batch update with booking as reservation', async () => {
         chunkQuerySpy.mockResolvedValueOnce(bookingDocs);
         checkBookingCapacitySpy.mockResolvedValue({
           am: 1,
           pm: 1,
           allDay: 1,
         });
-        try {
-          await editExistingBookings(edits, '123');
-          expect(true).toBe(false);
-        } catch (error) {
-          const expected = constructError(
-            new createError.Conflict(),
-            'No space available for selected timeslot',
-            '456',
-          );
-          expect(error).toEqual(expected);
-          expect(mockBatchUpdate).toHaveBeenCalledTimes(1);
-          expect(mockBatchCommit).toHaveBeenCalledTimes(0);
-        }
+        await editExistingBookings(edits, '123');
+        expect(mockBatchUpdate).toHaveBeenCalledTimes(3);
+        expect(mockBatchUpdate.mock.calls).toEqual([
+          ['bookingRef', {timeSlot: 'am', updatedAt: {}}],
+          [
+            'bookingRef2',
+            {isReserveSpace: true, timeSlot: 'am', updatedAt: {}},
+          ],
+          [
+            'bookingRef3',
+            {isReserveSpace: true, timeSlot: 'am', updatedAt: {}},
+          ],
+        ]);
+        expect(mockBatchCommit).toHaveBeenCalledTimes(1);
+        expect(assignEmptySpacesToReservedSpy).toHaveBeenCalledTimes(1);
       });
     });
 

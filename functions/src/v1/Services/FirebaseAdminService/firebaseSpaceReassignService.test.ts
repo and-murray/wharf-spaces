@@ -3,6 +3,7 @@ import {Booking, SpaceType, User} from '../../Models/booking.model';
 import {assignSpacesToReserved} from './firebaseSpaceReassignService';
 import * as firebaseAdminService from './firebaseAdminService';
 import * as bookingUtils from './../../utils/BookingUtils/BookingUtils';
+import * as checkBookingCapacity from '../DeskCapacity/checkBookingCapacity';
 import sendNotifications from './firebaseMessagingService';
 
 const mockBatchUpdate = jest.fn();
@@ -29,13 +30,20 @@ jest.mock('firebase-admin', () => ({
     collection: mockCollection,
   }),
 }));
+
 const getFirestoreUserSpy = jest.spyOn(
   firebaseAdminService,
   'getFirestoreUser',
 );
+
 const isBookingDateLimitedToBUSpy = jest.spyOn(
   bookingUtils,
   'isBookingDateLimitedToBU',
+);
+
+const checkBookingCapacitySpy = jest.spyOn(
+  checkBookingCapacity,
+  'checkBookingCapacity',
 );
 
 jest.mock('./firebaseMessagingService', () => ({
@@ -141,11 +149,14 @@ describe('Firebase space reassign Service', () => {
         jest.clearAllMocks();
       });
 
-      it('should not assign any if there are no reserved space', async () => {
+      it('should not assign any if there are no reserved spaces', async () => {
         const emptyDocs: DocType[] = [];
+        isBookingDateLimitedToBUSpy.mockReturnValue(false);
+        checkBookingCapacitySpy.mockResolvedValue({am: 1, pm: 1, allDay: 1});
         mockGet.mockImplementation(() => ({
           docs: emptyDocs,
         }));
+
         const isSuccess = await assignSpacesToReserved(deleted);
         expect(isSuccess).toBe(false);
         expect(mockBatchUpdate).toBeCalledTimes(0);
@@ -169,6 +180,8 @@ describe('Firebase space reassign Service', () => {
         mockGet.mockImplementation(() => ({
           docs: reservedBookingDocs,
         }));
+        checkBookingCapacitySpy.mockResolvedValue({am: 1, pm: 1, allDay: 1});
+
         const isSuccess = await assignSpacesToReserved(deleted);
         expect(isSuccess).toBe(true);
         expect(mockBatchUpdate).toHaveBeenNthCalledWith(1, docRef, {
@@ -213,6 +226,8 @@ describe('Firebase space reassign Service', () => {
         mockGet.mockImplementation(() => ({
           docs: reservedBookingDocs,
         }));
+        checkBookingCapacitySpy.mockResolvedValue({am: 1, pm: 1, allDay: 1});
+
         const isSuccess = await assignSpacesToReserved(newDeleted);
         expect(isSuccess).toBe(true);
         expect(mockBatchUpdate).toHaveBeenCalledWith('ref1', {
@@ -259,10 +274,13 @@ describe('Firebase space reassign Service', () => {
             ref: 'ref2',
           },
         ];
+
         isBookingDateLimitedToBUSpy.mockReturnValue(false);
         mockGet.mockImplementation(() => ({
           docs: reservedBookingDocs,
         }));
+        checkBookingCapacitySpy.mockResolvedValue({am: 0, pm: 1, allDay: 0});
+
         const isSuccess = await assignSpacesToReserved(newDeleted);
         expect(isSuccess).toBe(true);
         expect(sendNotifications).toBeCalledTimes(1);
@@ -312,10 +330,13 @@ describe('Firebase space reassign Service', () => {
             ref: 'ref2',
           },
         ];
+
         isBookingDateLimitedToBUSpy.mockReturnValue(false);
         mockGet.mockImplementation(() => ({
           docs: reservedBookingDocs,
         }));
+        checkBookingCapacitySpy.mockResolvedValue({am: 0, pm: 1, allDay: 0});
+
         const isSuccess = await assignSpacesToReserved(newDeleted);
         expect(isSuccess).toBe(true);
         expect(sendNotifications).toBeCalledTimes(2);

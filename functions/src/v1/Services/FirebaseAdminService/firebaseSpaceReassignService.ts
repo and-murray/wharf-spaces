@@ -16,11 +16,12 @@ import {
 import {isBookingDateLimitedToBU} from '../../utils/BookingUtils/BookingUtils';
 import {getFirestoreUser} from './firebaseAdminService';
 import {
-  toFreeSlots,
   findCarAssignables,
   findDeskAssignables,
   Reassignables,
+  FreeSlot,
 } from '../../utils/SpaceReassignUtils/SpaceReassignUtils';
+import {checkBookingCapacity} from '../DeskCapacity/checkBookingCapacity';
 
 /**
  * Goes through the deleted bookings and extract out free time slots that are now assignable to the bookings in reserved space.
@@ -40,7 +41,7 @@ export async function assignSpacesToReserved(deleted: Booking[]) {
     nonReservedBookings,
     (item: Booking) => item.spaceType,
   );
-  //Making sure only bookings with one space type are handled
+  // Making sure only bookings with one space type are handled
   if (spaceTypes.length !== 1) {
     return false;
   }
@@ -49,14 +50,34 @@ export async function assignSpacesToReserved(deleted: Booking[]) {
     nonReservedBookings,
     (item: Booking) => item.userId,
   );
-  //Making sure only deleted bookings are belong to same user
+  // Making sure only deleted bookings belong to the same user
   if (deletedBookingUserIds.length !== 1) {
     return false;
   }
 
   const spaceType = spaceTypes[0];
-  const freeSlots = toFreeSlots(nonReservedBookings);
-  const queryDates = distinctFieldValues(freeSlots, freeslot => freeslot.date);
+  const user = await getFirestoreUser(deletedBookingUserIds[0]);
+
+  const freeSlots: FreeSlot[] = [];
+  /**  Amending freeslot functionality due to issues with allDay reservations
+   * FreeSlots previously were only taking into account the timeSlot of the actual deletion
+   * whereas it was not calculation for any possible other availabilities that could also be caused
+   * such as if a pm slot is deleted then an allDay could potentially be available for a reserve to take
+   */
+  for (let i = 0; i < deleted.length; i++) {
+    const remainingCapacity = await checkBookingCapacity(
+      deleted[i].date,
+      deleted[i].spaceType,
+      user.businessUnit,
+    );
+    freeSlots.push({...remainingCapacity, date: deleted[i].date});
+  }
+
+  const queryDates = distinctFieldValues(
+    deleted,
+    deletedBooking => deletedBooking.date,
+  );
+
   const db = admin.firestore();
   const docs = (
     await db
@@ -81,7 +102,6 @@ export async function assignSpacesToReserved(deleted: Booking[]) {
 
   let reassignables: Reassignables;
   if (spaceType === SpaceType.Enum.car) {
-    const user = await getFirestoreUser(deletedBookingUserIds[0]);
     if (!user) {
       return false;
     }
@@ -89,6 +109,7 @@ export async function assignSpacesToReserved(deleted: Booking[]) {
       bookings,
       user.businessUnit,
     );
+
     reassignables = findCarAssignables(
       freeSlots,
       bookings,
