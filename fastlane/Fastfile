@@ -20,6 +20,7 @@ platform :ios do
             force_for_new_devices: true)
         cocoapods(podfile: "ios/Podfile")
         gym(workspace: iOSWorkspace,
+            scheme: "MurrayDeskBooking",
             silent: true,
             configuration: 'Release-Dev',
             export_method: 'ad-hoc')
@@ -40,6 +41,7 @@ platform :ios do
             skip_google_cloud_account_confirmation: true) 
         cocoapods(podfile: "ios/Podfile")
         gym(workspace: iOSWorkspace,
+            scheme: "MurrayDeskBooking",
             configuration: 'Release-Production',
             export_method: 'app-store',
             include_bitcode: true)
