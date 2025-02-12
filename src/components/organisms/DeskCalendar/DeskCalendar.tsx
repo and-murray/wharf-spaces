@@ -1,5 +1,5 @@
 import React, {useState, useMemo} from 'react';
-import {View, Text, HStack} from 'native-base';
+import {View, Text, HStack} from '@gluestack-ui/themed-native-base';
 import dayjs from 'dayjs';
 import dayOfYear from 'dayjs/plugin/dayOfYear';
 dayjs.extend(dayOfYear);

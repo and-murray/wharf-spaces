@@ -1,6 +1,7 @@
 import React, {useMemo, useState} from 'react';
 import {Platform} from 'react-native';
-import {VStack, HStack, Text, Box, Card} from 'native-base';
+import {VStack, HStack, Text, Box} from '@gluestack-ui/themed-native-base';
+import {Card} from '@gluestack-ui/themed';
 import {Booking} from '@customTypes';
 import {WhosInRow} from '@molecules';
 import {TimeSlotUtils} from '@utils/TimeSlotUtils/TimeSlotUtils';
@@ -183,7 +184,7 @@ const WhosIn = ({bookings, userData}: WhosInProps) => {
         </Text>
       ) : (
         <Card
-          shadow={4}
+          shadow={'4'}
           backgroundColor="white"
           borderRadius={20}
           padding={2} // Padding required corners not to be intersected by background of the rows

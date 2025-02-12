@@ -1,4 +1,11 @@
-import {VStack, HStack, Box, Text, Switch, Center} from 'native-base';
+import {
+  VStack,
+  HStack,
+  Box,
+  Text,
+  Switch,
+  Center,
+} from '@gluestack-ui/themed-native-base';
 import crashlytics from '@react-native-firebase/crashlytics';
 import {useAppSelector} from '@state/utils/hooks';
 import React, {useState, useEffect} from 'react';

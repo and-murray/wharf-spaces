@@ -68,7 +68,8 @@ target 'MurrayDeskBooking' do
       end
     react_native_post_install(
       installer,
-      :mac_catalyst_enabled => false
+      :mac_catalyst_enabled => false,
+      # :ccache_enabled => true
     )
   end
 end

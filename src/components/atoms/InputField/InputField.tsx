@@ -1,4 +1,4 @@
-import {Input, Box, ScrollView} from 'native-base';
+import {Input, Box, ScrollView} from '@gluestack-ui/themed-native-base';
 import React from 'react';
 
 type inputFieldProps = {
@@ -24,7 +24,7 @@ const InputField = ({text, setText, testID}: inputFieldProps) => {
           numberOfLines={text.length < 50 ? 1 : text.length < 200 ? 4 : 8}
           size={'sm'}
           multiline={true}
-          onChangeText={newText => setText(newText)}
+          onChangeText={(newText: string) => setText(newText)}
           variant={'unstyled'}
           selectionColor={'brand.red'}
           testID={testID}

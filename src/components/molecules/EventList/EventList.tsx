@@ -1,4 +1,4 @@
-import {View, Text} from 'native-base';
+import {View, Text} from '@gluestack-ui/themed-native-base';
 import React from 'react';
 
 type EventListProps = {

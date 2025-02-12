@@ -1,6 +1,6 @@
 import React, {ReactNode} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {NativeBaseProvider} from 'native-base';
+import {NativeBaseProvider} from '@gluestack-ui/themed-native-base';
 import {Provider} from 'react-redux';
 import {store} from '@state/store';
 import theme from '@root/theme';

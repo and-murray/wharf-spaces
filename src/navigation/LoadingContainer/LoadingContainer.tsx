@@ -1,6 +1,6 @@
 import React, {ReactNode} from 'react';
 import {useAppSelector} from '@state/utils/hooks';
-import {Spinner, Center} from 'native-base';
+import {Spinner, Center} from '@gluestack-ui/themed-native-base';
 import {Dimensions} from 'react-native';
 
 type CustomComponentProps = {

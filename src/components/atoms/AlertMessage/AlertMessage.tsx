@@ -1,4 +1,4 @@
-import {AlertDialog, Button, Box} from 'native-base';
+import {AlertDialog, Button, Box} from '@gluestack-ui/themed-native-base';
 import React, {useRef} from 'react';
 
 interface ButtonConfig {

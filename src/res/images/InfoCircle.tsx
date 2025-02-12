@@ -1,4 +1,4 @@
-import {Icon} from 'native-base';
+import {Icon} from '@gluestack-ui/themed-native-base';
 import React from 'react';
 import Svg, {Path} from 'react-native-svg';
 import {StrokeColor} from '@customTypes/index';

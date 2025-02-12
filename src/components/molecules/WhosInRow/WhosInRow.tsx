@@ -1,5 +1,5 @@
 import React from 'react';
-import {HStack, Text, VStack} from 'native-base';
+import {HStack, Text, VStack} from '@gluestack-ui/themed-native-base';
 import {ProfilePicture} from '@atoms';
 import {SpaceType} from '@customTypes/booking';
 

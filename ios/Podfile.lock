@@ -2141,7 +2141,7 @@ PODS:
     - React-Core
   - react-native-safe-area-context (4.9.0):
     - React-Core
-  - react-native-segmented-control (2.5.7):
+  - react-native-segmented-control (2.5.6):
     - React-Core
   - React-nativeconfig (0.73.4)
   - React-NativeModulesApple (0.73.4):
@@ -2359,32 +2359,32 @@ PODS:
     - Firebase/RemoteConfig (= 10.20.0)
     - React-Core
     - RNFBApp
-  - RNGestureHandler (2.20.2):
+  - RNGestureHandler (2.21.2):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
   - RNGoogleSignin (11.0.1):
     - GoogleSignIn (~> 7.0.0)
     - React-Core
-  - RNReanimated (3.16.7):
+  - RNReanimated (3.16.3):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
     - ReactCommon/turbomodule/core
-    - RNReanimated/reanimated (= 3.16.7)
-    - RNReanimated/worklets (= 3.16.7)
-  - RNReanimated/reanimated (3.16.7):
+    - RNReanimated/reanimated (= 3.16.3)
+    - RNReanimated/worklets (= 3.16.3)
+  - RNReanimated/reanimated (3.16.3):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
     - ReactCommon/turbomodule/core
-    - RNReanimated/reanimated/apple (= 3.16.7)
-  - RNReanimated/reanimated/apple (3.16.7):
+    - RNReanimated/reanimated/apple (= 3.16.3)
+  - RNReanimated/reanimated/apple (3.16.3):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
     - ReactCommon/turbomodule/core
-  - RNReanimated/worklets (3.16.7):
+  - RNReanimated/worklets (3.16.3):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
@@ -2725,7 +2725,7 @@ SPEC CHECKSUMS:
   React-Mapbuffer: fc85d5504aacbc2d0368d6d5f9539305ba91ae2b
   react-native-config: ea75335a7cca1d3326de1da384227e580a7c082e
   react-native-safe-area-context: 435f4c13ac75ceed6135382ee77d57d1a5b5b2d6
-  react-native-segmented-control: bf6e0032726727498e18dd437ae88afcdbc18e99
+  react-native-segmented-control: 4fcbd509feee34f676be9b0e3f5b09e87ab8f42e
   React-nativeconfig: ca8b90c736cf3be019cb332ca42d93dd95b32e05
   React-NativeModulesApple: 6c021b0b97bcde79e0303c976165df810b0d2286
   React-perflogger: 8a1e1af5733004bdd91258dcefbde21e0d1faccd
@@ -2760,9 +2760,9 @@ SPEC CHECKSUMS:
   RNFBFunctions: 600d25beb1f392e7e01b7cee6be3995a0a92272b
   RNFBMessaging: 66535c56b29b5c111deb3e61999069345f1ebe74
   RNFBRemoteConfig: ab98a1b9c2119c1b4bee4ed55f10b826628726ff
-  RNGestureHandler: 975cd5a6bbe4f5ce839f73671c82acf61bfd4c8a
+  RNGestureHandler: e6f30126af65904304f448e9e1db9cbe1db8c712
   RNGoogleSignin: b8f09e3ec56e09497e1e53b0ff66d5a45916c6b1
-  RNReanimated: cfacd9e74eb876f089c5f6f0152fe440d58b5769
+  RNReanimated: e0c3c6e7d152c0d189e4ea1eed5fad59c7226b0b
   RNScreens: b8cead5eb79b58d78348094d62f154ffd163361d
   RNSVG: 6d5ed33b6635ed6d6ecb50744dcf127580c39ed5
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17

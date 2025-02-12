@@ -1,6 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import {Dimensions} from 'react-native';
-import {Text, Modal, KeyboardAvoidingView, View, ScrollView} from 'native-base';
+import {
+  Text,
+  Modal,
+  KeyboardAvoidingView,
+  View,
+  ScrollView,
+} from '@gluestack-ui/themed-native-base';
 import {InputField, Warning, LongButton} from '@atoms';
 import uuid from 'react-native-uuid';
 import {isEqual} from 'lodash';
@@ -8,7 +14,7 @@ import {updateNote} from '@firebase/firestore/updateNote';
 import {deleteNote} from '@firebase/firestore/deleteNote';
 import {createNote} from '@firebase/firestore/createNote';
 import AlertMessage from '@atoms/AlertMessage/AlertMessage';
-import {WarningSymbolIcon} from '../../atoms/Warning/WarningSymbol/WarningSymbol';
+import {WarningSymbolIcon} from '@atoms/Warning/WarningSymbol/WarningSymbol';
 import {useAppSelector} from '@root/src/state/utils/hooks';
 import {Note} from '@root/src/types/notes';
 
@@ -65,7 +71,7 @@ const EventModal = ({
     resetFieldTextOnEventlessDay(notes);
   }, [notes]);
 
-  async function onPress(): Promise<void> {
+  async function onSavePress(): Promise<void> {
     if (hasEvent) {
       if (inputFieldText === '') {
         await deleteNote(eventDocumentId);
@@ -132,8 +138,8 @@ const EventModal = ({
             borderWidth={5}
             borderColor={'brand.white'}>
             <LongButton
-              buttonText={'Save'}
-              onPress={() => onPress()}
+              buttonText="Save"
+              onPress={() => onSavePress()}
               isDisabled={false}
             />
             <AlertMessage

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Box, Pressable, View} from 'native-base';
+import {Box, Pressable, View} from '@gluestack-ui/themed-native-base';
 import {EventList, EventModal} from '@molecules';
 import {useAppSelector} from '@state/utils/hooks';
 import {Pencil} from '@root/src/res/images/Pencil';

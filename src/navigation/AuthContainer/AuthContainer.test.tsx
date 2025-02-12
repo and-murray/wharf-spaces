@@ -1,6 +1,6 @@
 import React from 'react';
 import AuthContainer from './AuthContainer';
-import {Text} from 'native-base';
+import {Text} from '@gluestack-ui/themed-native-base';
 import {renderWithProviders as render} from '@root/src/util/test-utils';
 import {BusinessUnit, Role} from '@root/src/types/user';
 import {Timestamp} from 'firebase-admin/firestore';

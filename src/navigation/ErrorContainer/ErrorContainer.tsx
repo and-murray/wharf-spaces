@@ -1,5 +1,5 @@
 import React, {ReactNode} from 'react';
-import {Alert, Center, Pressable, Text} from 'native-base';
+import {Alert, Center, Pressable, Text} from '@gluestack-ui/themed-native-base';
 import {useAppDispatch, useAppSelector} from '@state/utils/hooks';
 import {setShowError} from '@state/reducers/ErrorSlice';
 

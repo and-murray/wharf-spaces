@@ -1,6 +1,12 @@
 import React, {useState, ReactElement} from 'react';
 import auth from '@react-native-firebase/auth';
-import {AlertDialog, Box, Button, Input, Text} from 'native-base';
+import {
+  AlertDialog,
+  Box,
+  Button,
+  Input,
+  Text,
+} from '@gluestack-ui/themed-native-base';
 
 const EmailPasswordLoginModal = (): React.JSX.Element => {
   const [isLoginAlertOpen, setIsLoginAlertOpen] = useState(false);
@@ -51,7 +57,7 @@ const EmailPasswordLoginModal = (): React.JSX.Element => {
               w="100%"
               py="0"
               placeholder="Email address"
-              onChangeText={textInput => setUsername(textInput)}
+              onChangeText={(textInput: string) => setUsername(textInput)}
               value={usernameState}
             />
             <Input
@@ -59,7 +65,7 @@ const EmailPasswordLoginModal = (): React.JSX.Element => {
               w="100%"
               py="0"
               placeholder="Password"
-              onChangeText={textInput => setPassword(textInput)}
+              onChangeText={(textInput: string) => setPassword(textInput)}
               value={passwordState}
             />
           </AlertDialog.Body>

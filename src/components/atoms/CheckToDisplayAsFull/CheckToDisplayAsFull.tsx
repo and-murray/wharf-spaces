@@ -1,5 +1,5 @@
 import React, {useMemo} from 'react';
-import {View, Text} from 'native-base';
+import {View, Text} from '@gluestack-ui/themed-native-base';
 import ReservedCount from '@atoms/ReservedCount/ReservedCount';
 
 type CheckToDisplayAsFullProps = {

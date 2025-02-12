@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, HStack} from 'native-base';
+import {Text, HStack} from '@gluestack-ui/themed-native-base';
 import {ProfilePicture} from '@atoms';
 import {useAppSelector} from '@state/utils/hooks';
 

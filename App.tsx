@@ -2,7 +2,7 @@ import React, {useMemo, useState} from 'react';
 import AppContainer from '@navigation/AppContainer';
 import {store} from '@state/store';
 import {Provider} from 'react-redux';
-import {NativeBaseProvider} from 'native-base';
+import {NativeBaseProvider} from '@gluestack-ui/themed-native-base';
 import theme from './theme';
 import 'react-native-gesture-handler';
 import AlertMessage from '@components/atoms/AlertMessage/AlertMessage';

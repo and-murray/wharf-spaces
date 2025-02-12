@@ -52,13 +52,13 @@ export const signInSilently = async () => {
     await GoogleSignin.hasPlayServices();
     const userInfo = await GoogleSignin.signInSilently();
 
-    if (!userInfo.user.email.includes('@and.digital')) {
+    if (!userInfo.data?.user.email.includes('@and.digital')) {
       await GoogleSignin.signOut();
       throw new Error('Not a valid user');
     }
 
     const googleCredential = auth.GoogleAuthProvider.credential(
-      userInfo.idToken,
+      userInfo.data.idToken,
     );
 
     // Sign-in the user with the credential
@@ -102,13 +102,13 @@ export const GoogleSignInComponent = ({
       await GoogleSignin.signOut();
       const userInfo = await GoogleSignin.signIn();
 
-      if (!userInfo.user.email.includes('@and.digital')) {
+      if (!userInfo.data?.user.email.includes('@and.digital')) {
         await GoogleSignin.signOut();
         errorCallback(GoogleSignInError.NOT_ANDI);
         return;
       }
       const googleCredential = auth.GoogleAuthProvider.credential(
-        userInfo.idToken,
+        userInfo.data.idToken,
       );
       dispatch(setLoading(true));
       // Sign-in the user with the credential

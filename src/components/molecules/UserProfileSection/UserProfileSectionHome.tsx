@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, HStack, VStack} from 'native-base';
+import {Text, HStack, VStack} from '@gluestack-ui/themed-native-base';
 import {ProfilePicture} from '@atoms';
 import {useAppSelector} from '@state/utils/hooks';
 import {DateFormat, formatDate} from '@utils/DateTimeUtils/DateTimeUtils';

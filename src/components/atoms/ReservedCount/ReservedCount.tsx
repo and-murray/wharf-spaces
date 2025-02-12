@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View} from 'native-base';
+import {Text, View} from '@gluestack-ui/themed-native-base';
 import {ClockIcon} from '@res/images/ClockIcon';
 
 type ReservedCountProps = {

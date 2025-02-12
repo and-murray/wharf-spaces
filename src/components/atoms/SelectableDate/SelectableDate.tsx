@@ -1,5 +1,10 @@
 import React from 'react';
-import {Text, Pressable, Badge, CheckIcon} from 'native-base';
+import {
+  Text,
+  Pressable,
+  Badge,
+  CheckIcon,
+} from '@gluestack-ui/themed-native-base';
 import dayjs from 'dayjs';
 import {
   defaultColors,

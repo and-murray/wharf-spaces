@@ -1,5 +1,5 @@
 import React from 'react';
-import {ZStack, Avatar} from 'native-base';
+import {ZStack, Avatar} from '@gluestack-ui/themed-native-base';
 import {SilhouetteProfilePicture} from '@res/images/SilhouetteProfilePicture';
 
 type ProfilePictureProps = {

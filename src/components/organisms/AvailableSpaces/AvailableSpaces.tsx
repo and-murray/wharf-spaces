@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useMemo} from 'react';
 import {AvailableSpaceView} from '@molecules';
-import {VStack} from 'native-base';
+import {VStack} from '@gluestack-ui/themed-native-base';
 import {BookingType, SpaceType} from '@customTypes/booking';
 import {
   availableSpacesOptionfactory,

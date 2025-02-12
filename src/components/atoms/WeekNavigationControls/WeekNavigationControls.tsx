@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, Pressable, HStack} from 'native-base';
+import {Text, Pressable, HStack} from '@gluestack-ui/themed-native-base';
 import {ChevronLeft} from '@res/images/ChevronLeft';
 import {ChevronRight} from '@res/images/ChevronRight';
 

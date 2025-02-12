@@ -1,7 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {Platform, StyleSheet} from 'react-native';
 import {useAppDispatch, useAppSelector} from '@state/utils/hooks';
-import {KeyboardAvoidingView, ScrollView, Text, VStack} from 'native-base';
+import {
+  KeyboardAvoidingView,
+  ScrollView,
+  Text,
+  VStack,
+} from '@gluestack-ui/themed-native-base';
 import {DeskCalendar, AvailableSpaces, EventViewer, WhosIn} from '@organisms';
 import {
   getBookingsOnTheDate,
@@ -23,7 +28,7 @@ import {storeSelectedSpaceType} from '@state/reducers/selectedDayOptionsSlice';
 import {calculateNewUserIds} from '@utils/FirebaseUtils/FirebaseUtils';
 import Animated, {Layout} from 'react-native-reanimated';
 import {fetchLondonTime} from '@state/reducers/UtilsSlice';
-import {LongButton} from '@root/src/components/atoms';
+import {LongButton} from '@atoms';
 
 export default function BookingScreen() {
   const dispatch = useAppDispatch();
@@ -96,9 +101,6 @@ export default function BookingScreen() {
     }
   }
 
-  function refreshPressed() {
-    dispatch(fetchLondonTime());
-  }
   useEffect(() => {
     async function getUserDataForBookings() {
       const bookings = selectedIndex === 0 ? deskBookings : carBookings;
@@ -205,8 +207,8 @@ export default function BookingScreen() {
                   </Text>
                   <VStack paddingTop={4} paddingLeft={6} paddingRight={6}>
                     <LongButton
-                      buttonText={'Refresh'}
-                      onPress={() => refreshPressed()}
+                      buttonText="Refresh"
+                      onPress={() => dispatch(fetchLondonTime())}
                       isDisabled={false}
                     />
                   </VStack>

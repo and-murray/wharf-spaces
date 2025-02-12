@@ -1,8 +1,8 @@
 import React from 'react';
-import {Text, ITextProps} from 'native-base';
+import {Text} from '@gluestack-ui/themed-native-base';
 import {StyleSheet} from 'react-native';
 
-const BoldText = (props: ITextProps) => (
+const BoldText = (props: {children: any}) => (
   <Text style={style.textBold}>{props.children}</Text>
 );
 
