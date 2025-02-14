@@ -1,4 +1,5 @@
-import {Button, Icon, Text} from '@gluestack-ui/themed-native-base';
+import {Icon, Text} from '@gluestack-ui/themed-native-base';
+import {Button} from '@gluestack-ui/themed';
 import React from 'react';
 import {DeskIcon} from '@res/images/DeskIcon';
 import {SpaceType} from '@customTypes/booking';
@@ -32,8 +33,9 @@ const BookButton = ({
 
   return (
     <Button
-      rightIcon={RightIcon(spaceType)}
-      opacity={isDisabled ? '0.6' : '1.0'}
+      // rightIcon={RightIcon(spaceType)}
+
+      opacity={isDisabled ? '$60' : '$100'}
       borderRadius={10}
       isDisabled={isDisabled}
       backgroundColor={hasBooked ? 'other.primaryRed' : 'other.greyMid'}

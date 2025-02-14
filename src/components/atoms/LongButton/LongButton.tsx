@@ -1,4 +1,4 @@
-import {Text, Button} from '@gluestack-ui/themed-native-base';
+import {Text, Button} from '@gluestack-ui/themed';
 import React from 'react';
 
 type LongButtonProps = {
@@ -10,7 +10,7 @@ type LongButtonProps = {
 const LongButton = ({buttonText, isDisabled, onPress}: LongButtonProps) => {
   return (
     <Button
-      _pressed={{opacity: 0.8}}
+      $pressed={{opacity: 0.8}}
       accessibilityRole="button"
       backgroundColor="other.greyDark"
       borderRadius="2xl"
