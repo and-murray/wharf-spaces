@@ -31,7 +31,7 @@ exports.deskapi = functions
   })
   .https.onRequest(App);
 // GEN 2 Function to stay after migration
-exports.deskapi = onRequest(config, App);
+exports.deskapiGen2 = onRequest(config, App);
 
 /**
  * Car Booking function
@@ -49,7 +49,7 @@ exports.carapi = functions
   })
   .https.onRequest(App);
 // GEN 2 Function to stay after migration
-exports.carapi = onRequest(config, App);
+exports.carapiGen2 = onRequest(config, App);
 
 /**
  * Utils function
@@ -64,7 +64,7 @@ exports.api = functions
   })
   .https.onRequest(App);
 // GEN 2 Function to stay after migration
-exports.api = onRequest(config, App);
+exports.apiGen2 = onRequest(config, App);
 
 /**
  * Scheduled Function - This is run every day so we can call an end point at 9pm to check car spaces are allocated.
@@ -89,7 +89,7 @@ exports.scheduledFunctionCrontab = functions
     }
   });
 // GEN 2 Function to stay after migration
-exports.scheduledFunctionCrontab = onSchedule(
+exports.scheduledFunctionCrontabGen2 = onSchedule(
   {
     schedule: '0 21 * * *',
     timeoutSeconds: 240,
