@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check branch
-        if: github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/main'
+        if: github.event_name == 'workflow_dispatch' #&& github.ref != 'refs/heads/main'
         run: |
           echo "ERROR: You can only run this on main branches"
           exit 1
@@ -63,7 +63,7 @@ jobs:
     environment: 'production'
     steps:
       - name: Checkout Tag
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ssh-key: ${{ secrets.DEPLOY_KEY_PRIVATE_SSH }}
       - uses: actions/setup-node@v4
