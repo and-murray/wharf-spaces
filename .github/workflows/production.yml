@@ -64,9 +64,14 @@ jobs:
     environment: 'production'
     steps:
       - name: Checkout Tag
-        uses: actions/checkout@v6
+        if: inputs.environment == 'production'
+        uses: actions/checkout@v4
         with:
-          ssh-key: ${{ secrets.DEPLOY_KEY_PRIVATE_SSH }}
+          ref: ${{ inputs.version_string}}
+      # - name: Checkout Tag
+      #   uses: actions/checkout@v6
+      #   with:
+      #     ssh-key: ${{ secrets.DEPLOY_KEY_PRIVATE_SSH }}
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.node-version'
