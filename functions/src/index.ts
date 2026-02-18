@@ -1,6 +1,6 @@
 import {onRequest} from 'firebase-functions/v2/https';
 import {onSchedule} from 'firebase-functions/v2/scheduler';
-import * as functions from 'firebase-functions';
+const functions = require("firebase-functions/v1");
 import App from './App';
 import {DecodedIdToken} from 'firebase-admin/auth';
 import {callCarAPI} from './v1/Services/Scheduled/callCarAPI';
