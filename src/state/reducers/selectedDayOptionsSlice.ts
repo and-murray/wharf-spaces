@@ -17,6 +17,7 @@ import {
   TimeSlot,
 } from '@customTypes/booking';
 import {setShowError} from './ErrorSlice';
+import { FirebaseRemoteConfigState } from './RemoteConfigSlice';
 
 type SelectedOptionsState = {
   selectedDay: string;
@@ -41,12 +42,13 @@ export const deleteBookings = createAsyncThunk(
   'bookings/delete',
   async (bookingIds: string[], thunkAPI) => {
     const appState = thunkAPI.getState();
-    const {selectedDayOptions} = appState as {
+    const {selectedDayOptions, firebaseRemoteConfig} = appState as {
       selectedDayOptions: SelectedOptionsState;
+      firebaseRemoteConfig: FirebaseRemoteConfigState;
     };
     await makeBookingDeletion(selectedDayOptions.selectedSpaceType, {
       bookingIds,
-    }).catch(() => thunkAPI.dispatch(setShowError(true)));
+    }, firebaseRemoteConfig.endpoints).catch(() => thunkAPI.dispatch(setShowError(true)));
   },
 );
 
@@ -54,12 +56,13 @@ export const editBookings = createAsyncThunk(
   'bookings/edit',
   async (bookings: EditBooking[], thunkAPI) => {
     const appState = thunkAPI.getState();
-    const {selectedDayOptions} = appState as {
+    const {selectedDayOptions, firebaseRemoteConfig} = appState as {
       selectedDayOptions: SelectedOptionsState;
+      firebaseRemoteConfig: FirebaseRemoteConfigState;
     };
     await makeBookingEdit(selectedDayOptions.selectedSpaceType, {
       bookings: bookings,
-    }).catch(() => thunkAPI.dispatch(setShowError(true)));
+    }, firebaseRemoteConfig.endpoints).catch(() => thunkAPI.dispatch(setShowError(true)));
   },
 );
 
@@ -91,13 +94,15 @@ export const postBookings = createAsyncThunk(
     const bookingPostRequest: BookingPostRequest = {
       bookings: bookings,
     };
-    const {selectedDayOptions} = appState as {
+    const {selectedDayOptions, firebaseRemoteConfig} = appState as {
       selectedDayOptions: SelectedOptionsState;
+      firebaseRemoteConfig: FirebaseRemoteConfigState;
     };
 
     await makeBookingRequest(
       selectedDayOptions.selectedSpaceType,
       bookingPostRequest,
+      firebaseRemoteConfig.endpoints
     ).catch(() => thunkAPI.dispatch(setShowError(true)));
   },
 );

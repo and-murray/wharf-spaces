@@ -1,5 +1,6 @@
 import remoteConfig from '@react-native-firebase/remote-config';
 import {FeatureFlags} from '@root/src/types/FeatureFlags';
+import {Endpoints, endpointsDefault} from '@root/src/types/Endpoints';
 import {ParkingCapacityConfig} from '@state/reducers/RemoteConfigSlice';
 import Config from 'react-native-config';
 
@@ -9,6 +10,14 @@ export function getDeskCapacity(): number {
 
 export function getIsDemoLoginEnabled(): boolean {
   return remoteConfig().getBoolean('isDemoLoginEnabled');
+}
+
+export function getEndpoints(): Endpoints {
+    const endpoints = remoteConfig().getString('endpoints');
+  if (endpoints) {
+    return JSON.parse(endpoints);
+  }
+  return endpointsDefault();
 }
 
 export function getFeatureFlags(): FeatureFlags | undefined {
@@ -41,6 +50,7 @@ async function setDefaults() {
     deskCapacity: 36,
     parkingCapacity: parkingDefault,
     isDemoLoginEnabled: false,
+    endpoints: JSON.stringify(endpointsDefault()),
   });
 }
 
