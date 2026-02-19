@@ -165,6 +165,8 @@ describe('createFirestoreUser', () => {
       ['S&Y Tenzing', BusinessUnit.tenzing],
       ['Adams', BusinessUnit.adams],
       ['Club Adams', BusinessUnit.adams],
+      ['Vaughan', BusinessUnit.adams],
+      ['Club Vaughan', BusinessUnit.adams],
       [undefined, BusinessUnit.unknown],
       ['', BusinessUnit.unknown],
       ['nonsense', BusinessUnit.unknown],
