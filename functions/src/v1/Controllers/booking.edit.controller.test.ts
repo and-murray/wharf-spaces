@@ -6,6 +6,8 @@ const editExistingBookingsSpy = jest.spyOn(
   editExistingBookings,
   'editExistingBookings',
 );
+jest.mock('../Config');
+
 describe('Edit Bookings Controller', () => {
   const mockStatus = jest.fn().mockImplementation(() => ({
     send: mockSend,

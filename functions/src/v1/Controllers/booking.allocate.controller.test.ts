@@ -16,6 +16,7 @@ const assignEmptySpacesToReservedSpy = jest.spyOn(
   assignEmptySpacesToReserved,
   'assignEmptySpacesToReserved',
 );
+jest.mock('../Config');
 describe('Allocate Empty Slots Controller', () => {
   const mockStatus = jest.fn().mockImplementation(() => ({
     send: mockSend,

@@ -3,9 +3,8 @@ import V1Router from './Routes/v1/route';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import type {Request, Response} from 'express';
-import {getRemoteConfig} from 'firebase-admin/remote-config';
 
-const firebaseApp = initializeApp();
+export const firebaseApp = initializeApp();
 
 const express = require('express');
 const cors = require('cors')({origin: true});
@@ -73,7 +72,7 @@ App.use(express.json());
 App.use(cors);
 App.use(cookieParser);
 
-App.use(async (req: Request, res: Response, next: Function) => {
+App.use((req: Request, res: Response, next: Function) => {
   if (
     (req.originalUrl === '/docs' || req.originalUrl === '/docs/') &&
     process.env.FUNCTION_TARGET !== 'api'
@@ -87,9 +86,7 @@ App.use(async (req: Request, res: Response, next: Function) => {
   if (req.originalUrl === '/docs') {
     return res.redirect('docs/');
   }
-  // Initialize server-side Remote Config
-  const rc = getRemoteConfig(firebaseApp);
-  const template = await rc.getServerTemplate();
+
   next();
 });
 

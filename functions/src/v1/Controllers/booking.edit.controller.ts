@@ -2,6 +2,7 @@ import type {Request, Response} from 'express';
 import {EditBookingsRequest} from '../Models/booking.model';
 import {HttpError} from 'http-errors';
 import {editExistingBookings} from '../Services/FirebaseAdminService/editExistingBookings';
+import {getFirebaseRemoteConfig} from '../Config';
 
 export const editBookings = async (req: Request, res: Response) => {
   let editBookingsRequest: EditBookingsRequest;
@@ -17,7 +18,9 @@ export const editBookings = async (req: Request, res: Response) => {
       res.status(403).send('No user id can be found');
       return;
     }
-    await editExistingBookings(editBookingsRequest.bookings, userId);
+    const config = await getFirebaseRemoteConfig();
+
+    await editExistingBookings(editBookingsRequest.bookings, userId, config);
     res.status(204).send();
   } catch (error) {
     res.status((error as HttpError).status).send(error);

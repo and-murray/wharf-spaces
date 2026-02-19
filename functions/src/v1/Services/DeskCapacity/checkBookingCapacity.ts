@@ -1,5 +1,4 @@
 import {getNonReservedBookingsOnDate} from '../FirebaseBookingService/firebaseBookingService';
-import {defaults} from '../Defaults/defaults';
 import {BusinessUnit, SpaceType} from '../../Models/booking.model';
 import {
   calculateCarSpaceCapacity,
@@ -7,6 +6,7 @@ import {
 } from '../../utils/BookingUtils/BookingUtils';
 import {getFirestoreUser} from '../FirebaseAdminService/firebaseAdminService';
 import {reduceRemainingCapacity} from '../../utils/CapacityUtils/CapacityUtils';
+import {Config} from '../../Config';
 
 export type BookingCapacity = {
   am: number;
@@ -18,6 +18,7 @@ export const checkBookingCapacity = async (
   dateToBook: string,
   spaceType: SpaceType,
   businessUnit: BusinessUnit | undefined,
+  config: Config,
 ): Promise<BookingCapacity> => {
   if (isBookingDateLimitedToBU(dateToBook) && !businessUnit) {
     throw new Error(
@@ -25,9 +26,9 @@ export const checkBookingCapacity = async (
     );
   }
   let remainingCapacity: BookingCapacity = {
-    am: defaults.deskCapacity,
-    pm: defaults.deskCapacity,
-    allDay: defaults.deskCapacity,
+    am: config.deskCapacity,
+    pm: config.deskCapacity,
+    allDay: config.deskCapacity,
   };
   if (spaceType === 'car' && businessUnit === 'unknown') {
     return {am: 0, pm: 0, allDay: 0};
@@ -37,7 +38,11 @@ export const checkBookingCapacity = async (
 
   const isLimited = isBookingDateLimitedToBU(dateToBook);
   if (spaceType === SpaceType.Enum.car) {
-    const maxCarCapacity = calculateCarSpaceCapacity(dateToBook, businessUnit);
+    const maxCarCapacity = calculateCarSpaceCapacity(
+      dateToBook,
+      businessUnit,
+      config,
+    );
     remainingCapacity = {
       am: maxCarCapacity,
       pm: maxCarCapacity,

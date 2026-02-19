@@ -7,6 +7,7 @@ import createError, {HttpError} from 'http-errors';
 import * as getFirestoreUser from './firebaseAdminService';
 import * as checkBookingCapacity from '../DeskCapacity/checkBookingCapacity';
 import * as assignEmptySpacesToReserved from './assignEmptySpacesToReserved';
+import {Config} from '../../Config';
 
 const mockBatchUpdate = jest.fn();
 const mockBatchCommit = jest.fn();
@@ -30,6 +31,21 @@ jest.mock('firebase-admin', () => ({
   }),
 }));
 
+const mockConfig: Config = {
+  deskCapacity: 36,
+  parkingCapacity: {
+    murrayCarCapacity: 6,
+    tenzingCarCapacity: 2,
+    adamsCarCapacity: 2,
+    unknownCarCapacity: 0,
+  },
+  endpoints: {
+    carAPIURL: 'https://carapigen2-qg3ssmjwca-ew.a.run.app',
+    deskAPIURL: 'https://deskapigen2-qg3ssmjwca-ew.a.run.app',
+    genericAPIURL: 'https://apigen2-qg3ssmjwca-ew.a.run.app',
+  },
+};
+
 const isCorrectFunctionSpy = jest.spyOn(isCorrectFunction, 'isCorrectFunction');
 const chunkQuerySpy = jest.spyOn(chunkQuery, 'chunkQuery');
 const getFirestoreUserSpy = jest.spyOn(getFirestoreUser, 'getFirestoreUser');
@@ -51,7 +67,7 @@ describe('Edit Existing Bookings', () => {
 
   it('uses the bookings collection', async () => {
     try {
-      await editExistingBookings([], '');
+      await editExistingBookings([], '', mockConfig);
       expect(true).toBe(false);
     } catch {
       expect(mockCollection).toBeCalledWith('bookings');
@@ -66,6 +82,7 @@ describe('Edit Existing Bookings', () => {
           {bookingId: '456', newTimeSlot: 'am'},
         ],
         '123',
+        mockConfig,
       );
       expect(true).toBe(false);
     } catch {
@@ -80,7 +97,7 @@ describe('Edit Existing Bookings', () => {
   describe('There are no bookings found', () => {
     it('returns a bad request', async () => {
       try {
-        await editExistingBookings([], '');
+        await editExistingBookings([], '', mockConfig);
         expect(true).toBe(false);
       } catch (error) {
         const expected = constructError(
@@ -161,7 +178,7 @@ describe('Edit Existing Bookings', () => {
         editedDocs[0].data.date = '2023-05-10T00:00:00Z';
         chunkQuerySpy.mockResolvedValueOnce(editedDocs);
         try {
-          await editExistingBookings(edits, '123');
+          await editExistingBookings(edits, '123', mockConfig);
           expect(true).toBe(false);
         } catch (error) {
           const expected = constructError(
@@ -179,7 +196,7 @@ describe('Edit Existing Bookings', () => {
         editedDocs[0].data.spaceType = 'car';
         chunkQuerySpy.mockResolvedValueOnce(editedDocs);
         try {
-          await editExistingBookings(edits, '123');
+          await editExistingBookings(edits, '123', mockConfig);
           expect(true).toBe(false);
         } catch (error) {
           const expected = constructError(
@@ -197,7 +214,7 @@ describe('Edit Existing Bookings', () => {
         editedDocs[0].data.userId = '456';
         chunkQuerySpy.mockResolvedValueOnce(editedDocs);
         try {
-          await editExistingBookings(edits, '123');
+          await editExistingBookings(edits, '123', mockConfig);
           expect(true).toBe(false);
         } catch (error) {
           const expected = constructError(
@@ -214,7 +231,7 @@ describe('Edit Existing Bookings', () => {
         chunkQuerySpy.mockResolvedValueOnce(bookingDocs);
         checkBookingCapacitySpy.mockResolvedValue({am: 1, pm: 1, allDay: 1});
         try {
-          await editExistingBookings(edits, '456');
+          await editExistingBookings(edits, '456', mockConfig);
           expect(true).toBe(false);
         } catch (error) {
           const expected = constructError(
@@ -235,7 +252,7 @@ describe('Edit Existing Bookings', () => {
           pm: 1,
           allDay: 1,
         });
-        await editExistingBookings(edits, '123');
+        await editExistingBookings(edits, '123', mockConfig);
         expect(mockBatchUpdate).toHaveBeenCalledTimes(3);
         expect(mockBatchUpdate.mock.calls).toEqual([
           ['bookingRef', {timeSlot: 'am', updatedAt: {}}],
@@ -257,7 +274,7 @@ describe('Edit Existing Bookings', () => {
       it('Calls batch update and commit', async () => {
         chunkQuerySpy.mockResolvedValueOnce(bookingDocs);
         checkBookingCapacitySpy.mockResolvedValue({am: 5, pm: 5, allDay: 5});
-        await editExistingBookings(edits, '123');
+        await editExistingBookings(edits, '123', mockConfig);
         expect(mockBatchUpdate).toHaveBeenCalledTimes(3);
         expect(mockBatchCommit).toHaveBeenCalledTimes(1);
         expect(assignEmptySpacesToReservedSpy).toHaveBeenCalledTimes(1);
@@ -272,7 +289,7 @@ describe('Edit Existing Bookings', () => {
         editedDocs[2].data.isReserveSpace = true;
         chunkQuerySpy.mockResolvedValueOnce(editedDocs);
         checkBookingCapacitySpy.mockResolvedValue({am: 0, pm: 0, allDay: 0});
-        await editExistingBookings(edits, '123');
+        await editExistingBookings(edits, '123', mockConfig);
         expect(mockBatchUpdate).toHaveBeenCalledTimes(3);
         expect(mockBatchCommit).toHaveBeenCalledTimes(1);
         expect(assignEmptySpacesToReservedSpy).toHaveBeenCalledTimes(1);

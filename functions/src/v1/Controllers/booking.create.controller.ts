@@ -22,6 +22,7 @@ import {
   isValidCarBookingDate,
 } from '../utils/BookingUtils/BookingUtils';
 import {isCorrectFunction} from '../utils/IsCorrectFunction';
+import {getFirebaseRemoteConfig} from '../Config';
 
 export const createNewBookings = async (req: Request, res: Response) => {
   let bookingRequest: BookingRequest;
@@ -92,10 +93,13 @@ export const createNewBookings = async (req: Request, res: Response) => {
       }
 
       const businessUnit: BusinessUnit = user.businessUnit;
+      const config = await getFirebaseRemoteConfig();
+
       const remainingCapacity = await checkBookingCapacity(
         req.body.bookings[0].date,
         req.body.bookings[0].spaceType,
         businessUnit,
+        config,
       );
       formattedBookings = await Promise.all(
         req.body.bookings.map(async (booking: BookingInput) => {

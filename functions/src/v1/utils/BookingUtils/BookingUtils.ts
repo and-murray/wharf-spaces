@@ -1,10 +1,10 @@
 import {BookingRequest, BusinessUnit} from '../../Models/booking.model';
 import admin from 'firebase-admin';
-import {defaults} from '../../Services/Defaults/defaults';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc'; // UTC plugin is required before timezone
 import timezone from 'dayjs/plugin/timezone';
 import {distinctFieldValues} from '../ArrayUtils/ArrayUtils';
+import {Config} from '../../Config';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
@@ -33,6 +33,7 @@ export const checkSpaceTypeBeingBooked = (bookingRequest: BookingRequest) => {
 export function calculateCarSpaceCapacity(
   dateToBook: string,
   businessUnit: BusinessUnit | undefined,
+  config: Config,
 ): number {
   if (isBookingDateLimitedToBU(dateToBook) && !businessUnit) {
     throw Error('If booking date is limited to BU then BU is required');
@@ -42,18 +43,18 @@ export function calculateCarSpaceCapacity(
   // hardcoding remaining capacity for now and subtracting capacity of prior bookings from batch
   let remainingCapacity = 0;
   if (businessUnit === 'unknown') {
-    remainingCapacity = defaults.unknownCarCapacity;
+    remainingCapacity = config.parkingCapacity.unknownCarCapacity;
   } else if (!isBookingDateLimitedToBU(dateToBook)) {
     remainingCapacity =
-      defaults.murrayCarCapacity +
-      defaults.tenzingCarCapacity +
-      defaults.adamsCarCapacity;
+      config.parkingCapacity.murrayCarCapacity +
+      config.parkingCapacity.tenzingCarCapacity +
+      config.parkingCapacity.adamsCarCapacity;
   } else if (businessUnit === 'murray') {
-    remainingCapacity = defaults.murrayCarCapacity;
+    remainingCapacity = config.parkingCapacity.murrayCarCapacity;
   } else if (businessUnit === 'tenzing') {
-    remainingCapacity = defaults.tenzingCarCapacity;
+    remainingCapacity = config.parkingCapacity.tenzingCarCapacity;
   } else if (businessUnit === 'adams') {
-    remainingCapacity = defaults.adamsCarCapacity;
+    remainingCapacity = config.parkingCapacity.adamsCarCapacity;
   }
 
   return remainingCapacity;

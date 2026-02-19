@@ -4,6 +4,7 @@ import type {Request, Response} from 'express';
 
 import {HttpError} from 'http-errors';
 import {assignSpacesToReserved} from '../Services/FirebaseAdminService/firebaseSpaceReassignService';
+import {getFirebaseRemoteConfig} from '../Config';
 
 export const removeBookings = async (req: Request, res: Response) => {
   try {
@@ -17,7 +18,9 @@ export const removeBookings = async (req: Request, res: Response) => {
       req.body.bookingIds,
       req.user?.uid ?? '',
     );
-    await assignSpacesToReserved(deletedBookings);
+    const config = await getFirebaseRemoteConfig();
+
+    await assignSpacesToReserved(deletedBookings, config);
 
     res.status(204).send();
   } catch (error) {

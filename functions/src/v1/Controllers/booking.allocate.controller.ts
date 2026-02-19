@@ -3,6 +3,7 @@ import {assignEmptySpacesToReserved} from '../Services/FirebaseAdminService/assi
 import {AllocateEmptySlotsRequest} from '../Models/booking.model';
 import {checkBookingCapacity} from '../Services/DeskCapacity/checkBookingCapacity';
 import {isBookingDateLimitedToBU} from '../utils/BookingUtils/BookingUtils';
+import {getFirebaseRemoteConfig} from '../Config';
 
 export const allocateEmptySlots = async (req: Request, res: Response) => {
   let allocateEmptySlotsRequest: AllocateEmptySlotsRequest;
@@ -23,10 +24,12 @@ export const allocateEmptySlots = async (req: Request, res: Response) => {
           'If date is restricted to business unit and space type is cars then business unit to make allocations against must be provided',
         );
     }
+    const config = await getFirebaseRemoteConfig();
     const remainingCapacity = await checkBookingCapacity(
       allocateEmptySlotsRequest.date,
       allocateEmptySlotsRequest.spaceType,
       allocateEmptySlotsRequest.businessUnit,
+      config,
     );
     await assignEmptySpacesToReserved(
       remainingCapacity,
