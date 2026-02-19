@@ -28,6 +28,7 @@ const InputField = ({text, setText, testID}: inputFieldProps) => {
           variant={'unstyled'}
           selectionColor={'brand.red'}
           testID={testID}
+          maxLength={256}
         />
       </ScrollView>
     </Box>
