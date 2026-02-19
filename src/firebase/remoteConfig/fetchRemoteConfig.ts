@@ -13,7 +13,7 @@ export function getIsDemoLoginEnabled(): boolean {
 }
 
 export function getEndpoints(): Endpoints {
-    const endpoints = remoteConfig().getString('endpoints');
+  const endpoints = remoteConfig().getString('endpoints');
   if (endpoints) {
     return JSON.parse(endpoints);
   }

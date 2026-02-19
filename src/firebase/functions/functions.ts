@@ -7,13 +7,13 @@ import {
 import {getTokenID} from '../authentication/FirebaseGoogleAuthentication';
 import {firebase} from '@react-native-firebase/app-check';
 import {LogLevel, logMessage} from '@root/src/util/Logging/Logging';
-import { Endpoints } from '@root/src/types/Endpoints';
+import {Endpoints} from '@root/src/types/Endpoints';
 
 function getURL(spaceType: SpaceType, endpoints: Endpoints) {
   if (spaceType === SpaceType.desk) {
-    return endpoints.deskAPIURL
+    return endpoints.deskAPIURL;
   } else {
-    return endpoints.carAPIURL
+    return endpoints.carAPIURL;
   }
 }
 
@@ -124,7 +124,9 @@ export async function makeBookingEdit(
   return Promise.resolve();
 }
 
-export async function fetchLondonTimeFromServer(endpoints: Endpoints): Promise<string> {
+export async function fetchLondonTimeFromServer(
+  endpoints: Endpoints,
+): Promise<string> {
   const url = `${endpoints.genericAPIURL}/v1/getLondonTime`;
   const appCheckToken = await getAppCheckToken();
   const options = {
