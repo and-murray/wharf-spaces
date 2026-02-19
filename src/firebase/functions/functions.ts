@@ -11,9 +11,9 @@ import {Endpoints} from '@root/src/types/Endpoints';
 
 function getURL(spaceType: SpaceType, endpoints: Endpoints) {
   if (spaceType === SpaceType.desk) {
-    return endpoints.deskAPIURL;
+    return `${endpoints.deskAPIURL}/v1/booking`;
   } else {
-    return endpoints.carAPIURL;
+    return `${endpoints.carAPIURL}/v1/booking`;
   }
 }
 
