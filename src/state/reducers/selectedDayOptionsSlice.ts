@@ -17,7 +17,7 @@ import {
   TimeSlot,
 } from '@customTypes/booking';
 import {setShowError} from './ErrorSlice';
-import { FirebaseRemoteConfigState } from './RemoteConfigSlice';
+import {FirebaseRemoteConfigState} from './RemoteConfigSlice';
 
 type SelectedOptionsState = {
   selectedDay: string;
@@ -46,9 +46,13 @@ export const deleteBookings = createAsyncThunk(
       selectedDayOptions: SelectedOptionsState;
       firebaseRemoteConfig: FirebaseRemoteConfigState;
     };
-    await makeBookingDeletion(selectedDayOptions.selectedSpaceType, {
-      bookingIds,
-    }, firebaseRemoteConfig.endpoints).catch(() => thunkAPI.dispatch(setShowError(true)));
+    await makeBookingDeletion(
+      selectedDayOptions.selectedSpaceType,
+      {
+        bookingIds,
+      },
+      firebaseRemoteConfig.endpoints,
+    ).catch(() => thunkAPI.dispatch(setShowError(true)));
   },
 );
 
@@ -60,9 +64,13 @@ export const editBookings = createAsyncThunk(
       selectedDayOptions: SelectedOptionsState;
       firebaseRemoteConfig: FirebaseRemoteConfigState;
     };
-    await makeBookingEdit(selectedDayOptions.selectedSpaceType, {
-      bookings: bookings,
-    }, firebaseRemoteConfig.endpoints).catch(() => thunkAPI.dispatch(setShowError(true)));
+    await makeBookingEdit(
+      selectedDayOptions.selectedSpaceType,
+      {
+        bookings: bookings,
+      },
+      firebaseRemoteConfig.endpoints,
+    ).catch(() => thunkAPI.dispatch(setShowError(true)));
   },
 );
 
@@ -102,7 +110,7 @@ export const postBookings = createAsyncThunk(
     await makeBookingRequest(
       selectedDayOptions.selectedSpaceType,
       bookingPostRequest,
-      firebaseRemoteConfig.endpoints
+      firebaseRemoteConfig.endpoints,
     ).catch(() => thunkAPI.dispatch(setShowError(true)));
   },
 );

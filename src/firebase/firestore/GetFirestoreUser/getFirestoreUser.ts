@@ -1,9 +1,11 @@
 import User from '@customTypes/user';
-import {db} from '../Database';
 import {CollectionName} from '../CollectionName';
+import {db} from '../DatabaseV2';
+import {doc, getDoc} from '@react-native-firebase/firestore';
 
 async function getFirestoreUser(uid: string): Promise<User | undefined> {
-  const userDoc = await db.collection(CollectionName.users).doc(uid).get();
+  const docRef = doc(db, CollectionName.users, uid);
+  const userDoc = await getDoc(docRef);
   if (userDoc.exists()) {
     const userData = userDoc.data() as User;
     return {
