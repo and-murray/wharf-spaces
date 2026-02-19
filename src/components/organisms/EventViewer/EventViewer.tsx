@@ -12,7 +12,7 @@ const EventViewer = () => {
   const [eventID, setEventID] = useState<string>('');
   const [hasEvent, setHasEvent] = useState<boolean>(false);
   const [showEventModal, setShowEventModal] = useState(false);
-  let buttonText = hasEvent ? 'Edit Event(s)' : 'Add Event';
+  const buttonText = hasEvent ? 'Edit Event(s)' : 'Add Event';
   useEffect(() => {
     if (notes) {
       if (notes.length === 0) {

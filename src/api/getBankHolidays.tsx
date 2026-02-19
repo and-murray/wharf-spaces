@@ -10,8 +10,8 @@ const getBankHolidays = async (): Promise<AllBankHolidays | undefined> => {
         'Content-Type': 'application/json',
       },
     };
-    let response = await fetch(url, options);
-    let bankHolidays: AllBankHolidays = await response.json();
+    const response = await fetch(url, options);
+    const bankHolidays: AllBankHolidays = await response.json();
     return bankHolidays;
   } catch (error) {
     logMessage(LogLevel.error, error);

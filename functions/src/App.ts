@@ -1,14 +1,13 @@
 import admin from 'firebase-admin';
-import V1Router from './Routes/v1/route';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import type {Request, Response} from 'express';
+import express, {type NextFunction, type Request, type Response} from 'express';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import V1Router from './Routes/v1/route';
 
 admin.initializeApp();
 
-const express = require('express');
-const cors = require('cors')({origin: true});
-const cookieParser = require('cookie-parser')();
 export const App = express();
 
 const swaggerDefinition = {
@@ -69,10 +68,10 @@ const options = {
 const swaggerSpec = swaggerJSDoc(options);
 
 App.use(express.json());
-App.use(cors);
-App.use(cookieParser);
+App.use(cors({origin: true}));
+App.use(cookieParser());
 
-App.use((req: Request, res: Response, next: Function) => {
+App.use((req: Request, res: Response, next: NextFunction) => {
   if (
     (req.originalUrl === '/docs' || req.originalUrl === '/docs/') &&
     process.env.FUNCTION_TARGET !== 'api'
@@ -89,6 +88,7 @@ App.use((req: Request, res: Response, next: Function) => {
   next();
 });
 
+//@ts-expect-error Possibly due to express-serve-static-core not handling an array of request params correctly or due to us extending the request interface (correctly)
 App.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // V1

@@ -3,7 +3,7 @@ import {Platform} from 'react-native';
 import {VStack, HStack, Text, Box, Card} from 'native-base';
 import {Booking} from '@customTypes';
 import {WhosInRow} from '@molecules';
-import {TimeSlotUtils} from '@utils/TimeSlotUtils/TimeSlotUtils';
+import {toString} from '@utils/TimeSlotUtils/TimeSlotUtils';
 import {useAppSelector} from '@state/utils/hooks';
 import {BookingType, SpaceType} from '@customTypes/booking';
 import {ReducedUserData} from '@customTypes/ReducedUserData';
@@ -45,7 +45,7 @@ const WhosIn = ({bookings, userData}: WhosInProps) => {
       allVisitors: Element[],
       totalVisitorCount: number,
     ) => {
-      let numberOfAndis = allVisitors.length - totalVisitorCount;
+      const numberOfAndis = allVisitors.length - totalVisitorCount;
       setAndiAndVisitorNumbers([numberOfAndis, totalVisitorCount]);
     };
 
@@ -70,7 +70,7 @@ const WhosIn = ({bookings, userData}: WhosInProps) => {
 
     const generatedRows = bookings.map((booking, index) => {
       const isGuest = booking.bookingType === BookingType.guest;
-      let bookingUserData = userData[booking.userId] ?? {
+      const bookingUserData = userData[booking.userId] ?? {
         name: 'Error loading name data',
         profilePictureURI: 'Error loading image data',
         businessUnit: 'unknown',
@@ -101,7 +101,7 @@ const WhosIn = ({bookings, userData}: WhosInProps) => {
           key={booking.spaceType + index}
           name={name}
           profilePictureURI={profilePictureURI}
-          timeSlot={TimeSlotUtils.toString(booking.timeSlot)}
+          timeSlot={toString(booking.timeSlot)}
           // Check that it is not a guest booking when asserting if current user
           isCurrentUser={booking.userId === user?.id && !isGuest}
           isReserveSpace={booking.isReserveSpace}

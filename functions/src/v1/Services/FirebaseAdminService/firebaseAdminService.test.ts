@@ -414,7 +414,7 @@ describe('Firebase Admin Service', () => {
         }));
       });
       it('returns the user data', async () => {
-        let response = await getFirestoreUser('testUid');
+        const response = await getFirestoreUser('testUid');
         expect(response).toEqual({
           id: 'testUid',
           firstName: 'Test',

@@ -20,7 +20,7 @@ describe('BoldText boldness', () => {
 type BoldFontType = {
   fontWeight: string | undefined;
 };
-const mergeStyles = (styles: any): BoldFontType => {
+const mergeStyles = (styles: unknown): BoldFontType => {
   if (!isArray(styles)) {
     return styles as BoldFontType;
   }

@@ -10,8 +10,8 @@ import sendNotifications from './firebaseMessagingService';
 
 const mockBatchUpdate = jest.fn();
 const mockBatchCommit = jest.fn();
-let mockDoc = jest.fn();
-let mockGet = jest.fn();
+const mockDoc = jest.fn();
+const mockGet = jest.fn();
 const mockWhere = jest.fn(() => ({
   get: mockGet,
 }));

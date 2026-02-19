@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 export type ErrorState = {
-  showError: Boolean;
+  showError: boolean;
 };
 
 const initialState: ErrorState = {

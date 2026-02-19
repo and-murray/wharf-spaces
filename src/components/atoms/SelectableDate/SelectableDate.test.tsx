@@ -95,7 +95,7 @@ describe('When a selectable date is on screen ', () => {
       </TestWrapper>,
     );
 
-    let selectableDate = getByTestId('SelectableDate');
+    const selectableDate = getByTestId('SelectableDate');
 
     expect(selectableDate.props.style.backgroundColor).toBe('#d82036');
     expect(selectableDate.props.style.borderColor).toBe('#d82036');
@@ -122,7 +122,7 @@ describe('When a selectable date is on screen ', () => {
       </TestWrapper>,
     );
 
-    let selectableDate = getByTestId('SelectableDate');
+    const selectableDate = getByTestId('SelectableDate');
 
     expect(selectableDate.props.style.backgroundColor).toBe('#ffffff');
     expect(selectableDate.props.style.borderColor).toBe('#d82036');
@@ -149,7 +149,7 @@ describe('When a selectable date is on screen ', () => {
       </TestWrapper>,
     );
 
-    let selectableDate = getByTestId('SelectableDate');
+    const selectableDate = getByTestId('SelectableDate');
 
     expect(selectableDate.props.style.backgroundColor).toBe('#f6f6f6');
     expect(selectableDate.props.style.borderColor).toBe('#f6f6f6');

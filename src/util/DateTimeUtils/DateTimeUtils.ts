@@ -2,9 +2,9 @@ import dayjs, {Dayjs} from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 
-export class DateFormat {
-  public static dddd_DD_MMMM = 'dddd, DD MMMM';
-  public static londonServerTimestampFormat = 'YYYY-MM-DDTHH:mm:ss';
+export enum DateFormat {
+  dddd_DD_MMMM = 'dddd, DD MMMM',
+  londonServerTimestampFormat = 'YYYY-MM-DDTHH:mm:ss',
 }
 
 export const formatDate = (

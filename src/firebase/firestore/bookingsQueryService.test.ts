@@ -1,6 +1,6 @@
 import {getUsersBookedDays} from './';
 
-let mockWhere = jest
+const mockWhere = jest
   .fn()
   .mockImplementationOnce(function (this: jest.Mock) {
     return this;
