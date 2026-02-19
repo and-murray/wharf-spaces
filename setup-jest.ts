@@ -38,6 +38,11 @@ jest.mock('@react-native-firebase/firestore', () => {
     })),
     getFirestore: mockGetFirestore,
     useEmulator: mockFirestoreEmulator,
+    doc: jest.fn(),
+    getDoc: jest.fn(() => ({
+      exists: jest.fn(),
+      data: jest.fn(),
+    })),
   };
 });
 
