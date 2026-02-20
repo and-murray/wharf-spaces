@@ -5,8 +5,10 @@ import {
   getParkingCapacity,
   getIsDemoLoginEnabled,
   getFeatureFlags,
+  getEndpoints,
 } from '@firebase/remoteConfig/fetchRemoteConfig';
 import {FeatureFlags} from '@root/src/types/FeatureFlags';
+import {Endpoints} from '@root/src/types/Endpoints';
 
 export type ParkingCapacityConfig = {
   murray: number;
@@ -19,6 +21,7 @@ export type FirebaseRemoteConfigState = {
   parkingCapacity: ParkingCapacityConfig;
   isDemoLoginEnabled: boolean;
   featureFlags: FeatureFlags | undefined;
+  endpoints: Endpoints;
 };
 
 const initialState: FirebaseRemoteConfigState = {
@@ -26,6 +29,7 @@ const initialState: FirebaseRemoteConfigState = {
   parkingCapacity: getParkingCapacity(),
   isDemoLoginEnabled: getIsDemoLoginEnabled(),
   featureFlags: getFeatureFlags(),
+  endpoints: getEndpoints(),
 };
 
 export const fetchRemoteConfig = createAsyncThunk(
@@ -52,6 +56,7 @@ export const remoteConfigSlice = createSlice({
       state.parkingCapacity = getParkingCapacity();
       state.isDemoLoginEnabled = getIsDemoLoginEnabled();
       state.featureFlags = getFeatureFlags();
+      state.endpoints = getEndpoints();
     });
   },
 });

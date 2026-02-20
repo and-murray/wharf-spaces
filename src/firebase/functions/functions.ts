@@ -5,32 +5,15 @@ import {
   SpaceType,
 } from '@customTypes/booking';
 import {getTokenID} from '../authentication/FirebaseGoogleAuthentication';
-import {Platform} from 'react-native';
-import Config from 'react-native-config';
-import {REACT_APP_USE_EMULATORS} from '@utils/FirebaseUtils/FirebaseUtils';
 import {firebase} from '@react-native-firebase/app-check';
 import {LogLevel, logMessage} from '@root/src/util/Logging/Logging';
-let baseUrl = Config.REACT_APP_FIREBASE_FUNCTIONS_BASE_URL;
-if (!baseUrl) {
-  console.error('No firebase url set for environment');
-}
+import {Endpoints} from '@root/src/types/Endpoints';
 
-const apiVersion = 'v1';
-
-if (REACT_APP_USE_EMULATORS && __DEV__) {
-  // To point our dev machines to emulators, comment out if you don't want to use emulator in debug mode.
-  if (Platform.OS === 'android') {
-    baseUrl = 'http://10.0.2.2:5001/murray-apps-dev/europe-west1/';
-  } else {
-    baseUrl = 'http://127.0.0.1:5001/murray-apps-dev/europe-west1/';
-  }
-}
-
-function getURL(spaceType: SpaceType) {
+function getURL(spaceType: SpaceType, endpoints: Endpoints) {
   if (spaceType === SpaceType.desk) {
-    return `${baseUrl}deskapi/${apiVersion}/booking`;
+    return `${endpoints.deskAPIURL}/v1/booking`;
   } else {
-    return `${baseUrl}carapi/${apiVersion}/booking`;
+    return `${endpoints.carAPIURL}/v1/booking`;
   }
 }
 
@@ -48,9 +31,10 @@ async function getAppCheckToken(): Promise<string> {
 export async function makeBookingRequest(
   spaceType: SpaceType,
   bookingRequest: BookingPostRequest,
+  endpoints: Endpoints,
 ) {
   const token = await getTokenID();
-  const url = getURL(spaceType);
+  const url = getURL(spaceType, endpoints);
   const appCheckToken = await getAppCheckToken();
   const options = {
     method: 'POST',
@@ -79,9 +63,10 @@ export async function makeBookingRequest(
 export async function makeBookingDeletion(
   spaceType: SpaceType,
   bookingDeleteRequest: BookingDeleteRequest,
+  endpoints: Endpoints,
 ) {
   const token = await getTokenID();
-  const url = getURL(spaceType);
+  const url = getURL(spaceType, endpoints);
   const appCheckToken = await getAppCheckToken();
   const options = {
     method: 'DELETE',
@@ -110,9 +95,10 @@ export async function makeBookingDeletion(
 export async function makeBookingEdit(
   spaceType: SpaceType,
   editBookingRequest: BookingEditRequest,
+  endpoints: Endpoints,
 ) {
   const token = await getTokenID();
-  const url = getURL(spaceType);
+  const url = getURL(spaceType, endpoints);
   const appCheckToken = await getAppCheckToken();
   const options = {
     method: 'PATCH',
@@ -138,8 +124,10 @@ export async function makeBookingEdit(
   return Promise.resolve();
 }
 
-export async function fetchLondonTimeFromServer(): Promise<string> {
-  const url = `${baseUrl}api/${apiVersion}/getLondonTime`;
+export async function fetchLondonTimeFromServer(
+  endpoints: Endpoints,
+): Promise<string> {
+  const url = `${endpoints.genericAPIURL}/v1/getLondonTime`;
   const appCheckToken = await getAppCheckToken();
   const options = {
     method: 'GET',

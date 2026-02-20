@@ -585,6 +585,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = NXQ795GAN6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = MurrayDeskBooking/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -622,6 +623,7 @@
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = NXQ795GAN6;
 				INFOPLIST_FILE = MurrayDeskBooking/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -747,6 +749,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = NXQ795GAN6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = MurrayDeskBooking/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -894,6 +897,7 @@
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = NXQ795GAN6;
 				INFOPLIST_FILE = MurrayDeskBooking/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
