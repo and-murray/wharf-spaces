@@ -3,6 +3,7 @@ import {FeatureFlags} from '@root/src/types/FeatureFlags';
 import {Endpoints, endpointsDefault} from '@root/src/types/Endpoints';
 import {ParkingCapacityConfig} from '@state/reducers/RemoteConfigSlice';
 import Config from 'react-native-config';
+import {REACT_APP_USE_EMULATORS} from '@root/src/util/FirebaseUtils/FirebaseUtils';
 
 export function getDeskCapacity(): number {
   return remoteConfig().getNumber('deskCapacity');
@@ -13,6 +14,9 @@ export function getIsDemoLoginEnabled(): boolean {
 }
 
 export function getEndpoints(): Endpoints {
+  if (REACT_APP_USE_EMULATORS && __DEV__) {
+    return endpointsDefault();
+  }
   const endpoints = remoteConfig().getString('endpoints');
   if (endpoints) {
     return JSON.parse(endpoints);

@@ -70,6 +70,7 @@ function defaultRemoteConfig(): DefaultConfig {
 export async function getFirebaseRemoteConfig(): Promise<Config> {
   // Initialize server-side Remote Config
   const rc = getRemoteConfig(firebaseApp);
+  // There must be a server template containing at least one key or this will error
   const template = await rc.getServerTemplate({
     defaultConfig: defaultRemoteConfig(),
   });
@@ -83,7 +84,5 @@ export async function getFirebaseRemoteConfig(): Promise<Config> {
     parkingCapacity: JSON.parse(config.getString('parkingCapacity')),
     endpoints: JSON.parse(config.getString('endpoints')),
   };
-
-  console.log(appConfig);
   return appConfig;
 }
