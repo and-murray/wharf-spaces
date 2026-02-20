@@ -22,6 +22,7 @@ import {
   FreeSlot,
 } from '../../utils/SpaceReassignUtils/SpaceReassignUtils';
 import {checkBookingCapacity} from '../DeskCapacity/checkBookingCapacity';
+import {Config} from '../../Config';
 
 /**
  * Goes through the deleted bookings and extract out free time slots that are now assignable to the bookings in reserved space.
@@ -29,7 +30,10 @@ import {checkBookingCapacity} from '../DeskCapacity/checkBookingCapacity';
  * @param deleted
  * @returns true if found and assigned free slot to reserved or false otherwise
  */
-export async function assignSpacesToReserved(deleted: Booking[]) {
+export async function assignSpacesToReserved(
+  deleted: Booking[],
+  config: Config,
+) {
   const nonReservedBookings = deleted.filter(
     booking => !booking.isReserveSpace,
   );
@@ -69,6 +73,7 @@ export async function assignSpacesToReserved(deleted: Booking[]) {
       deleted[i].date,
       deleted[i].spaceType,
       user.businessUnit,
+      config,
     );
     freeSlots.push({...remainingCapacity, date: deleted[i].date});
   }

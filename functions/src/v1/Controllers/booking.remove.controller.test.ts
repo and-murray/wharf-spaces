@@ -6,6 +6,7 @@ import {ZodError} from 'zod';
 import createError from 'http-errors';
 
 jest.mock('uuid', () => ({v4: () => '1'}));
+jest.mock('../Config');
 
 describe('Remove Booking controller', () => {
   const deleteBookingsSpy = jest

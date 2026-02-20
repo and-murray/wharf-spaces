@@ -12,12 +12,14 @@ import {getFirestoreUser, getServerTime} from './firebaseAdminService';
 import createError from 'http-errors';
 import {isCorrectFunction} from '../../utils/IsCorrectFunction';
 import {constructError} from '../../utils/ErrorUtil';
+import {Config} from '../../Config';
 
 const collectionName = 'bookings';
 
 export async function editExistingBookings(
   edits: BookingEdit[],
   userId: string,
+  config: Config,
 ) {
   const db = admin.firestore();
   const ref = db.collection(collectionName);
@@ -77,6 +79,7 @@ export async function editExistingBookings(
     bookings[0].data.date,
     bookings[0].data.spaceType,
     user.businessUnit,
+    config,
   );
 
   for (const edit of edits) {

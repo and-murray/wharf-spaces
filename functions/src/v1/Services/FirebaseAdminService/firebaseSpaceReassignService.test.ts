@@ -5,6 +5,7 @@ import * as firebaseAdminService from './firebaseAdminService';
 import * as bookingUtils from './../../utils/BookingUtils/BookingUtils';
 import * as checkBookingCapacity from '../DeskCapacity/checkBookingCapacity';
 import sendNotifications from './firebaseMessagingService';
+import {Config} from '../../Config';
 
 const mockBatchUpdate = jest.fn();
 const mockBatchCommit = jest.fn();
@@ -51,6 +52,21 @@ jest.mock('./firebaseMessagingService', () => ({
   default: jest.fn(),
 }));
 
+const mockConfig: Config = {
+  deskCapacity: 36,
+  parkingCapacity: {
+    murrayCarCapacity: 6,
+    tenzingCarCapacity: 2,
+    adamsCarCapacity: 2,
+    unknownCarCapacity: 0,
+  },
+  endpoints: {
+    carAPIURL: 'https://carapigen2-qg3ssmjwca-ew.a.run.app',
+    deskAPIURL: 'https://deskapigen2-qg3ssmjwca-ew.a.run.app',
+    genericAPIURL: 'https://apigen2-qg3ssmjwca-ew.a.run.app',
+  },
+};
+
 describe('Firebase space reassign Service', () => {
   const dummyBooking = {
     bookingType: 'personal',
@@ -73,7 +89,7 @@ describe('Firebase space reassign Service', () => {
   describe('async function assignSpacesToReserved', () => {
     describe('assignSpacesToReserved when deleted bookings are reserved spaces or not valid', () => {
       it('should do nothing when there are not deleted bookings and returns false', async () => {
-        const isSuccess = await assignSpacesToReserved([]);
+        const isSuccess = await assignSpacesToReserved([], mockConfig);
         expect(isSuccess).toBe(false);
         expect(mockGet).toBeCalledTimes(0);
       });
@@ -97,7 +113,7 @@ describe('Firebase space reassign Service', () => {
             createdAt: new Timestamp(101, 101),
           },
         ];
-        const isSuccess = await assignSpacesToReserved(bookings);
+        const isSuccess = await assignSpacesToReserved(bookings, mockConfig);
         expect(isSuccess).toBe(false);
         expect(mockGet).toBeCalledTimes(0);
       });
@@ -123,7 +139,7 @@ describe('Firebase space reassign Service', () => {
             createdAt: new Timestamp(101, 101),
           },
         ];
-        const isSuccess = await assignSpacesToReserved(bookings);
+        const isSuccess = await assignSpacesToReserved(bookings, mockConfig);
         expect(isSuccess).toBe(false);
         expect(mockGet).toBeCalledTimes(0);
       });
@@ -157,7 +173,7 @@ describe('Firebase space reassign Service', () => {
           docs: emptyDocs,
         }));
 
-        const isSuccess = await assignSpacesToReserved(deleted);
+        const isSuccess = await assignSpacesToReserved(deleted, mockConfig);
         expect(isSuccess).toBe(false);
         expect(mockBatchUpdate).toBeCalledTimes(0);
         expect(mockBatchCommit).toBeCalledTimes(0);
@@ -182,7 +198,7 @@ describe('Firebase space reassign Service', () => {
         }));
         checkBookingCapacitySpy.mockResolvedValue({am: 1, pm: 1, allDay: 1});
 
-        const isSuccess = await assignSpacesToReserved(deleted);
+        const isSuccess = await assignSpacesToReserved(deleted, mockConfig);
         expect(isSuccess).toBe(true);
         expect(mockBatchUpdate).toHaveBeenNthCalledWith(1, docRef, {
           isReserveSpace: false,
@@ -228,7 +244,7 @@ describe('Firebase space reassign Service', () => {
         }));
         checkBookingCapacitySpy.mockResolvedValue({am: 1, pm: 1, allDay: 1});
 
-        const isSuccess = await assignSpacesToReserved(newDeleted);
+        const isSuccess = await assignSpacesToReserved(newDeleted, mockConfig);
         expect(isSuccess).toBe(true);
         expect(mockBatchUpdate).toHaveBeenCalledWith('ref1', {
           isReserveSpace: false,
@@ -281,7 +297,7 @@ describe('Firebase space reassign Service', () => {
         }));
         checkBookingCapacitySpy.mockResolvedValue({am: 0, pm: 1, allDay: 0});
 
-        const isSuccess = await assignSpacesToReserved(newDeleted);
+        const isSuccess = await assignSpacesToReserved(newDeleted, mockConfig);
         expect(isSuccess).toBe(true);
         expect(sendNotifications).toBeCalledTimes(1);
       });
@@ -337,7 +353,7 @@ describe('Firebase space reassign Service', () => {
         }));
         checkBookingCapacitySpy.mockResolvedValue({am: 0, pm: 1, allDay: 0});
 
-        const isSuccess = await assignSpacesToReserved(newDeleted);
+        const isSuccess = await assignSpacesToReserved(newDeleted, mockConfig);
         expect(isSuccess).toBe(true);
         expect(sendNotifications).toBeCalledTimes(2);
       });

@@ -1,3 +1,4 @@
+import {Config} from '../../Config';
 import {BookingRequest, BusinessUnit} from '../../Models/booking.model';
 import {
   calculateCarSpaceCapacity,
@@ -18,16 +19,21 @@ jest.mock('firebase-admin', () => ({
     },
   },
 }));
-let defaults = {
+
+const mockConfig: Config = {
   deskCapacity: 36,
-  murrayCarCapacity: 6,
-  tenzingCarCapacity: 2,
-  adamsCarCapacity: 2,
-  unknownCarCapacity: 0,
+  parkingCapacity: {
+    murrayCarCapacity: 6,
+    tenzingCarCapacity: 2,
+    adamsCarCapacity: 2,
+    unknownCarCapacity: 0,
+  },
+  endpoints: {
+    carAPIURL: 'https://carapigen2-qg3ssmjwca-ew.a.run.app',
+    deskAPIURL: 'https://deskapigen2-qg3ssmjwca-ew.a.run.app',
+    genericAPIURL: 'https://apigen2-qg3ssmjwca-ew.a.run.app',
+  },
 };
-jest.mock('../../Services/Defaults/defaults', () => ({
-  defaults: defaults,
-}));
 
 let mockBookingRequest: BookingRequest;
 describe('BookingUtils', () => {
@@ -147,9 +153,9 @@ describe('BookingUtils', () => {
         dateToBook: '2024-05-11T00:00:00Z',
         businessUnit: 'murray',
         expectedCapacity:
-          defaults.murrayCarCapacity +
-          defaults.tenzingCarCapacity +
-          defaults.adamsCarCapacity,
+          mockConfig.parkingCapacity.murrayCarCapacity +
+          mockConfig.parkingCapacity.tenzingCarCapacity +
+          mockConfig.parkingCapacity.adamsCarCapacity,
         description:
           'should calculate correct car space capacity for murray BU when booking for the same day',
       },
@@ -158,9 +164,9 @@ describe('BookingUtils', () => {
         dateToBook: '2024-05-11T00:00:00Z',
         businessUnit: 'murray',
         expectedCapacity:
-          defaults.murrayCarCapacity +
-          defaults.tenzingCarCapacity +
-          defaults.adamsCarCapacity,
+          mockConfig.parkingCapacity.murrayCarCapacity +
+          mockConfig.parkingCapacity.tenzingCarCapacity +
+          mockConfig.parkingCapacity.adamsCarCapacity,
         description:
           'should calculate correct car space capacity for murray BU when booking after 9PM for the next day',
       },
@@ -168,7 +174,7 @@ describe('BookingUtils', () => {
         serverTimestamp: '2024-05-11T19:00:00Z',
         dateToBook: '2024-05-12T00:00:00Z',
         businessUnit: 'murray',
-        expectedCapacity: defaults.murrayCarCapacity,
+        expectedCapacity: mockConfig.parkingCapacity.murrayCarCapacity,
         description:
           'should calculate correct car space capacity for murray BU when booking before 9PM for the next day',
       },
@@ -176,7 +182,7 @@ describe('BookingUtils', () => {
         serverTimestamp: '2024-05-11T10:00:00Z',
         dateToBook: '2024-05-13T00:00:00Z',
         businessUnit: 'murray',
-        expectedCapacity: defaults.murrayCarCapacity,
+        expectedCapacity: mockConfig.parkingCapacity.murrayCarCapacity,
         description:
           'should calculate correct car space capacity for murray BU when booking 2 days before',
       },
@@ -185,9 +191,9 @@ describe('BookingUtils', () => {
         dateToBook: '2024-05-11T00:00:00Z',
         businessUnit: 'tenzing',
         expectedCapacity:
-          defaults.murrayCarCapacity +
-          defaults.tenzingCarCapacity +
-          defaults.adamsCarCapacity,
+          mockConfig.parkingCapacity.murrayCarCapacity +
+          mockConfig.parkingCapacity.tenzingCarCapacity +
+          mockConfig.parkingCapacity.adamsCarCapacity,
         description:
           'should calculate correct car space capacity for tenzing BU when booking for the same day',
       },
@@ -196,9 +202,9 @@ describe('BookingUtils', () => {
         dateToBook: '2024-05-12T00:00:00Z',
         businessUnit: 'tenzing',
         expectedCapacity:
-          defaults.murrayCarCapacity +
-          defaults.tenzingCarCapacity +
-          defaults.adamsCarCapacity,
+          mockConfig.parkingCapacity.murrayCarCapacity +
+          mockConfig.parkingCapacity.tenzingCarCapacity +
+          mockConfig.parkingCapacity.adamsCarCapacity,
         description:
           'should calculate correct car space capacity for tenzing BU when booking after 9PM for the next day',
       },
@@ -206,7 +212,7 @@ describe('BookingUtils', () => {
         serverTimestamp: '2024-05-11T19:00:00Z',
         dateToBook: '2024-05-12T00:00:00Z',
         businessUnit: 'tenzing',
-        expectedCapacity: defaults.tenzingCarCapacity,
+        expectedCapacity: mockConfig.parkingCapacity.tenzingCarCapacity,
         description:
           'should calculate correct car space capacity for tenzing BU when booking before 9PM for the next day',
       },
@@ -214,7 +220,7 @@ describe('BookingUtils', () => {
         serverTimestamp: '2024-05-11T10:00:00Z',
         dateToBook: '2024-05-13T00:00:00Z',
         businessUnit: 'tenzing',
-        expectedCapacity: defaults.tenzingCarCapacity,
+        expectedCapacity: mockConfig.parkingCapacity.tenzingCarCapacity,
         description:
           'should calculate correct car space capacity for tenzing BU when booking 2 days before',
       },
@@ -223,9 +229,9 @@ describe('BookingUtils', () => {
         dateToBook: '2024-05-11T00:00:00Z',
         businessUnit: 'adams',
         expectedCapacity:
-          defaults.murrayCarCapacity +
-          defaults.tenzingCarCapacity +
-          defaults.adamsCarCapacity,
+          mockConfig.parkingCapacity.murrayCarCapacity +
+          mockConfig.parkingCapacity.tenzingCarCapacity +
+          mockConfig.parkingCapacity.adamsCarCapacity,
         description:
           'should calculate correct car space capacity for adams BU when booking for the same day',
       },
@@ -234,9 +240,9 @@ describe('BookingUtils', () => {
         dateToBook: '2024-05-12T00:00:00Z',
         businessUnit: 'adams',
         expectedCapacity:
-          defaults.murrayCarCapacity +
-          defaults.tenzingCarCapacity +
-          defaults.adamsCarCapacity,
+          mockConfig.parkingCapacity.murrayCarCapacity +
+          mockConfig.parkingCapacity.tenzingCarCapacity +
+          mockConfig.parkingCapacity.adamsCarCapacity,
         description:
           'should calculate correct car space capacity for adams BU when booking after 9PM for the next day',
       },
@@ -244,7 +250,7 @@ describe('BookingUtils', () => {
         serverTimestamp: '2024-05-11T19:00:00Z',
         dateToBook: '2024-05-12T00:00:00Z',
         businessUnit: 'adams',
-        expectedCapacity: defaults.adamsCarCapacity,
+        expectedCapacity: mockConfig.parkingCapacity.adamsCarCapacity,
         description:
           'should calculate correct car space capacity for adams BU when booking before 9PM for the next day',
       },
@@ -252,7 +258,7 @@ describe('BookingUtils', () => {
         serverTimestamp: '2024-05-11T10:00:00Z',
         dateToBook: '2024-05-13T00:00:00Z',
         businessUnit: 'adams',
-        expectedCapacity: defaults.adamsCarCapacity,
+        expectedCapacity: mockConfig.parkingCapacity.adamsCarCapacity,
         description:
           'should calculate correct car space capacity for adams BU when booking 2 days before',
       },
@@ -260,7 +266,7 @@ describe('BookingUtils', () => {
         serverTimestamp: '2024-05-11T12:00:00Z',
         dateToBook: '2024-05-11T00:00:00Z',
         businessUnit: 'unknown',
-        expectedCapacity: defaults.unknownCarCapacity,
+        expectedCapacity: mockConfig.parkingCapacity.unknownCarCapacity,
         description:
           'should calculate correct car space capacity for unknown BU',
       },
@@ -273,6 +279,7 @@ describe('BookingUtils', () => {
         const capacity = calculateCarSpaceCapacity(
           dateToBook,
           businessUnit as BusinessUnit,
+          mockConfig,
         );
         expect(capacity).toBe(expectedCapacity);
       },

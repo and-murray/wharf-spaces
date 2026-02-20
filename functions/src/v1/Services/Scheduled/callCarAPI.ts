@@ -1,16 +1,20 @@
 import dayjs from 'dayjs';
 import {sanitiseDate} from '../../utils/DateTimeUtils';
 import admin from 'firebase-admin';
-import {getConfig} from '../../Config';
 import fetchBuilder, {RequestInitWithRetry} from 'fetch-retry';
+import {getFirebaseRemoteConfig} from '../../Config';
+import {appCheckConfig} from '../../Middleware/appCheck';
 
 const fetch = fetchBuilder(global.fetch);
 
 export async function callCarAPI() {
-  const config = getConfig();
-  const url = `${config.baseURL}/carapi/v1/booking/allocateEmptySlots`;
+  const config = await getFirebaseRemoteConfig();
+
+  const url = `${config.endpoints.carAPIURL}/v1/booking/allocateEmptySlots`;
   console.log(`URL: ${url}`);
-  const appCheckToken = await admin.appCheck().createToken(config.webAppId);
+  const appCheckToken = await admin
+    .appCheck()
+    .createToken(appCheckConfig().webAppId);
   try {
     const verifying = await admin.appCheck().verifyToken(appCheckToken.token);
     console.log(`Verifying ${verifying.token}`);

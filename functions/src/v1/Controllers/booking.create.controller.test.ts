@@ -39,6 +39,7 @@ let mockBookingCapacity = jest.spyOn(
   'checkBookingCapacity',
 );
 jest.mock('uuid', () => ({v4: () => '1'}));
+jest.mock('../Config');
 
 describe('Create Booking controller ', () => {
   const mockStatus = jest.fn().mockImplementation(() => ({

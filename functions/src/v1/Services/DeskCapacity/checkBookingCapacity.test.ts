@@ -9,13 +9,28 @@ import {
 } from '../../Models/booking.model';
 import {FieldValue, Timestamp} from 'firebase-admin/firestore';
 import * as firebaseAdminService from '../../Services/FirebaseAdminService/firebaseAdminService';
+import {Config} from '../../Config';
 
 let getNonReservedBookingsOnDateSpy = jest.spyOn(
   firebaseBookingService,
   'getNonReservedBookingsOnDate',
 );
 
-jest.mock('../Defaults/defaults', () => ({defaults: {deskCapacity: 36}}));
+const mockConfig: Config = {
+  deskCapacity: 36,
+  parkingCapacity: {
+    murrayCarCapacity: 6,
+    tenzingCarCapacity: 2,
+    adamsCarCapacity: 2,
+    unknownCarCapacity: 0,
+  },
+  endpoints: {
+    carAPIURL: 'https://carapigen2-qg3ssmjwca-ew.a.run.app',
+    deskAPIURL: 'https://deskapigen2-qg3ssmjwca-ew.a.run.app',
+    genericAPIURL: 'https://apigen2-qg3ssmjwca-ew.a.run.app',
+  },
+};
+
 const checkCarSpaceCapacitySpy = jest.spyOn(
   bookingUtils,
   'calculateCarSpaceCapacity',
@@ -131,6 +146,7 @@ describe('Check Booking Capacity Tests ', () => {
               testDate,
               spaceType,
               businessUnit,
+              mockConfig,
             );
             expect(result.am).toBe(36);
             expect(result.pm).toBe(36);
@@ -156,6 +172,7 @@ describe('Check Booking Capacity Tests ', () => {
               testDate,
               spaceType,
               businessUnit,
+              mockConfig,
             );
             expect(result.am).toBe(33);
             expect(result.pm).toBe(36);
@@ -181,6 +198,7 @@ describe('Check Booking Capacity Tests ', () => {
               testDate,
               spaceType,
               businessUnit,
+              mockConfig,
             );
             expect(result.am).toBe(36);
             expect(result.pm).toBe(33);
@@ -206,6 +224,7 @@ describe('Check Booking Capacity Tests ', () => {
               testDate,
               spaceType,
               businessUnit,
+              mockConfig,
             );
             expect(result.am).toBe(33);
             expect(result.pm).toBe(33);
@@ -231,6 +250,7 @@ describe('Check Booking Capacity Tests ', () => {
               testDate,
               spaceType,
               businessUnit,
+              mockConfig,
             );
             expect(result.am).toBe(36);
             expect(result.pm).toBe(36);
@@ -256,6 +276,7 @@ describe('Check Booking Capacity Tests ', () => {
               testDate,
               spaceType,
               businessUnit,
+              mockConfig,
             );
             expect(result.am).toBe(33);
             expect(result.pm).toBe(36);
@@ -281,6 +302,7 @@ describe('Check Booking Capacity Tests ', () => {
               testDate,
               spaceType,
               businessUnit,
+              mockConfig,
             );
             expect(result.am).toBe(36);
             expect(result.pm).toBe(33);
@@ -306,6 +328,7 @@ describe('Check Booking Capacity Tests ', () => {
               testDate,
               spaceType,
               businessUnit,
+              mockConfig,
             );
             expect(result.am).toBe(33);
             expect(result.pm).toBe(33);
@@ -406,6 +429,7 @@ describe('Check Booking Capacity Tests ', () => {
               testDate,
               spaceType,
               businessUnit,
+              mockConfig,
             );
             expect(result.am).toBe(36);
             expect(result.pm).toBe(36);
@@ -431,6 +455,7 @@ describe('Check Booking Capacity Tests ', () => {
               testDate,
               spaceType,
               businessUnit,
+              mockConfig,
             );
             expect(result.am).toBe(33);
             expect(result.pm).toBe(36);
@@ -456,6 +481,7 @@ describe('Check Booking Capacity Tests ', () => {
               testDate,
               spaceType,
               businessUnit,
+              mockConfig,
             );
             expect(result.am).toBe(36);
             expect(result.pm).toBe(33);
@@ -481,6 +507,7 @@ describe('Check Booking Capacity Tests ', () => {
               testDate,
               spaceType,
               businessUnit,
+              mockConfig,
             );
             expect(result.am).toBe(33);
             expect(result.pm).toBe(33);
@@ -506,6 +533,7 @@ describe('Check Booking Capacity Tests ', () => {
               testDate,
               spaceType,
               businessUnit,
+              mockConfig,
             );
             expect(result.am).toBe(36);
             expect(result.pm).toBe(36);
@@ -531,6 +559,7 @@ describe('Check Booking Capacity Tests ', () => {
               testDate,
               spaceType,
               businessUnit,
+              mockConfig,
             );
             expect(result.am).toBe(33);
             expect(result.pm).toBe(36);
@@ -556,6 +585,7 @@ describe('Check Booking Capacity Tests ', () => {
               testDate,
               spaceType,
               businessUnit,
+              mockConfig,
             );
             expect(result.am).toBe(36);
             expect(result.pm).toBe(33);
@@ -581,6 +611,7 @@ describe('Check Booking Capacity Tests ', () => {
               testDate,
               spaceType,
               businessUnit,
+              mockConfig,
             );
             expect(result.am).toBe(33);
             expect(result.pm).toBe(33);
@@ -686,6 +717,7 @@ describe('Check Booking Capacity Tests ', () => {
               testDate,
               spaceType,
               businessUnit,
+              mockConfig,
             );
             expect(result.am).toBe(6);
             expect(result.pm).toBe(6);
@@ -711,6 +743,7 @@ describe('Check Booking Capacity Tests ', () => {
               testDate,
               spaceType,
               businessUnit,
+              mockConfig,
             );
             expect(result.am).toBe(5);
             expect(result.pm).toBe(6);
@@ -736,6 +769,7 @@ describe('Check Booking Capacity Tests ', () => {
               testDate,
               spaceType,
               businessUnit,
+              mockConfig,
             );
             expect(result.am).toBe(6);
             expect(result.pm).toBe(5);
@@ -761,6 +795,7 @@ describe('Check Booking Capacity Tests ', () => {
               testDate,
               spaceType,
               businessUnit,
+              mockConfig,
             );
             expect(result.am).toBe(5);
             expect(result.pm).toBe(5);
@@ -787,6 +822,7 @@ describe('Check Booking Capacity Tests ', () => {
               testDate,
               spaceType,
               businessUnit,
+              mockConfig,
             );
             expect(result.am).toBe(8);
             expect(result.pm).toBe(8);
@@ -812,6 +848,7 @@ describe('Check Booking Capacity Tests ', () => {
               testDate,
               spaceType,
               businessUnit,
+              mockConfig,
             );
             expect(result.am).toBe(5);
             expect(result.pm).toBe(8);
@@ -837,6 +874,7 @@ describe('Check Booking Capacity Tests ', () => {
               testDate,
               spaceType,
               businessUnit,
+              mockConfig,
             );
             expect(result.am).toBe(8);
             expect(result.pm).toBe(5);
@@ -862,6 +900,7 @@ describe('Check Booking Capacity Tests ', () => {
               testDate,
               spaceType,
               businessUnit,
+              mockConfig,
             );
             expect(result.am).toBe(5);
             expect(result.pm).toBe(5);
@@ -887,6 +926,7 @@ describe('Check Booking Capacity Tests ', () => {
               testDate,
               spaceType,
               businessUnit,
+              mockConfig,
             );
             expect(result.am).toBe(5);
             expect(result.pm).toBe(7);
@@ -987,6 +1027,7 @@ describe('Check Booking Capacity Tests ', () => {
               testDate,
               spaceType,
               businessUnit,
+              mockConfig,
             );
             expect(result.am).toBe(0);
             expect(result.pm).toBe(0);
@@ -1012,6 +1053,7 @@ describe('Check Booking Capacity Tests ', () => {
               testDate,
               spaceType,
               businessUnit,
+              mockConfig,
             );
             expect(result.am).toBe(0);
             expect(result.pm).toBe(0);
@@ -1037,6 +1079,7 @@ describe('Check Booking Capacity Tests ', () => {
               testDate,
               spaceType,
               businessUnit,
+              mockConfig,
             );
             expect(result.am).toBe(0);
             expect(result.pm).toBe(0);
@@ -1062,6 +1105,7 @@ describe('Check Booking Capacity Tests ', () => {
               testDate,
               spaceType,
               businessUnit,
+              mockConfig,
             );
             expect(result.am).toBe(0);
             expect(result.pm).toBe(0);
@@ -1088,6 +1132,7 @@ describe('Check Booking Capacity Tests ', () => {
               testDate,
               spaceType,
               businessUnit,
+              mockConfig,
             );
             expect(result.am).toBe(0);
             expect(result.pm).toBe(0);
@@ -1113,6 +1158,7 @@ describe('Check Booking Capacity Tests ', () => {
               testDate,
               spaceType,
               businessUnit,
+              mockConfig,
             );
             expect(result.am).toBe(0);
             expect(result.pm).toBe(0);
@@ -1138,6 +1184,7 @@ describe('Check Booking Capacity Tests ', () => {
               testDate,
               spaceType,
               businessUnit,
+              mockConfig,
             );
             expect(result.am).toBe(0);
             expect(result.pm).toBe(0);
@@ -1163,6 +1210,7 @@ describe('Check Booking Capacity Tests ', () => {
               testDate,
               spaceType,
               businessUnit,
+              mockConfig,
             );
             expect(result.am).toBe(0);
             expect(result.pm).toBe(0);

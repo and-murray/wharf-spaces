@@ -71,24 +71,6 @@ exports.apiGen2 = onRequest(config, App);
  *  NOTE: Please do not change the function name as the firebase uses the firebase to
  * auto generate http URL i.e. base_url/region/function-name (e.g: baseurl/europe-west1/utils)
  */
-// GEN 1 Function to be removed after migration
-exports.scheduledFunctionCrontab = functions
-  .region('europe-west1')
-  .runWith({
-    timeoutSeconds: 240,
-  })
-  .pubsub.schedule('0 21 * * *')
-  .timeZone('Europe/London')
-  .onRun(async () => {
-    try {
-      await callCarAPI();
-      console.log('Called car API Successfully');
-      return Promise.resolve();
-    } catch (error) {
-      return Promise.reject(error);
-    }
-  });
-// GEN 2 Function to stay after migration
 exports.scheduledFunctionCrontabGen2 = onSchedule(
   {
     schedule: '0 21 * * *',

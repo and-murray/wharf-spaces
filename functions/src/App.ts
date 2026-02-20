@@ -1,10 +1,10 @@
-import admin from 'firebase-admin';
+import {initializeApp} from 'firebase-admin/app';
 import V1Router from './Routes/v1/route';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import type {Request, Response} from 'express';
 
-admin.initializeApp();
+export const firebaseApp = initializeApp();
 
 const express = require('express');
 const cors = require('cors')({origin: true});
@@ -86,6 +86,7 @@ App.use((req: Request, res: Response, next: Function) => {
   if (req.originalUrl === '/docs') {
     return res.redirect('docs/');
   }
+
   next();
 });
 
@@ -93,6 +94,4 @@ App.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // V1
 App.use('/v1', V1Router);
-// V2
-App.use('/v2', V1Router);
 export default App;
