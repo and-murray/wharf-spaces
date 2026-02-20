@@ -35,10 +35,12 @@ function defaultRemoteConfig(): DefaultConfig {
       deskCapacity: defaultDeskCapacity,
       parkingCapacity: JSON.stringify(defaultParkingCapacity),
       endpoints: JSON.stringify({
-        carAPIURL: 'http://127.0.0.1:5001/murray-apps-dev/europe-west1/carapi',
+        carAPIURL:
+          'http://127.0.0.1:5001/murray-apps-dev/europe-west1/carapiGen2',
         deskAPIURL:
-          'http://127.0.0.1:5001/murray-apps-dev/europe-west1/deskapi',
-        genericAPIURL: 'http://127.0.0.1:5001/murray-apps-dev/europe-west1/api',
+          'http://127.0.0.1:5001/murray-apps-dev/europe-west1/deskapiGen2',
+        genericAPIURL:
+          'http://127.0.0.1:5001/murray-apps-dev/europe-west1/apiGen2',
       }),
     };
   }
