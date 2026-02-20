@@ -95,6 +95,10 @@ android {
         resValue "string", "build_config_package", "digital.and.murrayapps" // Required for react-native-config as we have applicationIdSuffix set
     }
 
+    kotlinOptions {
+        jvmTarget = "17" // React Native 0.73 requires Java 17
+    }
+
 
     signingConfigs {
         debug {
@@ -179,3 +183,7 @@ dependencies {
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
+
+apply plugin: "com.android.application"
+apply plugin: "kotlin-android"
+apply plugin: "com.google.gms.google-services"
