@@ -3,14 +3,16 @@
 buildscript {
     ext {
         buildToolsVersion = "35.0.0"
-        minSdkVersion = 21
+        minSdkVersion = 23
         compileSdkVersion = 35
         targetSdkVersion = 35
-        supportLibVersion = "27.1.1"
-        googlePlayServicesAuthVersion = "19.2.0"
-
-        ndkVersion = "25.1.8937393"
-        kotlinVersion = "1.8.0"
+        
+        kotlinVersion = "2.0.21" 
+        ndkVersion = "26.1.10909125" 
+        
+        supportLibVersion = "28.0.0" 
+        
+        googlePlayServicesAuthVersion = "21.0.0"
     }
     repositories {
         mavenLocal()
@@ -23,13 +25,36 @@ buildscript {
         }
     }
     dependencies {
-        classpath("com.android.tools.build:gradle")
+        classpath("com.android.tools.build:gradle:8.2.2")
         classpath("com.facebook.react:react-native-gradle-plugin")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
         classpath("com.google.gms:google-services:4.3.15")
         classpath("com.google.firebase:perf-plugin:1.4.2")
         classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.8")
+        classpath("com.google.gms:google-services:4.4.2")
     }
 }
 
 apply plugin: "com.facebook.react.rootproject"
+
+subprojects {
+    configurations.all {
+        resolutionStrategy {
+            eachDependency { details ->
+                if (details.requested.group == 'org.jetbrains.kotlin') {
+                    details.useVersion "2.0.21"
+                }
+            }
+        }
+    }
+
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+        kotlinOptions {
+            // Force the compiler to use 1.9 logic even though it's the 2.0 engine
+            languageVersion = "1.9"
+            apiVersion = "1.9"
+            jvmTarget = "17"
+            freeCompilerArgs += ["-Xskip-metadata-version-check"]
+        }
+    }
+}
