@@ -10,7 +10,7 @@ const appCheck = async (req: Request, res: Response, next: Function) => {
     const tokenResponse = await admin
       .appCheck()
       .verifyToken(appCheckToken as string);
-    if (await validAppId(tokenResponse.appId)) {
+    if (validAppId(tokenResponse.appId)) {
       next();
     } else {
       res.status(401).send('Invalid App Id');
@@ -20,7 +20,7 @@ const appCheck = async (req: Request, res: Response, next: Function) => {
   }
 };
 
-async function validAppId(appId: string): Promise<boolean> {
+function validAppId(appId: string): Boolean {
   return (
     appId === appCheckConfig().webAppId ||
     appId === appCheckConfig().iOSAppId ||
