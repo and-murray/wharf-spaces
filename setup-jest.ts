@@ -22,15 +22,29 @@ export const mockDeleteToken = jest.fn();
 
 export const mockOnMessage = jest.fn();
 
+export const mockGetFirestore = jest.fn();
+
 jest.mock('react-native-exit-app', () => jest.fn());
 jest.mock('react-native-device-info', () => jest.fn());
 jest.mock('@react-native-firebase/app-check', () => () => ({
   firebase: jest.fn(),
 }));
-jest.mock('@react-native-firebase/firestore', () => () => ({
-  collection: mockFirestoreCollection,
-  useEmulator: mockFirestoreEmulator,
-}));
+
+jest.mock('@react-native-firebase/firestore', () => {
+  return {
+    __esModule: true,
+    default: jest.fn(() => ({
+      collection: mockFirestoreCollection,
+    })),
+    getFirestore: mockGetFirestore,
+    useEmulator: mockFirestoreEmulator,
+    doc: jest.fn(),
+    getDoc: jest.fn(() => ({
+      exists: jest.fn(),
+      data: jest.fn(),
+    })),
+  };
+});
 
 jest.mock('@react-native-firebase/auth', () => () => ({
   onAuthStateChanged: mockFirestoreAuth,

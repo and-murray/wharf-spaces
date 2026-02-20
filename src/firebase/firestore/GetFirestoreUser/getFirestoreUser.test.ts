@@ -1,8 +1,9 @@
 import getFirestoreUser from './getFirestoreUser';
-import {db} from '../Database';
+import {db} from '../DatabaseV2';
 import {CollectionName} from '../CollectionName';
 import User, {Role, BusinessUnit} from '@customTypes/user';
 import {FirebaseFirestoreTypes} from '@react-native-firebase/firestore';
+import {doc, getDoc} from '@react-native-firebase/firestore';
 
 jest.mock('../Database');
 
@@ -31,42 +32,36 @@ describe('getFirestoreUser tests', () => {
     updatedAt: mockTimestamp,
   };
 
-  const mockDocData = {
-    exists: true,
-    data: () => testUser,
-  };
-
-  const mockDocDataUndefined = {
-    exists: false,
-  };
-
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   it('returns a user when a user is found', async () => {
-    (db.collection as jest.Mock).mockReturnValue({
-      doc: () => ({
-        get: jest.fn().mockResolvedValue(mockDocData),
-      }),
+    (doc as jest.Mock).mockReturnValue({
+      getDoc: jest.fn(),
     });
-
+    (getDoc as jest.Mock).mockReturnValue({
+      exists: jest.fn().mockReturnValue(true),
+      data: jest.fn().mockReturnValue(testUser),
+    });
     const result = await getFirestoreUser('testUid');
 
     expect(result).toEqual(testUser);
-    expect(db.collection).toHaveBeenCalledWith(CollectionName.users);
+    expect(doc).toHaveBeenCalledWith(db, CollectionName.users, 'testUid');
   });
 
   it('returns undefined when no user is found', async () => {
-    (db.collection as jest.Mock).mockReturnValue({
-      doc: () => ({
-        get: jest.fn().mockResolvedValue(mockDocDataUndefined),
-      }),
+    (doc as jest.Mock).mockReturnValue({
+      getDoc: jest.fn(),
+    });
+    (getDoc as jest.Mock).mockReturnValue({
+      exists: jest.fn().mockReturnValue(false),
+      data: jest.fn().mockReturnValue(undefined),
     });
 
     const result = await getFirestoreUser('testUid');
 
     expect(result).toBeUndefined();
-    expect(db.collection).toHaveBeenCalledWith(CollectionName.users);
+    expect(doc).toHaveBeenCalledWith(db, CollectionName.users, 'testUid');
   });
 });

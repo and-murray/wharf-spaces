@@ -2,6 +2,7 @@ import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import {fetchLondonTimeFromServer} from '@root/src/firebase/functions/functions';
 import {DateFormat} from '@root/src/util/DateTimeUtils/DateTimeUtils';
 import dayjs from 'dayjs';
+import {FirebaseRemoteConfigState} from './RemoteConfigSlice';
 
 export type UtilsState = {
   londonServerTimestamp?: string;
@@ -15,7 +16,13 @@ const initialState: UtilsState = {
 
 export const fetchLondonTime = createAsyncThunk(
   'londonTime/get',
-  async () => await fetchLondonTimeFromServer(),
+  async (_, thunkAPI) => {
+    const appState = thunkAPI.getState();
+    const {firebaseRemoteConfig} = appState as {
+      firebaseRemoteConfig: FirebaseRemoteConfigState;
+    };
+    return await fetchLondonTimeFromServer(firebaseRemoteConfig.endpoints);
+  },
 );
 
 export const utilsSlice = createSlice({
