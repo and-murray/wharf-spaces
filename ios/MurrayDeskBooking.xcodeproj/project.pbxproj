@@ -580,7 +580,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MurrayDeskBooking/MurrayDeskBooking.entitlements;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 20260223143644.1;
+				CURRENT_PROJECT_VERSION = 20260223151029.1;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = NXQ795GAN6;
 				ENABLE_BITCODE = NO;
@@ -619,7 +619,7 @@
 				CODE_SIGN_ENTITLEMENTS = MurrayDeskBooking/MurrayDeskBooking.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 20260223143644.1;
+				CURRENT_PROJECT_VERSION = 20260223151029.1;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = NXQ795GAN6;
 				INFOPLIST_FILE = MurrayDeskBooking/Info.plist;
@@ -744,7 +744,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MurrayDeskBooking/MurrayDeskBooking.entitlements;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 20260223143644.1;
+				CURRENT_PROJECT_VERSION = 20260223151029.1;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = NXQ795GAN6;
 				ENABLE_BITCODE = NO;
@@ -893,7 +893,7 @@
 				CODE_SIGN_ENTITLEMENTS = MurrayDeskBooking/MurrayDeskBooking.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 20260223143644.1;
+				CURRENT_PROJECT_VERSION = 20260223151029.1;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = NXQ795GAN6;
 				INFOPLIST_FILE = MurrayDeskBooking/Info.plist;
