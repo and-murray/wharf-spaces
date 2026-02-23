@@ -6,7 +6,7 @@ import {NativeBaseProvider} from 'native-base';
 import theme from './theme';
 import 'react-native-gesture-handler';
 import AlertMessage from '@components/atoms/AlertMessage/AlertMessage';
-import RNExitApp from 'react-native-exit-app';
+import { exitApp } from '@logicwind/react-native-exit-app';
 import {checkAppIntegrity} from './src/util/FirebaseUtils/FirebaseUtils';
 function App(): React.JSX.Element {
   const [invalidApp, setInvalidApp] = useState(false);
@@ -17,7 +17,7 @@ function App(): React.JSX.Element {
   }, []);
 
   function handleAlertClose() {
-    RNExitApp.exitApp();
+    exitApp();
   }
 
   function handleRetry() {

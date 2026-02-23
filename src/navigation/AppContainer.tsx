@@ -7,7 +7,7 @@ import {fetchRemoteConfig} from '@state/reducers/RemoteConfigSlice';
 import ErrorContainer from './ErrorContainer/ErrorContainer';
 import {fetchLondonTime} from '@state/reducers/UtilsSlice';
 import {checkAppIntegrity} from '../util/FirebaseUtils/FirebaseUtils';
-import RNExitApp from 'react-native-exit-app';
+import { exitApp } from '@logicwind/react-native-exit-app';
 import AlertMessage from '../components/atoms/AlertMessage/AlertMessage';
 import BootSplash from 'react-native-bootsplash';
 import {screensLoaded} from '../state/reducers/SplashScreenReducer';
@@ -21,7 +21,7 @@ function AppContainer(): JSX.Element {
 
   const [invalidApp, setInvalidApp] = useState(false);
   function handleAlertClose() {
-    RNExitApp.exitApp();
+    exitApp();
   }
 
   async function handleRetry() {

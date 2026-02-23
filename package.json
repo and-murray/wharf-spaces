@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@babel/plugin-proposal-export-namespace-from": "7.18.9",
+    "@logicwind/react-native-exit-app": "^0.2.0",
     "@react-native-firebase/analytics": "22.4.0",
     "@react-native-firebase/app": "22.4.0",
     "@react-native-firebase/app-check": "22.4.0",
@@ -56,7 +57,6 @@
     "react-native-bootsplash": "6.3.0",
     "react-native-config": "1.5.3",
     "react-native-device-info": "10.14.0",
-    "react-native-exit-app": "2.0.0",
     "react-native-gesture-handler": "2.22.1",
     "react-native-reanimated": "3.16.7",
     "react-native-safe-area-context": "5.1.0",
@@ -66,13 +66,13 @@
     "react-redux": "8.1.3"
   },
   "devDependencies": {
-    "@react-native-community/cli": "15.0.1",
-    "@react-native-community/cli-platform-android": "15.0.1",
-    "@react-native-community/cli-platform-ios": "15.0.1",
     "@babel/core": "7.26.0",
     "@babel/preset-env": "7.26.0",
     "@babel/preset-typescript": "7.26.0",
     "@babel/runtime": "7.26.0",
+    "@react-native-community/cli": "15.0.1",
+    "@react-native-community/cli-platform-android": "15.0.1",
+    "@react-native-community/cli-platform-ios": "15.0.1",
     "@react-native/babel-preset": "0.77.3",
     "@react-native/eslint-config": "0.77.3",
     "@react-native/metro-config": "0.77.3",
