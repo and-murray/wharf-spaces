@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, Box, HStack} from 'native-base';
+import {Text, Box, HStack} from '@gluestack-ui/themed-native-base';
 import WarningSymbol from './WarningSymbol/WarningSymbol';
 import {WarningSymbolIcon} from './WarningSymbol/WarningSymbol';
 import {getHexValue} from '@root/theme';

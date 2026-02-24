@@ -1,6 +1,6 @@
 import React, {useState, ReactElement} from 'react';
 import auth from '@react-native-firebase/auth';
-import {AlertDialog, Box, Button, Input, Text} from 'native-base';
+import {AlertDialog, Box, Button, Input, Text} from '@gluestack-ui/themed-native-base';
 
 const EmailPasswordLoginModal = (): React.JSX.Element => {
   const [isLoginAlertOpen, setIsLoginAlertOpen] = useState(false);

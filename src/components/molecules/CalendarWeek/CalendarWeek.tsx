@@ -1,7 +1,7 @@
 import React, {useMemo, useState} from 'react';
 import {useAppDispatch, useAppSelector} from '@state/utils/hooks';
 import {storeSelectedDay} from '@state/reducers/selectedDayOptionsSlice';
-import {HStack} from 'native-base';
+import {HStack} from '@gluestack-ui/themed-native-base';
 import {
   getFilteredBankHolidaysFrom,
   isBankHoliday,

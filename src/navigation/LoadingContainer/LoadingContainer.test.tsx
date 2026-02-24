@@ -2,7 +2,7 @@ import React from 'react';
 import {TestWrapper} from '@components/TestWrapper';
 import {render} from '@testing-library/react-native';
 import LoadingContainer from './LoadingContainer';
-import {Text} from 'native-base';
+import {Text} from '@gluestack-ui/themed-native-base';
 import * as hooks from '@state/utils/hooks';
 
 describe('When LoadingContainer is rendered on screen', () => {

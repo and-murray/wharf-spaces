@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Platform, StyleSheet} from 'react-native';
 import {useAppDispatch, useAppSelector} from '@state/utils/hooks';
-import {KeyboardAvoidingView, ScrollView, Text, VStack} from 'native-base';
+import {KeyboardAvoidingView, ScrollView, Text, VStack} from '@gluestack-ui/themed-native-base';
 import {DeskCalendar, AvailableSpaces, EventViewer, WhosIn} from '@organisms';
 import {
   getBookingsOnTheDate,

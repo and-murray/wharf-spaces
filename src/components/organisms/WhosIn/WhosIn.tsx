@@ -1,6 +1,6 @@
 import React, {useMemo, useState} from 'react';
 import {Platform} from 'react-native';
-import {VStack, HStack, Text, Box, Card} from 'native-base';
+import {VStack, HStack, Text, Box, Card} from '@gluestack-ui/themed-native-base';
 import {Booking} from '@customTypes';
 import {WhosInRow} from '@molecules';
 import {TimeSlotUtils} from '@utils/TimeSlotUtils/TimeSlotUtils';

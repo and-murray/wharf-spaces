@@ -3,7 +3,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import BookingScreen from '@root/src/screens/BookingScreen/BookingScreen';
 import {Alert} from 'react-native';
-import {IconButton, Icon} from 'native-base';
+import {IconButton, Icon} from '@gluestack-ui/themed-native-base';
 import {signOut} from '@firebase/authentication/FirebaseGoogleAuthentication';
 import {LogoutIcon} from '@res/images/LogoutIcon';
 import {

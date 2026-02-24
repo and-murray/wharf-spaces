@@ -1,4 +1,4 @@
-import {Button, Icon, Text} from 'native-base';
+import {Button, Icon, Text} from '@gluestack-ui/themed-native-base';
 import React from 'react';
 import {DeskIcon} from '@res/images/DeskIcon';
 import {SpaceType} from '@customTypes/booking';

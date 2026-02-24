@@ -2,7 +2,7 @@ import React, {PropsWithChildren} from 'react';
 import {render, RenderOptions} from '@testing-library/react-native';
 import {Provider} from 'react-redux';
 import {AppStore, RootState, setupStore} from '../state/store';
-import {NativeBaseProvider} from 'native-base';
+import {NativeBaseProvider} from '@gluestack-ui/themed-native-base';
 import {NavigationContainer} from '@react-navigation/native';
 import theme from '@root/theme';
 
