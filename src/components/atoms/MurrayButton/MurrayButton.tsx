@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, Button} from '@gluestack-ui/themed-native-base';
+import {Text, Button} from 'native-base';
 
 type ButtonSize = 'normal' | 'full';
 type ButtonColor = 'grey' | 'red' | 'normal';

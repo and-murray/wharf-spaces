@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Dimensions} from 'react-native';
-import {Text, Modal, KeyboardAvoidingView, View, ScrollView} from '@gluestack-ui/themed-native-base';
+import {Text, Modal, KeyboardAvoidingView, View, ScrollView} from 'native-base';
 import {InputField, Warning, LongButton} from '@atoms';
 import uuid from 'react-native-uuid';
 import {isEqual} from 'lodash';

@@ -1,4 +1,4 @@
-import {Text, Button} from '@gluestack-ui/themed-native-base';
+import {Text, Button} from 'native-base';
 import React from 'react';
 
 type LongButtonProps = {

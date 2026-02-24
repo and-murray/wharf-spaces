@@ -1,5 +1,5 @@
 import React, {useMemo} from 'react';
-import {Pressable, Text, Badge, CheckIcon} from '@gluestack-ui/themed-native-base';
+import {Pressable, Text, Badge, CheckIcon} from 'native-base';
 import {AvailableSpacesOption} from '@customTypes/index';
 import CheckToDisplayAsFull from '@atoms/CheckToDisplayAsFull/CheckToDisplayAsFull';
 

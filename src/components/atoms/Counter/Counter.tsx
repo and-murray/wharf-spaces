@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Platform} from 'react-native';
-import {Flex, VStack, Input, Pressable, Text, View} from '@gluestack-ui/themed-native-base';
+import {Flex, VStack, Input, Pressable, Text, View} from 'native-base';
 import {Plus} from '@res/images/Plus';
 import {Minus} from '@res/images/Minus';
 import {parseInt} from 'lodash';

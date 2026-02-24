@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {Box, HStack, Pressable, Text, View, VStack} from '@gluestack-ui/themed-native-base';
+import {Box, HStack, Pressable, Text, View, VStack} from 'native-base';
 import {Counter, DayTimeSelector, Warning} from '@atoms';
 import Booking, {BookingType, SpaceType, TimeSlot} from '@customTypes/booking';
 import UserProfileSection from '@molecules/UserProfileSection/UserProfileSection';

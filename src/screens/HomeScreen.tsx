@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, ScrollView, Text, VStack, View} from '@gluestack-ui/themed-native-base';
+import {Button, ScrollView, Text, VStack, View} from 'native-base';
 import {useAppSelector} from '@state/utils/hooks';
 import {signOut} from '@firebase/authentication/FirebaseGoogleAuthentication';
 import UserProfileSectionHome from '../components/molecules/UserProfileSection/UserProfileSectionHome';

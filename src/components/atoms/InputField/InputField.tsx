@@ -1,4 +1,4 @@
-import {Input, Box, ScrollView} from '@gluestack-ui/themed-native-base';
+import {Input, Box, ScrollView} from 'native-base';
 import React from 'react';
 
 type inputFieldProps = {

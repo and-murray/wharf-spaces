@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View} from '@gluestack-ui/themed-native-base';
+import {Text, View} from 'native-base';
 
 export default function MyBookingsScreen() {
   return (

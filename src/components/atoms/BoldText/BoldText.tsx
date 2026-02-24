@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, ITextProps} from '@gluestack-ui/themed-native-base';
+import {Text, ITextProps} from 'native-base';
 import {StyleSheet} from 'react-native';
 
 const BoldText = (props: ITextProps) => (

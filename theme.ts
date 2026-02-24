@@ -1,4 +1,4 @@
-import {extendTheme} from '@gluestack-ui/themed-native-base';
+import {extendTheme} from 'native-base';
 const theme = extendTheme({
   colors: {
     brand: {
@@ -53,7 +53,7 @@ export function getHexValue(colorString: string): string {
 }
 type CustomThemeType = typeof theme;
 
-declare module '@gluestack-ui/themed-native-base' {
+declare module 'native-base' {
   interface ICustomTheme extends CustomThemeType {}
 }
 
