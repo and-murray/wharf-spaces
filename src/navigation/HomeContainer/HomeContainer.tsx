@@ -84,7 +84,7 @@ function HomeContainer(): React.JSX.Element {
       <Tab.Navigator
         screenOptions={{
           tabBarActiveTintColor: 'red',
-          tabBarTestID: 'TabBar',
+          tabBarButtonTestID: 'TabBar',
         }}>
         <Tab.Screen
           name="Bookings"

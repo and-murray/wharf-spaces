@@ -1,3 +1,16 @@
+// TODO: remove once we move to gluestack v2
+jest.mock('react-native/Libraries/Utilities/BackHandler', () => {
+  return {
+    addEventListener: jest.fn(() => ({
+      remove: jest.fn(), // This is what your patch is looking for!
+    })),
+    removeEventListener: jest.fn(),
+    exitApp: jest.fn(),
+  };
+});
+
+
+
 export const mockFirestoreGet = jest.fn();
 
 export const mockFirestoreCollection = jest.fn();
@@ -24,7 +37,7 @@ export const mockOnMessage = jest.fn();
 
 export const mockGetFirestore = jest.fn();
 
-jest.mock('react-native-exit-app', () => jest.fn());
+jest.mock('@logicwind/react-native-exit-app', () => jest.fn());
 jest.mock('react-native-device-info', () => jest.fn());
 jest.mock('@react-native-firebase/app-check', () => () => ({
   firebase: jest.fn(),
