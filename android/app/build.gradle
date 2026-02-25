@@ -92,9 +92,9 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         // Set by fastlane
-        versionCode 1037
+        versionCode 1038
         // Set by fastlane
-        versionName "1.3.1"
+        versionName "1.3.3"
         resValue "string", "build_config_package", "digital.and.murrayapps" // Required for react-native-config as we have applicationIdSuffix set
     }
 
