@@ -8,10 +8,10 @@ export type Config = {
 };
 
 type ParkingCapacity = {
-  murrayCarCapacity: number;
-  adamsCarCapacity: number;
-  tenzingCarCapacity: number;
-  unknownCarCapacity: number;
+  murray: number;
+  adams: number;
+  tenzing: number;
+  unknown: number;
 };
 
 type Endpoints = {
@@ -21,10 +21,10 @@ type Endpoints = {
 };
 
 const defaultParkingCapacity: ParkingCapacity = {
-  murrayCarCapacity: 6,
-  adamsCarCapacity: 2,
-  tenzingCarCapacity: 2,
-  unknownCarCapacity: 0,
+  murray: 6,
+  adams: 2,
+  tenzing: 2,
+  unknown: 0,
 };
 
 const defaultDeskCapacity = 36;
