@@ -23,10 +23,9 @@ export function endpointsDefault(): Endpoints {
       genericAPIURL: 'https://apigen2-qg3ssmjwca-ew.a.run.app',
     };
   }
-  // TODO: Change to Prod Gen2 when we know them
   return {
-    carAPIURL: 'https://europe-west1-murray-apps.cloudfunctions.net/carapi',
-    deskAPIURL: 'https://europe-west1-murray-apps.cloudfunctions.net/deskapi',
-    genericAPIURL: 'https://europe-west1-murray-apps.cloudfunctions.net/api',
+    carAPIURL: 'https://carapigen2-ycc4kvd5aa-ew.a.run.app',
+    deskAPIURL: 'https://deskapigen2-ycc4kvd5aa-ew.a.run.app',
+    genericAPIURL: 'https://apigen2-ycc4kvd5aa-ew.a.run.app',
   };
 }

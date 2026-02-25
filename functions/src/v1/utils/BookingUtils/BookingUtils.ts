@@ -38,23 +38,24 @@ export function calculateCarSpaceCapacity(
   if (isBookingDateLimitedToBU(dateToBook) && !businessUnit) {
     throw Error('If booking date is limited to BU then BU is required');
   }
-
-  // Cannot use remote config methods within firebase functions as build fails
-  // hardcoding remaining capacity for now and subtracting capacity of prior bookings from batch
+  console.log('Check booking capacity');
+  console.log(JSON.stringify(config));
+  console.log(JSON.stringify(config.parkingCapacity));
+  console.log(JSON.stringify(config.parkingCapacity.murray));
   let remainingCapacity = 0;
   if (businessUnit === 'unknown') {
-    remainingCapacity = config.parkingCapacity.unknownCarCapacity;
+    remainingCapacity = config.parkingCapacity.unknown;
   } else if (!isBookingDateLimitedToBU(dateToBook)) {
     remainingCapacity =
-      config.parkingCapacity.murrayCarCapacity +
-      config.parkingCapacity.tenzingCarCapacity +
-      config.parkingCapacity.adamsCarCapacity;
+      config.parkingCapacity.murray +
+      config.parkingCapacity.tenzing +
+      config.parkingCapacity.adams;
   } else if (businessUnit === 'murray') {
-    remainingCapacity = config.parkingCapacity.murrayCarCapacity;
+    remainingCapacity = config.parkingCapacity.murray;
   } else if (businessUnit === 'tenzing') {
-    remainingCapacity = config.parkingCapacity.tenzingCarCapacity;
+    remainingCapacity = config.parkingCapacity.tenzing;
   } else if (businessUnit === 'adams') {
-    remainingCapacity = config.parkingCapacity.adamsCarCapacity;
+    remainingCapacity = config.parkingCapacity.adams;
   }
 
   return remainingCapacity;

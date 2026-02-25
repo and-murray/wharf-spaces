@@ -19,10 +19,10 @@ let getNonReservedBookingsOnDateSpy = jest.spyOn(
 const mockConfig: Config = {
   deskCapacity: 36,
   parkingCapacity: {
-    murrayCarCapacity: 6,
-    tenzingCarCapacity: 2,
-    adamsCarCapacity: 2,
-    unknownCarCapacity: 0,
+    murray: 6,
+    tenzing: 2,
+    adams: 2,
+    unknown: 0,
   },
   endpoints: {
     carAPIURL: 'https://carapigen2-qg3ssmjwca-ew.a.run.app',
