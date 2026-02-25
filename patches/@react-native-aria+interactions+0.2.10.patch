@@ -1,0 +1,40 @@
+diff --git a/node_modules/@react-native-aria/interactions/src/useKeyboardDismisssable.ts b/node_modules/@react-native-aria/interactions/src/useKeyboardDismisssable.ts
+index f3cfa44..c90b4c3 100644
+--- a/node_modules/@react-native-aria/interactions/src/useKeyboardDismisssable.ts
++++ b/node_modules/@react-native-aria/interactions/src/useKeyboardDismisssable.ts
+@@ -1,6 +1,6 @@
+-import React from 'react';
++import React, { useRef } from 'react';
+ import { useEffect } from 'react';
+-import { BackHandler } from 'react-native';
++import { BackHandler, NativeEventSubscription } from 'react-native';
+ 
+ type IParams = {
+   enabled?: boolean;
+@@ -43,17 +43,21 @@ export const useKeyboardDismissable = ({ enabled, callback }: IParams) => {
+ };
+ 
+ export function useBackHandler({ enabled, callback }: IParams) {
++  const backHandlerRef = useRef<NativeEventSubscription | null>(null);
++
+   useEffect(() => {
+-    let backHandler = () => {
++    const backHandler = () => {
+       callback();
+       return true;
+     };
+     if (enabled) {
+-      BackHandler.addEventListener('hardwareBackPress', backHandler);
++      backHandlerRef.current = BackHandler.addEventListener(
++        'hardwareBackPress',
++        backHandler
++      );
+     } else {
+-      BackHandler.removeEventListener('hardwareBackPress', backHandler);
++      backHandlerRef.current?.remove();
+     }
+-    return () =>
+-      BackHandler.removeEventListener('hardwareBackPress', backHandler);
++    return () => backHandlerRef.current?.remove();
+   }, [enabled, callback]);
+ }

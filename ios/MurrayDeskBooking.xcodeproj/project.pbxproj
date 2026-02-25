@@ -8,12 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* MurrayDeskBookingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* MurrayDeskBookingTests.m */; };
-		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		207EE74429CCA65E00317E40 /* GoogleService-Info-Dev.plist in Resources */ = {isa = PBXBuildFile; fileRef = 207EE74329CCA65E00317E40 /* GoogleService-Info-Dev.plist */; };
 		514796652A29F8E600FB1053 /* GoogleService-Info-Prod.plist in Resources */ = {isa = PBXBuildFile; fileRef = 514796642A29F8E600FB1053 /* GoogleService-Info-Prod.plist */; };
+		5941B761D3179D8C569BDD83 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = D9CBCDBF2EAC0DEB9403996F /* PrivacyInfo.xcprivacy */; };
 		597DC41BBA5B09775751F4A9 /* Pods_MurrayDeskBooking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEBDB5A1E30E583143BCEA9D /* Pods_MurrayDeskBooking.framework */; };
+		8BD054042F4CE7670046C585 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD054032F4CE7670046C585 /* AppDelegate.swift */; };
 		A2D7A18B951F40EC848CA20A /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CA99568EA6094AFFB3B8AA30 /* Poppins-Medium.ttf */; };
 		B542175DF37D751347484CA1 /* Pods_MurrayDeskBooking_MurrayDeskBookingTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D78E1633A8DBAB3FC509DB1 /* Pods_MurrayDeskBooking_MurrayDeskBookingTests.framework */; };
 		DF3F907AB5834855BCCD11C5 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 77E8A87F390C4893A79201DA /* Poppins-Regular.ttf */; };
@@ -35,11 +35,8 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* MurrayDeskBookingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MurrayDeskBookingTests.m; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Wharf Spaces.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Wharf Spaces.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = MurrayDeskBooking/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = MurrayDeskBooking/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = MurrayDeskBooking/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = MurrayDeskBooking/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = MurrayDeskBooking/main.m; sourceTree = "<group>"; };
 		207EE74329CCA65E00317E40 /* GoogleService-Info-Dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Dev.plist"; sourceTree = "<group>"; };
 		2D78E1633A8DBAB3FC509DB1 /* Pods_MurrayDeskBooking_MurrayDeskBookingTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MurrayDeskBooking_MurrayDeskBookingTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		33B08D1DA049BC476F9E24FE /* Pods-MurrayDeskBooking.debug-production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MurrayDeskBooking.debug-production.xcconfig"; path = "Target Support Files/Pods-MurrayDeskBooking/Pods-MurrayDeskBooking.debug-production.xcconfig"; sourceTree = "<group>"; };
@@ -50,11 +47,14 @@
 		636CC2EFE9D89C143C308710 /* Pods-MurrayDeskBooking-MurrayDeskBookingTests.debug-production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MurrayDeskBooking-MurrayDeskBookingTests.debug-production.xcconfig"; path = "Target Support Files/Pods-MurrayDeskBooking-MurrayDeskBookingTests/Pods-MurrayDeskBooking-MurrayDeskBookingTests.debug-production.xcconfig"; sourceTree = "<group>"; };
 		7159A38764C976030C534A7A /* Pods-MurrayDeskBooking.release-dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MurrayDeskBooking.release-dev.xcconfig"; path = "Target Support Files/Pods-MurrayDeskBooking/Pods-MurrayDeskBooking.release-dev.xcconfig"; sourceTree = "<group>"; };
 		77E8A87F390C4893A79201DA /* Poppins-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Regular.ttf"; path = "../src/res/fonts/Poppins-Regular.ttf"; sourceTree = "<group>"; };
+		8BD054022F4CE7670046C585 /* MurrayDeskBooking-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "MurrayDeskBooking-Bridging-Header.h"; path = "MurrayDeskBooking/MurrayDeskBooking-Bridging-Header.h"; sourceTree = "<group>"; };
+		8BD054032F4CE7670046C585 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = MurrayDeskBooking/AppDelegate.swift; sourceTree = "<group>"; };
 		A4CC179D38D33DAE9D9CF1C5 /* Pods-MurrayDeskBooking-MurrayDeskBookingTests.release-dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MurrayDeskBooking-MurrayDeskBookingTests.release-dev.xcconfig"; path = "Target Support Files/Pods-MurrayDeskBooking-MurrayDeskBookingTests/Pods-MurrayDeskBooking-MurrayDeskBookingTests.release-dev.xcconfig"; sourceTree = "<group>"; };
 		AB9A5C2DCD00B21B48AA9D96 /* Pods-MurrayDeskBooking.debug-dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MurrayDeskBooking.debug-dev.xcconfig"; path = "Target Support Files/Pods-MurrayDeskBooking/Pods-MurrayDeskBooking.debug-dev.xcconfig"; sourceTree = "<group>"; };
 		AC8DF1E7A1E7A53EF057898E /* Pods-MurrayDeskBooking-MurrayDeskBookingTests.release-production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MurrayDeskBooking-MurrayDeskBookingTests.release-production.xcconfig"; path = "Target Support Files/Pods-MurrayDeskBooking-MurrayDeskBookingTests/Pods-MurrayDeskBooking-MurrayDeskBookingTests.release-production.xcconfig"; sourceTree = "<group>"; };
 		CA99568EA6094AFFB3B8AA30 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Medium.ttf"; path = "../src/res/fonts/Poppins-Medium.ttf"; sourceTree = "<group>"; };
 		CEBDB5A1E30E583143BCEA9D /* Pods_MurrayDeskBooking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MurrayDeskBooking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D9CBCDBF2EAC0DEB9403996F /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = MurrayDeskBooking/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		EDFA085C2A94FA98000DFF38 /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = MurrayDeskBooking/BootSplash.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -101,12 +101,12 @@
 			children = (
 				51CD04E82A430F8D00393B06 /* MurrayDeskBooking.entitlements */,
 				51730C172A28F01600D82E8F /* Firebase */,
-				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
-				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				EDFA085C2A94FA98000DFF38 /* BootSplash.storyboard */,
-				13B07FB71A68108700A75B9A /* main.m */,
+				D9CBCDBF2EAC0DEB9403996F /* PrivacyInfo.xcprivacy */,
+				8BD054032F4CE7670046C585 /* AppDelegate.swift */,
+				8BD054022F4CE7670046C585 /* MurrayDeskBooking-Bridging-Header.h */,
 			);
 			name = MurrayDeskBooking;
 			sourceTree = "<group>";
@@ -249,7 +249,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 2600;
 					};
 				};
 			};
@@ -290,6 +290,7 @@
 				207EE74429CCA65E00317E40 /* GoogleService-Info-Dev.plist in Resources */,
 				A2D7A18B951F40EC848CA20A /* Poppins-Medium.ttf in Resources */,
 				DF3F907AB5834855BCCD11C5 /* Poppins-Regular.ttf in Resources */,
+				5941B761D3179D8C569BDD83 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -503,8 +504,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
-				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				8BD054042F4CE7670046C585 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -603,6 +603,8 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_BRIDGING_HEADER = "MurrayDeskBooking/MurrayDeskBooking-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -641,6 +643,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "MurrayDeskBooking/MurrayDeskBooking-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -652,7 +655,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -767,6 +770,8 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_BRIDGING_HEADER = "MurrayDeskBooking/MurrayDeskBooking-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -807,7 +812,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -915,6 +920,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "MurrayDeskBooking/MurrayDeskBooking-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -951,7 +957,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1040,7 +1046,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
