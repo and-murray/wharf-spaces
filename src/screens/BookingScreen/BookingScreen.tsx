@@ -21,7 +21,7 @@ import subscribeToNotesCollection from '@firebase/firestore/subscribeToNotesColl
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import {storeSelectedSpaceType} from '@state/reducers/selectedDayOptionsSlice';
 import {calculateNewUserIds} from '@utils/FirebaseUtils/FirebaseUtils';
-import Animated, {Layout} from 'react-native-reanimated';
+import Animated, {LinearTransition} from 'react-native-reanimated';
 import {fetchLondonTime} from '@state/reducers/UtilsSlice';
 import {LongButton} from '@root/src/components/atoms';
 
@@ -173,7 +173,7 @@ export default function BookingScreen() {
               />
               {isValidBookingDate ? (
                 <>
-                  <Animated.View layout={Layout}>
+                  <Animated.View layout={LinearTransition}>
                     <AvailableSpaces
                       bookings={
                         selectedIndex === 0 ? deskBookings : carBookings
@@ -181,7 +181,7 @@ export default function BookingScreen() {
                       userData={userData}
                     />
                   </Animated.View>
-                  <Animated.View layout={Layout}>
+                  <Animated.View layout={LinearTransition}>
                     <WhosIn
                       bookings={
                         selectedIndex === 0 ? deskBookings : carBookings
