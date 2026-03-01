@@ -20,6 +20,13 @@ import {createUser} from '../../v1/Controllers/user.create.controller';
  *         type: string
  *       required: true
  *       example: application/json
+ *     X-GOOGLE-ACCESS-TOKEN:
+ *       name: x-google-access-token
+ *       in: header
+ *       description: The users google signin access token.
+ *       schema:
+ *         type: string
+ *       required: true
  */
 export const V1Router = Router();
 
@@ -108,17 +115,23 @@ V1Router.use(validateFirebaseIdToken as any); // Anything after this requires lo
 /**
  * @swagger
  * /v1/user:
- *   get:
+ *   post:
  *     summary: Creates a new user.
  *     description: Creates a new user in cloud firestore
+ *     tags:
+ *       - Users
  *     parameters:
  *       - $ref: '#components/headers/Content-Type'
  *       - $ref: '#components/headers/X-Firebase-AppCheck'
+ *       - $ref: '#components/headers/Authorization'
+ *       - $ref: '#components/headers/X-GOOGLE-ACCESS-TOKEN'
  *     responses:
  *       201:
  *         description: The user was created
  *       202:
  *         description: The user already exists
+ *       400:
+ *         description: Client error, did you include google access token?
  */
 V1Router.post('/user', createUser);
 

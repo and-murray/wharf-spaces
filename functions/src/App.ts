@@ -75,9 +75,9 @@ App.use(cookieParser);
 App.use((req: Request, res: Response, next: Function) => {
   if (
     (req.originalUrl === '/docs' || req.originalUrl === '/docs/') &&
-    process.env.FUNCTION_TARGET !== 'api'
+    (process.env.FUNCTION_TARGET !== 'api' && process.env.FUNCTION_TARGET !== 'apiGen2')
   ) {
-    if (process.env.FUNCTION_TARGET !== 'api') {
+    if (process.env.FUNCTION_TARGET !== 'api' && process.env.FUNCTION_TARGET !== 'apiGen2') {
       return res
         .status(403)
         .send('You can only access docs on the api function');
