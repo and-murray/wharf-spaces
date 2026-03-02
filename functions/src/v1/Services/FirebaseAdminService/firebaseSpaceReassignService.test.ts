@@ -1,7 +1,7 @@
 import {Timestamp} from 'firebase-admin/firestore';
 import {Booking, SpaceType, User} from '../../Models/booking.model';
 import {assignSpacesToReserved} from './firebaseSpaceReassignService';
-import * as firebaseAdminService from './firebaseAdminService';
+import * as getFirestoreUser from '../FirebaseAdminService/getFirestoreUser';
 import * as bookingUtils from './../../utils/BookingUtils/BookingUtils';
 import * as checkBookingCapacity from '../DeskCapacity/checkBookingCapacity';
 import sendNotifications from './firebaseMessagingService';
@@ -33,7 +33,7 @@ jest.mock('firebase-admin', () => ({
 }));
 
 const getFirestoreUserSpy = jest.spyOn(
-  firebaseAdminService,
+  getFirestoreUser,
   'getFirestoreUser',
 );
 

@@ -8,11 +8,12 @@ import {chunkQuery} from '../../utils/FirebaseUtils/FirebaseUtils';
 import {parseBooking} from '../../utils/ParserUtil';
 import {checkBookingCapacity} from '../DeskCapacity/checkBookingCapacity';
 import {assignEmptySpacesToReserved} from './assignEmptySpacesToReserved';
-import {getFirestoreUser, getServerTime} from './firebaseAdminService';
+import {getServerTime} from './firebaseAdminService';
 import createError from 'http-errors';
 import {isCorrectFunction} from '../../utils/IsCorrectFunction';
 import {constructError} from '../../utils/ErrorUtil';
 import {Config} from '../../Config';
+import { getFirestoreUser } from './getFirestoreUser';
 
 const collectionName = 'bookings';
 

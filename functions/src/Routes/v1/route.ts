@@ -126,10 +126,8 @@ V1Router.use(validateFirebaseIdToken as any); // Anything after this requires lo
  *       - $ref: '#components/headers/Authorization'
  *       - $ref: '#components/headers/X-GOOGLE-ACCESS-TOKEN'
  *     responses:
- *       201:
- *         description: The user was created
- *       202:
- *         description: The user already exists
+ *       200:
+ *         description: The user was created or already exists
  *       400:
  *         description: Client error, did you include google access token?
  */

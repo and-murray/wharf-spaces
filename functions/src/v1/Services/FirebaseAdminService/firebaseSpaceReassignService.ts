@@ -14,7 +14,6 @@ import {
   BOOKING_CAR_REASSIGN_AVAILABLE_MESSAGE,
 } from './Notifications';
 import {isBookingDateLimitedToBU} from '../../utils/BookingUtils/BookingUtils';
-import {getFirestoreUser} from './firebaseAdminService';
 import {
   findCarAssignables,
   findDeskAssignables,
@@ -23,6 +22,7 @@ import {
 } from '../../utils/SpaceReassignUtils/SpaceReassignUtils';
 import {checkBookingCapacity} from '../DeskCapacity/checkBookingCapacity';
 import {Config} from '../../Config';
+import { getFirestoreUser } from './getFirestoreUser';
 
 /**
  * Goes through the deleted bookings and extract out free time slots that are now assignable to the bookings in reserved space.

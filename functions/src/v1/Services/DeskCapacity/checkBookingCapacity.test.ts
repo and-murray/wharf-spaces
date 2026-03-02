@@ -8,7 +8,7 @@ import {
   User,
 } from '../../Models/booking.model';
 import {FieldValue, Timestamp} from 'firebase-admin/firestore';
-import * as firebaseAdminService from '../../Services/FirebaseAdminService/firebaseAdminService';
+import * as getFirestoreUser from '../FirebaseAdminService/getFirestoreUser';
 import {Config} from '../../Config';
 
 let getNonReservedBookingsOnDateSpy = jest.spyOn(
@@ -41,7 +41,7 @@ const isBookingDateLimitedToBUSpy = jest.spyOn(
   'isBookingDateLimitedToBU',
 );
 
-let getFirestoreUserSpy = jest.spyOn(firebaseAdminService, 'getFirestoreUser');
+let getFirestoreUserSpy = jest.spyOn(getFirestoreUser, 'getFirestoreUser');
 
 const testDate = '2023-05-11T00:00:00Z';
 describe('Check Booking Capacity Tests ', () => {

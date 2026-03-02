@@ -2,35 +2,36 @@ import admin from 'firebase-admin';
 import type {Request, Response} from 'express';
 import {CollectionName} from '../Services/CollectionName';
 import {User, Role, BusinessUnit} from '../Models/booking.model';
-import { UserRecord } from 'firebase-admin/auth';
+import {DecodedIdToken} from 'firebase-admin/auth';
 import {people_v1} from 'googleapis';
+import {getFirestoreUser} from '../Services/FirebaseAdminService/getFirestoreUser';
 
 export const createUser = async (req: Request, res: Response) => {
+  const user = req.user;
+  if (user) {
     try {
-        const id = req.user?.uid;
-        if (id) {
-          let firestoreUser = await getFirestoreUser(id);
-          if (firestoreUser) {
-              res.status(200).send(firestoreUser);
-          } else {
-            const user = await admin.auth().getUser(id);
-            const googleAccessToken = req.headersDistinct['x-google-access-token'] ?? '';
-            if (googleAccessToken.length > 0 && googleAccessToken[0]) {
-              firestoreUser = await createFirestoreUser(user, googleAccessToken[0]);
-              await setUserDoc(firestoreUser);
-            } else {
-              res.status(400).send('No google access token');
-            }
-            res.status(200).send(firestoreUser);
-          }
+      const firestoreUser = await getFirestoreUser(user.uid);
+      res.status(200).send(JSON.stringify(firestoreUser));
+    } catch {
+      try {
+        const googleAccessToken = req.headersDistinct['x-google-access-token'] ?? '';
+        if (googleAccessToken.length > 0 && googleAccessToken[0]) {
+          const firestoreUser = await createFirestoreUser(user, googleAccessToken[0]);
+          res.status(200).send(JSON.stringify(firestoreUser));
+        } else {
+          res.status(400).send('No google access token');
         }
-    } catch (error) {
-        res.status(500).send(JSON.stringify(error));
+      } catch (error) {
+        res.status(500).send(error);
+      }
     }
+  } else {
+    res.status(400).send('No user found');
+  }
 };
 
 async function createFirestoreUser(
-  firebaseUser: UserRecord,
+  firebaseUser: DecodedIdToken,
   token: string
 ): Promise<User> {
   if (firebaseUser.email === 'demo@example.com') {
@@ -71,7 +72,7 @@ async function createFirestoreUser(
         firstName: personData.names?.[0].givenName ?? 'ANDi',
         lastName: personData.names?.[0].familyName ?? 'Murray',
         email: email,
-        profilePicUrl: firebaseUser.photoURL ?? '',
+        profilePicUrl: firebaseUser.picture ?? '',
         role: Role.Enum.user,
         businessUnit: department as BusinessUnit,
         createdAt: admin.firestore.Timestamp.now(),
@@ -97,7 +98,6 @@ const setUserDoc = async (user: User): Promise<User> => {
         throw Error();
     }
 };
-export default createUser;
 
 const getPersonData = async (token: string): Promise<people_v1.Schema$Person | undefined> => {
   try {
@@ -122,13 +122,4 @@ const getPersonData = async (token: string): Promise<people_v1.Schema$Person | u
   }
 };
 
-async function getFirestoreUser(uid: string): Promise<User | undefined> {
-  const db = admin.firestore();
-  const ref = db.collection(CollectionName.users);
-  const userDoc = await ref.doc(uid).get();
-  if (userDoc.exists) {
-    return User.parse(userDoc.data());
-  } else {
-    return undefined;
-  }
-}
+export default createUser;

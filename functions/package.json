@@ -49,5 +49,10 @@
     "jest": "29.7.0",
     "typescript": "5.7.3"
   },
+  "jest": {
+    "testMatch": [
+       "**/?(*.)+(spec|test).[t]s?(x)"
+    ]
+  },
   "private": true
 }
