@@ -22,7 +22,7 @@ import {
 } from '../../utils/SpaceReassignUtils/SpaceReassignUtils';
 import {checkBookingCapacity} from '../DeskCapacity/checkBookingCapacity';
 import {Config} from '../../Config';
-import { getFirestoreUser } from './getFirestoreUser';
+import { getFirestoreUser } from './firestoreUser';
 
 /**
  * Goes through the deleted bookings and extract out free time slots that are now assignable to the bookings in reserved space.

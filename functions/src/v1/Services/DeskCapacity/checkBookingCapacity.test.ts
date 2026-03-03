@@ -8,7 +8,7 @@ import {
   User,
 } from '../../Models/booking.model';
 import {FieldValue, Timestamp} from 'firebase-admin/firestore';
-import * as getFirestoreUser from '../FirebaseAdminService/getFirestoreUser';
+import * as getFirestoreUser from '../FirebaseAdminService/firestoreUser';
 import {Config} from '../../Config';
 
 let getNonReservedBookingsOnDateSpy = jest.spyOn(

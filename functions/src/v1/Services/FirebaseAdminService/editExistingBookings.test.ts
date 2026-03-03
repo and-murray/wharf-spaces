@@ -4,7 +4,7 @@ import * as chunkQuery from '../../utils/FirebaseUtils/FirebaseUtils';
 import * as isCorrectFunction from '../../utils/IsCorrectFunction';
 import {editExistingBookings} from './editExistingBookings';
 import createError, {HttpError} from 'http-errors';
-import * as getFirestoreUser from '../FirebaseAdminService/getFirestoreUser';
+import * as getFirestoreUser from './firestoreUser';
 import * as checkBookingCapacity from '../DeskCapacity/checkBookingCapacity';
 import * as assignEmptySpacesToReserved from './assignEmptySpacesToReserved';
 import {Config} from '../../Config';

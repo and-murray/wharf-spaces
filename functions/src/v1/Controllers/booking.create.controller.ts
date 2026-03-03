@@ -22,7 +22,7 @@ import {
 } from '../utils/BookingUtils/BookingUtils';
 import {isCorrectFunction} from '../utils/IsCorrectFunction';
 import {getFirebaseRemoteConfig} from '../Config';
-import { getFirestoreUser } from '../Services/FirebaseAdminService/getFirestoreUser';
+import { getFirestoreUser } from '../Services/FirebaseAdminService/firestoreUser';
 
 export const createNewBookings = async (req: Request, res: Response) => {
   let bookingRequest: BookingRequest;

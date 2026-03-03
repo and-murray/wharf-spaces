@@ -1,7 +1,7 @@
 import {Timestamp} from 'firebase-admin/firestore';
 import {Booking, SpaceType, User} from '../../Models/booking.model';
 import {assignSpacesToReserved} from './firebaseSpaceReassignService';
-import * as getFirestoreUser from '../FirebaseAdminService/getFirestoreUser';
+import * as getFirestoreUser from './firestoreUser';
 import * as bookingUtils from './../../utils/BookingUtils/BookingUtils';
 import * as checkBookingCapacity from '../DeskCapacity/checkBookingCapacity';
 import sendNotifications from './firebaseMessagingService';

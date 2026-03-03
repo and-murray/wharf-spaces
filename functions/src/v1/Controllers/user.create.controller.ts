@@ -1,10 +1,9 @@
-import admin from 'firebase-admin';
 import type {Request, Response} from 'express';
-import {CollectionName} from '../Services/CollectionName';
 import {User, Role, BusinessUnit} from '../Models/booking.model';
 import {DecodedIdToken} from 'firebase-admin/auth';
-import {people_v1} from 'googleapis';
-import {getFirestoreUser} from '../Services/FirebaseAdminService/getFirestoreUser';
+import {getFirestoreUser, createFirestoreUser} from '../Services/FirebaseAdminService/firestoreUser';
+import {getPersonData} from '../Services/GoogleAPI/getPersonData';
+import getFirestoreServerTimestamp from '../utils/FirebaseUtils/FirestoreTimestamp';
 
 export const createUser = async (req: Request, res: Response) => {
   const user = req.user;
@@ -16,7 +15,7 @@ export const createUser = async (req: Request, res: Response) => {
       try {
         const googleAccessToken = req.headersDistinct['x-google-access-token'] ?? '';
         if (googleAccessToken.length > 0 && googleAccessToken[0]) {
-          const firestoreUser = await createFirestoreUser(user, googleAccessToken[0]);
+          const firestoreUser = await getUserInfoAndCreate(user, googleAccessToken[0]);
           res.status(200).send(JSON.stringify(firestoreUser));
         } else {
           res.status(400).send('No google access token');
@@ -30,11 +29,14 @@ export const createUser = async (req: Request, res: Response) => {
   }
 };
 
-async function createFirestoreUser(
+async function getUserInfoAndCreate(
   firebaseUser: DecodedIdToken,
   token: string
 ): Promise<User> {
+  console.log('GOT TO HERE 1');
+  console.log(firebaseUser.email);
   if (firebaseUser.email === 'demo@example.com') {
+    console.log('GOT TO HERE 2');
     const user: User = {
       id: firebaseUser.uid,
       firstName: 'ANDi',
@@ -43,10 +45,11 @@ async function createFirestoreUser(
       profilePicUrl: '',
       role: Role.Enum.demo,
       businessUnit: BusinessUnit.Enum.unknown,
-      createdAt: admin.firestore.Timestamp.now(),
-      updatedAt: admin.firestore.Timestamp.now(),
+      createdAt: getFirestoreServerTimestamp(),
+      updatedAt: getFirestoreServerTimestamp(),
     };
-    return await setUserDoc(user);
+    console.log('GOT TO HERE 3');
+    return await createFirestoreUser(user);
   }
 
   let personData;
@@ -75,10 +78,10 @@ async function createFirestoreUser(
         profilePicUrl: firebaseUser.picture ?? '',
         role: Role.Enum.user,
         businessUnit: department as BusinessUnit,
-        createdAt: admin.firestore.Timestamp.now(),
-        updatedAt: admin.firestore.Timestamp.now(),
+        createdAt: getFirestoreServerTimestamp(),
+        updatedAt: getFirestoreServerTimestamp(),
       };
-      return await setUserDoc(user);
+      return await createFirestoreUser(user);
     } else {
       throw new Error('Missing email or key information');
     }
@@ -86,40 +89,5 @@ async function createFirestoreUser(
     throw new Error('Permissions of user incorrect');
   }
 }
-
-
-const setUserDoc = async (user: User): Promise<User> => {
-    const db = admin.firestore();
-    await db.collection(CollectionName.users).doc(user.id).set(user);
-    const firestoreUser = await getFirestoreUser(user.id);
-    if (firestoreUser) {
-        return firestoreUser;
-    } else {
-        throw Error();
-    }
-};
-
-const getPersonData = async (token: string): Promise<people_v1.Schema$Person | undefined> => {
-  try {
-    const organisationResponse = await fetch(
-      'https://people.googleapis.com/v1/people/me?personFields=organizations,names',
-      {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      },
-    );
-    if (!organisationResponse.ok) {
-      throw new Error(
-        `API request failed with status ${organisationResponse.status}`,
-      );
-    }
-    return organisationResponse.json() as people_v1.Schema$Person;
-  } catch (error) {
-    console.error(error);
-    return undefined;
-  }
-};
 
 export default createUser;

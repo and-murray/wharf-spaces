@@ -1,7 +1,7 @@
 import type {Request, Response} from 'express';
 import createNewBookings from './booking.create.controller';
 import * as firebaseAdminService from '../Services/FirebaseAdminService/firebaseAdminService';
-import * as getFirestoreUser from '../Services/FirebaseAdminService/getFirestoreUser';
+import * as getFirestoreUser from '../Services/FirebaseAdminService/firestoreUser';
 import * as checkBookingCapacity from '../Services/DeskCapacity/checkBookingCapacity';
 import * as bookingUtils from '../utils/BookingUtils/BookingUtils';
 import {TimeSlot, User} from '../Models/booking.model';

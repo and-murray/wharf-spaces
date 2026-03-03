@@ -13,7 +13,7 @@ import createError from 'http-errors';
 import {isCorrectFunction} from '../../utils/IsCorrectFunction';
 import {constructError} from '../../utils/ErrorUtil';
 import {Config} from '../../Config';
-import { getFirestoreUser } from './getFirestoreUser';
+import { getFirestoreUser } from './firestoreUser';
 
 const collectionName = 'bookings';
 

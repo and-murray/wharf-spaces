@@ -6,7 +6,7 @@ import {
 } from '../../utils/BookingUtils/BookingUtils';
 import {reduceRemainingCapacity} from '../../utils/CapacityUtils/CapacityUtils';
 import {Config} from '../../Config';
-import { getFirestoreUser } from '../FirebaseAdminService/getFirestoreUser';
+import { getFirestoreUser } from '../FirebaseAdminService/firestoreUser';
 
 export type BookingCapacity = {
   am: number;

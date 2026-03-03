@@ -1,14 +1,22 @@
 import type {Request, Response} from 'express';
 import {createUser} from './user.create.controller';
-import {User} from '../Models/booking.model';
+import {BusinessUnit, Role, User} from '../Models/booking.model';
 import {Timestamp} from 'firebase-admin/firestore';
-import * as getFirestoreUser from '../Services/FirebaseAdminService/getFirestoreUser';
+import * as firestoreUser from '../Services/FirebaseAdminService/firestoreUser';
+import { DecodedIdToken } from 'firebase-admin/auth';
+import * as getFirestoreServerTimestamp from '../utils/FirebaseUtils/FirestoreTimestamp';
 
-const getFirestoreUserSpy = jest.spyOn(getFirestoreUser, 'getFirestoreUser');
+const getFirestoreUserSpy = jest.spyOn(firestoreUser, 'getFirestoreUser');
+const createFirestoreUserSpy = jest.spyOn(firestoreUser, 'createFirestoreUser');
 jest.mock('firebase-admin', () => ({
   initializeApp: jest.fn(),
   auth: jest.fn(),
 }));
+const getFirestoreServerTimestampSpy = jest.spyOn(getFirestoreServerTimestamp, 'default');
+const mockTimestamp = {
+  seconds: 1586343437,
+  nanoseconds: 0,
+};
 describe('Creates User', () => {
     const mockStatus = jest.fn().mockImplementation(() => ({
         send: mockSend,
@@ -23,10 +31,11 @@ describe('Creates User', () => {
     beforeEach(() => {
         jest.clearAllMocks();
         mockRequest = {
-        body: [],
-        headersDistinct: {},
-        user: { uid: '123' },
+            body: [],
+            headersDistinct: {},
+            user: { uid: '123' },
         } as Request;
+        getFirestoreServerTimestampSpy.mockReturnValue(mockTimestamp as Timestamp);
     });
 
     describe('When no user id is found ', () => {
@@ -85,6 +94,39 @@ describe('Creates User', () => {
         describe('Contains a google access token header', () => {
             beforeEach(() => {
                 mockRequest.headersDistinct['x-google-access-token'] = ['123456'];
+            });
+            describe('Is a demo account', () => {
+                it('returns the demo account', async () => {
+                    const userToken: DecodedIdToken = {
+                        aud: '',
+                        id: '123',
+                        email: 'demo@example.com',
+                        auth_time: 0,
+                        exp: 0,
+                        firebase: {identities: {}, sign_in_provider: ''},
+                        iat: 0,
+                        iss: '',
+                        sub: '',
+                        uid: '456',
+                    };
+                    mockRequest.user = userToken;
+                    const expectedUser: User = {
+                        id: '456',
+                        firstName: 'ANDi',
+                        lastName: 'Murray',
+                        email: 'demo@example.com',
+                        profilePicUrl: '',
+                        role: Role.Enum.demo,
+                        businessUnit: BusinessUnit.Enum.unknown,
+                        createdAt: mockTimestamp as Timestamp,
+                        updatedAt: mockTimestamp as Timestamp,
+                    };
+                    createFirestoreUserSpy.mockResolvedValueOnce(expectedUser);
+                    await createUser(mockRequest, mockResponse);
+                    expect(createFirestoreUserSpy).toHaveBeenCalledWith(expectedUser);
+                    expect(mockResponse.status).toHaveBeenCalledWith(200);
+                    expect(mockSend).toHaveBeenCalledWith(expectedUser);
+                });
             });
         });
     });

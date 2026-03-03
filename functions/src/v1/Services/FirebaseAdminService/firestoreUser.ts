@@ -12,3 +12,9 @@ export async function getFirestoreUser(uid: string): Promise<User> {
     throw new Error('User does not exist');
   }
 }
+
+export async function createFirestoreUser(user: User): Promise<User> {
+  const db = admin.firestore();
+  await db.collection(CollectionName.users).doc(user.id).set(user);
+  return user;
+}
