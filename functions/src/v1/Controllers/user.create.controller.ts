@@ -33,10 +33,7 @@ async function getUserInfoAndCreate(
   firebaseUser: DecodedIdToken,
   token: string
 ): Promise<User> {
-  console.log('GOT TO HERE 1');
-  console.log(firebaseUser.email);
   if (firebaseUser.email === 'demo@example.com') {
-    console.log('GOT TO HERE 2');
     const user: User = {
       id: firebaseUser.uid,
       firstName: 'ANDi',
@@ -48,10 +45,8 @@ async function getUserInfoAndCreate(
       createdAt: getFirestoreServerTimestamp(),
       updatedAt: getFirestoreServerTimestamp(),
     };
-    console.log('GOT TO HERE 3');
     return await createFirestoreUser(user);
   }
-
   let personData;
   try {
     personData = await getPersonData(token);

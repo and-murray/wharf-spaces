@@ -125,7 +125,7 @@ describe('Creates User', () => {
                     await createUser(mockRequest, mockResponse);
                     expect(createFirestoreUserSpy).toHaveBeenCalledWith(expectedUser);
                     expect(mockResponse.status).toHaveBeenCalledWith(200);
-                    expect(mockSend).toHaveBeenCalledWith(expectedUser);
+                    expect(mockSend).toHaveBeenCalledWith(JSON.stringify(expectedUser));
                 });
             });
         });
