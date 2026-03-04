@@ -11,7 +11,6 @@ import {
   BookingType,
 } from '../Models/booking.model';
 import {
-  getFirestoreUser,
   getServerTime,
   sendToBookings,
 } from '../Services/FirebaseAdminService/firebaseAdminService';
@@ -23,6 +22,7 @@ import {
 } from '../utils/BookingUtils/BookingUtils';
 import {isCorrectFunction} from '../utils/IsCorrectFunction';
 import {getFirebaseRemoteConfig} from '../Config';
+import { getFirestoreUser } from '../Services/FirebaseAdminService/firestoreUser';
 
 export const createNewBookings = async (req: Request, res: Response) => {
   let bookingRequest: BookingRequest;

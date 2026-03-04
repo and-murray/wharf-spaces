@@ -1,9 +1,8 @@
 import admin from 'firebase-admin';
 import {FieldValue} from 'firebase-admin/firestore';
-import {Booking, User} from '../../Models/booking.model';
+import {Booking} from '../../Models/booking.model';
 import createError from 'http-errors';
 import {parseBooking} from '../../utils/ParserUtil';
-import {CollectionName} from '../CollectionName';
 import {isCorrectFunction} from '../../utils/IsCorrectFunction';
 import {chunkQuery} from '../../utils/FirebaseUtils/FirebaseUtils';
 import {constructError} from '../../utils/ErrorUtil';
@@ -99,13 +98,6 @@ export async function deleteBookings(bookingIds: string[], userId: string) {
     });
     throw httpError;
   }
-}
-
-export async function getFirestoreUser(uid: string): Promise<User> {
-  const db = admin.firestore();
-  const ref = db.collection(CollectionName.users);
-  const userDoc = await ref.doc(uid).get();
-  return User.parse(userDoc.data());
 }
 
 export function getServerTime(): FieldValue {

@@ -4,9 +4,9 @@ import {
   calculateCarSpaceCapacity,
   isBookingDateLimitedToBU,
 } from '../../utils/BookingUtils/BookingUtils';
-import {getFirestoreUser} from '../FirebaseAdminService/firebaseAdminService';
 import {reduceRemainingCapacity} from '../../utils/CapacityUtils/CapacityUtils';
 import {Config} from '../../Config';
+import { getFirestoreUser } from '../FirebaseAdminService/firestoreUser';
 
 export type BookingCapacity = {
   am: number;

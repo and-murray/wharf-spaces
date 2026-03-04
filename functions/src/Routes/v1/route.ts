@@ -5,6 +5,7 @@ import {getLondonTime} from '../../v1/Controllers/serverTime.get.controller';
 import validateFirebaseIdToken from '../../v1/Middleware/authentication';
 import {editBookings} from '../../v1/Controllers/booking.edit.controller';
 import {allocateEmptySlots} from '../../v1/Controllers/booking.allocate.controller';
+import {createUser} from '../../v1/Controllers/user.create.controller';
 // import appCheck from '../../v1/Middleware/appCheck';
 
 /**
@@ -19,6 +20,13 @@ import {allocateEmptySlots} from '../../v1/Controllers/booking.allocate.controll
  *         type: string
  *       required: true
  *       example: application/json
+ *     X-GOOGLE-ACCESS-TOKEN:
+ *       name: x-google-access-token
+ *       in: header
+ *       description: The users google signin access token.
+ *       schema:
+ *         type: string
+ *       required: true
  */
 export const V1Router = Router();
 
@@ -103,6 +111,27 @@ V1Router.patch('/booking/allocateEmptySlots', allocateEmptySlots);
  *       example: Bearer feofuq34tq83j2dq3fq3ufbi
  */
 V1Router.use(validateFirebaseIdToken as any); // Anything after this requires login
+
+/**
+ * @swagger
+ * /v1/user:
+ *   post:
+ *     summary: Creates a new user.
+ *     description: Creates a new user in cloud firestore
+ *     tags:
+ *       - Users
+ *     parameters:
+ *       - $ref: '#components/headers/Content-Type'
+ *       - $ref: '#components/headers/X-Firebase-AppCheck'
+ *       - $ref: '#components/headers/Authorization'
+ *       - $ref: '#components/headers/X-GOOGLE-ACCESS-TOKEN'
+ *     responses:
+ *       200:
+ *         description: The user was created or already exists
+ *       400:
+ *         description: Client error, did you include google access token?
+ */
+V1Router.post('/user', createUser);
 
 /**
  * @swagger

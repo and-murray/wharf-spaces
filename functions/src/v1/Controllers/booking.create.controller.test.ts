@@ -1,6 +1,7 @@
 import type {Request, Response} from 'express';
 import createNewBookings from './booking.create.controller';
 import * as firebaseAdminService from '../Services/FirebaseAdminService/firebaseAdminService';
+import * as getFirestoreUser from '../Services/FirebaseAdminService/firestoreUser';
 import * as checkBookingCapacity from '../Services/DeskCapacity/checkBookingCapacity';
 import * as bookingUtils from '../utils/BookingUtils/BookingUtils';
 import {TimeSlot, User} from '../Models/booking.model';
@@ -33,7 +34,7 @@ const isValidCarBookingDateSpy = jest.spyOn(
   'isValidCarBookingDate',
 );
 const sendToBookingsSpy = jest.spyOn(firebaseAdminService, 'sendToBookings');
-let getFirestoreUserSpy = jest.spyOn(firebaseAdminService, 'getFirestoreUser');
+let getFirestoreUserSpy = jest.spyOn(getFirestoreUser, 'getFirestoreUser');
 let mockBookingCapacity = jest.spyOn(
   checkBookingCapacity,
   'checkBookingCapacity',

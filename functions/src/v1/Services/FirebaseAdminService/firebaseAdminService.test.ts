@@ -6,11 +6,9 @@ import {
 import {Booking} from '../../Models/booking.model';
 import {
   deleteBookings,
-  getFirestoreUser,
   sendToBookings,
 } from './firebaseAdminService';
 import {HttpError} from 'http-errors';
-import {ZodError} from 'zod';
 import * as isCorrectFunction from '../../utils/IsCorrectFunction';
 import * as chunkQuery from '../../utils/FirebaseUtils/FirebaseUtils';
 
@@ -388,70 +386,6 @@ describe('Firebase Admin Service', () => {
           expect(mockBatchDelete.mock.calls).toEqual([['12345']]);
           expect(mockBatchDelete).toHaveBeenCalledTimes(1);
           expect(mockBatchCommit).toHaveBeenCalledTimes(0);
-        }
-      });
-    });
-  });
-  describe('getFirestoreUser is called', () => {
-    describe('with a user id that exists', () => {
-      beforeEach(() => {
-        mockGet = jest.fn(() => ({
-          exists: true,
-          data: jest.fn().mockReturnValue({
-            id: 'testUid',
-            firstName: 'Test',
-            lastName: 'User',
-            email: 'test@example.com',
-            profilePicUrl: 'https://example.com/test-photo.jpg',
-            role: 'user',
-            businessUnit: 'murray',
-            updatedAt: new Timestamp(0, 0),
-            createdAt: new Timestamp(0, 0),
-          }),
-        }));
-        mockDoc = jest.fn(() => ({
-          get: mockGet,
-        }));
-      });
-      it('returns the user data', async () => {
-        let response = await getFirestoreUser('testUid');
-        expect(response).toEqual({
-          id: 'testUid',
-          firstName: 'Test',
-          lastName: 'User',
-          email: 'test@example.com',
-          profilePicUrl: 'https://example.com/test-photo.jpg',
-          role: 'user',
-          businessUnit: 'murray',
-          updatedAt: new Timestamp(0, 0),
-          createdAt: new Timestamp(0, 0),
-        });
-      });
-    });
-    describe('with a user id that does not exist', () => {
-      beforeEach(() => {
-        mockGet = jest.fn(() => ({
-          exists: false,
-          data: jest.fn(),
-        }));
-        mockDoc = jest.fn(() => ({
-          get: mockGet,
-        }));
-      });
-      it('returns undefined', async () => {
-        try {
-          await getFirestoreUser('testUid');
-        } catch (error) {
-          const expected = new ZodError([
-            {
-              code: 'invalid_type',
-              expected: 'object',
-              received: 'undefined',
-              path: [],
-              message: 'Required',
-            },
-          ]);
-          expect(error).toStrictEqual(expected);
         }
       });
     });
