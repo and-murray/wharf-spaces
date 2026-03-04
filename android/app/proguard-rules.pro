@@ -65,3 +65,11 @@
 -dontwarn java.nio.file.*
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 -dontwarn okio.**
+
+# TODO: Remove the following when we upgrade from native-base to gluestack
+# React Native 0.77+ Modal specific keep rules
+-keep class com.facebook.react.views.modal.** { *; }
+-keep class com.facebook.react.views.view.** { *; }
+# Also keep the Fabric/NewArch versions just in case, 
+-keep class com.facebook.react.fabric.** { *; }
+-keep class com.facebook.react.uimanager.** { *; }
