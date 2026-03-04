@@ -33,12 +33,16 @@ async function getUserInfoAndCreate(
   firebaseUser: DecodedIdToken,
   token: string
 ): Promise<User> {
-  if (firebaseUser.email === 'demo@example.com') {
+  const email = firebaseUser.email;
+  if (!email) {
+    throw new Error('Missing email or key information');
+  }
+  if (email === 'demo@example.com') {
     const user: User = {
       id: firebaseUser.uid,
       firstName: 'ANDi',
       lastName: 'Murray',
-      email: firebaseUser.email,
+      email: email,
       profilePicUrl: '',
       role: Role.Enum.demo,
       businessUnit: BusinessUnit.Enum.unknown,
@@ -54,32 +58,29 @@ async function getUserInfoAndCreate(
     throw error;
   }
   if (personData) {
-    let department: BusinessUnit = BusinessUnit.Enum.murray;
-    personData.organizations?.[0]?.department?.toLowerCase() ?? 'unknown';
-    if ((department as string).includes('tenzing')) {
-      department = BusinessUnit.Enum.tenzing;
+    const department = personData.organizations?.[0]?.department?.toLowerCase() ?? 'unknown';
+    let businessUnit: BusinessUnit = BusinessUnit.Enum.unknown;
+    if ((department as string).includes('murray')) {
+      businessUnit = BusinessUnit.Enum.murray;
+    } else if ((department as string).includes('tenzing')) {
+      businessUnit = BusinessUnit.Enum.tenzing;
     } else if ((department as string).includes('adams')) {
-      department = BusinessUnit.Enum.adams;
+      businessUnit = BusinessUnit.Enum.adams;
     } else if ((department as string).includes('vaughan')) {
-      department = BusinessUnit.Enum.adams;
+      businessUnit = BusinessUnit.Enum.adams;
     }
-    const email = firebaseUser.email;
-    if (email) {
-      const user: User = {
-        id: firebaseUser.uid,
-        firstName: personData.names?.[0].givenName ?? 'ANDi',
-        lastName: personData.names?.[0].familyName ?? 'Murray',
-        email: email,
-        profilePicUrl: firebaseUser.picture ?? '',
-        role: Role.Enum.user,
-        businessUnit: department as BusinessUnit,
-        createdAt: getFirestoreServerTimestamp(),
-        updatedAt: getFirestoreServerTimestamp(),
-      };
-      return await createFirestoreUser(user);
-    } else {
-      throw new Error('Missing email or key information');
-    }
+    const user: User = {
+      id: firebaseUser.uid,
+      firstName: personData.names?.[0].givenName ?? 'ANDi',
+      lastName: personData.names?.[0].familyName ?? 'Murray',
+      email: email,
+      profilePicUrl: firebaseUser.picture ?? '',
+      role: Role.Enum.user,
+      businessUnit: businessUnit,
+      createdAt: getFirestoreServerTimestamp(),
+      updatedAt: getFirestoreServerTimestamp(),
+    };
+    return await createFirestoreUser(user);
   } else {
     throw new Error('Permissions of user incorrect');
   }
