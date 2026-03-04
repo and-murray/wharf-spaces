@@ -102,7 +102,6 @@ android {
         jvmTarget = "17" // React Native 0.73 requires Java 17
     }
 
-
     signingConfigs {
         debug {
             storeFile file('debug.keystore')
