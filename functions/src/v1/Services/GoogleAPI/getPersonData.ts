@@ -11,9 +11,11 @@ export const getPersonData = async (token: string): Promise<people_v1.Schema$Per
         },
     );
     if (!organisationResponse.ok) {
-        throw new Error(
-        `API request failed with status ${organisationResponse.status}`,
+        const error = new Error(
+        `API request failed with status ${organisationResponse.status}, message: ${organisationResponse.statusText}`,
         );
+        console.error(error);
+        throw error;
     }
     return organisationResponse.json() as people_v1.Schema$Person;
 };

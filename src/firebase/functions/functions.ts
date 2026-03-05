@@ -17,7 +17,7 @@ function getURL(spaceType: SpaceType, endpoints: Endpoints) {
   }
 }
 
-async function getAppCheckToken(): Promise<string> {
+export async function getAppCheckToken(): Promise<string> {
   try {
     const token = await firebase.appCheck().getToken();
     return token.token;
@@ -39,7 +39,7 @@ export async function makeBookingRequest(
   const options = {
     method: 'POST',
     headers: {
-      'X-Firebase-AppCheck': appCheckToken,
+      'Firebase-AppCheck': appCheckToken,
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + token,
     },
@@ -71,7 +71,7 @@ export async function makeBookingDeletion(
   const options = {
     method: 'DELETE',
     headers: {
-      'X-Firebase-AppCheck': appCheckToken,
+      'Firebase-AppCheck': appCheckToken,
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + token,
     },
@@ -103,7 +103,7 @@ export async function makeBookingEdit(
   const options = {
     method: 'PATCH',
     headers: {
-      'X-Firebase-AppCheck': appCheckToken,
+      'Firebase-AppCheck': appCheckToken,
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + token,
     },
@@ -132,7 +132,7 @@ export async function fetchLondonTimeFromServer(
   const options = {
     method: 'GET',
     headers: {
-      'X-Firebase-AppCheck': appCheckToken,
+      'Firebase-AppCheck': appCheckToken,
       'Content-Type': 'application/json',
     },
   };

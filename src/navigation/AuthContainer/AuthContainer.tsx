@@ -37,6 +37,7 @@ const AuthContainer = ({children}: CustomComponentProps): React.JSX.Element => {
       dispatch(clearUser());
       setIsAuthenticated(false);
       dispatch(screensLoaded(true)); // dismiss splash when login needed
+      dispatch(setLoading(false));
     }
   };
 

@@ -12,8 +12,8 @@ declare global {
     }
   }
 }
-
-const config = {region: 'europe-west1', maxInstances: 1, timeoutSeconds: 60};
+const region = 'europe-west1';
+const timeoutSeconds = 60;
 
 /**
  * Desk Booking function
@@ -31,7 +31,7 @@ exports.deskapi = functions
   })
   .https.onRequest(App);
 // GEN 2 Function to stay after migration
-exports.deskapiGen2 = onRequest(config, App);
+exports.deskapiGen2 = onRequest({region: region, maxInstances: 1, timeoutSeconds: timeoutSeconds}, App);
 
 /**
  * Car Booking function
@@ -49,7 +49,7 @@ exports.carapi = functions
   })
   .https.onRequest(App);
 // GEN 2 Function to stay after migration
-exports.carapiGen2 = onRequest(config, App);
+exports.carapiGen2 = onRequest({region: region, maxInstances: 1, timeoutSeconds: timeoutSeconds}, App);
 
 /**
  * Utils function
@@ -64,7 +64,7 @@ exports.api = functions
   })
   .https.onRequest(App);
 // GEN 2 Function to stay after migration
-exports.apiGen2 = onRequest(config, App);
+exports.apiGen2 = onRequest({region: region, timeoutSeconds: timeoutSeconds}, App);
 
 /**
  * Scheduled Function - This is run every day so we can call an end point at 9pm to check car spaces are allocated.
