@@ -3,7 +3,7 @@ import {
   makeBookingDeletion,
   makeBookingRequest,
   makeBookingEdit,
-} from '@firebase/functions/functions';
+} from '@root/src/firebase/api/functions';
 import {
   formatToBookingDateUTC,
   getTodaysUTCDateMidnightString,

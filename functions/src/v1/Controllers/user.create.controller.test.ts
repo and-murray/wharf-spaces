@@ -36,7 +36,7 @@ describe('Creates User', () => {
         jest.clearAllMocks();
         mockRequest = {
             body: [],
-            headersDistinct: {},
+            headers: {},
             user: { uid: '123' },
         } as Request;
         getFirestoreServerTimestampSpy.mockReturnValue(mockTimestamp as Timestamp);
@@ -86,7 +86,7 @@ describe('Creates User', () => {
 
         describe('Contains a google access token header', () => {
             beforeEach(() => {
-                mockRequest.headersDistinct['x-google-access-token'] = ['123456'];
+                mockRequest.headers['google-access-token'] = ['123456'];
             });
             describe('User token does not have an email', () => {
                 it('throws an error', async() => {

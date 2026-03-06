@@ -38,7 +38,9 @@ export const signOut = async () => {
     auth().signOut();
   }
 };
+// A users firebase tokens
 export const getTokenID = () => auth().currentUser?.getIdToken();
+// A users Google Access Tokens
 export const getAccessTokens = async () => await GoogleSignin.getTokens();
 
 if (__DEV__) {

@@ -2,7 +2,7 @@ import type {Request, Response} from 'express';
 import * as admin from 'firebase-admin';
 
 const appCheck = async (req: Request, res: Response, next: Function) => {
-  const appCheckToken = req.headers['x-firebase-appcheck'];
+  const appCheckToken = req.headers['firebase-appcheck'];
   if (!appCheckToken) {
     res.status(401).send('Missing App Check Header');
   }

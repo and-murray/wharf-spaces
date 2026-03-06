@@ -1,16 +1,18 @@
 import User from '@customTypes/user';
 import {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import getFirestoreUser from './getFirestoreUser';
-import {createFirestoreUser} from './createFirestoreUser';
-import {LogLevel, logMessage} from '@root/src/util/Logging/Logging';
+import {createUser} from '@firebase/api/createUser';
+import {LogLevel, logMessage} from '@utils/Logging/Logging';
+import {Endpoints} from '@customTypes/Endpoints';
 
 export async function getUser(
   firebaseUser: FirebaseAuthTypes.User,
+  endpoints: Endpoints
 ): Promise<User> {
   try {
     const user = await getFirestoreUser(firebaseUser.uid);
     if (!user) {
-      return createFirestoreUser(firebaseUser);
+      return createUser(endpoints);
     } else {
       return user;
     }

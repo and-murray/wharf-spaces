@@ -2,7 +2,7 @@ import firestore from '@react-native-firebase/firestore';
 import {Note} from '@customTypes/notes';
 import {CollectionName} from './CollectionName';
 import {db} from './Database';
-import {LogLevel, logMessage} from '@root/src/util/Logging/Logging';
+import {LogLevel, logMessage} from '@utils/Logging/Logging';
 
 export const createNote = async (
   inputFieldText: string,

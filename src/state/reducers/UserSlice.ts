@@ -3,6 +3,7 @@ import {User} from '@customTypes';
 import {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {getUser} from '@firebase/firestore/GetFirestoreUser/getUser';
 import {signOut} from '@firebase/authentication/FirebaseGoogleAuthentication';
+import {FirebaseRemoteConfigState} from './RemoteConfigSlice';
 
 export type UserState = {
   user?: User;
@@ -16,8 +17,13 @@ const initialState: UserState = {
 
 export const fetchUser = createAsyncThunk(
   'user/get',
-  async (firebaseUser: FirebaseAuthTypes.User): Promise<User | undefined> =>
-    await getUser(firebaseUser),
+  async (firebaseUser: FirebaseAuthTypes.User, thunkAPI): Promise<User | undefined> => {
+    const appState = thunkAPI.getState();
+    const {firebaseRemoteConfig} = appState as {
+      firebaseRemoteConfig: FirebaseRemoteConfigState;
+    };
+    return await getUser(firebaseUser, firebaseRemoteConfig.endpoints);
+  }
 );
 
 export const userSlice = createSlice({
