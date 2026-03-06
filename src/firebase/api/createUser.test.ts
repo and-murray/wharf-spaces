@@ -1,6 +1,8 @@
 import {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {createUser} from '@firebase/api/createUser';
 import {Endpoints} from '@customTypes/Endpoints';
+import User, {BusinessUnit, Role} from '@customTypes/user';
+import {FirebaseFirestoreTypes} from '@react-native-firebase/firestore';
 import * as FirebaseGoogleAuthentication from '@firebase/authentication/FirebaseGoogleAuthentication';
 import * as admin from 'firebase-admin';
 import * as appCheckFunction from '@firebase/api/functions';
@@ -31,15 +33,8 @@ const mockEndpoints: Endpoints = {
     genericAPIURL: 'https://apigen2-qg3ssmjwca-ew.a.run.app',
 };
 describe('createUser Tests', () => {
-    let mockFirebaseUser: FirebaseAuthTypes.User;
     beforeEach(() => {
         jest.clearAllMocks();
-        mockFirebaseUser = {
-            uid: 'testUid123',
-            displayName: 'Test User',
-            email: 'test@example.com',
-            phoneNumber: '+1234567890',
-        } as FirebaseAuthTypes.User;
     });
     describe('Sign In Silently fails', () => {
         beforeEach(() => {
@@ -81,13 +76,30 @@ describe('createUser Tests', () => {
                             beforeEach(() => {
                                 firebaseTokenSpy.mockResolvedValue('ABCDE');
                             });
-                            describe('It calls the endpoint', () => {
-                                it('calls the endpoint with the correct info', async () => {
+                            describe('It calls the endpoint successfully', () => {
+                                const mockTimestamp = {
+                                    seconds: 1586343437,
+                                    nanoseconds: 0,
+                                };
+                                const mockUser: User = {
+                                    id: 'testUid',
+                                    firstName: 'Test',
+                                    lastName: 'User',
+                                    email: 'test@example.com',
+                                    profilePicUrl: 'https://example.com/test-photo.jpg',
+                                    role: Role.user,
+                                    businessUnit: BusinessUnit.murray,
+                                    createdAt: mockTimestamp as FirebaseFirestoreTypes.Timestamp,
+                                    updatedAt: mockTimestamp as FirebaseFirestoreTypes.Timestamp,
+                                };
+                                beforeEach(() => {
                                     global.fetch = jest.fn().mockResolvedValueOnce({
                                         ok: true,
                                         status: 200,
-                                        json: () => ({test: 'test'}),
+                                        json: () => (mockUser),
                                     });
+                                });
+                                it('calls the endpoint with the correct info', async () => {
                                     await createUser(mockEndpoints);
                                     const expectedRequest = {
                                         'headers': {
@@ -100,9 +112,41 @@ describe('createUser Tests', () => {
                                     };
                                     expect(global.fetch).toHaveBeenCalledWith('https://apigen2-qg3ssmjwca-ew.a.run.app/v1/user', expectedRequest);
                                 });
+                                it('Returns the user', async () => {
+                                    const result = await createUser(mockEndpoints);
+                                    expect(result).toEqual(mockUser);
+                                });
+                            });
+                            describe('It calls the endpoint with a failure', () => {
+                                beforeEach(() => {
+                                    global.fetch = jest.fn().mockResolvedValueOnce({
+                                        ok: false,
+                                        status: 500,
+                                    });
+                                });
+                                it('calls the endpoint with the correct info', async () => {
+                                    const expectedRequest = {
+                                            'headers': {
+                                                'Authorization': 'Bearer ABCDE',
+                                                'Firebase-AppCheck': '123456',
+                                                'Google-Access-Token': 'testAccessToken123',
+                                                'Content-Type': 'application/json',
+                                            },
+                                            'method': 'POST',
+                                        };
+                                    try {
+                                        await createUser(mockEndpoints);
+                                        fail('Should throw error');
+                                    } catch {
+                                    expect(global.fetch).toHaveBeenCalledWith('https://apigen2-qg3ssmjwca-ew.a.run.app/v1/user', expectedRequest);
+                                    }
+                                });
+                                it('Throws an error', async () => {
+                                    await expect(createUser(mockEndpoints)).rejects.toThrow(Error);
+                                });
                             });
                         });
+                    });
+                });
             });
         });
-    });
-});
