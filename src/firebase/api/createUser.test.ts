@@ -1,4 +1,3 @@
-import {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {createUser} from '@firebase/api/createUser';
 import {Endpoints} from '@customTypes/Endpoints';
 import User, {BusinessUnit, Role} from '@customTypes/user';
