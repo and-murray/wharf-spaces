@@ -1,6 +1,6 @@
 import {db} from './Database';
 import {CollectionName} from './CollectionName';
-import {LogLevel, logMessage} from '@root/src/util/Logging/Logging';
+import {LogLevel, logMessage} from '@utils/Logging/Logging';
 
 export const deleteNote = async (eventDocumentId: string) => {
   try {

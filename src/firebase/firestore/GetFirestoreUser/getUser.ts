@@ -1,11 +1,9 @@
 import User from '@customTypes/user';
 import {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import getFirestoreUser from './getFirestoreUser';
-import {createUser} from '@root/src/firebase/functions/createUser';
-import {LogLevel, logMessage} from '@root/src/util/Logging/Logging';
-import {Endpoints} from '@root/src/types/Endpoints';
-import {getAppCheckToken} from '@root/src/firebase/functions/functions';
-import {getAccessTokens, signInSilently} from '@root/src/firebase/authentication/FirebaseGoogleAuthentication';
+import {createUser} from '@firebase/api/createUser';
+import {LogLevel, logMessage} from '@utils/Logging/Logging';
+import {Endpoints} from '@customTypes/Endpoints';
 
 export async function getUser(
   firebaseUser: FirebaseAuthTypes.User,
@@ -14,11 +12,7 @@ export async function getUser(
   try {
     const user = await getFirestoreUser(firebaseUser.uid);
     if (!user) {
-      await signInSilently();
-      const appCheckToken = await getAppCheckToken();
-      const accessTokens = await getAccessTokens();
-      const bearerTokens = await firebaseUser.getIdToken();
-      return createUser(endpoints, appCheckToken, accessTokens.accessToken, bearerTokens);
+      return createUser(endpoints);
     } else {
       return user;
     }
