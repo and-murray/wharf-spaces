@@ -36,7 +36,7 @@ describe('Creates User', () => {
         jest.clearAllMocks();
         mockRequest = {
             body: [],
-            headersDistinct: {},
+            headers: {},
             user: { uid: '123' },
         } as Request;
         getFirestoreServerTimestampSpy.mockReturnValue(mockTimestamp as Timestamp);
