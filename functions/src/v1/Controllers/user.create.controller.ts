@@ -13,9 +13,9 @@ export const createUser = async (req: Request, res: Response) => {
       res.status(200).send(JSON.stringify(firestoreUser));
     } catch {
       try {
-        const googleAccessToken = req.headersDistinct['x-google-access-token'] ?? '';
-        if (googleAccessToken.length > 0 && googleAccessToken[0]) {
-          const firestoreUser = await getUserInfoAndCreate(user, googleAccessToken[0]);
+        const googleAccessToken = req.headers['google-access-token']?.toString() ?? '';
+        if (googleAccessToken.length > 0) {
+          const firestoreUser = await getUserInfoAndCreate(user, googleAccessToken);
           res.status(200).send(JSON.stringify(firestoreUser));
         } else {
           res.status(400).send('No google access token');
@@ -55,6 +55,7 @@ async function getUserInfoAndCreate(
   try {
     personData = await getPersonData(token);
   } catch (error) {
+    console.error(error);
     throw error;
   }
   if (personData) {

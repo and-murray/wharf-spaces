@@ -51,7 +51,7 @@ describe('Validate App Check Token tests', () => {
           testRequest = createRequest({
             headers: {
               authorization: mockAuthToken,
-              'x-firebase-appcheck': mockToken,
+              'firebase-appcheck': mockToken,
             },
           });
           const firebaseAppCheckSpy = jest.spyOn(
@@ -74,7 +74,7 @@ describe('Validate App Check Token tests', () => {
           testRequest = createRequest({
             headers: {
               authorization: mockAuthToken,
-              'x-firebase-appcheck': mockToken,
+              'firebase-appcheck': mockToken,
             },
           });
           const firebaseAppCheckSpy = jest.spyOn(

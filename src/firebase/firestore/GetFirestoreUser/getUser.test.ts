@@ -1,9 +1,10 @@
-import {User} from '@customTypes';
+import {User} from '@customTypes/User';
 import {getUser} from './getUser';
 import {mockFirestoreCollection} from '@root/setup-jest';
 import * as getFirestoreUser from './getFirestoreUser';
-import * as createFireStoreUser from './createFirestoreUser';
+import * as createFireStoreUser from '@firebase/api/createUser';
 import {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import {Endpoints} from '@customTypes/Endpoints';
 
 let snapshotResult: boolean;
 const mockGet = jest.fn(() => {
@@ -21,6 +22,12 @@ const mockDoc = jest.fn(() => ({
 mockFirestoreCollection.mockImplementation(() => ({
   doc: mockDoc,
 }));
+
+const mockEndpoints: Endpoints = {
+    carAPIURL: 'https://carapigen2-qg3ssmjwca-ew.a.run.app',
+    deskAPIURL: 'https://deskapigen2-qg3ssmjwca-ew.a.run.app',
+    genericAPIURL: 'https://apigen2-qg3ssmjwca-ew.a.run.app',
+};
 
 describe('Get User Tests', () => {
   let mockFirebaseUser: FirebaseAuthTypes.User;
@@ -43,24 +50,25 @@ describe('Get User Tests', () => {
         .mockResolvedValue(expectedUser);
       const firebaseUser = await getUser(
         mockFirebaseUser as FirebaseAuthTypes.User,
+        mockEndpoints,
       );
 
-      expect(getFirestoreUserSpy).toBeCalledTimes(1);
+      expect(getFirestoreUserSpy).toHaveBeenCalledTimes(1);
       expect(firebaseUser).toEqual(expectedUser);
     });
   });
 
   describe('does not retrieve a firestore user', () => {
-    it('should create a user doc', async () => {
+    it('should call create firestore user', async () => {
       const expectedUser = {firstName: 'Joe'} as User;
       const loggedInUser = {displayName: 'Joe'} as FirebaseAuthTypes.User;
       jest.spyOn(getFirestoreUser, 'default').mockResolvedValue(undefined);
       const createFireStoreUserSpy = jest
-        .spyOn(createFireStoreUser, 'createFirestoreUser')
+        .spyOn(createFireStoreUser, 'createUser')
         .mockResolvedValue(expectedUser);
-      const firebaseUser = await getUser(loggedInUser);
+      const firebaseUser = await getUser(loggedInUser, mockEndpoints);
 
-      expect(createFireStoreUserSpy).toBeCalledWith(loggedInUser);
+      expect(createFireStoreUserSpy).toHaveBeenCalledWith(mockEndpoints);
       expect(firebaseUser).toEqual(expectedUser);
     });
   });

@@ -1,5 +1,5 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-import {fetchLondonTimeFromServer} from '@root/src/firebase/functions/functions';
+import {fetchLondonTimeFromServer} from '@root/src/firebase/api/functions';
 import {DateFormat} from '@root/src/util/DateTimeUtils/DateTimeUtils';
 import dayjs from 'dayjs';
 import {FirebaseRemoteConfigState} from './RemoteConfigSlice';
