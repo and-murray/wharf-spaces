@@ -21,39 +21,39 @@ const swaggerDefinition = {
   },
   servers: [
     {
-      url: 'http://127.0.0.1:5001/murray-apps-dev/europe-west1/deskapi',
+      url: 'http://127.0.0.1:5001/murray-apps-dev/europe-west1/deskapiGen2',
       description: 'Emulator Desk API - For DESK BOOKINGS ONLY',
     },
     {
-      url: 'http://127.0.0.1:5001/murray-apps-dev/europe-west1/carapi',
+      url: 'http://127.0.0.1:5001/murray-apps-dev/europe-west1/carapiGen2',
       description: 'Emulator Car API - For CAR BOOKINGS ONLY',
     },
     {
-      url: 'http://127.0.0.1:5001/murray-apps-dev/europe-west1/api',
+      url: 'http://127.0.0.1:5001/murray-apps-dev/europe-west1/apiGen2',
       description: 'Emulator API - For NONE Booking Related work',
     },
     {
-      url: 'https://europe-west1-murray-apps-dev.cloudfunctions.net/deskapi',
+      url: 'https://deskapigen2-qg3ssmjwca-ew.a.run.app',
       description: 'Dev/QA Desk API - For DESK BOOKINGS ONLY',
     },
     {
-      url: 'https://europe-west1-murray-apps-dev.cloudfunctions.net/carapi',
+      url: 'https://carapigen2-qg3ssmjwca-ew.a.run.app',
       description: 'Dev/QA Car API - For CAR BOOKINGS ONLY',
     },
     {
-      url: 'https://europe-west1-murray-apps-dev.cloudfunctions.net/api',
+      url: 'https://apigen2-qg3ssmjwca-ew.a.run.app',
       description: 'Dev/QA API - For NONE Booking Related work',
     },
     {
-      url: 'https://europe-west1-murray-apps.cloudfunctions.net/deskapi',
+      url: 'https://deskapigen2-ycc4kvd5aa-ew.a.run.app',
       description: 'PROD Desk API - For DESK BOOKINGS ONLY',
     },
     {
-      url: 'https://europe-west1-murray-apps.cloudfunctions.net/carapi',
+      url: 'https://carapigen2-ycc4kvd5aa-ew.a.run.app',
       description: 'PROD Car API - For CAR BOOKINGS ONLY',
     },
     {
-      url: 'https://europe-west1-murray-apps.cloudfunctions.net/api',
+      url: 'https://apigen2-ycc4kvd5aa-ew.a.run.app',
       description: 'PROD API - For NONE Booking Related work',
     },
   ],

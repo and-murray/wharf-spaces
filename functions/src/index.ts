@@ -1,6 +1,5 @@
 import {onRequest} from 'firebase-functions/v2/https';
 import {onSchedule} from 'firebase-functions/v2/scheduler';
-const functions = require('firebase-functions/v1');
 import App from './App';
 import {DecodedIdToken} from 'firebase-admin/auth';
 import {callCarAPI} from './v1/Services/Scheduled/callCarAPI';
@@ -21,16 +20,6 @@ const timeoutSeconds = 60;
  * NOTE: Please do not change the function name as the firebase uses the firebase to
  * auto generate http URL i.e. base_url/region/function-name (e.g: baseurl/europe-west1/deskBooking)
  */
-// GEN 1 Function to be removed after migration
-exports.deskapi = functions
-  .region('europe-west1')
-  .runWith({
-    // Only allow one booking to be made at a time
-    maxInstances: 1,
-    timeoutSeconds: 60,
-  })
-  .https.onRequest(App);
-// GEN 2 Function to stay after migration
 exports.deskapiGen2 = onRequest({region: region, maxInstances: 1, timeoutSeconds: timeoutSeconds}, App);
 
 /**
@@ -39,16 +28,6 @@ exports.deskapiGen2 = onRequest({region: region, maxInstances: 1, timeoutSeconds
  * NOTE: Please do not change the function name as the firebase uses the firebase to
  * auto generate http URL i.e. base_url/region/function-name (e.g: baseurl/europe-west1/carBooking)
  */
-// GEN 1 Function to be removed after migration
-exports.carapi = functions
-  .region('europe-west1')
-  .runWith({
-    // Only allow one booking to be made at a time
-    maxInstances: 1,
-    timeoutSeconds: 60,
-  })
-  .https.onRequest(App);
-// GEN 2 Function to stay after migration
 exports.carapiGen2 = onRequest({region: region, maxInstances: 1, timeoutSeconds: timeoutSeconds}, App);
 
 /**
@@ -56,14 +35,6 @@ exports.carapiGen2 = onRequest({region: region, maxInstances: 1, timeoutSeconds:
  *  NOTE: Please do not change the function name as the firebase uses the firebase to
  * auto generate http URL i.e. base_url/region/function-name (e.g: baseurl/europe-west1/utils)
  */
-// GEN 1 Function to be removed after migration
-exports.api = functions
-  .region('europe-west1')
-  .runWith({
-    timeoutSeconds: 60,
-  })
-  .https.onRequest(App);
-// GEN 2 Function to stay after migration
 exports.apiGen2 = onRequest({region: region, timeoutSeconds: timeoutSeconds}, App);
 
 /**
