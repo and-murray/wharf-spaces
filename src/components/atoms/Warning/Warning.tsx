@@ -1,5 +1,6 @@
 import React from 'react';
-import {Text, Box, HStack} from 'native-base';
+import {Box, HStack} from 'native-base';
+import { Text } from '@components/ui';
 import WarningSymbol from './WarningSymbol/WarningSymbol';
 import {WarningSymbolIcon} from './WarningSymbol/WarningSymbol';
 import {getHexValue} from '@root/theme';
@@ -34,7 +35,7 @@ const Warning = ({
         <Text
           fontFamily={'body'}
           fontWeight="400"
-          fontSize={14}
+          size="sm"
           flexGrow="1"
           flexBasis="0"
           testID={'WarningMessage'}>

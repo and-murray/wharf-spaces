@@ -1,5 +1,6 @@
 import React from 'react';
-import {HStack, Text, View} from 'native-base';
+import {HStack, View} from 'native-base';
+import { Text } from '@components/ui';
 import WarningSymbol, {
   WarningSymbolIcon,
 } from '@atoms/Warning/WarningSymbol/WarningSymbol';

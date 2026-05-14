@@ -25,14 +25,14 @@ const ErrorContainer = ({children}: CustomComponentProps) => {
               fontFamily={'body'}
               fontWeight={500}
               fontStyle={'normal'}
-              fontSize={16}>
+              size="md">
               Something went wrong
             </Text>
             <Text
               fontFamily={'body'}
               fontWeight={500}
               fontStyle={'normal'}
-              fontSize={16}>
+              size="md">
               Please try again
             </Text>
             <Pressable
@@ -47,7 +47,7 @@ const ErrorContainer = ({children}: CustomComponentProps) => {
                 fontFamily={'body'}
                 fontWeight={500}
                 fontStyle={'normal'}
-                fontSize={16}
+                size="md"
                 color="brand.white">
                 Okay
               </Text>

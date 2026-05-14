@@ -1,4 +1,5 @@
-import {AlertDialog, Button, Box} from 'native-base';
+import {AlertDialog, Box} from 'native-base';
+import { Button, ButtonGroup } from '@components/ui';
 import React, {useRef} from 'react';
 
 interface ButtonConfig {
@@ -39,7 +40,7 @@ const AlertMessage: React.FC<AlertMessageProps> = ({
         <AlertDialog.Body>{message}</AlertDialog.Body>
         <AlertDialog.Footer>
           <Box flex={1} alignItems="center">
-            <Button.Group space={2}>
+            <ButtonGroup space={2}>
               <Button
                 size="md"
                 onPress={alertConfig.button1.onPress}
@@ -60,7 +61,7 @@ const AlertMessage: React.FC<AlertMessageProps> = ({
               ) : (
                 <></>
               )}
-            </Button.Group>
+            </ButtonGroup>
           </Box>
         </AlertDialog.Footer>
       </AlertDialog.Content>

@@ -1,4 +1,5 @@
-import {View, Text} from 'native-base';
+import {View} from 'native-base';
+import { Text } from '@components/ui';
 import React from 'react';
 
 type EventListProps = {
@@ -15,7 +16,7 @@ const EventList = ({currentEvent, hasEvent}: EventListProps) => {
         fontFamily={'body'}
         fontWeight={400}
         fontStyle={'normal'}
-        fontSize={16}
+        size="md"
         color={'other.greyMid'}
         accessibilityLabel={headerText}>
         {headerText}
@@ -25,7 +26,7 @@ const EventList = ({currentEvent, hasEvent}: EventListProps) => {
           fontFamily={'body'}
           fontWeight={400}
           fontStyle={'normal'}
-          fontSize={16}
+          size="md"
           color={'brand.charcoal'}
           accessibilityLabel={currentEvent}>
           {currentEvent}

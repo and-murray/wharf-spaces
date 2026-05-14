@@ -1,5 +1,6 @@
 import React, {useState, useMemo} from 'react';
-import {View, Text, HStack} from 'native-base';
+import {View, HStack} from 'native-base';
+import { Text } from '@components/ui';
 import dayjs from 'dayjs';
 import dayOfYear from 'dayjs/plugin/dayOfYear';
 dayjs.extend(dayOfYear);
@@ -26,7 +27,7 @@ const DeskCalendar = () => {
           fontFamily={'body'}
           fontWeight={500}
           fontStyle={'normal'}
-          fontSize={16}
+          size="md"
           flex={1}
           accessibilityLabel={dayjs(selectedDay).format('dddd D MMMM')}>
           {selectedDay !== '' ? dayjs(selectedDay).format('dddd, D MMMM') : ''}

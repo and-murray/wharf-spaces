@@ -19,7 +19,7 @@ const InputField = ({text, setText, testID}: inputFieldProps) => {
       justifyContent={'center'}>
       <ScrollView keyboardShouldPersistTaps="handled">
         <Input
-          fontSize={15}
+          size="md"
           defaultValue={text}
           numberOfLines={text.length < 50 ? 1 : text.length < 200 ? 4 : 8}
           size={'sm'}

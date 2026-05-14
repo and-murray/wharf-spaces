@@ -1,5 +1,6 @@
 import React from 'react';
-import {HStack, Text, VStack} from 'native-base';
+import {HStack, VStack} from 'native-base';
+import { Text } from '@components/ui';
 import {ProfilePicture} from '@atoms';
 import {SpaceType} from '@customTypes/booking';
 
@@ -51,7 +52,7 @@ const WhosInRow = ({
           color="brand.charcoal"
           fontFamily={'body'}
           fontWeight={500}
-          fontSize={14}
+          size="sm"
           ellipsizeMode="middle"
           numberOfLines={2}>
           {name}
@@ -61,7 +62,7 @@ const WhosInRow = ({
             color="brand.charcoal"
             fontFamily="body"
             fontWeight={400}
-            fontSize={12}
+            size="xs"
             testID="testCommunalSpace">
             {constructReserveListString()}
           </Text>
@@ -71,7 +72,7 @@ const WhosInRow = ({
         color="other.greyMid"
         fontFamily={'body'}
         fontWeight={400}
-        fontSize={14}>
+        size="sm">
         {timeSlot}
       </Text>
     </HStack>

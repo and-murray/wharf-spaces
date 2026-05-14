@@ -1,5 +1,6 @@
 import React, {ReactNode} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
+import { GluestackUIProvider } from '@components/ui/gluestack-ui-provider';
 import {NativeBaseProvider} from 'native-base';
 import {Provider} from 'react-redux';
 import {store} from '@state/store';
@@ -16,10 +17,12 @@ export function TestWrapper({children}: CustomComponentProps) {
   };
 
   return (
-    <NativeBaseProvider initialWindowMetrics={inset} theme={theme}>
-      <Provider store={store}>
-        <NavigationContainer>{children}</NavigationContainer>
-      </Provider>
-    </NativeBaseProvider>
+    <GluestackUIProvider mode="light">
+      <NativeBaseProvider initialWindowMetrics={inset} theme={theme}>
+        <Provider store={store}>
+          <NavigationContainer>{children}</NavigationContainer>
+        </Provider>
+      </NativeBaseProvider>
+    </GluestackUIProvider>
   );
 }

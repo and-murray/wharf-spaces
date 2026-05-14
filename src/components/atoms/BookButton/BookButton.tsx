@@ -1,4 +1,5 @@
-import {Button, Icon, Text} from 'native-base';
+import { Icon, Text} from 'native-base';
+import { Button } from '@components/ui';
 import React from 'react';
 import {DeskIcon} from '@res/images/DeskIcon';
 import {SpaceType} from '@customTypes/booking';
@@ -44,7 +45,7 @@ const BookButton = ({
         fontFamily={'body'}
         fontWeight={500}
         fontStyle={'normal'}
-        fontSize={16}>
+        size="md">
         {text}
       </Text>
     </Button>

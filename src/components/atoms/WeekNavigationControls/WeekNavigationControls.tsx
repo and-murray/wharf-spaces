@@ -1,5 +1,6 @@
 import React from 'react';
-import {Text, Pressable, HStack} from 'native-base';
+import {Pressable, HStack} from 'native-base';
+import { Text } from '@components/ui';
 import {ChevronLeft} from '@res/images/ChevronLeft';
 import {ChevronRight} from '@res/images/ChevronRight';
 
@@ -28,7 +29,7 @@ const WeekNavigationControls = ({
           fontFamily={'body'}
           fontWeight={'500'}
           fontStyle={'normal'}
-          fontSize={16}
+          size="md"
           paddingX={2}>
           {weekText}
         </Text>

@@ -1,14 +1,8 @@
 import React from 'react';
-import {Text, ITextProps} from 'native-base';
-import {StyleSheet} from 'react-native';
+import {Text, ITextProps} from '@components/ui';
 
 const BoldText = (props: ITextProps) => (
-  <Text style={style.textBold}>{props.children}</Text>
+  <Text bold>{props.children}</Text>
 );
 
-const style = StyleSheet.create({
-  textBold: {
-    fontWeight: 'bold',
-  },
-});
 export default BoldText;

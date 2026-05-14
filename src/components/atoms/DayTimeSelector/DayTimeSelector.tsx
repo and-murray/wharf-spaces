@@ -1,5 +1,6 @@
 import React, {useMemo} from 'react';
-import {Pressable, Text, Badge, CheckIcon} from 'native-base';
+import {Pressable, Badge, CheckIcon} from 'native-base';
+import {Text} from '@components/ui';
 import {AvailableSpacesOption} from '@customTypes/index';
 import CheckToDisplayAsFull from '@atoms/CheckToDisplayAsFull/CheckToDisplayAsFull';
 
@@ -104,7 +105,7 @@ const DayTimeSelector = ({
       <Text
         fontFamily={'body'}
         fontWeight="500"
-        fontSize={16}
+        size="md"
         color={headingTextColor}
         testID={`DayTimeSelectorHeading-${id}`}>
         {heading}

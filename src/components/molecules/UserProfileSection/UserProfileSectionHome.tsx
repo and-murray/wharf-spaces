@@ -1,5 +1,6 @@
 import React from 'react';
-import {Text, HStack, VStack} from 'native-base';
+import {HStack, VStack} from 'native-base';
+import { Text } from '@components/ui';
 import {ProfilePicture} from '@atoms';
 import {useAppSelector} from '@state/utils/hooks';
 import {DateFormat, formatDate} from '@utils/DateTimeUtils/DateTimeUtils';
@@ -11,7 +12,7 @@ const UserProfileSectionHome = () => {
     <VStack margin={'4'} testID={'users-profile-section'}>
       <HStack alignItems={'center'}>
         <ProfilePicture uri={user && user.profilePicUrl} showBorder={false} />
-        <Text marginLeft={'4'} fontWeight={'500'} fontSize={20}>
+        <Text marginLeft={'4'} fontWeight={'500'} size="xl">
           {user ? `EY UP ${user.firstName}` : 'Current User'}
         </Text>
       </HStack>

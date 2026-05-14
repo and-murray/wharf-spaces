@@ -2731,7 +2731,7 @@ PODS:
     - react-native-config/App (= 1.5.3)
   - react-native-config/App (1.5.3):
     - React-Core
-  - react-native-safe-area-context (5.6.1):
+  - react-native-safe-area-context (5.7.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2744,8 +2744,8 @@ PODS:
     - React-featureflags
     - React-graphics
     - React-ImageManager
-    - react-native-safe-area-context/common (= 5.6.1)
-    - react-native-safe-area-context/fabric (= 5.6.1)
+    - react-native-safe-area-context/common (= 5.7.0)
+    - react-native-safe-area-context/fabric (= 5.7.0)
     - React-NativeModulesApple
     - React-RCTFabric
     - React-rendererdebug
@@ -2754,7 +2754,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-safe-area-context/common (5.6.1):
+  - react-native-safe-area-context/common (5.7.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2775,7 +2775,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-safe-area-context/fabric (5.6.1):
+  - react-native-safe-area-context/fabric (5.7.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -3360,7 +3360,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNSVG (15.11.1):
+  - RNSVG (15.2.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -3380,9 +3380,9 @@ PODS:
     - ReactCodegen
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - RNSVG/common (= 15.11.1)
+    - RNSVG/common (= 15.2.0)
     - Yoga
-  - RNSVG/common (15.11.1):
+  - RNSVG/common (15.2.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -3792,7 +3792,7 @@ SPEC CHECKSUMS:
   React-Mapbuffer: 90572a8bf2b34fce61c3a8839f14339259649190
   React-microtasksnativemodule: 5a6ce850fb68e542a7b312f396d88aff0d978f67
   react-native-config: ea75335a7cca1d3326de1da384227e580a7c082e
-  react-native-safe-area-context: afc464441362333ffe4cd96f3e623e374362a2f6
+  react-native-safe-area-context: bf457bf5b3a617e9a3930d1ecd954a3335303cc7
   react-native-segmented-control: bf6e0032726727498e18dd437ae88afcdbc18e99
   React-nativeconfig: 29f53f7caa03e1d3f49396320f4f055ae42ab8db
   React-NativeModulesApple: 1fe64d61396453d56ee3965c0adf2f3284c92a8b
@@ -3840,7 +3840,7 @@ SPEC CHECKSUMS:
   RNGoogleSignin: b8f09e3ec56e09497e1e53b0ff66d5a45916c6b1
   RNReanimated: 827e7ffa1b416a84a659cfb2394779453054e351
   RNScreens: fc78b9b5a1274426d7a59b7d07c272bba13604fa
-  RNSVG: c25b1978006ef9d0f200a4d2174617e59dcb9136
+  RNSVG: 5b765ab2051bbcc73ea6f22c61ae60ccae63a6f7
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
   Yoga: 2b02f3f767761bb4ffd25b1bb56fd264be57bd6b
 

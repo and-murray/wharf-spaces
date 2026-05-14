@@ -1,5 +1,6 @@
 import React from 'react';
-import {Text, Pressable, Badge, CheckIcon} from 'native-base';
+import { Pressable, Badge, CheckIcon} from 'native-base';
+import {Text} from '@components/ui'
 import dayjs from 'dayjs';
 import {
   defaultColors,
@@ -64,7 +65,7 @@ const SelectableDate = ({
         fontFamily={'body'}
         fontWeight={500}
         fontStyle={'normal'}
-        fontSize={16}
+        size="md"
         numberOfLines={1}
         adjustsFontSizeToFit={true}
         testID="SelectableDateDayName">
@@ -75,7 +76,7 @@ const SelectableDate = ({
         fontFamily={'body'}
         fontWeight={500}
         fontStyle={'normal'}
-        fontSize={16}
+        size="md"
         testID="SelectableDateDayNumber">
         {dayjs(date).format('D')}
       </Text>

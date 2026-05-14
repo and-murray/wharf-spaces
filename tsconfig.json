@@ -1,7 +1,10 @@
 {
   "extends": "@react-native/typescript-config/tsconfig.json",
   "compilerOptions": {
-    "types": ["jest", "node"],
+    "types": [
+      "jest",
+      "node"
+    ],
     // // Ensure that .d.ts files are created by tsc, but not .js files
     // "declaration": true,
     // // Ensure that Babel can safely transpile files in the TypeScript project
@@ -9,29 +12,75 @@
     "baseUrl": ".",
     "paths": {
       // Remember to mirror in babel.config.js and jest.config.ts
-      "@root/*": ["./*"],
-      "@firebase/*": ["src/firebase/*"],
-      "@navigation/*": ["./src/navigation/*"],
-      "@atoms/*": ["./src/components/atoms/*"],
-      "@atoms": ["./src/components/atoms"],
-      "@molecules/*": ["./src/components/molecules/*"],
-      "@molecules": ["./src/components/molecules"],
-      "@organisms/*": ["./src/components/organisms/*"],
-      "@organisms": ["./src/components/organisms"],
-      "@screens/*": ["./src/screens/*"],
-      "@state/*": ["./src/state/*"],
-      "@customTypes/*": ["./src/types/*"],
-      "@customTypes": ["./src/types"],
-      "@res/*": ["./src/res/*"],
-      "@api/*": ["./src/api/*"],
-      "@utils/*": ["./src/util/*"],
-      "@components/*": ["./src/components/*"]
+      "@root/*": [
+        "./*"
+      ],
+      "@firebase/*": [
+        "src/firebase/*"
+      ],
+      "@navigation/*": [
+        "./src/navigation/*"
+      ],
+      "@atoms/*": [
+        "./src/components/atoms/*"
+      ],
+      "@atoms": [
+        "./src/components/atoms"
+      ],
+      "@molecules/*": [
+        "./src/components/molecules/*"
+      ],
+      "@molecules": [
+        "./src/components/molecules"
+      ],
+      "@organisms/*": [
+        "./src/components/organisms/*"
+      ],
+      "@organisms": [
+        "./src/components/organisms"
+      ],
+      "@screens/*": [
+        "./src/screens/*"
+      ],
+      "@state/*": [
+        "./src/state/*"
+      ],
+      "@customTypes/*": [
+        "./src/types/*"
+      ],
+      "@customTypes": [
+        "./src/types"
+      ],
+      "@res/*": [
+        "./src/res/*"
+      ],
+      "@api/*": [
+        "./src/api/*"
+      ],
+      "@utils/*": [
+        "./src/util/*"
+      ],
+      "@components/*": [
+        "./src/components/*"
+      ],
+      "tailwind.config": [
+        "./tailwind.config.js"
+      ]
     },
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "typeRoots": ["./src/types", "node_modules/@types"]
+    "typeRoots": [
+      "./src/types",
+      "node_modules/@types"
+    ]
   },
-  "include": ["./*"],
-  "exclude": ["functions/**/*"]
+  "include": [
+    "./*",
+    "nativewind-env.d.ts"
+  ],
+  "exclude": [
+    "functions/**/*",
+    "node_modules"
+  ]
 }

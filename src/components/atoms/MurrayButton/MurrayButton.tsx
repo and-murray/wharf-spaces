@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, Button} from 'native-base';
+import {Text, Button} from '@components/ui';
 
 type ButtonSize = 'normal' | 'full';
 type ButtonColor = 'grey' | 'red' | 'normal';
@@ -44,7 +44,7 @@ const MurrayButton = ({
         py={1}
         fontFamily={'body'}
         fontWeight={'500'}
-        fontSize={16}
+        size="md"
         color={textColor}>
         {buttonText}
       </Text>

@@ -1,5 +1,6 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {Box, HStack, Pressable, Text, View, VStack} from 'native-base';
+import {Box, HStack, Pressable, View, VStack} from 'native-base';
+import { Text } from '@components/ui';
 import {Counter, DayTimeSelector, Warning} from '@atoms';
 import Booking, {BookingType, SpaceType, TimeSlot} from '@customTypes/booking';
 import UserProfileSection from '@molecules/UserProfileSection/UserProfileSection';
@@ -305,7 +306,7 @@ const AvailableSpaceView = ({
             color="brand.blue"
             fontFamily={'body'}
             fontWeight={500}
-            fontSize={14}
+            size="sm"
             marginRight={4}>
             {'Book visitor spaces'}
           </Text>
@@ -325,7 +326,7 @@ const AvailableSpaceView = ({
             <Text
               importantForAccessibility="yes"
               fontFamily={'body'}
-              fontSize={16}
+              size="md"
               paddingX={2}
               paddingY={0.5}>
               You have booked <BoldText>{relevantBookings.length}</BoldText>{' '}
@@ -339,7 +340,7 @@ const AvailableSpaceView = ({
           color="brand.charcoal"
           fontFamily={'body'}
           fontWeight={400}
-          fontSize={16}>
+          size="md">
           {heading}
         </Text>
       </VStack>
@@ -376,7 +377,7 @@ const AvailableSpaceView = ({
             fontFamily={'body'}
             fontWeight={500}
             fontStyle={'normal'}
-            fontSize={16}
+            size="md"
             flex={1}>
             {hasBookedText}
           </Text>
@@ -461,7 +462,7 @@ const AvailableSpaceView = ({
               color="brand.blue"
               fontFamily={'body'}
               fontWeight={500}
-              fontSize={14}
+              size="sm"
               mx={'auto'}>
               {subHeading}
             </Text>

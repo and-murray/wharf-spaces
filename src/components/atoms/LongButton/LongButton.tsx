@@ -1,4 +1,4 @@
-import {Text, Button} from 'native-base';
+import { Text, Button } from '@components/ui';
 import React from 'react';
 
 type LongButtonProps = {
@@ -25,7 +25,7 @@ const LongButton = ({buttonText, isDisabled, onPress}: LongButtonProps) => {
         color="brand.white"
         fontFamily={'body'}
         fontWeight={500}
-        fontSize={15}>
+        size="md">
         {buttonText}
       </Text>
     </Button>

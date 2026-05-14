@@ -1,5 +1,6 @@
 import React from 'react';
-import {Text, View} from 'native-base';
+import { View} from 'native-base';
+import {Text} from '@components/ui'
 import {ClockIcon} from '@res/images/ClockIcon';
 
 type ReservedCountProps = {
@@ -14,7 +15,7 @@ const ReservedCount = ({count}: ReservedCountProps) => (
     <Text
       fontFamily={'body'}
       fontWeight="500"
-      fontSize={14}
+      size="sm"
       color="brand.orange"
       marginRight={0.5}
       testID={'ReserveCountTextId'}>

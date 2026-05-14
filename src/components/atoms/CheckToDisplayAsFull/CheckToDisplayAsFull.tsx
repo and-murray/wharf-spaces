@@ -1,5 +1,6 @@
 import React, {useMemo} from 'react';
-import {View, Text} from 'native-base';
+import {View} from 'native-base';
+import {Text} from '@components/ui';
 import ReservedCount from '@atoms/ReservedCount/ReservedCount';
 
 type CheckToDisplayAsFullProps = {
@@ -36,7 +37,7 @@ const CheckToDisplayAsFull = ({
       <Text
         fontFamily={'body'}
         fontWeight={noRemainingSpaces ? '500' : '400'}
-        fontSize={14}
+        size="sm"
         color={
           noRemainingSpaces ? subheadingTextColorFull : subheadingTextColor
         }

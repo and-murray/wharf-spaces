@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {Dimensions} from 'react-native';
-import {Text, Modal, KeyboardAvoidingView, View, ScrollView} from 'native-base';
+import {Modal, KeyboardAvoidingView, View, ScrollView} from 'native-base';
+import { Text } from '@components/ui';
 import {InputField, Warning, LongButton} from '@atoms';
 import uuid from 'react-native-uuid';
 import {isEqual} from 'lodash';
@@ -105,7 +106,7 @@ const EventModal = ({
           flex={1}>
           <ScrollView keyboardShouldPersistTaps="handled">
             <Modal.Body>
-              <Text fontSize={16} marginTop={'2%'}>
+              <Text size="md" marginTop={'2%'}>
                 Events
               </Text>
               <View marginTop={'2%'} marginBottom={'6%'}>

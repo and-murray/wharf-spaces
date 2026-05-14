@@ -55,7 +55,7 @@ const Counter = ({
           <Text
             testID="CounterInvalidInputWarning"
             marginLeft={2}
-            fontSize={12}
+            size="xs"
             color="other.primaryRed">
             {`Enter a number betweeen ${lowerLimit} and ${upperLimit}`}
           </Text>
@@ -102,7 +102,7 @@ const Counter = ({
               width="100%"
               textAlign="center"
               fontWeight="400"
-              fontSize={20}
+              size="xl"
               selectTextOnFocus
               value={isInputEmpty ? '' : count.toString()}
               onChangeText={text => {

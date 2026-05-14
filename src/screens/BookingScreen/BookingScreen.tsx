@@ -200,7 +200,7 @@ export default function BookingScreen() {
                     color="brand.charcoal"
                     fontFamily={'body'}
                     fontWeight={400}
-                    fontSize={16}>
+                    size="md">
                     {dateAvailableToBookFrom()}
                   </Text>
                   <VStack paddingTop={4} paddingLeft={6} paddingRight={6}>

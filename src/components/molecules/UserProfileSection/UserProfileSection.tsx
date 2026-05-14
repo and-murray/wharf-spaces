@@ -1,5 +1,6 @@
 import React from 'react';
-import {Text, HStack} from 'native-base';
+import {HStack} from 'native-base';
+import { Text } from '@components/ui';
 import {ProfilePicture} from '@atoms';
 import {useAppSelector} from '@state/utils/hooks';
 
@@ -14,7 +15,7 @@ const UserProfileSection = () => {
         fontFamily={'body'}
         fontWeight={500}
         marginLeft={'7%'}
-        fontSize={15}
+        size="md"
         flex={1}
         numberOfLines={2}>
         {user ? `${user.firstName} ${user.lastName}` : 'Current User'}

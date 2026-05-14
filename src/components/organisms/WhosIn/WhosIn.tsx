@@ -1,6 +1,7 @@
 import React, {useMemo, useState} from 'react';
 import {Platform} from 'react-native';
-import {VStack, HStack, Text, Box, Card} from 'native-base';
+import {VStack, HStack, Box, Card} from 'native-base';
+import { Text } from '@components/ui';
 import {Booking} from '@customTypes';
 import {WhosInRow} from '@molecules';
 import {TimeSlotUtils} from '@utils/TimeSlotUtils/TimeSlotUtils';
@@ -155,7 +156,7 @@ const WhosIn = ({bookings, userData}: WhosInProps) => {
           color="brand.charcoal"
           fontFamily={'body'}
           fontWeight={400}
-          fontSize={16}>
+          size="md">
           {constructWhoIsInString()}
         </Text>
         <Box
@@ -168,7 +169,7 @@ const WhosIn = ({bookings, userData}: WhosInProps) => {
             color="brand.charcoal"
             fontFamily={'body'}
             fontWeight={500}
-            fontSize={16}>
+            size="md">
             {constructWhoIsInCountString()}
           </Text>
         </Box>
@@ -178,7 +179,7 @@ const WhosIn = ({bookings, userData}: WhosInProps) => {
           color="other.greyMid"
           fontFamily={'body'}
           fontWeight={400}
-          fontSize={16}>
+          size="md">
           {constructBeTheFirstString()}
         </Text>
       ) : (
