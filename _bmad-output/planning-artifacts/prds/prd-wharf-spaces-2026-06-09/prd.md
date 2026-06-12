@@ -31,7 +31,7 @@ Rebuild Wharf Spaces on a clean, maintainable foundation with multi-tenancy and 
 | **End User** | Mobile app | Employee of a tenant company; books desks and parking for themselves or guests |
 | **Company Admin** | Mobile app | Manages space allocation, branding config, and user roles for their organisation |
 | **AND Digital (Platform Operator)** | Web app | Onboards new tenants via the onboarding form; controls the platform |
-| **Building Admin** | Web app | Views a list of people parked on a given date across all tenants; no access to tenant config |
+| **Building Admin** | Web app | Views a list of people parked on a given date across all tenants; no access to tenant config. **Out of scope v1 — no Building Admin capability is delivered in this release.** |
 
 ### Success
 
@@ -53,6 +53,7 @@ V1 is successful when:
 - GDPR compliance, security, and production-ready observability
 
 ### Out of scope — V1
+- Data migration from the existing app — the rebuild is a clean start; no existing Firestore data is carried over
 - User-facing web portal for bookings
 - Building Admin parking occupancy view (web)
 - Billing and subscription management
@@ -69,8 +70,10 @@ V1 is successful when:
 
 ### 3.1 Authentication & Onboarding
 
-**FR-001 — Per-tenant sign-in providers**
-Each tenant has one or more authentication providers configured (Google, Microsoft, Apple, email/password). The sign-in screen presents only the providers configured for that tenant.
+**FR-001 — Per-tenant sign-in provider**
+Each tenant has one authentication provider configured (Google, Microsoft, Apple, or email/password). On the sign-in screen, the user first enters their email address. The app resolves the tenant from the email domain and presents the sign-in journey for that tenant's configured provider.
+
+**Constraint — Apple Hide My Email:** Apple Sign-In works only for users who share their real email address with the app. Users who enable Apple's Hide My Email feature receive a relay address (`@privaterelay.appleid.com`) that cannot be matched to a tenant domain. Those users are unsupported in v1.
 
 **FR-002 — Allowlist access control**
 Sign-in is restricted to email addresses on the tenant's allowlist, managed by the Company Admin. A user whose email is not on the allowlist is shown a message directing them to contact their company administrator; they cannot proceed further in the app.
@@ -105,7 +108,14 @@ The signed-in user's profile picture, name, and a Book button are shown once a t
 Desk capacity is configured per tenant. When bookings for a slot reach capacity, no further personal bookings are accepted for that slot (see FR-012).
 
 **FR-012 — Waitlist**
-When a time slot is at capacity, a booking is placed on a reserve (waitlist) list rather than rejected. The user's waitlist position is shown in the Who's In list. When a cancellation creates an available slot, the next user on the waitlist is automatically booked — they do not need to take any action. A push notification is sent to confirm the automatic booking (see FR-030).
+When a time slot is at capacity, a booking is placed on a reserve (waitlist) list rather than rejected. The user's waitlist position is shown in the Who's In list.
+
+When a cancellation creates an available slot, the next eligible user on the waitlist is automatically booked — they do not need to take any action. A push notification is sent to confirm the automatic booking (see FR-030); the booking stands regardless of whether the notification is successfully delivered.
+
+Slot-type matching rules:
+- **AM cancelled** → only AM waitlist entries are eligible to fill it
+- **PM cancelled** → only PM waitlist entries are eligible to fill it
+- **All Day cancelled** → All Day, AM, and PM waitlist entries are all eligible; the next entry in the waitlist queue is promoted regardless of slot type. An All Day cancellation may be filled by a single All Day entry, a single AM or PM entry, or split across one AM and one PM entry if both are next in the queue.
 
 **FR-013 — Guest desk booking**
 Any user can book a desk for a guest ("Booking for someone else?"). Guest bookings are attributed to the host and displayed in the Who's In list under the host's name.
@@ -121,14 +131,17 @@ The parking view shows the same three time slots as desk booking: All Day, AM, a
 **FR-016 — Personal parking booking**
 The user books a parking space for a selected slot and date. Once booked, the tile shows a confirmation state ("You've Booked!") with a Cancel button. The user can change their slot by tapping a different tile — no separate edit flow required.
 
-**FR-017 — Tenant-configurable booking window rules**
-Each tenant configures their own parking booking window rules — including how far ahead users can book, and any time-of-day cutoffs. The platform enforces these rules using server time (not device time) to prevent clock manipulation. Dates outside a user's allowed booking window display an informational message with a Refresh button rather than a booking UI.
+**FR-017 — Tenant-configurable booking window**
+Each tenant's Company Admin configures how many days ahead parking bookings can be made (e.g. 7 days). The booking window unlocks one day at a time at 12pm server time: before 12pm, users can book up to N−1 days ahead; at 12pm, the Nth day unlocks. The 12pm unlock time is fixed and not tenant-configurable. All window calculations use server time to prevent device clock manipulation. Dates outside a user's allowed booking window display an informational message with a Refresh button rather than a booking UI.
 
 **FR-018 — Per-tenant groups and parking capacity**
-Each tenant defines their own internal groups (e.g. teams, floors, departments). Parking capacity is allocated per group. The capacity and bookings visible to a user depend on their group membership and the tenant's configured rules for when capacities pool or separate.
+Each tenant defines their own internal groups (e.g. teams, floors, departments). Parking capacity is allocated per group. The capacity and bookings visible to a user reflect their group's allocation for the selected date and slot.
 
 **FR-019 — Guest parking (admin only)**
 Only users with the Company Admin role can book guest parking spaces. The guest parking option is not shown to standard users.
+
+**FR-040 — Nightly cross-group parking reallocation**
+At 9pm server time each evening, any unbooked parking spaces across all groups within a tenant are pooled and made available to users on the waitlist from any group. The system automatically allocates these spaces to waitlisted users in waitlist order, regardless of the waitlisted user's group membership. A push notification is sent to each user who receives an allocation (see FR-030). This rule exists because groups have different capacity allocations — groups with smaller allocations frequently carry waitlist entries while groups with larger allocations have unused spaces. The 9pm pooling ensures those spaces are not wasted.
 
 ### 3.4 Events & Notes
 
@@ -139,7 +152,7 @@ A tappable banner is displayed on the booking screen showing the day's note. The
 Any signed-in user can create or edit the day's note for their tenant. There is one note per day per tenant — all users editing on the same day are editing the same note. Saving with text creates or updates the note; saving with an empty field deletes it.
 
 **FR-022 — Concurrent edit warning**
-If the note is modified externally while a user has the edit modal open, the user is shown a warning alert before their save is applied.
+If the note is modified externally while a user has the edit modal open, the user is shown an advisory warning that another user may be editing the note and their changes could be lost. The warning is informational — the user is not blocked from saving. The expected response is to close the modal and try again later.
 
 **FR-023 — isOfficeClosed**
 Out of scope for v1. The data model should preserve the field for a future version.
@@ -147,7 +160,7 @@ Out of scope for v1. The data model should preserve the field for a future versi
 ### 3.5 Who's In List
 
 **FR-024 — Live booking list**
-Below the time slot tiles, the booking screen displays a live list of all bookings for the selected date and space type. The list updates in real time as bookings are made or cancelled. It switches between "Who's in?" (desk) and "Who's parking?" (parking) based on the active space type toggle.
+Below the time slot tiles, the booking screen displays a live list of all bookings for the selected date and space type. The list updates in real time as bookings are made or cancelled. It switches between "Who's in?" (desk) and "Who's parking?" (parking) based on the active space type toggle. The section headers "Who's in?" and "Who's parking?" are fixed strings and are not tenant-configurable.
 
 **FR-025 — Booking row display**
 Each row shows the user's profile picture, name, and time slot. The signed-in user's own row is visually highlighted. Guest booking rows display as "[Host's name]'s Visitor N" with no profile picture. Waitlisted bookings display the user's reserve position number.
@@ -171,8 +184,10 @@ When the system automatically books a user from the waitlist (FR-012), a push no
 
 ### 3.7 Web Platform — Tenant Management (AND Digital)
 
+The web platform is a functional admin tool, not a polished product surface. It should be clean and usable but does not require high-fidelity UX design. Where possible, it should follow the mobile app's visual style (colours, typography). Engineering effort should be proportionate to its low frequency of use.
+
 **FR-031 — Tenant provisioning**
-AND Digital provisions a new tenant via a web form. The form captures: the tenant's domain name, their authentication provider configuration, and the email address of the first Company Admin user. Submission creates the tenant record and grants the first admin access.
+AND Digital provisions a new tenant via a web form. The form captures: tenant name, email domain, authentication provider (one of: Google, Microsoft, Apple, email/password), and the email address of the first Company Admin user. Submission creates the tenant record, associates the domain with the tenant, and grants the first Company Admin access.
 
 **FR-032 — Company Admin: user allowlist management**
 Company Admins manage their tenant's user allowlist via the web platform — adding and removing individual email addresses to grant or revoke access.
@@ -207,8 +222,6 @@ The app name will be updated from the current AND Digital-specific name. Name TB
 - **OQ-001** — FR-003: What verification method should be used for email/password sign-in — OTP, email link, or user's choice? Owner: TBD. Revisit condition: before architecture begins.
 - **OQ-002** — FR-034: What are the data retention obligations on permanent tenant removal? Does GDPR require a retention period before hard delete? Owner: TBD. Revisit condition: before GDPR section is finalised.
 - **OQ-003** — FR-039: What is the new app name? Owner: TBD. Revisit condition: before any public-facing copy is written.
-
-- **OQ-001** — FR-003: What verification method should be used for email/password sign-in — OTP, email link, or user's choice? Owner: TBD. Revisit condition: before architecture begins.
 
 ---
 
@@ -272,3 +285,20 @@ Company Admins contact AND Digital directly for platform support. There is no in
 
 **Future state**
 A structured support model (ticketing, SLAs, self-serve diagnostics) is out of scope for v1 and will be defined in a future phase.
+
+### NFR-5 — Performance & Reliability
+
+**Booking responsiveness**
+Booking and cancellation actions must feel responsive to the user — confirmation of the action should be perceptible without an uncomfortable wait. Users should not need to tap twice or wonder whether their action was received.
+
+**Real-time list currency**
+The Who's In list must update without a user-initiated refresh. Users viewing the booking screen while others book or cancel should see those changes reflected automatically.
+
+**Concurrent booking correctness**
+Under simultaneous bookings from multiple users in the same tenant — the expected pattern at the morning booking window — the system must remain consistent. Capacity limits must not be exceeded, and waitlist positions must not be lost or duplicated under concurrent writes.
+
+**Offline and degraded connectivity**
+When the device has no connectivity, the app must not crash or present silent failures. The last-known state is displayed and booking actions are disabled with a clear message to the user.
+
+**Platform availability**
+The product inherits the availability characteristics of its Firebase infrastructure. No separate uptime target is owned by the product team in v1. This is a conscious decision for this release.
