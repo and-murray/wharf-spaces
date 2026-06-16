@@ -2,7 +2,8 @@
 title: "Wharf Spaces — Rebuild PRD Addendum"
 status: draft
 created: 2026-06-12
-updated: 2026-06-12
+updated: 2026-06-15
+companion_to: prd.md
 ---
 
 # Wharf Spaces — Rebuild PRD Addendum
@@ -11,7 +12,7 @@ This file preserves depth that belongs in downstream documents (architecture, so
 
 ---
 
-## A-001 — Google OAuth Scopes
+## A-001 — Google OAuth Scopes (resolved: drop both)
 
 **For:** Architecture / backend spec
 
@@ -20,7 +21,7 @@ Google Sign-In in the existing app requires two OAuth scopes beyond the default:
 - `contacts.readonly` — used to look up user contacts during sign-in
 - `user.organization.read` — used to read the user's Google Workspace organisation membership
 
-These scopes affect App Store and Play Store review (both stores require justification for any scope that touches personal data). The architect and mobile lead should confirm whether these scopes are still needed in the rebuild given the shift to the allowlist model, or whether they can be dropped.
+**Decision:** Both scopes are dropped in the rebuild. The allowlist model (FR-002) replaces the need for contact or organisation lookup — access is determined by the Company Admin's allowlist, not by the user's Google contacts or org membership. Requesting these scopes in the rebuild is unnecessary and would require additional App Store and Play Store justification with no benefit.
 
 **Source:** `project-context.md`
 

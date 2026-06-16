@@ -1,112 +1,60 @@
 # PRD Handoff — Wharf Spaces Rebuild
 
-**Date left off:** 2026-06-12
+**Status: EPICS IN PROGRESS — Epic 1 written as of 2026-06-16**
 **PRD workspace:** `_bmad-output/planning-artifacts/prds/prd-wharf-spaces-2026-06-09/`
-**Files in workspace:** `prd.md`, `addendum.md`, `.decision-log.md`, `review-rubric.md`, `handoff.md` (this file)
+**Files:** `prd.md` (status: final), `addendum.md`, `.decision-log.md` (DL-001–DL-054), `review-rubric.md`, `handoff.md`
 
 ---
 
-## How to resume
+## What was completed
 
-1. Open Claude Code in this project
-2. Run `/bmad-prd`
-3. Choose **Resume** the `prd-wharf-spaces-2026-06-09` workspace
-4. Tell Claude: *"I'm picking up a handoff — please read handoff.md in the PRD workspace before we continue"*
-5. Pick up at **step 4 — Triage open items** (see below — OQ-001 is first)
+### PRD (sessions 1–4, 2026-06-09 to 2026-06-15)
 
----
+All 6 finalize steps completed across sessions 3–4 (2026-06-12 and 2026-06-15).
 
-## What's been completed
+Key decisions in final session (2026-06-15):
+- Email/password removed from v1 auth providers (DL-048)
+- GDPR: immediate hard delete acceptable on tenant removal (DL-049)
+- App name: ParkANDPerch, pending marketing sign-off (DL-050)
+- Users must be assigned to a group when added to allowlist (DL-051)
+- Default group auto-created on tenant provisioning (DL-052)
+- Google OAuth elevated scopes dropped — allowlist model makes them unnecessary (DL-053)
 
-### Finalize sequence progress
+### Architecture (session 5, 2026-06-16)
 
-| Step | Status |
-|------|--------|
-| 1. Decision log audit | ✅ Complete |
-| 2. Input reconciliation | ✅ Complete |
-| 3. Reviewer pass | ✅ Complete |
-| 4. Triage open items | ⏳ Not started — pick up here |
-| 5. Polish | ⏸️ Not started |
-| 6. Close | ⏸️ Not started |
+Architecture document completed and validated. Saved to:
+**`_bmad-output/planning-artifacts/architecture.md`** (status: complete)
 
----
+Key architectural decisions made:
+- **Firestore tenancy model:** Subcollections per tenant (`tenants/{tenantId}/bookings`, etc.) — structural isolation, simpler GDPR deletion
+- **Tenant ID in custom claims:** `{ tenantId, role }` set by `createUser` Function; read by all Functions and Security Rules — no per-request Firestore lookup
+- **Tenant domain resolution:** Pre-auth Cloud Function `resolveProvider` (AppCheck-protected); `domains/` collection not readable by clients
+- **Waitlist promotion trigger:** Firestore `onDocumentDeleted` (decoupled from cancellation — cancellation always succeeds regardless of promotion result)
+- **Nightly reallocation job:** Cloud Scheduler → Pub/Sub → `runNightlyReallocation` Function (21:00 Europe/London)
+- **Microsoft auth:** Firebase OIDC provider + `signInWithCredential` — no MSAL library needed
+- **Theme token system:** React Context + StyleSheet factory (`useTheme()` hook); no hardcoded hex values anywhere
+- **Two Firebase projects:** `parkandperch-dev` and `parkandperch-prod`
+- **Web admin:** Vite + React + TypeScript + React Router v7 → Firebase Hosting
+- **Status:** READY FOR IMPLEMENTATION (40/40 FRs covered, all 5 NFRs covered, no critical gaps)
 
-## What we did today (2026-06-12)
+### Epics & Stories (session 5, 2026-06-16)
 
-### Step 1 — Decision log audit
-Audited DL-001–DL-035 against `prd.md`. Four issues found and resolved:
-- Building Admin row in Users table annotated as out of scope v1
-- NFR-5 Performance & Reliability section added (user-perceived language, no specific numbers — intentional decision)
-- FR-024 updated to explicitly state "Who's in?" / "Who's parking?" are fixed strings, not tenant-configurable
-- Duplicate OQ-001 removed from Open Questions section
+Epics document started. Saved to:
+**`_bmad-output/planning-artifacts/epics.md`** (status: in progress — Epic 1 of 5 written)
 
-### Step 2 — Input reconciliation
-Ran a subagent against `project-context.md` and screenshots. Five gaps found:
-- **FR-040 added** — nightly cross-group parking reallocation at 9pm (was entirely absent from the PRD)
-- **FR-018 corrected** — removed misleading "tenant's configured rules for pooling" language
-- **FR-012 expanded** — slot-matching rules on cancellation fully specified; booking promotion confirmed to stand regardless of notification delivery
-- **`addendum.md` created** — captures Google OAuth scopes (A-001), isClubhouseClosed → isOfficeClosed rename (A-002), and product voice / inline copy intent (A-003)
-- User auto-creation on sign-in (existing app pattern) confirmed as intentionally replaced by allowlist model — logged as DL-041
-
-### Step 3 — Reviewer pass
-Rubric run against `prd.md`. Full findings in `review-rubric.md`. All critical and high findings resolved:
-- **FR-001 rewritten** — one provider per tenant (not "one or more"); domain-based tenant discovery described; Apple Hide My Email documented as known v1 constraint
-- **FR-031 updated** — provisioning form fields now specified (Tenant Name, Email Domain, Provider, First Admin email)
-- **FR-022 updated** — concurrent edit warning clarified as advisory only, not blocking
-- **FR-017 updated** — booking window parameter defined: N days (Company Admin configurable); 12pm unlock rule is fixed
-- **Scope section** — clean start confirmed; data migration explicitly out of scope
-- **Section 3.7 preamble added** — web platform is a basic functional tool, low design priority
-- 5 medium + 4 low findings remain in `review-rubric.md` — not blockers, address during polish
+5 epics approved:
+- **Epic 1: Project Foundation & Infrastructure** — ✅ 6 stories written
+- **Epic 2: Tenant-Aware Authentication** — FRs: FR-001–003, FR-005, FR-035, FR-036
+- **Epic 3: Desk Booking & Core Booking Experience** — FRs: FR-006–014, FR-020–022, FR-024–030
+- **Epic 4: Parking Booking** — FRs: FR-015–019, FR-040
+- **Epic 5: Web Platform — Tenant Management** — FRs: FR-031–034, FR-037–039
 
 ---
 
-## What's next — Step 4: Triage open items
+## What's next
 
-Three open questions remain. Work through them in order:
+Continue **`bmad-create-epics-and-stories`** — the workflow will detect the existing `epics.md` and resume at Epic 2.
 
-### OQ-001 — Email/password verification method *(phase-blocker)*
-FR-003: OTP or email link for email/password sign-in verification?
-- **Why it's a blocker:** Architecture cannot finalise the auth flow without this.
-- **Owner:** TBD — needs a decision before architecture begins.
+Epics 2–5 still need stories written (~32 stories remaining across 4 epics).
 
-### OQ-002 — GDPR data retention on permanent tenant removal *(potential blocker)*
-FR-034 / NFR-1: Does GDPR require a retention period before hard-deleting a permanently removed tenant's data?
-- **Why it matters:** Affects whether the hard-delete capability in v1 can be used immediately, and whether a retention/delay mechanism is needed.
-- **Owner:** TBD — may require legal input.
-
-### OQ-003 — New app name *(non-blocker)*
-FR-039: What is the new app name replacing the current AND Digital-specific name?
-- **Why it's deferred:** Doesn't gate architecture or development, but must be resolved before public-facing copy (App Store listing, onboarding screens) is written.
-- **Owner:** TBD.
-
-After triage, run **Step 5 — Polish** then **Step 6 — Close**.
-
----
-
-## Key decisions summary (updated 2026-06-12)
-
-Full audit trail in `.decision-log.md` (DL-001 through DL-047). Below is the critical context needed to continue.
-
-### Auth
-- One auth provider per tenant (Google, Microsoft, Apple, or email/password)
-- Sign-in flow: user enters email → app resolves tenant from email domain → presents that provider's sign-in journey
-- Allowlist model: users must be added by Company Admin before they can sign in
-- Apple Hide My Email users are unsupported in v1 (relay address breaks domain lookup) — accepted constraint
-- Email/password verification method (OTP vs. email link) — **OQ-001, unresolved**
-
-### Parking booking
-- Booking window: Company Admin configures N days ahead; 12pm server-time unlock rule is fixed
-- Groups: per-tenant, Company Admin configures group names and per-group parking allocation
-- Cross-group reallocation: at 9pm server time, unbooked spaces across all groups pool and auto-allocate to waitlisted users from any group (equal priority, next in queue)
-- Waitlist slot-matching: AM cancel → AM waitlist only; PM cancel → PM waitlist only; All Day cancel → All Day/AM/PM all eligible, can split AM+PM
-- Booking promotion stands regardless of notification delivery
-
-### Platform & data
-- Clean start — no migration from existing Firestore data
-- Tenant isolation enforced server-side (not client-side)
-- Web platform is a basic functional tool — minimal design investment
-
-### Open questions (3)
-- **OQ-001** — Email/password verification method. Blocker for architecture.
-- **OQ-002** — GDPR data retention on permanent tenant removal. Potential blocker.
-- **OQ-003** — New app name. Non-blocker; needed before public-facing copy.
+After all stories are written → **`bmad-check-implementation-readiness`** to validate PRD + Architecture + Epics are aligned before implementation begins.

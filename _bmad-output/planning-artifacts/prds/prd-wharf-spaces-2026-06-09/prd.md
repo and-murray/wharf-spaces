@@ -1,8 +1,8 @@
 ---
 title: "Wharf Spaces — Rebuild PRD"
-status: draft
+status: final
 created: 2026-06-09
-updated: 2026-06-10
+updated: 2026-06-15
 ---
 
 # Wharf Spaces — Rebuild PRD
@@ -22,24 +22,24 @@ Rebuild Wharf Spaces on a clean, maintainable foundation with multi-tenancy and 
 **V1 delivers:**
 - A React Native mobile app (iOS + Android) with feature parity to the existing app, rebuilt without deprecated dependencies and with all AND Digital-specific hardcoding removed
 - Multi-tenant support: each company operates as an isolated tenant with its own branding, auth configuration, space allocation, and user base
-- A lightweight React web app used by AND Digital to onboard new tenants and by building administrators to view parking occupancy
+- A lightweight React web app used by AND Digital to onboard and manage tenants
 
 ### Users
 
 | Role | Surface | Description |
 |------|---------|-------------|
 | **End User** | Mobile app | Employee of a tenant company; books desks and parking for themselves or guests |
-| **Company Admin** | Mobile app | Manages space allocation, branding config, and user roles for their organisation |
+| **Company Admin** | Mobile app + Web app | Books desks and parking via the mobile app; manages space allocation, groups, branding, and user access via the web platform |
 | **AND Digital (Platform Operator)** | Web app | Onboards new tenants via the onboarding form; controls the platform |
 | **Building Admin** | Web app | Views a list of people parked on a given date across all tenants; no access to tenant config. **Out of scope v1 — no Building Admin capability is delivered in this release.** |
 
 ### Success
 
 V1 is successful when:
-- Multiple tenant companies are onboarded and actively using the app
-- AND Digital's maintenance overhead is materially reduced — fewer firefighting sessions, fewer manual Firebase interventions
-- New tenant onboarding is self-serve enough that AND Digital does not need to manually edit Firebase values
-- The codebase is on a stable, dependency-current foundation that the team is confident maintaining
+- At least two tenant companies (beyond AND Digital) are onboarded and actively booking via the app
+- AND Digital's maintenance overhead is measurably reduced — a baseline of manual Firebase interventions is recorded at launch; a reduction trend over the first quarter is the target
+- A new tenant can be fully onboarded from the web form without AND Digital engineering involvement
+- The team responsible for the codebase assesses it as maintainable and dependency-current at the point of delivery
 
 ---
 
@@ -63,6 +63,7 @@ V1 is successful when:
 - Calendar integrations
 - Hardware integrations
 - Dedicated company admin web interface (admin configures via AND Digital web platform)
+- Analytics dashboards and data export (for Company Admins and AND Digital)
 
 ---
 
@@ -71,18 +72,15 @@ V1 is successful when:
 ### 3.1 Authentication & Onboarding
 
 **FR-001 — Per-tenant sign-in provider**
-Each tenant has one authentication provider configured (Google, Microsoft, Apple, or email/password). On the sign-in screen, the user first enters their email address. The app resolves the tenant from the email domain and presents the sign-in journey for that tenant's configured provider.
+Each tenant has one authentication provider configured (Google, Microsoft, or Apple). On the sign-in screen, the user first enters their email address. The app resolves the tenant from the email domain and presents the sign-in journey for that tenant's configured provider.
 
 **Constraint — Apple Hide My Email:** Apple Sign-In works only for users who share their real email address with the app. Users who enable Apple's Hide My Email feature receive a relay address (`@privaterelay.appleid.com`) that cannot be matched to a tenant domain. Those users are unsupported in v1.
 
 **FR-002 — Allowlist access control**
 Sign-in is restricted to email addresses on the tenant's allowlist, managed by the Company Admin. A user whose email is not on the allowlist is shown a message directing them to contact their company administrator; they cannot proceed further in the app.
 
-**FR-003 — Email/password verification**
-Email/password sign-in requires identity verification before access is granted. Verification method (OTP or email link) to be confirmed. [OPEN QUESTION]
-
-**FR-004 — App Store reviewer access**
-A demo access mode can be enabled per-environment, allowing App Store reviewers to sign in with a preconfigured email/password credential without a real tenant account. This mode is not visible to end users.
+**FR-003 — App Store reviewer access**
+A demo access mode can be enabled per-environment, allowing App Store and Play Store reviewers to sign in using a preconfigured demo account (a real tenant and user created for this purpose) without requiring a corporate SSO credential. This mode is not visible to end users.
 
 **FR-005 — Post-sign-in routing**
 On successful sign-in, the user is routed directly to the booking screen. There are no intermediate onboarding steps.
@@ -141,7 +139,7 @@ Each tenant defines their own internal groups (e.g. teams, floors, departments).
 Only users with the Company Admin role can book guest parking spaces. The guest parking option is not shown to standard users.
 
 **FR-040 — Nightly cross-group parking reallocation**
-At 9pm server time each evening, any unbooked parking spaces across all groups within a tenant are pooled and made available to users on the waitlist from any group. The system automatically allocates these spaces to waitlisted users in waitlist order, regardless of the waitlisted user's group membership. A push notification is sent to each user who receives an allocation (see FR-030). This rule exists because groups have different capacity allocations — groups with smaller allocations frequently carry waitlist entries while groups with larger allocations have unused spaces. The 9pm pooling ensures those spaces are not wasted.
+At 9pm server time each evening, any unbooked parking spaces across all groups within a tenant are pooled and made available to users on the waitlist from any group. The system automatically allocates these spaces to waitlisted users in waitlist order, regardless of the waitlisted user's group membership. A push notification is sent to each user who receives an allocation (see FR-030); notifications are best-effort and the allocation stands regardless of whether the notification is successfully delivered. A user who did not receive a notification will see their booking reflected in-app on their next visit. This rule exists because groups have different capacity allocations — groups with smaller allocations frequently carry waitlist entries while groups with larger allocations have unused spaces. The 9pm pooling ensures those spaces are not wasted.
 
 ### 3.4 Events & Notes
 
@@ -149,13 +147,13 @@ At 9pm server time each evening, any unbooked parking spaces across all groups w
 A tappable banner is displayed on the booking screen showing the day's note. The banner label is tenant-configurable (e.g. "Events in the office"). When no note exists for the selected date, the banner displays a prompt to add one.
 
 **FR-021 — Note authoring (any user)**
-Any signed-in user can create or edit the day's note for their tenant. There is one note per day per tenant — all users editing on the same day are editing the same note. Saving with text creates or updates the note; saving with an empty field deletes it.
+Any signed-in user can create or edit the day's note for their tenant. There is one note per day per tenant — all users editing on the same day are editing the same note. The edit modal is a sheet or full-screen overlay with a single text input field and Save and Cancel actions. Saving with non-empty text creates or updates the note. Saving with an empty field deletes the note without a confirmation prompt. Cancelling discards any unsaved changes.
 
 **FR-022 — Concurrent edit warning**
 If the note is modified externally while a user has the edit modal open, the user is shown an advisory warning that another user may be editing the note and their changes could be lost. The warning is informational — the user is not blocked from saving. The expected response is to close the modal and try again later.
 
 **FR-023 — isOfficeClosed**
-Out of scope for v1. The data model should preserve the field for a future version.
+Out of scope for v1.
 
 ### 3.5 Who's In List
 
@@ -163,7 +161,7 @@ Out of scope for v1. The data model should preserve the field for a future versi
 Below the time slot tiles, the booking screen displays a live list of all bookings for the selected date and space type. The list updates in real time as bookings are made or cancelled. It switches between "Who's in?" (desk) and "Who's parking?" (parking) based on the active space type toggle. The section headers "Who's in?" and "Who's parking?" are fixed strings and are not tenant-configurable.
 
 **FR-025 — Booking row display**
-Each row shows the user's profile picture, name, and time slot. The signed-in user's own row is visually highlighted. Guest booking rows display as "[Host's name]'s Visitor N" with no profile picture. Waitlisted bookings display the user's reserve position number.
+Each row shows the user's profile picture, name, and time slot. The signed-in user's own row is visually highlighted. Guest booking rows display as "[Host's name]'s Visitor N" with no profile picture; this format applies to both desk guest bookings (FR-013) and parking guest bookings (FR-019). Waitlisted bookings display the user's reserve position number.
 
 **FR-026 — Tenant-configurable member term**
 The count badge in the list header uses a tenant-configurable term for members (replacing "ANDis"). Visitors are counted separately and displayed alongside (e.g. "3 Members + 1 visitor").
@@ -187,21 +185,21 @@ When the system automatically books a user from the waitlist (FR-012), a push no
 The web platform is a functional admin tool, not a polished product surface. It should be clean and usable but does not require high-fidelity UX design. Where possible, it should follow the mobile app's visual style (colours, typography). Engineering effort should be proportionate to its low frequency of use.
 
 **FR-031 — Tenant provisioning**
-AND Digital provisions a new tenant via a web form. The form captures: tenant name, email domain, authentication provider (one of: Google, Microsoft, Apple, email/password), and the email address of the first Company Admin user. Submission creates the tenant record, associates the domain with the tenant, and grants the first Company Admin access.
+AND Digital provisions a new tenant via a web form. The form captures: tenant name, email domain, authentication provider (one of: Google, Microsoft, or Apple), and the email address of the first Company Admin user. Submission creates the tenant record, associates the domain with the tenant, grants the first Company Admin access, and automatically creates an initial group named "Default" with 0 parking capacity. The Default group gives the Company Admin a starting point — they can rename it, set its capacity, or delete it (provided a replacement group exists) without needing to contact AND Digital for setup instructions.
 
 **FR-032 — Company Admin: user allowlist management**
-Company Admins manage their tenant's user allowlist via the web platform — adding and removing individual email addresses to grant or revoke access.
+Company Admins manage their tenant's user allowlist via the web platform — adding and removing individual email addresses to grant or revoke access. When adding a user, the Company Admin must assign them to a group. A user cannot be added to the allowlist without a group assignment.
 
 **FR-033 — Tenant suspension (temporary)**
 AND Digital can suspend a tenant, for example due to non-payment. Suspension immediately locks out all users of that tenant. Tenant data is preserved. Reinstating the tenant restores full access without data loss.
 
 **FR-034 — Tenant removal (permanent)**
-AND Digital can permanently remove a tenant and their associated data. This capability exists in v1. Whether and when it is exercised is at AND Digital's discretion. [OPEN QUESTION: data retention and GDPR obligations on permanent removal — see OQ-002]
+AND Digital can permanently remove a tenant and hard-delete all associated data (users, bookings, configuration). Immediate hard delete is acceptable — no GDPR-mandated retention period applies to this data type. Whether and when removal is exercised is at AND Digital's discretion. Tenant contracts should address data handling on termination; this is a commercial matter outside the product.
 
 ### 3.8 Multi-tenancy & White-label Theming
 
 **FR-035 — Tenant data isolation**
-Each tenant's data — users, bookings, notes, configuration — is fully isolated. Users of one tenant cannot see or interact with data belonging to another tenant.
+Each tenant's data — users, bookings, notes, configuration — is fully isolated. A request authenticated with a Tenant A user token must receive an error response when attempting to access any Tenant B data path. This is a backend security guarantee, not a client-side restriction, and must be verifiable by security test.
 
 **FR-036 — Runtime tenant config loading**
 The app is a single binary on the App Store. Tenant branding, configuration, and feature settings are loaded at runtime based on the signed-in user's tenant. No per-tenant builds are produced or distributed.
@@ -212,16 +210,12 @@ Company Admins configure their tenant's branding via the web platform — includ
 **FR-038 — Company Admin operational configuration**
 Company Admins configure the following for their tenant via the web platform: parking groups and per-group capacity, booking window rules, member terminology (the term used in the Who's In count), and the events banner label.
 
+**Constraint — minimum one group:** A tenant must have at least one group configured before any users can be added to the allowlist. This ensures the booking logic — capacity limits, waitlist, and nightly cross-group reallocation — has valid data to operate against from the moment the first user signs in.
+
+**Constraint — group deletion:** A group cannot be deleted if it is the tenant's only remaining group. A group cannot be deleted while it has users assigned to it — those users must be reassigned to another group first.
+
 **FR-039 — App name**
-The app name will be updated from the current AND Digital-specific name. Name TBD. [OPEN QUESTION — OQ-003]
-
----
-
-## Open Questions
-
-- **OQ-001** — FR-003: What verification method should be used for email/password sign-in — OTP, email link, or user's choice? Owner: TBD. Revisit condition: before architecture begins.
-- **OQ-002** — FR-034: What are the data retention obligations on permanent tenant removal? Does GDPR require a retention period before hard delete? Owner: TBD. Revisit condition: before GDPR section is finalised.
-- **OQ-003** — FR-039: What is the new app name? Owner: TBD. Revisit condition: before any public-facing copy is written.
+The app name is **ParkANDPerch**. This name is working and subject to final confirmation from the marketing team; no public-facing copy should be published until marketing sign-off is received.
 
 ---
 
@@ -242,7 +236,7 @@ When a user is removed from the tenant allowlist, their personal data and associ
 Erasure requests are handled manually in v1 — there is no self-serve deletion flow. AND Digital or the Company Admin processes requests out of band.
 
 **Tenant offboarding and data deletion**
-On permanent tenant removal, all associated tenant data (users, bookings, configuration) must be deletable. Data retention obligations and whether a retention period applies before hard delete to be confirmed (OQ-002).
+On permanent tenant removal, all associated tenant data (users, bookings, configuration) is hard-deleted immediately. No statutory retention period applies to this data type (see FR-034).
 
 **Data minimisation**
 Only the data listed above is collected. No additional personal data is gathered beyond what is necessary for the booking service.
@@ -276,7 +270,7 @@ Firebase Crashlytics is used for crash and non-fatal error reporting. Crash even
 Firebase Analytics tracks usage across the platform. Analytics events are attributed to their tenant to support per-tenant usage insights and platform health monitoring.
 
 **User consent toggle**
-A toggle on the login screen allows users to opt out of Crashlytics and Analytics collection. This setting persists across sessions. No diagnostic data is collected when the toggle is off.
+A toggle on the sign-in screen allows users to opt out of Crashlytics and Analytics collection. This setting persists across sessions. No diagnostic data is collected when the toggle is off.
 
 ### NFR-4 — Support Model
 
@@ -302,3 +296,7 @@ When the device has no connectivity, the app must not crash or present silent fa
 
 **Platform availability**
 The product inherits the availability characteristics of its Firebase infrastructure. No separate uptime target is owned by the product team in v1. This is a conscious decision for this release.
+
+---
+
+*See also: `addendum.md` — depth captured during discovery that belongs in downstream documents (architecture spec, UX spec). Each entry is labelled with its intended audience.*
