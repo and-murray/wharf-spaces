@@ -15,8 +15,8 @@ JAVA_HOME="/usr/lib/jvm/zulu17-ca-amd64"
 
 # Install SDK Manager
 ANDROID_SDK_TOOLS=11076708
-ANDROID_COMPILE_SDK=34
-ANDROID_BUILD_TOOLS="34.0.0"
+ANDROID_COMPILE_SDK=36
+ANDROID_BUILD_TOOLS="36.0.0"
 
 # you can find this file at https://developer.android.com/studio/index.html#downloads - section command line only
 wget --quiet --output-document=android-sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_SDK_TOOLS}_latest.zip
